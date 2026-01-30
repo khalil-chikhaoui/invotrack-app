@@ -70,13 +70,14 @@ export const invitationsApi = {
 
   /**
    * For new users: Validates the token, creates a new account, and links it to the business.
-   * @param {object} payload - Contains token, user's chosen password, and full name.
+   * @param {object} payload - Contains token, user's chosen password, full name, and preferred language.
    * @returns {Promise<any>} The newly created user session data.
    */
   acceptAndRegister: async (payload: {
     token: string;
     password: string;
     name: string;
+    language: string; // <--- ADDED THIS FIELD
   }) => {
     const response = await fetch(`${BASE_URL}/accept-register`, {
       method: "POST",

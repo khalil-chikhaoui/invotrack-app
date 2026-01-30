@@ -1,0 +1,9 @@
+{
+  "languages": {
+    "label": "Language"
+  },
+  "errors": {
+    "required": "This field is required",
+    "generic": "An error occurred"
+  }
+}

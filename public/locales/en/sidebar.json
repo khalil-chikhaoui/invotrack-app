@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "clients": "Clients",
+    "items": "Items",
+    "invoices": "Invoices",
+    "calendar": "Calendar",
+    "business_settings": "Business Settings",
+    "team_members": "Team Members"
+  },
+  "sub": {
+    "general": "General Settings",
+    "design": "Invoice Design",
+    "currency": "Currency",
+    "tax": "Tax & Discount",
+    "all_members": "All Members",
+    "invite": "Invite Member"
+  },
+  "workspace": {
+    "label": "Workspace",
+    "select": "Select Business"
+  },
+  "actions": {
+    "sign_out": "Sign Out"
+  },
+  "badges": {
+    "pro": "Pro"
+  }
+}

@@ -29,10 +29,10 @@ const getAuthHeaders = () => {
 export const authApi = {
   /**
    * Authenticates a user and retrieves an access token.
-   * @param {object} credentials - User login data (email/password).
+   * @param {object} credentials - { email, password, language }
    * @returns {Promise<any>} The user session data.
    */
-  signIn: async (credentials: object) => {
+  signIn: async (credentials: { email: string; password: string }) => {
     const response = await fetch(`${BASE_URL}/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -40,19 +40,16 @@ export const authApi = {
     });
     const data = await response.json();
     
-    // Note: If backend returns 403 (Unverified), the UI should catch this error
-    // and redirect the user to the OTP input page.
     if (!response.ok) throw new Error(data.message || "Invalid credentials");
-
     return data;
   },
 
   /**
    * Registers a new user account.
-   * @param {object} credentials - User registration data.
+   * @param {object} credentials - { name, email, password, language }
    * @returns {Promise<any>} The newly created user data.
    */
-  signUp: async (credentials: object) => {
+  signUp: async (credentials: { name: string; email: string; password: string; language: string }) => {
     const response = await fetch(`${BASE_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -62,8 +59,6 @@ export const authApi = {
     if (!response.ok) throw new Error(data.message || "Registration failed");
     return data;
   },
-
-  // --- NEW VERIFICATION METHODS ---
 
   /**
    * Verifies the user's email address using the OTP code.

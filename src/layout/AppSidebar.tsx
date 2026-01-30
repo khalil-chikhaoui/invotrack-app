@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- 1. Import Hook
 import {
   HiOutlineSquares2X2,
   HiOutlineUsers,
@@ -16,7 +17,6 @@ import {
 import { useSidebar } from "../context/SidebarContext";
 import { useAuth } from "../context/AuthContext";
 
-// ... (Keep existing types: NavItem)
 type NavItem = {
   name: string;
   icon: React.ReactNode;
@@ -25,6 +25,9 @@ type NavItem = {
 };
 
 const AppSidebar: React.FC = () => {
+  // <--- 2. Initialize Translation Hook
+  const { t } = useTranslation("sidebar");
+  
   const { isExpanded, isMobileOpen, isHovered, setIsHovered, setIsMobileOpen } =
     useSidebar();
   const location = useLocation();
@@ -36,49 +39,50 @@ const AppSidebar: React.FC = () => {
     (m) => m.businessId?._id === businessId,
   )?.businessId;
 
+  // <--- 3. Update Nav Items to use t(...)
+  // Since this is inside the component, it re-renders when language changes.
   const navItems: NavItem[] = [
     {
       icon: <HiOutlineSquares2X2 className="size-6" />,
-      name: "Dashboard",
+      name: t("nav.dashboard"), 
       path: "/",
     },
     {
       icon: <HiOutlineUsers className="size-6" />,
-      name: "Clients",
+      name: t("nav.clients"),
       path: "/clients",
     },
     {
       icon: <HiOutlineCube className="size-6" />,
-      name: "Items",
+      name: t("nav.items"),
       path: "/items",
     },
     {
       icon: <HiOutlineDocumentText className="size-6" />,
-      name: "Invoices",
+      name: t("nav.invoices"),
       path: "/invoices",
     },
     {
       icon: <HiCalendar className="size-6" />,
-      name: "Calendar",
+      name: t("nav.calendar"),
       path: "/calendar",
     },
     {
       icon: <HiOutlineBuildingOffice className="size-6" />,
-      name: "Business Settings",
+      name: t("nav.business_settings"),
       subItems: [
-        { name: "General Settings", path: "/settings" },
-        { name: "Invoice Design", path: "/templates" },
-        { name: "Currency", path: "/currency" },
-        { name: "Tax & Discount", path: "/taxes" },
-        // LATER TO DO : { name: "Subscription", path: "/subscription", pro: true },
+        { name: t("sub.general"), path: "/settings" },
+        { name: t("sub.design"), path: "/templates" },
+        { name: t("sub.currency"), path: "/currency" },
+        { name: t("sub.tax"), path: "/taxes" },
       ],
     },
     {
       icon: <HiOutlineUserGroup className="size-6" />,
-      name: "Team Members",
+      name: t("nav.team_members"),
       subItems: [
-        { name: "All Members", path: "/members" },
-        { name: "Invite Member", path: "/add-member" },
+        { name: t("sub.all_members"), path: "/members" },
+        { name: t("sub.invite"), path: "/add-member" },
       ],
     },
   ];
@@ -158,7 +162,6 @@ const AppSidebar: React.FC = () => {
   return (
     <aside
       className={`fixed top-0 left-0 h-[100dvh] bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out z-50 flex flex-col 
-      /* BACKGROUND DOTS PATTERN */
       bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]
       ${showFullSidebar ? "w-[290px]" : "w-[90px]"}
       ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
@@ -166,9 +169,6 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* --- TOP: LOGO & BUSINESS SWITCHER --- */}
-      {/* UPDATED: Added the dot background classes here as well.
-          Changed bg-white/30 to bg-white/95 to make the dots look crisp while keeping a slight backdrop feel.
-      */}
       <div className="shrink-0 flex flex-col border-b border-gray-100 dark:border-white/5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-10 transition-all duration-300 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]">
         <div
           className={`h-16 flex items-center transition-all duration-300 ${
@@ -218,11 +218,13 @@ const AppSidebar: React.FC = () => {
 
             {showFullSidebar && (
               <div className="flex-1 text-left overflow-hidden">
+                {/* 4. TRANSLATED WORKSPACE LABEL */}
                 <p className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">
-                  Workspace
+                  {t("workspace.label")}
                 </p>
                 <p className="text-sm font-semibold truncate text-gray-800 dark:text-gray-100 group-hover:text-brand-600 dark:group-hover:text-brand-400">
-                  {currentBusiness?.name || "Select Business"}
+                  {/* 5. TRANSLATED SELECT BUSINESS FALLBACK */}
+                  {currentBusiness?.name || t("workspace.select")}
                 </p>
               </div>
             )}
@@ -237,13 +239,9 @@ const AppSidebar: React.FC = () => {
       <div className="flex-1 overflow-y-auto no-scrollbar py-6 px-4 z-0">
         <nav className="space-y-2 pb-6">
           {navItems.map((nav, index) => {
-            // Helper to determine if this specific main menu item is active
             const isMainActive = openSubmenu?.index === index;
-
-            // Common classes for the active state (Background opacity 0.5-ish style)
             const activeClasses =
               "bg-brand-50/60 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400";
-            // Common classes for the inactive state
             const inactiveClasses =
               "text-gray-700 hover:bg-gray-100/50 dark:text-gray-300 dark:hover:bg-white/5";
 
@@ -251,7 +249,6 @@ const AppSidebar: React.FC = () => {
               <div key={nav.name}>
                 {nav.subItems ? (
                   <>
-                    {/* --- Submenu Parent Button --- */}
                     <button
                       onClick={() => handleSubmenuToggle(index)}
                       className={`menu-item group w-full ${
@@ -281,7 +278,6 @@ const AppSidebar: React.FC = () => {
                       )}
                     </button>
 
-                    {/* --- Submenu Drawer --- */}
                     {showFullSidebar && (
                       <div
                         ref={(el) => {
@@ -311,8 +307,9 @@ const AppSidebar: React.FC = () => {
                                   <div className="flex items-center gap-2">
                                     <span>{subItem.name}</span>
                                     {subItem.pro && (
+                                      // 6. TRANSLATED PRO BADGE
                                       <span className="text-[9px] bg-brand-100 text-brand-700 px-1.5 py-0.5 rounded font-semibold uppercase">
-                                        Pro
+                                        {t("badges.pro")}
                                       </span>
                                     )}
                                   </div>
@@ -325,7 +322,6 @@ const AppSidebar: React.FC = () => {
                     )}
                   </>
                 ) : (
-                  /* --- Single Link Item --- */
                   <Link
                     to={getScopedPath(nav.path!)}
                     onClick={handleLinkClick}
@@ -389,7 +385,8 @@ const AppSidebar: React.FC = () => {
           <button
             onClick={handleSignOut}
             className="text-gray-400 hover:text-error-500 transition-colors p-2 rounded-lg hover:bg-error-50 dark:hover:bg-error-500/10"
-            title="Sign Out"
+            // 7. TRANSLATED SIGN OUT TOOLTIP
+            title={t("actions.sign_out")}
           >
             <HiOutlineArrowRightOnRectangle className="size-5" />
           </button>

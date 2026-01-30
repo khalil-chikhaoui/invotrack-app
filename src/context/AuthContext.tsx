@@ -11,22 +11,17 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { useTranslation } from "react-i18next"; // <--- 1. IMPORT THIS
 import { authApi } from "../apis/auth";
 
 // --- Interfaces ---
 
-/**
- * Minimal business information embedded within the user's membership array.
- */
 export interface BusinessSummary {
   _id: string;
   name: string;
   logo?: string;
 }
 
-/**
- * Defines the user's relationship with a specific business entity.
- */
 export interface Membership {
   businessId: BusinessSummary;
   role: "Admin" | "Manager" | "Viewer" | "Deliver";
@@ -41,14 +36,11 @@ export interface User {
   name: string;
   email: string;
   profileImage?: string;
-  // ✅ ADDED: Matches backend model
   isVerified: boolean; 
+  language: string; // <--- 2. ADD THIS FIELD (Backend guarantees a default)
   memberships: Membership[];
 }
 
-/**
- * Global authentication state and control methods.
- */
 interface AuthContextType {
   user: User | null;
   token: string | null;
@@ -56,40 +48,30 @@ interface AuthContextType {
   login: (token: string, userData: User) => void;
   logout: () => void;
   refreshUser: () => Promise<void>;
-  /** Direct access to update user state for synchronization after profile/business edits */
   setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-/**
- * Provider component that wraps the application to share auth state.
- */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("accessToken"),
   );
   const [loading, setLoading] = useState(true);
+  
+  // <--- 3. HOOK INTO i18n
+  const { i18n } = useTranslation(); 
 
-  /**
-   * Re-fetches the user profile from the API to synchronize state.
-   * Useful after business creation or membership changes.
-   */
   const refreshUser = async () => {
     try {
       const freshUser = await authApi.getProfile();
       setUser(freshUser);
     } catch (error) {
       console.error("Failed to refresh user", error);
-      // Optional: If refresh fails due to 401, you might want to logout
     }
   };
 
-  /**
-   * Session Initialization:
-   * On mount, checks for a stored token and attempts to validate the session.
-   */
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = localStorage.getItem("accessToken");
@@ -103,7 +85,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(storedToken);
       } catch (error) {
         console.error("Session restoration failed", error);
-        logout(); // Clear invalid tokens
+        logout(); 
       } finally {
         setLoading(false);
       }
@@ -111,23 +93,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initAuth();
   }, []);
 
-  /**
-   * Handles the post-authentication workflow.
-   * Persists the token to local storage and updates global state.
-   */
+  // <--- 4. THE MAGIC SYNC EFFECT
+  // Whenever 'user' changes (Login, Refresh, Init), check the language.
+  useEffect(() => {
+    if (user && user.language) {
+      // Only switch if it's actually different to avoid loops
+      if (i18n.language !== user.language) {
+        i18n.changeLanguage(user.language);
+      }
+    }
+  }, [user, i18n]);
+
   const login = (newToken: string, userData: User) => {
     localStorage.setItem("accessToken", newToken);
     setToken(newToken);
     setUser(userData);
   };
 
-  /**
-   * Resets the application state and clears stored credentials.
-   */
   const logout = () => {
     localStorage.removeItem("accessToken");
     setToken(null);
     setUser(null);
+    // Optional: Reset to browser default or 'en' on logout
+    // i18n.changeLanguage('en'); 
   };
 
   return (
@@ -139,10 +127,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-/**
- * Custom hook to consume the AuthContext safely.
- * @throws {Error} If used outside of an AuthProvider.
- */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used within an AuthProvider");

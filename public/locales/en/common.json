@@ -1,0 +1,14 @@
+{
+  "actions": {
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create New"
+  },
+  "status": {
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error"
+  }
+}

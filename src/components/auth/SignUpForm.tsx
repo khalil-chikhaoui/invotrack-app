@@ -9,6 +9,7 @@ import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
 import { authApi } from "../../apis/auth";
+import LanguageSelector from "../../components/common/LanguageSelector";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +19,8 @@ export default function SignUpForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // Defaulting to "en", but component will auto-detect on mount
+  const [language, setLanguage] = useState("en"); 
 
   const navigate = useNavigate();
 
@@ -27,7 +30,8 @@ const handleSubmit = async (e: React.FormEvent) => {
     setIsLoading(true);
     try {
       // 1. Call API (returns { message, email })
-      await authApi.signUp({ name, email, password });
+      // Now sending language
+      await authApi.signUp({ name, email, password, language });
       
       // 2. Redirect to Verify Page with email in state
       navigate("/verify-email", { state: { email } });
@@ -86,6 +90,15 @@ const handleSubmit = async (e: React.FormEvent) => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
+                />
+              </div>
+
+              {/* --- NEW LANGUAGE SELECTOR --- */}
+              <div>
+                <LanguageSelector 
+                  value={language}
+                  onChange={setLanguage}
+                  label="Preferred Language"
                 />
               </div>
 

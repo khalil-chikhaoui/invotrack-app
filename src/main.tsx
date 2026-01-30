@@ -3,17 +3,7 @@
  * Handles global polyfills, style injections, and the initial
  * rendering of the React component tree within global context providers.
  */
-
-import { Buffer } from "buffer";
-
-/**
- * 1. Global Polyfills
- * Certain dependencies (like PDF generation or legacy crypto) expect 'Buffer' to be global.
- * This ensures compatibility within the browser environment.
- */
-if (typeof window !== "undefined") {
-  window.Buffer = Buffer;
-}
+import './i18n';
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";

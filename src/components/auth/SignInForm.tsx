@@ -1,9 +1,3 @@
-/**
- * @fileoverview SignInForm Component
- * Manages the user authentication lifecycle: input collection, API submission,
- * and state synchronization with AuthContext.
- */
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
@@ -12,6 +6,7 @@ import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
 import { useAuth } from "../../context/AuthContext";
 import { authApi } from "../../apis/auth";
+import { useTranslation } from "react-i18next";
 
 export default function SignInForm() {
   // --- UI Logic State ---
@@ -21,7 +16,7 @@ export default function SignInForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // --- Context & Navigation Hooks ---
+  const { t } = useTranslation("auth");
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -35,19 +30,24 @@ export default function SignInForm() {
       login(data.token, data.user);
       navigate("/select-business");
     } catch (err: any) {
-      const errorMessage = err.message || "";
+      // The backend now sends a code like "AUTH_INVALID_CREDENTIALS"
+      const errorCode = err.message;
 
-      // --- CHECK FOR VERIFICATION ERROR ---
-      if (
-        errorMessage.toLowerCase().includes("verify") || 
-        errorMessage.toLowerCase().includes("verified")
-      ) {
-        // Redirect to verify page with email
+      // --- 1. HANDLE VERIFICATION REDIRECT ---
+      // This logic is now rock-solid because it checks a specific code
+      if (errorCode === "AUTH_NOT_VERIFIED") {
         navigate("/verify-email", { state: { email } });
         return; 
       }
-      // ------------------------------------
-      setError(errorMessage || "Invalid credentials. Please try again.");
+
+      // --- 2. TRANSLATE ERROR ---
+      // We look for the code in our translation file.
+      // If the code isn't found (e.g. server crash), fallback to generic error.
+      const translatedError = t(
+        `errors.${errorCode}` as any, 
+       
+      );      
+      setError(translatedError);
     } finally {
       setIsLoading(false);
     }
@@ -55,15 +55,15 @@ export default function SignInForm() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-start  sm:justify-center sm:pt-0">
+      <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-start sm:justify-center sm:pt-0">
         <div>
           {/* --- Form Header --- */}
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
-              Sign In
+              {t("signin.title")}
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Enter your credentials to access your dashboard.
+              {t("signin.subtitle")}
             </p>
           </div>
 
@@ -79,7 +79,7 @@ export default function SignInForm() {
               {/* Email Input */}
               <div>
                 <Label>
-                  Email <span className="text-error-500">*</span>
+                  {t("signin.email_label")} <span className="text-error-500">*</span>
                 </Label>
                 <Input
                   type="email"
@@ -94,7 +94,7 @@ export default function SignInForm() {
               {/* Password Input */}
               <div>
                 <Label>
-                  Password <span className="text-error-500">*</span>
+                  {t("signin.password_label")} <span className="text-error-500">*</span>
                 </Label>
                 <div className="relative">
                   <Input
@@ -108,9 +108,6 @@ export default function SignInForm() {
                   <span
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2 p-1"
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
                   >
                     {showPassword ? (
                       <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
@@ -123,27 +120,19 @@ export default function SignInForm() {
 
               {/* Auxiliary Actions */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  {/* Optional: Add 'Remember Me' Checkbox here */}
-                </div>
+                <div className="flex items-center gap-3"></div>
                 <Link
                   to="/reset-password"
                   className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-brand-400 transition-colors"
                 >
-                  Forgot password?
+                  {t("signin.forgot_password")}
                 </Link>
               </div>
 
               {/* Submission Button */}
               <div>
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <span className="flex items-center gap-2 justify-center">
-                      Signing in...
-                    </span>
-                  ) : (
-                    "Sign in"
-                  )}
+                  {isLoading ? t("signin.loading") : t("signin.submit_button")}
                 </Button>
               </div>
             </form>
@@ -151,12 +140,12 @@ export default function SignInForm() {
             {/* Footer Links */}
             <div className="mt-5">
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-                Don't have an account?{" "}
+                {t("signin.no_account")}{" "}
                 <Link
                   to="/signup"
                   className="font-semibold text-brand-500 hover:text-brand-600 dark:text-brand-400 transition-colors"
                 >
-                  Sign Up
+                  {t("signin.signup_link")}
                 </Link>
               </p>
             </div>

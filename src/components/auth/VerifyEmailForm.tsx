@@ -126,9 +126,8 @@ export default function VerifyEmailForm() {
               type="text"
               placeholder="☀☀☀☀☀☀"
               value={code}
-              // Only allow numbers and limit to 6 chars
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="tracking-widest text-center text-lg font-mono"
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              className="tracking-[0.3em] text-center text-lg md:text-xl"
               required
               maxLength={6}
             />

@@ -1,11 +1,5 @@
 /**
  * @fileoverview AcceptInvitationForm Component
- * Manages the "Join Team" lifecycle.
- * Features:
- * 1. Immediate Validation: Verifies token integrity and expiration on mount.
- * 2. Hybrid Flow: Automatically toggles between 'Register' (new user) and 'Login' (existing user).
- * 3. Branding Injection: Dynamically displays the inviter's business logo and name.
- * 4. Context Synchronization: Logs the user in and redirects to multi-tenant selection.
  */
 
 import { useState, useEffect } from "react";
@@ -20,6 +14,7 @@ import {
   InvitationValidationResponse,
 } from "../../apis/invitations";
 import LoadingState from "../common/LoadingState";
+import LanguageSelector from "../../components/common/LanguageSelector"; // Import added
 
 export default function AcceptInvitationForm() {
   const { token } = useParams<{ token: string }>();
@@ -39,6 +34,7 @@ export default function AcceptInvitationForm() {
   // --- Form Fields ---
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [language, setLanguage] = useState("en"); // New State for Language
 
   /**
    * Initial Load:
@@ -92,14 +88,15 @@ export default function AcceptInvitationForm() {
     try {
       let response;
       if (inviteData.userExists) {
-        // Path A: Authenticate existing user and link to business
+        // Path A: Authenticate existing user (Language already set in their profile)
         response = await invitationsApi.acceptAndLogin({ token, password });
       } else {
-        // Path B: Provision new user account and link to business
+        // Path B: Provision NEW user account (We need to save their language preference)
         response = await invitationsApi.acceptAndRegister({
           token,
           password,
           name,
+          language, // Passing language here
         });
       }
 
@@ -211,20 +208,31 @@ export default function AcceptInvitationForm() {
               />
             </div>
 
-            {/* Name Collection (New Users Only) */}
+            {/* NEW USER FIELDS: Name & Language */}
             {!inviteData?.userExists && (
-              <div>
-                <Label>
-                  Full Name <span className="text-error-500">*</span>
-                </Label>
-                <Input
-                  placeholder="Enter your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  autoComplete="name"
-                />
-              </div>
+              <>
+                <div>
+                  <Label>
+                    Full Name <span className="text-error-500">*</span>
+                  </Label>
+                  <Input
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    autoComplete="name"
+                  />
+                </div>
+
+                {/* --- LANGUAGE SELECTOR --- */}
+                <div>
+                  <LanguageSelector
+                    value={language}
+                    onChange={setLanguage}
+                    label="Preferred Language"
+                  />
+                </div>
+              </>
             )}
 
             {/* Security Verification */}

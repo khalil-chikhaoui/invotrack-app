@@ -9,7 +9,7 @@ export default function ResetPassword() {
         title="Reset Password | invotrack Management"
         description="Recover your invotrack organization account password"
       />
-      <AuthLayout>
+      <AuthLayout showLanguageSelector={true}>
         <ResetPasswordForm />
       </AuthLayout>
     </>
