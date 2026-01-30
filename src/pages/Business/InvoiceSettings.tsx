@@ -1,0 +1,430 @@
+import { useState, useEffect, useMemo, memo } from "react";
+import { useParams } from "react-router";
+import { BlobProvider } from "@react-pdf/renderer";
+import {
+  businessApi,
+  InvoiceSettings as IInvoiceSettings,
+  BusinessData,
+} from "../../apis/business";
+import { InvoiceData } from "../../apis/invoices";
+import InvoicePDF from "../../components/invoices/templates/InvoicePDF";
+import PageMeta from "../../components/common/PageMeta";
+import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+import Label from "../../components/form/Label";
+import CustomAlert from "../../components/common/CustomAlert";
+import PermissionDenied from "../../components/common/PermissionDenied";
+import LoadingState from "../../components/common/LoadingState";
+import { HiOutlineCheckCircle, HiArrowPath } from "react-icons/hi2";
+import { EyeCloseIcon, EyeIcon } from "../../icons";
+import { useAlert } from "../../hooks/useAlert";
+import { usePermissions } from "../../hooks/usePermissions";
+
+export const DEFAULT_COLORS = {
+  primary: "#231f70",
+  secondary: "#5c16b1",
+  accent: "#bc1010",
+};
+const DEFAULT_LOGO_SIZE = "Medium";
+const DEFAULT_VISIBILITY = {
+  showLogo: true,
+  showTaxId: true,
+  showDueDate: true,
+  showDiscount: true,
+  showNotes: false,
+  showPaymentTerms: true,
+  showFooter: false,
+};
+
+const DUMMY_LOGO_URL =
+  "https://placehold.co/200x200/231f70/FFFFFF.png?text=LOGO";
+
+const PREVIEW_INVOICE: InvoiceData = {
+  _id: "preview_id",
+  businessId: "preview_biz",
+  invoiceNumber: "INV-001",
+  clientSnapshot: {
+    name: "Acme Corp Ltd.",
+    email: "billing@acme.com",
+    address: {
+      street: "42 Innovation Dr",
+      city: "San Francisco",
+      zipCode: "94103",
+      country: "USA",
+    },
+  },
+  items: [
+    {
+      itemId: "1",
+      name: "Strategic Consulting",
+      quantity: 10,
+      price: 150,
+      total: 1500,
+    },
+    {
+      itemId: "2",
+      name: "UI/UX Design Phase",
+      quantity: 1,
+      price: 2500,
+      total: 2500,
+    },
+    {
+      itemId: "3",
+      name: "Server Maintenance",
+      quantity: 5,
+      price: 100,
+      total: 500,
+    },
+    {
+      itemId: "4",
+      name: "Product Design",
+      quantity: 2,
+      price: 250,
+      total: 500,
+    },
+    {
+      itemId: "5",
+      name: "Web Development",
+      quantity: 6,
+      price: 200,
+      total: 1200,
+    },
+  ],
+  subTotal: 6200,
+  discountType: "percentage",
+  discountValue: 10,
+  totalDiscount: 620,
+  taxRate: 10,
+  totalTax: 558,
+  grandTotal: 6138,
+  isPaid: false,
+  isDeleted: false,
+  deliveryStatus: "Pending",
+  createdAt: new Date().toISOString(),
+  dueDate: new Date(Date.now() + 86400000 * 14).toISOString(),
+  issueDate: new Date(Date.now()).toISOString(),
+  createdBy: { _id: "user", name: "Admin" },
+  updatedAt: new Date().toISOString(),
+  notes:
+    "Thank you for your business! We appreciate the opportunity to work with you.",
+};
+
+const ResetButton = ({ onClick }: { onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="group flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-brand-500 transition-colors cursor-pointer"
+    title="Reset to system defaults"
+  >
+    <HiArrowPath className="size-3.5 group-hover:rotate-180 transition-transform duration-500" />
+    Set Default
+  </button>
+);
+
+const MemoizedPDFPreview = memo(
+  ({ business, invoice }: { business: any; invoice: any }) => {
+    return (
+      <BlobProvider
+        document={<InvoicePDF invoice={invoice} business={business} />}
+      >
+        {({ url, loading, error }) => {
+          if (loading) {
+            return <LoadingState message="Rendering PDF..." minHeight="30vh" />;
+          }
+          if (error) {
+            return (
+              <div className="w-full h-full flex items-center justify-center text-red-500 text-sm font-bold uppercase tracking-widest">
+                Failed to load preview
+              </div>
+            );
+          }
+          return (
+            <iframe
+              src={`${url}#toolbar=0&navpanes=0&view=FitH`}
+              className="w-full h-full border-0 rounded-sm"
+              title="Invoice Preview"
+            />
+          );
+        }}
+      </BlobProvider>
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      JSON.stringify(prevProps.business.invoiceSettings) ===
+      JSON.stringify(nextProps.business.invoiceSettings)
+    );
+  },
+);
+
+export default function InvoiceSettings() {
+  const { businessId } = useParams();
+  const { canManageSettings } = usePermissions();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const { alert, setAlert } = useAlert();
+  const [realBusinessData, setRealBusinessData] = useState<BusinessData | null>(
+    null,
+  );
+  const [settings, setSettings] = useState<IInvoiceSettings>({
+    template: "Classic",
+    color: DEFAULT_COLORS,
+    logoSize: "Medium",
+    visibility: DEFAULT_VISIBILITY,
+    paymentTerms: "",
+    footerNote: "",
+  });
+
+  useEffect(() => {
+    if (!businessId || !canManageSettings) return;
+    businessApi
+      .getBusiness(businessId)
+      .then((data) => {
+        setRealBusinessData(data);
+        if (data.invoiceSettings) {
+          setSettings((prev) => ({
+            ...prev,
+            ...data.invoiceSettings,
+            visibility: {
+              ...prev.visibility,
+              ...(data.invoiceSettings?.visibility || {}),
+            },
+          }));
+        }
+      })
+      .catch((err) =>
+        setAlert({ type: "error", title: "Error", message: err.message }),
+      )
+      .finally(() => setInitialLoading(false));
+  }, [businessId, canManageSettings]);
+
+  if (!canManageSettings)
+    return (
+      <PermissionDenied
+        title="Settings Locked"
+        description="Only Administrators can customize invoice templates."
+        actionText="Return to Dashboard"
+      />
+    );
+
+  const saveSettings = async (newSettings: IInvoiceSettings) => {
+    if (!businessId) return;
+    setSaving(true);
+    setSettings(newSettings);
+    try {
+      await businessApi.updateInvoiceSettings(businessId, newSettings);
+      setAlert({
+        type: "success",
+        title: "Saved",
+        message: "Changes applied successfully.",
+      });
+      setTimeout(() => setAlert(null), 1500);
+    } catch (error: any) {
+      setAlert({ type: "error", title: "Save Failed", message: error.message });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleTemplateChange = (template: any) =>
+    saveSettings({ ...settings, template });
+  const handleColorChange = (
+    key: "primary" | "secondary" | "accent",
+    value: string,
+  ) => {
+    setSettings({ ...settings, color: { ...settings.color, [key]: value } });
+  };
+  const saveColorFinal = () => saveSettings(settings);
+  const handleLogoSizeChange = (size: any) =>
+    saveSettings({ ...settings, logoSize: size });
+  const toggleVisibility = (field: keyof IInvoiceSettings["visibility"]) => {
+    const newVisibility = {
+      ...settings.visibility,
+      [field]: !settings.visibility[field],
+    };
+    saveSettings({ ...settings, visibility: newVisibility });
+  };
+  const handleTextChange = (
+    field: "paymentTerms" | "footerNote",
+    value: string,
+  ) => {
+    setSettings((prev) => ({ ...prev, [field]: value }));
+  };
+  const saveTextFinal = () => saveSettings(settings);
+  const resetBranding = () => {
+    saveSettings({
+      ...settings,
+      color: DEFAULT_COLORS,
+      logoSize: DEFAULT_LOGO_SIZE as "Medium",
+    });
+  };
+  const resetVisibility = () =>
+    saveSettings({ ...settings, visibility: DEFAULT_VISIBILITY });
+
+  const previewBusinessObject = useMemo(() => {
+    if (!realBusinessData) return null;
+    return {
+      ...realBusinessData,
+      logo: realBusinessData.logo || DUMMY_LOGO_URL,
+      invoiceSettings: settings,
+    };
+  }, [realBusinessData, settings]);
+
+  if (initialLoading) {
+    return <LoadingState message="Loading Configuration..." minHeight="50vh" />;
+  }
+
+  return (
+    <>
+      <PageMeta
+        title="Invoice Customization"
+        description="Customize invoice look and feel"
+      />
+      <PageBreadcrumb pageTitle="Invoice Templates" />
+      <CustomAlert data={alert} onClose={() => setAlert(null)} />
+
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 text-start">
+        <div className="xl:col-span-4 space-y-6">
+          {/* Template Selection */}
+          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+                Style
+              </h3>
+              {saving && (
+                <span className="text-[10px] font-bold text-brand-500 animate-pulse uppercase tracking-widest">
+                  Saving...
+                </span>
+              )}
+            </div>
+            <div className="space-y-3">
+              {["Classic", "Minimal", "Modern"].map((t) => (
+                <div
+                  key={t}
+                  onClick={() => handleTemplateChange(t)}
+                  className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-all ${settings.template === t ? "border-brand-500 bg-brand-50 dark:bg-brand-500/10 ring-1 ring-brand-500" : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+                >
+                  <span
+                    className={`text-sm font-semibold ${settings.template === t ? "text-brand-600 dark:text-brand-400" : "text-gray-600 dark:text-gray-300"}`}
+                  >
+                    {t}
+                  </span>
+                  {settings.template === t && (
+                    <HiOutlineCheckCircle className="size-5 text-brand-500" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Branding */}
+          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+                Branding
+              </h3>
+              <ResetButton onClick={resetBranding} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Primary</Label>
+                <div className="flex items-center gap-3 h-11 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent">
+                  <input
+                    type="color"
+                    value={settings.color.primary}
+                    onChange={(e) =>
+                      handleColorChange("primary", e.target.value)
+                    }
+                    onBlur={saveColorFinal}
+                    className="h-6 w-6 p-0 border-0 rounded cursor-pointer bg-transparent"
+                  />
+                  <span className="text-xs font-medium uppercase text-gray-900 dark:text-white">
+                    {settings.color.primary}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <Label>Accent</Label>
+                <div className="flex items-center gap-3 h-11 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent">
+                  <input
+                    type="color"
+                    value={settings.color.accent || "#bc1010"}
+                    onChange={(e) =>
+                      handleColorChange("accent", e.target.value)
+                    }
+                    onBlur={saveColorFinal}
+                    className="h-6 w-6 p-0 border-0 rounded cursor-pointer bg-transparent"
+                  />
+                  <span className="text-xs font-medium uppercase text-gray-900 dark:text-white">
+                    {settings.color.accent || "#bc1010"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Visibility */}
+          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+                Fields
+              </h3>
+              <ResetButton onClick={resetVisibility} />
+            </div>
+            <div className="space-y-2">
+              {Object.keys(settings.visibility)
+                .filter((k) => k !== "showSignature")
+                .map((key) => (
+                  <div
+                    key={key}
+                    className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors"
+                  >
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase truncate pr-2">
+                      {key
+                        .replace("show", "")
+                        .replace(/([A-Z])/g, " $1")
+                        .trim()}
+                    </span>
+                    <button
+                      onClick={() => toggleVisibility(key as any)}
+                      className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
+                    >
+                      {settings.visibility[
+                        key as keyof typeof settings.visibility
+                      ] ? (
+                        <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                      ) : (
+                        <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                      )}
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Preview PDF */}
+        <div className="xl:col-span-8 flex justify-center">
+          <div className="w-full sticky top-6">
+            <div className="w-full aspect-[210/297] bg-white dark:bg-gray-800 rounded-sm shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden relative">
+              {previewBusinessObject ? (
+                <MemoizedPDFPreview
+                  invoice={PREVIEW_INVOICE}
+                  business={previewBusinessObject}
+                />
+              ) : (
+                <LoadingState
+                  message="Preparing Configuration..."
+                  minHeight="full"
+                />
+              )}
+            </div>
+            <div className="mt-4 text-center">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                Scaled Preview (Fit Width)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

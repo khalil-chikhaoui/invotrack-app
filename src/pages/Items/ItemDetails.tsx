@@ -1,0 +1,512 @@
+/**
+ * @fileoverview ItemDetails Controller
+ * Orchestrates product data fetching, analytics display, and transaction history.
+ * Protected by RBAC.
+ */
+
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate, useLocation } from "react-router";
+import { itemApi, ItemData } from "../../apis/items";
+import {
+  invoiceApi,
+  InvoiceData,
+  DeliveryStatus,
+  InvoicePaginationMeta,
+  getInvoiceDisplayStatus,
+} from "../../apis/invoices";
+import { businessApi, BusinessData } from "../../apis/business";
+import { useModal } from "../../hooks/useModal";
+import PageMeta from "../../components/common/PageMeta";
+import CustomAlert from "../../components/common/CustomAlert";
+import PermissionDenied from "../../components/common/PermissionDenied";
+import { useAlert } from "../../hooks/useAlert";
+import { usePermissions } from "../../hooks/usePermissions";
+
+// Sub-Modals
+import ItemFormModal from "../Items/ItemFormModal";
+import StockInjectModal from "../Items/StockInjectModal";
+import ConfirmModal from "../../components/common/ConfirmModal";
+
+// Presentational Components
+import ItemHeader from "../../components/items/details/ItemHeader";
+import ItemIdentityCard from "../../components/items/details/ItemIdentityCard";
+import ItemGeneralTab from "../../components/items/details/ItemGeneralTab";
+import ItemHistoryTab from "../../components/items/details/ItemHistoryTab";
+import ItemTransactionModals from "../../components/items/details/ItemTransactionModals";
+import ItemAnalyticsTab from "../../components/items/details/ItemAnalyticsTab";
+import RecordNotFound from "../../components/common/RecordNotFound";
+import LoadingState from "../../components/common/LoadingState";
+import {
+  HiOutlineChartPie,
+  HiOutlineCube,
+  HiOutlineDocumentText,
+} from "react-icons/hi";
+
+export default function ItemDetails() {
+  const { businessId, id: itemId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { alert, setAlert } = useAlert();
+
+  const { canManage, canViewFinancials } = usePermissions();
+
+  // --- Core Data State ---
+  const [item, setItem] = useState<ItemData | null>(null);
+  const [business, setBusiness] = useState<BusinessData | null>(null);
+  const [itemInvoices, setItemInvoices] = useState<InvoiceData[]>([]);
+  const [itemStats, setItemStats] = useState({
+    totalRevenue: 0,
+    totalSold: 0,
+    currentStock: 0,
+    avgSalePrice: 0,
+    salesVelocity: 0,
+  });
+  const [meta, setMeta] = useState<InvoicePaginationMeta | null>(null);
+
+  // --- Filter State ---
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [deliveryFilter, setDeliveryFilter] = useState("");
+  const [sortConfig, setSortConfig] = useState("issueDate:desc");
+  const [dateRange, setDateRange] = useState("all");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [page, setPage] = useState(1);
+
+  // --- UI State ---
+  const [activeTab, setActiveTab] = useState<
+    "general" | "analytics" | "history"
+  >("analytics");
+  const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // --- Invoice Action States ---
+  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
+    null,
+  );
+
+  const [tempStatus, setTempStatus] = useState<string>("Open");
+  const [tempDelivery, setTempDelivery] = useState<DeliveryStatus>("Pending");
+
+  const [updating, setUpdating] = useState(false);
+  const [deletingInvoice, setDeletingInvoice] = useState(false);
+
+  // --- Lifecycle Action States ---
+  const [processingLifecycle, setProcessingLifecycle] = useState(false);
+
+  // --- Modal Control Hooks ---
+  const {
+    isOpen: isEditOpen,
+    openModal: openEditModal,
+    closeModal: closeEditModal,
+  } = useModal();
+  const {
+    isOpen: isStockOpen,
+    openModal: openStockModal,
+    closeModal: closeStockModal,
+  } = useModal();
+
+  // Specific modals
+  const statusModal = useModal();
+  const deliveryModal = useModal();
+  const invoiceDeleteModal = useModal();
+  const lifecycleModal = useModal();
+
+  const canGoBack = location.key !== "default" && window.history.length > 1;
+
+  const handleSmartBack = () => {
+    if (canGoBack) navigate(-1);
+    else navigate(`/business/${businessId}/items`);
+  };
+
+  // ==========================================
+  // --- DATA FETCHING (SPLIT) ---
+  // ==========================================
+
+  // 1. Fetch Item Profile (Critical)
+  const fetchProfile = async () => {
+    if (!itemId || !businessId || !canViewFinancials) return;
+    
+    try {
+      const [itemData, bizData] = await Promise.all([
+        itemApi.getItemById(itemId),
+        businessApi.getBusiness(businessId),
+      ]);
+      setItem(itemData);
+      setBusiness(bizData);
+    } catch (error: any) {
+      setAlert({ type: "error", title: "Profile Error", message: error.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, [itemId, businessId, canViewFinancials]);
+
+  // 2. Fetch Invoices with Filters (Non-Critical)
+  useEffect(() => {
+    if (!itemId || !canViewFinancials) return;
+
+    const fetchInvoices = async () => {
+      try {
+        const filterParams = {
+          page,
+          limit: 10,
+          search: searchTerm,
+          status: statusFilter,
+          deliveryStatus: deliveryFilter,
+          sort: sortConfig,
+          dateRange,
+          startDate,
+          endDate,
+        };
+
+        const invRes = await invoiceApi.getItemInvoices(itemId, filterParams);
+        
+        setItemInvoices(invRes.invoices);
+        setItemStats(invRes.stats);
+        setMeta(invRes.meta);
+      } catch (error: any) {
+        console.error("Invoice history fetch failed:", error);
+        setAlert({ 
+          type: "error", 
+          title: "History Error", 
+          message: "Could not load transaction history." 
+        });
+      }
+    };
+
+    fetchInvoices();
+  }, [
+    itemId,
+    page,
+    refreshKey,
+    canViewFinancials,
+    searchTerm,
+    statusFilter,
+    deliveryFilter,
+    sortConfig,
+    dateRange,
+    startDate,
+    endDate
+  ]);
+
+  // ==========================================
+  // --- HANDLERS ---
+  // ==========================================
+
+  const handleLifecycleAction = () => {
+    if (!canManage) return;
+    lifecycleModal.openModal();
+  };
+
+  const confirmLifecycleChange = async () => {
+    if (!item) return;
+    setProcessingLifecycle(true);
+    try {
+      if (item.isArchived) {
+        await itemApi.restoreItem(item._id);
+        setAlert({
+          type: "success",
+          title: "Restored",
+          message: "Item is now active.",
+        });
+        fetchProfile();
+        lifecycleModal.closeModal();
+      } else {
+        const res: any = await itemApi.deleteItem(item._id);
+        if (res.action === "ARCHIVED") {
+          setAlert({
+            type: "warning",
+            title: "Archived",
+            message: res.message,
+          });
+          fetchProfile();
+          lifecycleModal.closeModal();
+        } else {
+          setAlert({
+            type: "success",
+            title: "Deleted",
+            message: "Item permanently removed.",
+          });
+          navigate(`/business/${businessId}/items`);
+        }
+      }
+    } catch (error: any) {
+      setAlert({
+        type: "error",
+        title: "Action Failed",
+        message: error.message,
+      });
+      lifecycleModal.closeModal();
+    } finally {
+      setProcessingLifecycle(false);
+    }
+  };
+
+  const handleStatusUpdate = async (payload: {
+    status?: string;
+    deliveryStatus?: DeliveryStatus;
+  }) => {
+    if (!selectedInvoice) return;
+    setUpdating(true);
+    try {
+      // 1. Payment Toggle Logic
+      if (payload.status) {
+        if (payload.status === "Paid" && !selectedInvoice.isPaid) {
+          await invoiceApi.togglePayment(selectedInvoice._id);
+        } else if (payload.status !== "Paid" && selectedInvoice.isPaid) {
+          await invoiceApi.togglePayment(selectedInvoice._id);
+        }
+      }
+
+      // 2. Delivery Update Logic
+      if (payload.deliveryStatus) {
+        await invoiceApi.updateInvoice(selectedInvoice._id, {
+          deliveryStatus: payload.deliveryStatus,
+        });
+      }
+
+      setAlert({
+        type: "success",
+        title: "Sync Successful",
+        message: "Transaction updated.",
+      });
+      setRefreshKey((prev) => prev + 1);
+      statusModal.closeModal();
+      deliveryModal.closeModal();
+    } catch (e: any) {
+      setAlert({ type: "error", title: "Update Failed", message: e.message });
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const confirmVoidInvoice = async () => {
+    if (!selectedInvoice) return;
+    setDeletingInvoice(true);
+    try {
+      await invoiceApi.deleteInvoice(selectedInvoice._id);
+      setAlert({
+        type: "success",
+        title: "Voided",
+        message: "Invoice record cancelled.",
+      });
+      setRefreshKey((prev) => prev + 1);
+      invoiceDeleteModal.closeModal();
+    } catch (e: any) {
+      setAlert({ type: "error", title: "Action Failed", message: e.message });
+    } finally {
+      setDeletingInvoice(false);
+    }
+  };
+
+  // Tabs Configuration
+  const TABS = [
+    {
+      id: "analytics",
+      label: "Analytics",
+      icon: <HiOutlineChartPie className="size-5" />,
+    },
+    {
+      id: "general",
+      label: "Item Details",
+      icon: <HiOutlineCube className="size-5" />,
+    },
+    {
+      id: "history",
+      label: "Invoices History",
+      icon: <HiOutlineDocumentText className="size-5" />,
+    },
+  ];
+
+  // Scroll Logic
+  const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
+  useEffect(() => {
+    const currentTabElement = tabsRef.current[activeTab];
+    if (currentTabElement) {
+      currentTabElement.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeTab]);
+
+  // --- Rendering Gates ---
+  if (loading && !item) {
+    return <LoadingState message="Fetching Item Dossier..." minHeight="60vh" />;
+  }
+
+  if (!canViewFinancials) {
+    return (
+      <PermissionDenied
+        title="Restricted Access"
+        description="You do not have permission to view inventory details."
+        actionText="Return"
+      />
+    );
+  }
+
+  if (!item) {
+    return (
+      <RecordNotFound
+        title="Item Not Found"
+        description="This inventory item does not exist or has been permanently deleted."
+        actionText="Back"
+        onAction={handleSmartBack}
+      />
+    );
+  }
+
+  return (
+    <>
+      <PageMeta title={`${item.name} | Inventory`} description="Item Details" />
+
+      <ItemHeader
+        handleSmartBack={handleSmartBack}
+        canGoBack={canGoBack}
+        item={item}
+        canManage={canManage}
+        onOpenStock={openStockModal}
+        onRestore={() => lifecycleModal.openModal()}
+      />
+      <CustomAlert data={alert} onClose={() => setAlert(null)} />
+
+      <ItemIdentityCard
+        item={item}
+        business={business}
+        canManage={canManage}
+        onEdit={openEditModal}
+        refresh={fetchProfile}
+        setAlert={setAlert}
+      />
+
+      {/* --- TABS --- */}
+      <div className="flex gap-6 border-b border-gray-200 dark:border-white/5 mb-8 overflow-x-auto w-full no-scrollbar">
+        {TABS.map((tab) => (
+          <button
+            key={tab.id}
+            ref={(el) => {
+              tabsRef.current[tab.id] = el;
+            }}
+            onClick={() => setActiveTab(tab.id as any)}
+            className={`pb-4 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest transition-all relative whitespace-nowrap shrink-0 ${
+              activeTab === tab.id
+                ? "text-brand-500 dark:text-brand-300"
+                : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
+            }`}
+          >
+            {tab.icon} {tab.label}
+            {activeTab === tab.id && (
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-500 dark:bg-brand-300 rounded-full" />
+            )}
+          </button>
+        ))}
+      </div> 
+
+      {activeTab === "general" ? (
+        <ItemGeneralTab
+          item={item}
+          business={business}
+          canManage={canManage}
+          onLifecycleAction={handleLifecycleAction}
+        />
+      ) : activeTab === "analytics" ? (
+        <ItemAnalyticsTab
+          item={item}
+          itemId={itemId!}
+          currency={business?.currency}
+          refreshKey={refreshKey}
+          stats={itemStats}
+          business={business}
+        />
+      ) : (
+        <ItemHistoryTab
+          invoices={itemInvoices}
+          business={business}
+          loading={false} // Local loading
+          canManage={canManage}
+          meta={meta}
+          setPage={setPage}
+          onOpenStatus={(inv) => {
+            setSelectedInvoice(inv);
+            setTempStatus(getInvoiceDisplayStatus(inv));
+            statusModal.openModal();
+          }}
+          onOpenDelivery={(inv) => {
+            setSelectedInvoice(inv);
+            setTempDelivery(inv.deliveryStatus);
+            deliveryModal.openModal();
+          }}
+          filterProps={{
+            searchTerm, setSearchTerm,
+            statusFilter, setStatusFilter,
+            deliveryFilter, setDeliveryFilter,
+            sortConfig, setSortConfig,
+            dateRange, setDateRange,
+            startDate, setStartDate,
+            endDate, setEndDate,
+            setPage,
+            loading: false, 
+            canManage: false,
+            onAdd: () => {}, 
+            onRefresh: () => setRefreshKey(k => k + 1)
+        }}
+        />
+      )}
+
+      {/* --- Modals --- */}
+      <ItemFormModal
+        isOpen={isEditOpen}
+        onClose={closeEditModal}
+        item={item}
+        businessId={businessId!}
+        refresh={fetchProfile}
+        setAlert={setAlert}
+      />
+      <StockInjectModal
+        isOpen={isStockOpen}
+        onClose={closeStockModal}
+        item={item}
+        refresh={fetchProfile}
+      />
+
+      <ItemTransactionModals
+        isDeleteOpen={invoiceDeleteModal.isOpen}
+        closeDeleteModal={invoiceDeleteModal.closeModal}
+        confirmVoidInvoice={confirmVoidInvoice}
+        selectedInvoice={selectedInvoice}
+        deleting={deletingInvoice}
+        isStatusOpen={statusModal.isOpen}
+        closeStatusModal={statusModal.closeModal}
+        tempStatus={tempStatus}
+        setTempStatus={setTempStatus}
+        handleStatusUpdate={handleStatusUpdate}
+        isDeliveryOpen={deliveryModal.isOpen}
+        closeDeliveryModal={deliveryModal.closeModal}
+        tempDelivery={tempDelivery}
+        setTempDelivery={setTempDelivery}
+        updating={updating}
+      />
+
+      <ConfirmModal
+        isOpen={lifecycleModal.isOpen}
+        onClose={lifecycleModal.closeModal}
+        onConfirm={confirmLifecycleChange}
+        title={item.isArchived ? "Restore Item?" : "Delete or Archive Item?"}
+        description={
+          item.isArchived
+            ? "This will make the item available for new invoices and stock adjustments."
+            : "If this item has existing transactions, it will be Archived to preserve history. Otherwise, it will be permanently deleted."
+        }
+        variant={item.isArchived ? "warning" : "danger"}
+        confirmText={item.isArchived ? "Confirm Restore" : "Proceed"}
+        isLoading={processingLifecycle}
+      />
+    </>
+  );
+}
