@@ -29,7 +29,7 @@ export default function ItemGeneralTab({
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-8 shadow-sm">
         <div className="flex items-center gap-2 mb-6 text-brand-500">
           <HiOutlineInformationCircle className="size-5 stroke-[2.5]" />
-          <h3 className="font-bold text-[10px] tracking-widest uppercase">
+          <h3 className="font-semibold text-[10px] tracking-widest uppercase">
             Specifications & Description
           </h3>
         </div>
@@ -41,10 +41,10 @@ export default function ItemGeneralTab({
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-10 pt-8 border-t border-gray-100 dark:border-white/5">
           <div>
-            <span className="text-[9px] font-bold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               Unit Price
             </span>
-            <p className="text-sm font-bold text-gray-800 dark:text-white">
+            <p className="text-sm font-semibold text-gray-800 dark:text-white">
               {formatMoney(
                 item.price,
                 business?.currency,
@@ -53,19 +53,19 @@ export default function ItemGeneralTab({
             </p>
           </div>
           <div>
-            <span className="text-[9px] font-bold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               SKU Reference
             </span>
-            <p className="text-sm font-bold text-gray-800 dark:text-white uppercase tracking-tighter">
+            <p className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
               {item.sku || "---"}
             </p>
           </div>
           <div>
-            <span className="text-[9px] font-bold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               Inventory Status
             </span>
             <p
-              className={`text-sm font-bold ${
+              className={`text-sm font-semibold ${
                 item.itemType === "Service"
                   ? "text-gray-400"
                   : item.currentStock > item.lowStockThreshold
@@ -87,7 +87,7 @@ export default function ItemGeneralTab({
       {canManage && (
         <div className="pt-4 border-t border-gray-100 dark:border-white/5">
           <h4
-            className={`text-sm font-bold uppercase tracking-widest mb-4 ${
+            className={`text-sm font-semibold uppercase tracking-widest mb-4 ${
               isArchived
                 ? "text-amber-600 dark:text-amber-400"
                 : "text-rose-600 dark:text-rose-400"
@@ -110,7 +110,7 @@ export default function ItemGeneralTab({
                 ) : (
                   <HiOutlineArchiveBoxXMark className="size-5 text-rose-600 dark:text-rose-400" />
                 )}
-                <p className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-tight">
+                <p className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
                   {isArchived
                     ? "Restore Item Availability"
                     : "Retire or Remove Item"}

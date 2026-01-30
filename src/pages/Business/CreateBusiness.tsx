@@ -424,12 +424,12 @@ export default function CreateBusiness() {
                   className={`flex items-center gap-4 ${idx !== STEPS.length - 1 ? "mb-8" : ""}`}
                 >
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${step.id <= currentStep ? "border-brand-500 text-brand-500 font-bold" : "border-gray-300 text-gray-400"}`}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${step.id <= currentStep ? "border-brand-500 text-brand-500 font-semibold" : "border-gray-300 text-gray-400"}`}
                   >
                     {step.id < currentStep ? "✓" : step.id}
                   </div>
                   <span
-                    className={`text-sm font-bold uppercase ${step.id === currentStep ? "text-brand-500" : "text-gray-500"}`}
+                    className={`text-sm font-semibold uppercase ${step.id === currentStep ? "text-brand-500" : "text-gray-500"}`}
                   >
                     {step.title}
                   </span>

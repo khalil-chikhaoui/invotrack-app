@@ -135,10 +135,10 @@ export default function ClientFormModal({
               : "border-gray-300 text-gray-400"
           }`}
         >
-          <span className="text-xs font-bold">1</span>
+          <span className="text-xs font-semibold">1</span>
         </div>
         <span
-          className={`text-[10px] font-bold uppercase tracking-widest hidden sm:block ${
+          className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${
             step >= 1 ? "text-brand-500" : "text-gray-400"
           }`}
         >
@@ -163,10 +163,10 @@ export default function ClientFormModal({
               : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400"
           }`}
         >
-          <span className="text-xs font-bold">2</span>
+          <span className="text-xs font-semibold">2</span>
         </div>
         <span
-          className={`text-[10px] font-bold uppercase tracking-widest hidden sm:block ${
+          className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${
             step >= 2 ? "text-brand-500" : "text-gray-400"
           }`}
         >
@@ -191,10 +191,10 @@ export default function ClientFormModal({
               : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400"
           }`}
         >
-          <span className="text-xs font-bold">3</span>
+          <span className="text-xs font-semibold">3</span>
         </div>
         <span
-          className={`text-[10px] font-bold uppercase tracking-widest hidden sm:block ${
+          className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${
             step === 3 ? "text-brand-500" : "text-gray-400"
           }`}
         >
@@ -223,7 +223,7 @@ export default function ClientFormModal({
             {getHeaderIcon()}
           </div>
           <div>
-            <h4 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-tight">
+            <h4 className="text-xl font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
               New Client Registry
             </h4>
             <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">

@@ -124,7 +124,7 @@ export default function RevenueChart({ business, dateRange, loadingBusiness }: R
     <div className="w-full h-full flex flex-col rounded-2xl border border-gray-200 bg-white p-5 pl-0 dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm overflow-hidden">
       <div className="mb-6 flex items-start justify-between">
         <div className="pl-4">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white tracking-tight">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             Financial Performance
           </h3>
           <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -139,7 +139,7 @@ export default function RevenueChart({ business, dateRange, loadingBusiness }: R
             <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4">
               <HiOutlinePresentationChartLine className="size-6 text-gray-600 dark:text-gray-400" />
             </div>
-            <h4 className="text-[12px] font-bold text-gray-800 dark:text-white uppercase tracking-widest">
+            <h4 className="text-[12px] font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
               No Transactions
             </h4>
             <p className="text-[12px] text-gray-600 dark:text-gray-400 mt-1 max-w-[200px] leading-relaxed">

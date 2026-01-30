@@ -18,7 +18,7 @@ const PageBreadcrumb: React.FC<BreadcrumbProps> = ({ pageTitle }) => {
     <div className="mb-4 md:mb-5 mt-1">
       {/* --- Main Page Heading --- */}
       <h2
-        className="text-2xl font-bold text-gray-800 dark:text-white/90 tracking-wide"
+        className="text-2xl font-semibold text-gray-800 dark:text-white/90 tracking-wide"
         x-text="pageName"
       >
         {pageTitle}

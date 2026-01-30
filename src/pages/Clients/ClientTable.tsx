@@ -1,7 +1,4 @@
-// src/pages/Clients/ClientTable.tsx
-
 import { ClientData, ClientPaginationMeta } from "../../apis/clients";
-// 1. Import Business Data Type
 import { BusinessData } from "../../apis/business";
 import {
   Table,
@@ -16,78 +13,87 @@ import {
   HiOutlineUser,
   HiMiniPaperAirplane,
   HiOutlinePhone,
+  HiOutlineUsers,
 } from "react-icons/hi2";
 import Pagination from "../../components/common/Pagination";
-// 2. Import the formatMoney helper
 import { formatMoney } from "../../hooks/formatMoney";
+import LoadingState from "../../components/common/LoadingState";
 
 interface ClientsTableProps {
   clients: ClientData[];
-  // 3. Add business to props
   business: BusinessData | null;
   meta?: ClientPaginationMeta | null;
+  loading?: boolean; // Added loading prop
   onPageChange?: (page: number) => void;
   onView: (client: ClientData) => void;
 }
-
-// REMOVED: const formatCurrency = ... (We use the hook now)
 
 export default function ClientsTable({
   clients,
   business,
   meta,
+  loading,
   onPageChange,
   onView,
 }: ClientsTableProps) {
   return (
-    <div className="flex flex-col gap-0 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
+    // DESIGN CHANGE: Just a flex wrapper, no card styles
+    <div className="flex flex-col w-full">
       <div className="max-w-full overflow-x-auto">
-        {meta && (
-          <Pagination
-            currentPage={meta.page}
-            totalPages={meta.pages}
-            onPageChange={(p) => onPageChange?.(p)}
-          />
-        )}
         <Table>
-          <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+          <TableHeader className="bg-gray-50/50 dark:bg-white/[0.01] border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-4 font-semibold text-start text-gray-500 text-[10px] uppercase tracking-widest w-[30%]"
+                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest w-[30%]"
               >
                 Client Info
               </TableCell>
-
               <TableCell
                 isHeader
-                className="px-5 py-4 font-semibold text-start text-gray-500 text-[10px] uppercase tracking-widest"
+                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest"
               >
-                Contact Info
+                Contact Details
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-4 font-semibold text-start text-gray-500 text-[10px] uppercase tracking-widest"
+                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest"
               >
-                Outstanding (Open)
+                Outstanding
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-4 font-semibold text-start text-gray-500 text-[10px] uppercase tracking-widest"
+                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest"
               >
-                Revenue (Paid)
+                Lifetime Revenue
               </TableCell>
             </TableRow>
           </TableHeader>
 
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {clients.length === 0 ? (
+            {loading && clients.length === 0 ? (
               <TableRow>
-                <td
-                  colSpan={5}
-                  className="p-10 text-center text-gray-500 text-theme-sm uppercase font-semibold"
-                >
-                  No clients found.
+                <td colSpan={4} className="p-0 border-none">
+                  <div className="min-h-[300px] flex items-center justify-center">
+                    <LoadingState message="Syncing Directory..." minHeight="200px" />
+                  </div>
+                </td>
+              </TableRow>
+            ) : clients.length === 0 ? (
+              // Empty State Integrated Inside Table
+              <TableRow>
+                <td colSpan={4} className="p-0 border-none">
+                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <div className="p-4 rounded-full bg-gray-50 dark:bg-white/5 mb-3">
+                      <HiOutlineUsers className="size-8 text-gray-300 dark:text-gray-600" />
+                    </div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      No clients found
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Adjust filters or add a new client to get started.
+                    </p>
+                  </div>
                 </td>
               </TableRow>
             ) : (
@@ -95,12 +101,12 @@ export default function ClientsTable({
                 <TableRow
                   key={client._id}
                   onClick={() => onView(client)}
-                  className="hover:bg-gray-50/50 dark:hover:bg-white/[0.01] transition-colors cursor-pointer group"
+                  className="group hover:bg-gray-50/80 dark:hover:bg-white/[0.02] transition-all cursor-pointer"
                 >
                   {/* 1. Client Info */}
                   <TableCell className="px-5 py-4 text-start">
                     <div className="flex items-center gap-3 text-start">
-                      <div className="w-11 h-11 overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 shrink-0">
+                      <div className="w-10 h-10 overflow-hidden rounded-lg bg-gray-50 dark:bg-white/[0.05] flex items-center justify-center border border-gray-100 dark:border-white/[0.05] shrink-0 group-hover:border-brand-200 dark:group-hover:border-brand-500/30 transition-colors">
                         {client.logo ? (
                           <img
                             src={client.logo}
@@ -108,24 +114,21 @@ export default function ClientsTable({
                             alt=""
                           />
                         ) : client.clientType === "Business" ? (
-                          <HiOutlineBuildingOffice2 className="size-5 text-gray-500 dark:text-gray-300" />
+                          <HiOutlineBuildingOffice2 className="size-5 text-gray-400 group-hover:text-brand-500 transition-colors" />
                         ) : (
-                          <HiOutlineUser className="size-5 text-gray-500 dark:text-gray-300" />
+                          <HiOutlineUser className="size-5 text-gray-400 group-hover:text-brand-500 transition-colors" />
                         )}
                       </div>
                       <div className="flex flex-col text-start">
-                        <span className="font-medium text-theme-sm uppercase text-gray-800 dark:text-white leading-tight">
+                        <span className="font-semibold text-theme-sm text-gray-800 dark:text-white leading-tight">
                           {client.name}
                         </span>
-                        <div className="flex items-center gap-2 mt-0.5">
+                        <div className="flex items-center gap-2 mt-1">
                           <Badge
                             size="sm"
-                            color={
-                              client.clientType === "Business"
-                                ? "warning"
-                                : "info"
-                            }
-                            className="text-[8px] px-1.5 py-0 uppercase tracking-widest mt-1"
+                            variant="light"
+                            color={client.clientType === "Business" ? "warning" : "info"}
+                            className="text-[9px] px-1.5 py-0 uppercase tracking-widest font-bold"
                           >
                             {client.clientType}
                           </Badge>
@@ -133,7 +136,7 @@ export default function ClientsTable({
                             <Badge
                               color="error"
                               size="sm"
-                              className="text-[8px] px-1.5 py-0 uppercase tracking-widest mt-1"
+                              className="text-[9px] px-1.5 py-0 uppercase tracking-widest font-bold"
                             >
                               Archived
                             </Badge>
@@ -145,21 +148,21 @@ export default function ClientsTable({
 
                   {/* 2. Contact Info */}
                   <TableCell className="px-5 py-4 text-start">
-                    <div className="flex flex-col gap-1 text-start font-semibold">
+                    <div className="flex flex-col gap-1.5 text-start">
                       {client.email ? (
-                        <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-300">
+                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                           <HiMiniPaperAirplane className="size-3.5 text-brand-500" />
                           <span className="truncate max-w-[150px]">
                             {client.email}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-gray-300 text-xs italic">
-                          No email
+                        <span className="text-gray-300 text-[10px] italic pl-5">
+                          — No email
                         </span>
                       )}
                       {client.phone?.number && (
-                        <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-300">
+                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                           <HiOutlinePhone className="size-3.5 text-brand-500" />
                           {client.phone.number}
                         </div>
@@ -168,44 +171,47 @@ export default function ClientsTable({
                   </TableCell>
 
                   {/* 3. OUTSTANDING (Unpaid) */}
-                  <TableCell className="px-5 py-4 text-start">
+                  <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                     <div className="flex flex-col items-start gap-1">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={`text-sm font-semibold ${client.metrics?.unpaidTotal ? "text-error-600 dark:text-error-400" : "text-gray-500 dark:text-gray-300"}`}
-                        >
-                          {/* 4. Use formatMoney with business settings */}
-                          {formatMoney(
-                            client.metrics?.unpaidTotal || 0,
-                            business?.currency,
-                            business?.currencyFormat,
-                          )}
-                        </span>
-                      </div>
-                      <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
-                        {client.metrics?.unpaidCount || 0} Invoice
-                        {(client.metrics?.unpaidCount || 0) !== 1 && "s"}
+                      <span
+                        className={`text-sm font-bold font-mono tracking-tight ${
+                          client.metrics?.unpaidTotal
+                            ? "text-error-600 dark:text-error-400"
+                            : "text-gray-400 dark:text-gray-500"
+                        }`}
+                      >
+                        {formatMoney(
+                          client.metrics?.unpaidTotal || 0,
+                          business?.currency,
+                          business?.currencyFormat
+                        )}
                       </span>
+                      {client.metrics?.unpaidCount ? (
+                         <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                           {client.metrics.unpaidCount} Open Inv.
+                         </span>
+                      ) : null}
                     </div>
                   </TableCell>
 
                   {/* 4. REVENUE (Paid) */}
-                  <TableCell className="px-5 py-4 text-start">
+                  <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                     <div className="flex flex-col items-start gap-1">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={`text-sm font-semibold ${client.metrics?.paidTotal ? "text-success-600 dark:text-success-400" : "text-gray-500 dark:text-gray-300"}`}
-                        >
-                          {/* 5. Use formatMoney here too */}
-                          {formatMoney(
-                            client.metrics?.paidTotal || 0,
-                            business?.currency,
-                            business?.currencyFormat,
-                          )}
-                        </span>
-                      </div>
-                      <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
-                        {client.metrics?.paidCount || 0} Paid
+                      <span
+                        className={`text-sm font-bold font-mono tracking-tight ${
+                          client.metrics?.paidTotal
+                            ? "text-success-600 dark:text-success-400"
+                            : "text-gray-400 dark:text-gray-500"
+                        }`}
+                      >
+                        {formatMoney(
+                          client.metrics?.paidTotal || 0,
+                          business?.currency,
+                          business?.currencyFormat
+                        )}
+                      </span>
+                       <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                        Lifetime Paid
                       </span>
                     </div>
                   </TableCell>

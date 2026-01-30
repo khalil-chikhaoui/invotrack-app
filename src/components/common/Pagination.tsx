@@ -12,6 +12,7 @@ export default function Pagination({
   totalPages,
   onPageChange,
 }: PaginationProps) {
+  // Logic remains exactly as requested
   if (totalPages <= 1) return null;
 
   const generatePagination = () => {
@@ -52,88 +53,131 @@ export default function Pagination({
   const pages = generatePagination();
 
   return (
-    <div
-      className="flex flex-col sm:flex-row justify-between items-center gap-4 p-5 border-t border-gray-100 
-    dark:border-white/[0.05] bg-gray-50/30 dark:bg-transparent"
-    >
-      {/* Page Counter Text */}
-      <div className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest">
-        Page{" "}
-        <span className="text-gray-900 dark:text-white">{currentPage}</span> of{" "}
-        <span
-          className="text-gray-900 dark:text-white"
-        >
-          {totalPages}
-        </span>
-      </div>
-
-      {/* Controls Container */}
-      <div className="flex items-center gap-2">
-        {/* Previous Button */}
-        <button
-        type="button"
-          disabled={currentPage === 1}
-          onClick={() => onPageChange(currentPage - 1)}
-          className="group flex items-center justify-center w-8 h-8 rounded-full bg-white 
-          dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] text-gray-500 dark:text-gray-400
-           hover:bg-gray-50 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white transition-all 
-           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:dark:hover:bg-white/[0.05]"
-          title="Previous Page"
-        >
-          <HiChevronLeft className="size-4 group-hover:-translate-x-0.5 transition-transform" />
-        </button>
-
-        {/* Number Pill */}
-        <div
-          className="hidden sm:flex items-center gap-1 bg-white dark:bg-white/[0.03] px-1.5 py-1 rounded-full 
-        border border-gray-200 dark:border-white/[0.1] shadow-sm"
-        >
-          {pages.map((pageNum, idx) => (
-            <button
-            type="button"
-              key={idx}
-              onClick={() =>
-                typeof pageNum === "number" && onPageChange(pageNum)
-              }
-              disabled={typeof pageNum !== "number"}
-              className={`
-                w-7 h-7 flex items-center justify-center rounded-full text-[10px] font-bold transition-all duration-200
-                ${
-                  typeof pageNum !== "number"
-                    ? "cursor-default text-gray-400 dark:text-gray-600"
-                    : currentPage === pageNum
-                      ? "bg-brand-500 text-white shadow-md shadow-brand-500/20 scale-100"
-                      : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white hover:scale-105"
-                }
-              `}
-            >
-              {pageNum === "..." ? (
-                <HiDotsHorizontal className="size-3" />
-              ) : (
-                pageNum
-              )}
-            </button>
-          ))}
+    <div className="w-full">
+      <div
+        className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 sm:p-6 
+        border-t border-gray-200 dark:border-white/[0.05] 
+        bg-white/50 dark:bg-transparent backdrop-blur-sm transition-all"
+      >
+        {/* Left: Info Text (Hidden on mobile to declutter, shown on sm+) */}
+        <div className="hidden sm:block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+          Showing Page{" "}
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {currentPage}
+          </span>{" "}
+          of{" "}
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {totalPages}
+          </span>
         </div>
 
-        {/* Mobile View Number (Replaces Pill on small screens) */}
-        <span className="sm:hidden text-xs font-bold text-gray-800 dark:text-white">
-          {currentPage} / {totalPages}
-        </span>
+        {/* Right: Controls */}
+        <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2">
+          
+          {/* Mobile Previous Button (Larger touch target) */}
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onClick={() => onPageChange(currentPage - 1)}
+            className="sm:hidden group flex items-center justify-center w-10 h-10 rounded-lg 
+            bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
+            text-gray-600 dark:text-gray-300 shadow-sm
+            active:scale-95 active:bg-gray-50 transition-all duration-200
+            disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+            aria-label="Previous Page"
+          >
+            <HiChevronLeft className="size-5" />
+          </button>
 
-        {/* Next Button */}
-        <button
-        type="button"
-          disabled={currentPage === totalPages}
-          onClick={() => onPageChange(currentPage + 1)}
-          className="group flex items-center justify-center w-8 h-8 rounded-full bg-white 
-          dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] text-gray-500 dark:text-gray-400
-           hover:bg-gray-50 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white transition-all 
-           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:dark:hover:bg-white/[0.05]"
-          title="Next Page"
-        >
-          <HiChevronRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-        </button>
+          {/* Desktop Previous Button (Round) */}
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onClick={() => onPageChange(currentPage - 1)}
+            className="hidden sm:flex group items-center justify-center w-8 h-8 rounded-full 
+            bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
+            text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/[0.1] 
+            hover:text-gray-900 dark:hover:text-white transition-all duration-200
+            disabled:opacity-40 disabled:cursor-not-allowed"
+            title="Previous Page"
+          >
+            <HiChevronLeft className="size-4 group-hover:-translate-x-0.5 transition-transform" />
+          </button>
+
+          {/* Mobile: Center Info Badge (Replaces the pill) */}
+          <div className="sm:hidden flex flex-col items-center">
+            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">
+              Page
+            </span>
+            <span className="text-sm font-semibold text-gray-800 dark:text-gray-100 font-mono">
+              {currentPage} / {totalPages}
+            </span>
+          </div>
+
+          {/* Desktop: Number Pill */}
+          <div
+            className="hidden sm:flex items-center gap-1 bg-white dark:bg-white/[0.03] px-1.5 py-1 rounded-full 
+            border border-gray-200 dark:border-white/[0.1] shadow-sm ring-1 ring-gray-900/5 dark:ring-white/5"
+          >
+            {pages.map((pageNum, idx) => (
+              <button
+                type="button"
+                key={idx}
+                onClick={() =>
+                  typeof pageNum === "number" && onPageChange(pageNum)
+                }
+                disabled={typeof pageNum !== "number"}
+                className={`
+                  relative w-7 h-7 flex items-center justify-center rounded-full text-[10px] font-semibold transition-all duration-200
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-500
+                  ${
+                    typeof pageNum !== "number"
+                      ? "cursor-default text-gray-400 dark:text-gray-600"
+                      : currentPage === pageNum
+                      ? "bg-brand-500 text-white shadow-md shadow-brand-500/25 scale-105"
+                      : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white hover:scale-110 active:scale-95"
+                  }
+                `}
+              >
+                {pageNum === "..." ? (
+                  <HiDotsHorizontal className="size-3" />
+                ) : (
+                  pageNum
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Mobile Next Button (Larger touch target) */}
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onClick={() => onPageChange(currentPage + 1)}
+            className="sm:hidden group flex items-center justify-center w-10 h-10 rounded-lg 
+            bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
+            text-gray-600 dark:text-gray-300 shadow-sm
+            active:scale-95 active:bg-gray-50 transition-all duration-200
+            disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+            aria-label="Next Page"
+          >
+            <HiChevronRight className="size-5" />
+          </button>
+
+          {/* Desktop Next Button (Round) */}
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onClick={() => onPageChange(currentPage + 1)}
+            className="hidden sm:flex group items-center justify-center w-8 h-8 rounded-full 
+            bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
+            text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/[0.1] 
+            hover:text-gray-900 dark:hover:text-white transition-all duration-200
+            disabled:opacity-40 disabled:cursor-not-allowed"
+            title="Next Page"
+          >
+            <HiChevronRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+        </div>
       </div>
     </div>
   );

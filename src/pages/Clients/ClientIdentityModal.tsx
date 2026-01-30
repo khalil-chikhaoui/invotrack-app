@@ -79,10 +79,10 @@ export default function ClientIdentityModal({
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[600px] m-4">
       <div className="p-6 bg-white dark:bg-gray-900 rounded-3xl text-start">
         <div className="mb-8">
-          <h4 className="text-xl font-bold text-gray-800 dark:text-white uppercase tracking-tight">
+          <h4 className="text-xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
             Update Identity
           </h4>
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-1">
             Basic Profile Information
           </p>
         </div>
@@ -151,14 +151,14 @@ export default function ClientIdentityModal({
             type="button"
               variant="outline"
               onClick={onClose}
-              className="text-[10px] font-bold uppercase tracking-widest"
+              className="text-[10px] font-semibold uppercase tracking-widest"
             >
               Cancel
             </Button>
             <Button
             type="submit"
               disabled={loading}
-              className="text-[10px] font-bold uppercase tracking-widest"
+              className="text-[10px] font-semibold uppercase tracking-widest"
             >
               {loading ? "Saving..." : "Save Identity"}
             </Button>

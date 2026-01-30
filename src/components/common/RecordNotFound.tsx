@@ -41,7 +41,7 @@ export default function RecordNotFound({
       </div>
 
       {/* Text Content */}
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 uppercase tracking-tight">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 uppercase tracking-tight">
         {title}
       </h2>
 
@@ -53,7 +53,7 @@ export default function RecordNotFound({
       <Button
         onClick={handleAction}
         variant="outline"
-        className="flex items-center gap-2 px-6 h-11 uppercase tracking-widest text-[10px] font-bold border-gray-200 
+        className="flex items-center gap-2 px-6 h-11 uppercase tracking-widest text-[10px] font-semibold border-gray-200 
         dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-all"
       >
         <HiOutlineArrowLeft className="size-4" />

@@ -150,9 +150,9 @@ export default function ItemFormModal({
         <React.Fragment key={s}>
           <div className="flex items-center gap-2">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${step >= s ? "border-brand-500 bg-brand-500 text-white shadow-brand-500/30 shadow-sm" : "border-gray-300 text-gray-400"}`}>
-              <span className="text-xs font-bold">{s}</span>
+              <span className="text-xs font-semibold">{s}</span>
             </div>
-            <span className={`text-[10px] font-bold uppercase tracking-widest hidden sm:block ${step >= s ? "text-brand-500" : "text-gray-400"}`}>
+            <span className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${step >= s ? "text-brand-500" : "text-gray-400"}`}>
               {s === 1 ? "General" : s === 2 ? "Pricing" : "Details"}
             </span>
           </div>
@@ -175,7 +175,7 @@ export default function ItemFormModal({
             {step === 2 ? <HiCurrencyDollar className="size-6" /> : <HiOutlineCube className="size-6" />}
           </div>
           <div>
-            <h4 className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-tight">
+            <h4 className="text-xl font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
               {isEdit ? "Edit Item Details" : "New Inventory Item"}
             </h4>
             <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">

@@ -66,7 +66,7 @@ export default function EditTaxDiscountModal({
           <div className="w-14 h-14 mx-auto bg-brand-50 dark:bg-brand-500/10 rounded-2xl flex items-center justify-center mb-4 border border-brand-100 dark:border-brand-500/20">
             <HiOutlineCalculator className="size-7 text-brand-500" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
             Financial Adjustments
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-xs mx-auto">

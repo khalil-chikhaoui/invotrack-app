@@ -11,7 +11,7 @@ import {
   HiOutlineBriefcase,
   HiChevronUpDown,
   HiOutlineUserGroup,
-  HiCalendar
+  HiCalendar,
 } from "react-icons/hi2";
 import { useSidebar } from "../context/SidebarContext";
 import { useAuth } from "../context/AuthContext";
@@ -57,7 +57,7 @@ const AppSidebar: React.FC = () => {
       name: "Invoices",
       path: "/invoices",
     },
-     {
+    {
       icon: <HiCalendar className="size-6" />,
       name: "Calendar",
       path: "/calendar",
@@ -70,7 +70,7 @@ const AppSidebar: React.FC = () => {
         { name: "Invoice Design", path: "/templates" },
         { name: "Currency", path: "/currency" },
         { name: "Tax & Discount", path: "/taxes" },
-        { name: "Subscription", path: "/subscription", pro: true },
+        // LATER TO DO : { name: "Subscription", path: "/subscription", pro: true },
       ],
     },
     {
@@ -139,7 +139,10 @@ const AppSidebar: React.FC = () => {
       const key = `${openSubmenu.type}-${openSubmenu.index}`;
       const element = subMenuRefs.current[key];
       if (element) {
-        setSubMenuHeight((prev) => ({ ...prev, [key]: element.scrollHeight }));
+        setSubMenuHeight((prev) => ({
+          ...prev,
+          [key]: element.scrollHeight,
+        }));
       }
     }
   }, [openSubmenu]);
@@ -154,34 +157,31 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      // CHANGED: h-screen -> h-[100dvh]
-      // This ensures the sidebar fits within the "dynamic" viewport on mobile
-      // (avoiding the address bar overlap issue).
-      className={`fixed top-0 left-0 h-[100dvh] 
-        bg-white dark:bg-gray-900 dark:border-gray-800 
-        text-gray-900 border-r border-gray-200 
-        transition-all duration-300 ease-in-out z-50 flex flex-col
-
-        /* BACKGROUND DOTS PATTERN */
-        bg-[radial-gradient(#d1d5db_1px,transparent_1px)] 
-        dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] 
-        [background-size:20px_20px]
-
-        ${showFullSidebar ? "w-[290px]" : "w-[90px]"}
-        ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
+      className={`fixed top-0 left-0 h-[100dvh] bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out z-50 flex flex-col 
+      /* BACKGROUND DOTS PATTERN */
+      bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]
+      ${showFullSidebar ? "w-[290px]" : "w-[90px]"}
+      ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* --- TOP: LOGO & BUSINESS SWITCHER --- */}
-      {/* Added shrink-0 to prevent this section from squishing if height is tight */}
-      <div className="shrink-0 flex flex-col border-b border-gray-100 dark:border-white/5 bg-white/30 dark:bg-gray-900/30 backdrop-blur-md z-10 transition-all duration-300">
-        
+      {/* UPDATED: Added the dot background classes here as well.
+          Changed bg-white/30 to bg-white/95 to make the dots look crisp while keeping a slight backdrop feel.
+      */}
+      <div className="shrink-0 flex flex-col border-b border-gray-100 dark:border-white/5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-10 transition-all duration-300 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]">
         <div
-          className={`h-16 flex items-center transition-all duration-300 ${!showFullSidebar ? "justify-center px-0" : "px-6"}`}
+          className={`h-16 flex items-center transition-all duration-300 ${
+            !showFullSidebar ? "justify-center px-0" : "px-6"
+          }`}
         >
-          <Link 
-            to={getScopedPath("/")} 
-            className={`flex items-center justify-center transition-all duration-300 ${!showFullSidebar ? "w-0 opacity-0 overflow-hidden" : "w-auto opacity-100"}`}
+          <Link
+            to={getScopedPath("/")}
+            className={`flex items-center justify-center transition-all duration-300 ${
+              !showFullSidebar
+                ? "w-0 opacity-0 overflow-hidden"
+                : "w-auto opacity-100"
+            }`}
           >
             <img
               src="/images/logo/logo.svg"
@@ -194,15 +194,15 @@ const AppSidebar: React.FC = () => {
               alt="Logo"
             />
           </Link>
-           {!showFullSidebar && (
-            <div className="w-0 h-8"></div> 
-           )}
+          {!showFullSidebar && <div className="w-0 h-8"></div>}
         </div>
 
         <div className="p-4">
           <button
             onClick={handleSwitchBusiness}
-            className={`w-full flex items-center gap-3 p-2 rounded-xl transition-all group border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-white/[0.05] hover:bg-brand-50 hover:border-brand-200 dark:hover:bg-brand-500/10 dark:hover:border-brand-500/20 ${!showFullSidebar ? "justify-center aspect-square p-0" : ""}`}
+            className={`w-full flex items-center gap-3 p-2 rounded-xl transition-all group border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-white/[0.05] hover:bg-brand-50 hover:border-brand-200 dark:hover:bg-brand-500/10 dark:hover:border-brand-500/20 ${
+              !showFullSidebar ? "justify-center aspect-square p-0" : ""
+            }`}
           >
             <div className="w-8 h-8 rounded-lg bg-brand-500 text-white flex items-center justify-center font-semibold text-sm shrink-0 overflow-hidden shadow-sm">
               {currentBusiness?.logo ? (
@@ -226,7 +226,6 @@ const AppSidebar: React.FC = () => {
                 </p>
               </div>
             )}
-
             {showFullSidebar && (
               <HiChevronUpDown className="size-5 text-gray-400 group-hover:text-brand-500" />
             )}
@@ -235,98 +234,137 @@ const AppSidebar: React.FC = () => {
       </div>
 
       {/* --- MIDDLE: NAVIGATION --- */}
-      {/* flex-1 ensures this takes all available space, pushing footer down, but shrinking if needed */}
-      {/* overflow-y-auto enables scrolling ONLY for this section if screen is short */}
       <div className="flex-1 overflow-y-auto no-scrollbar py-6 px-4 z-0">
-        <nav className="space-y-2 pb-6"> {/* Added pb-6 for extra scroll padding on mobile */}
-          {navItems.map((nav, index) => (
-            <div key={nav.name}>
-              {nav.subItems ? (
-                <>
-                  <button
-                    onClick={() => handleSubmenuToggle(index)}
-                    className={`menu-item group w-full ${openSubmenu?.index === index ? "menu-item-active" : "menu-item-inactive"} ${!showFullSidebar ? "justify-center px-0" : ""}`}
+        <nav className="space-y-2 pb-6">
+          {navItems.map((nav, index) => {
+            // Helper to determine if this specific main menu item is active
+            const isMainActive = openSubmenu?.index === index;
+
+            // Common classes for the active state (Background opacity 0.5-ish style)
+            const activeClasses =
+              "bg-brand-50/60 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400";
+            // Common classes for the inactive state
+            const inactiveClasses =
+              "text-gray-700 hover:bg-gray-100/50 dark:text-gray-300 dark:hover:bg-white/5";
+
+            return (
+              <div key={nav.name}>
+                {nav.subItems ? (
+                  <>
+                    {/* --- Submenu Parent Button --- */}
+                    <button
+                      onClick={() => handleSubmenuToggle(index)}
+                      className={`menu-item group w-full ${
+                        isMainActive ? activeClasses : inactiveClasses
+                      } ${!showFullSidebar ? "justify-center px-0" : ""}`}
+                    >
+                      <span
+                        className={`menu-item-icon-size ${
+                          isMainActive
+                            ? "text-brand-500"
+                            : "text-gray-400 group-hover:text-gray-500 dark:text-gray-400"
+                        }`}
+                      >
+                        {nav.icon}
+                      </span>
+                      {showFullSidebar && (
+                        <span className="menu-item-text flex-1 text-left">
+                          {nav.name}
+                        </span>
+                      )}
+                      {showFullSidebar && (
+                        <HiOutlineChevronDown
+                          className={`w-4 h-4 transition-transform ${
+                            isMainActive ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
+                    </button>
+
+                    {/* --- Submenu Drawer --- */}
+                    {showFullSidebar && (
+                      <div
+                        ref={(el) => {
+                          subMenuRefs.current[`main-${index}`] = el;
+                        }}
+                        className="overflow-hidden transition-all duration-300"
+                        style={{
+                          height: isMainActive
+                            ? `${subMenuHeight[`main-${index}`]}px`
+                            : "0px",
+                        }}
+                      >
+                        <ul className="mt-1 space-y-1 ml-11 border-l border-gray-200 dark:border-white/10 pl-3">
+                          {nav.subItems.map((subItem) => {
+                            const isSubActive = isActive(subItem.path);
+                            return (
+                              <li key={subItem.name}>
+                                <Link
+                                  to={getScopedPath(subItem.path)}
+                                  onClick={handleLinkClick}
+                                  className={`block py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
+                                    isSubActive
+                                      ? "bg-brand-50/50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
+                                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50/50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-white/5"
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span>{subItem.name}</span>
+                                    {subItem.pro && (
+                                      <span className="text-[9px] bg-brand-100 text-brand-700 px-1.5 py-0.5 rounded font-semibold uppercase">
+                                        Pro
+                                      </span>
+                                    )}
+                                  </div>
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  /* --- Single Link Item --- */
+                  <Link
+                    to={getScopedPath(nav.path!)}
+                    onClick={handleLinkClick}
+                    className={`menu-item group ${
+                      isActive(nav.path!) ? activeClasses : inactiveClasses
+                    } ${!showFullSidebar ? "justify-center px-0" : ""}`}
                   >
                     <span
-                      className={`menu-item-icon-size ${openSubmenu?.index === index ? "text-brand-500" : ""}`}
+                      className={`menu-item-icon-size ${
+                        isActive(nav.path!)
+                          ? "text-brand-500"
+                          : "text-gray-400 group-hover:text-gray-500 dark:text-gray-400"
+                      }`}
                     >
                       {nav.icon}
                     </span>
                     {showFullSidebar && (
-                      <span className="menu-item-text flex-1 text-left">
-                        {nav.name}
-                      </span>
+                      <span className="menu-item-text">{nav.name}</span>
                     )}
-                    {showFullSidebar && (
-                      <HiOutlineChevronDown
-                        className={`w-4 h-4 transition-transform ${openSubmenu?.index === index ? "rotate-180" : ""}`}
-                      />
-                    )}
-                  </button>
-                  {showFullSidebar && (
-                    <div
-                      ref={(el) => {
-                        subMenuRefs.current[`main-${index}`] = el;
-                      }}
-                      className="overflow-hidden transition-all duration-300"
-                      style={{
-                        height:
-                          openSubmenu?.index === index
-                            ? `${subMenuHeight[`main-${index}`]}px`
-                            : "0px",
-                      }}
-                    >
-                      <ul className="mt-1 space-y-1 ml-11 border-l border-gray-200 dark:border-white/10 pl-3">
-                        {nav.subItems.map((subItem) => (
-                          <li key={subItem.name}>
-                            <Link
-                              to={getScopedPath(subItem.path)}
-                              onClick={handleLinkClick}
-                              className={`block py-2 text-sm font-medium transition-colors ${isActive(subItem.path) ? "text-brand-600 dark:text-brand-400" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"}`}
-                            >
-                              {subItem.name}{" "}
-                              {subItem.pro && (
-                                <span className="ml-2 text-[9px] bg-brand-100 text-brand-700 px-1.5 py-0.5 rounded font-semibold uppercase">
-                                  Pro
-                                </span>
-                              )}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  to={getScopedPath(nav.path!)}
-                  onClick={handleLinkClick}
-                  className={`menu-item group ${isActive(nav.path!) ? "menu-item-active" : "menu-item-inactive"} ${!showFullSidebar ? "justify-center px-0" : ""}`}
-                >
-                  <span
-                    className={`menu-item-icon-size ${isActive(nav.path!) ? "text-brand-500" : ""}`}
-                  >
-                    {nav.icon}
-                  </span>
-                  {showFullSidebar && (
-                    <span className="menu-item-text">{nav.name}</span>
-                  )}
-                </Link>
-              )}
-            </div>
-          ))}
+                  </Link>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
 
       {/* --- BOTTOM: USER PROFILE --- */}
-      {/* shrink-0 ensures this never gets squished, it stays fixed size at bottom */}
       <div className="shrink-0 border-t border-gray-100 dark:border-white/5 p-4 bg-white/30 dark:bg-gray-900/30 backdrop-blur-md z-10 pb-[env(safe-area-inset-bottom,20px)]">
         <div
-          className={`flex items-center gap-3 ${!showFullSidebar ? "justify-center flex-col gap-4 pb-3" : "pb-3"}`}
+          className={`flex items-center gap-3 ${
+            !showFullSidebar ? "justify-center flex-col gap-4 pb-3" : "pb-3"
+          }`}
         >
           <Link
             to={getScopedPath("/profile")}
-            className={`flex items-center gap-3 flex-1 min-w-0 cursor-pointer group ${!showFullSidebar ? "justify-center w-full" : ""}`}
+            className={`flex items-center gap-3 flex-1 min-w-0 cursor-pointer group ${
+              !showFullSidebar ? "justify-center w-full" : ""
+            }`}
           >
             <div className="w-10 h-10 shrink-0 rounded-full bg-brand-500 text-white flex items-center justify-center font-semibold text-lg overflow-hidden border-2 border-white dark:border-gray-800 shadow-md group-hover:border-brand-200 transition-colors">
               {user?.profileImage ? (
@@ -348,7 +386,6 @@ const AppSidebar: React.FC = () => {
               </div>
             )}
           </Link>
-
           <button
             onClick={handleSignOut}
             className="text-gray-400 hover:text-error-500 transition-colors p-2 rounded-lg hover:bg-error-50 dark:hover:bg-error-500/10"

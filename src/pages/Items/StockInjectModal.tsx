@@ -106,12 +106,12 @@ export default function StockInjectModal({
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 mb-4 border border-gray-100 dark:border-gray-700">
             <HiOutlineCube className="size-6 text-gray-400" />
           </div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">
             Adjust Stock Level
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 font-medium">
             Update inventory for{" "}
-            <span className="text-gray-900 dark:text-white font-bold">
+            <span className="text-gray-900 dark:text-white font-semibold">
               {item?.name}
             </span>
           </p>
@@ -122,7 +122,7 @@ export default function StockInjectModal({
           <button
             type="button"
             onClick={() => setMode("add")}
-            className={`flex-1 py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200 border-2 ${
+            className={`flex-1 py-3 px-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 border-2 ${
               mode === "add"
                 ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
                 : "border-transparent bg-gray-50 dark:bg-gray-800 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -133,7 +133,7 @@ export default function StockInjectModal({
           <button
             type="button"
             onClick={() => setMode("remove")}
-            className={`flex-1 py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200 border-2 ${
+            className={`flex-1 py-3 px-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 border-2 ${
               mode === "remove"
                 ? "border-rose-500 bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400"
                 : "border-transparent bg-gray-50 dark:bg-gray-800 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -148,7 +148,7 @@ export default function StockInjectModal({
           className={`mx-8 mb-6 p-6 rounded-3xl border-2 transition-colors duration-300 ${theme.bg} ${theme.border} flex flex-col items-center justify-center relative`}
         >
           <label
-            className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${theme.text} opacity-70`}
+            className={`text-[10px] font-semibold uppercase tracking-widest mb-1 ${theme.text} opacity-70`}
           >
             Quantity
           </label>
@@ -201,7 +201,7 @@ export default function StockInjectModal({
         <div className="px-10 pb-8">
           <div className="flex items-center justify-between text-sm">
             <div className="flex flex-col">
-              <span className="text-[10px] uppercase font-bold text-gray-500 dark:text-gray-300 tracking-wider">
+              <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
                 Current
               </span>
               <span className="font-semibold text-xl text-gray-900 dark:text-white tabular-nums">
@@ -217,7 +217,7 @@ export default function StockInjectModal({
             </div>
 
             <div className="flex flex-col text-right">
-              <span className="text-[10px] uppercase font-bold text-gray-500 dark:text-gray-300 tracking-wider">
+              <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
                 New Total
               </span>
               <span className={`font-semibold text-xl tabular-nums ${theme.text}`}>
@@ -236,14 +236,14 @@ export default function StockInjectModal({
             type="button"
             variant="outline"
             onClick={onClose}
-            className="w-full sm:w-1/3 py-4 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-700"
+            className="w-full sm:w-1/3 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest text-gray-500 hover:text-gray-700"
           >
             Cancel
           </Button>
           <Button
             type="submit"
             disabled={loading || currentVal === 0}
-            className={`w-full sm:flex-1 py-4 rounded-xl text-xs font-bold uppercase tracking-[0.2em] transition-all ${theme.btn}`}
+            className={`w-full sm:flex-1 py-4 rounded-xl text-xs font-semibold uppercase tracking-[0.2em] transition-all ${theme.btn}`}
           >
             {loading
               ? "Updating..."

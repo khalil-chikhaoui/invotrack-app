@@ -25,13 +25,6 @@ export default function SignInForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  /**
-   * Handles form submission:
-   * 1. Resets error state and triggers loading indicator.
-   * 2. Calls the auth API for validation.
-   * 3. Synchronizes local storage/context via login hook.
-   * 4. Redirects to multi-tenant business selection.
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -39,11 +32,22 @@ export default function SignInForm() {
 
     try {
       const data = await authApi.signIn({ email, password });
-      // Update global Auth Context
       login(data.token, data.user);
       navigate("/select-business");
     } catch (err: any) {
-      setError(err.message || "Invalid credentials. Please try again.");
+      const errorMessage = err.message || "";
+
+      // --- CHECK FOR VERIFICATION ERROR ---
+      if (
+        errorMessage.toLowerCase().includes("verify") || 
+        errorMessage.toLowerCase().includes("verified")
+      ) {
+        // Redirect to verify page with email
+        navigate("/verify-email", { state: { email } });
+        return; 
+      }
+      // ------------------------------------
+      setError(errorMessage || "Invalid credentials. Please try again.");
     } finally {
       setIsLoading(false);
     }

@@ -47,6 +47,7 @@ import InvoiceDetails from "./pages/Invoices/InvoiceDetails";
 // --- UI & UTILS ---
 import FormElements from "./pages/Forms/FormElements";
 import Calendar from "./pages/Calendar";
+import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 
 
 
@@ -64,6 +65,7 @@ export default function App() {
           <Route element={<PublicRoute />}>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/reset-password/:token" element={<NewPassword />} />
           </Route>

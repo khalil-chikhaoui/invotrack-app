@@ -211,7 +211,7 @@ export default function GenericStatsChart({
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
               <HiOutlinePresentationChartLine className="size-6 text-gray-400 dark:text-gray-500" />
             </div>
-            <h4 className="text-[10px] font-bold text-gray-800 dark:text-white uppercase tracking-widest">
+            <h4 className="text-[10px] font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
               No Data Found
             </h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-300 mt-1 max-w-[180px] leading-relaxed">

@@ -27,18 +27,8 @@ interface ClientFiltersProps {
 
 const CustomChevron = () => (
   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg
-      className="size-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M19 9l-7 7-7-7"
-      />
+    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
     </svg>
   </div>
 );
@@ -89,13 +79,13 @@ export default function ClientFilters({
   const FilterFields = () => (
     <>
       {/* Status Filter */}
-      <div className="w-full xl:w-32">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-[0.15em]">
+      <div className="w-full xl:w-36">
+        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
           Status {isStatusChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
@@ -111,12 +101,12 @@ export default function ClientFilters({
 
       {/* Type Filter */}
       <div className="w-full xl:w-40">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-[0.15em]">
+        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
           Client Type {isTypeChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
             value={typeFilter}
             onChange={(e) => {
               setTypeFilter(e.target.value);
@@ -133,12 +123,12 @@ export default function ClientFilters({
 
       {/* Sort Filter */}
       <div className="w-full xl:w-48">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-[0.15em]">
+        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
           Sort By {isSortChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
             value={sortConfig}
             onChange={(e) => setSortConfig(e.target.value)}
           >
@@ -154,11 +144,14 @@ export default function ClientFilters({
   );
 
   return (
-    <div className="p-4 xl:p-5 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl">
+    // DESIGN CHANGE: Removed border/rounded. Added border-b.
+    <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col xl:flex-row gap-4 xl:items-end">
+        
+        {/* Search + Mobile Controls */}
         <div className="flex flex-1 items-end gap-2">
           <div className="flex-1">
-            <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-[0.15em]">
+            <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
               Search
             </label>
             <Input
@@ -168,120 +161,155 @@ export default function ClientFilters({
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
+              className="h-10" // Matched height
             />
           </div>
 
-          <div className="relative">
+          <div className="relative flex xl:hidden gap-2">
+             {/* Mobile Filter Trigger */}
             <Button
               variant="outline"
               onClick={() => setIsFilterModalOpen(true)}
-              className="xl:hidden h-11 px-3 border-gray-200 dark:border-white/10"
+              className="h-10 px-3 border-gray-200 dark:border-white/10"
             >
               <HiOutlineAdjustmentsHorizontal className="size-5" />
             </Button>
             {hasActiveFilters && (
-              <span className="xl:hidden absolute -top-1 -right-1 flex h-3 w-3">
+              <span className="xl:hidden absolute -top-1 right-[52px] flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-500 border-2 border-white dark:border-gray-900"></span>
               </span>
             )}
+            
+            {/* Mobile Refresh */}
+            <Button
+              variant="outline"
+              onClick={onRefresh}
+              disabled={loading}
+              className="h-10 px-3 border-gray-200 dark:border-white/10"
+            >
+              <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
+            </Button>
           </div>
         </div>
 
+        {/* Desktop Filters */}
         <div className="hidden xl:flex xl:flex-row gap-4">
           <FilterFields />
         </div>
 
-        <div className="flex items-center gap-2">
-          {canManage && (
-            <Button
-              onClick={onAdd}
-              className="flex-1 xl:flex-none h-11 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-6"
-            >
-              <PlusIcon className="size-5 fill-current" />{" "}
-              <span className="xl:inline">Add Client</span>
-            </Button>
-          )}
+        {/* Desktop Actions */}
+        <div className="hidden xl:flex items-center gap-2">
           <Button
             variant="outline"
             onClick={onRefresh}
             disabled={loading}
-            className="h-11 px-4 border-gray-200 dark:border-white/10"
+            className="h-10 px-4 bg-white dark:bg-transparent"
+           
           >
-            <HiOutlineArrowPath
-              className={`size-5 ${loading ? "animate-spin" : ""}`}
-            />
+            <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
           </Button>
+
+          {canManage && (
+            <Button
+              onClick={onAdd}
+              className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm shadow-brand-500/20"
+            >
+               <PlusIcon className="size-5 fill-current" />
+              <span>Add Client</span>
+            </Button>
+          )}
         </div>
       </div>
-
-    {isFilterModalOpen && (
-  <Modal
-    isOpen={isFilterModalOpen}
-    onClose={() => setIsFilterModalOpen(false)}
-    className="max-w-[600px] m-4"
-  >
-    <form 
-      onSubmit={(e) => {
-        e.preventDefault();
-       
-        setIsFilterModalOpen(false);
-      }}
-      className="flex flex-col h-full max-h-[90vh]"
-    >
-      {/* Modal Header */}
-      <div className="px-6 py-5 border-b border-gray-100 dark:border-white/5">
-        <div className="flex items-center justify-between mb-1">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Refine Search
-          </h3>
-          <button
-            type="button"
-            onClick={() => setIsFilterModalOpen(false)}
-            className="p-1 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"
-          >
-            <HiOutlineXMark className="size-6 text-gray-500" />
-          </button>
-        </div>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Adjust the criteria below to filter your client list.
-        </p>
-      </div>
-
-      {/* Modal Body */}
-      <div className="px-6 py-5 overflow-y-auto">
-        <div className="grid grid-cols-1 gap-5">
-          <FilterFields />
-        </div>
-      </div>
-
-      {/* Modal Footer */}
-      <div className="px-6 py-6 mt-auto bg-gray-50/50 dark:bg-white/[0.01]">
-        <div className="flex flex-col gap-3">
+      
+      {/* Mobile Add Button Row */}
+      {canManage && (
+        <div className="mt-4 xl:hidden">
           <Button
-            type="submit" 
-            className="w-full h-12 text-sm font-medium tracking-widest"
+            onClick={onAdd}
+            className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
           >
-            Apply Filters
+              <PlusIcon className="size-4 fill-current" />
+             <span>Add Client</span>
           </Button>
-
-          <button
-            type="button" 
-            className={`w-full py-2 text-xs font-medium uppercase tracking-widest transition-colors mt-1
-              ${
-                hasActiveFilters
-                  ? "text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300"
-                  : "text-gray-500 dark:text-gray-200 pointer-events-none opacity-50"
-              }`}
-            onClick={handleReset}
-          >
-            Reset to Defaults
-          </button>
         </div>
-      </div>
-    </form>
-  </Modal>
-)}
+      )}
+
+      {/* Professional Modal */}
+      {isFilterModalOpen && (
+        <Modal
+          isOpen={isFilterModalOpen}
+          onClose={() => setIsFilterModalOpen(false)}
+          className="max-w-[550px] m-4 w-full"
+        >
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setIsFilterModalOpen(false);
+            }}
+            className="flex flex-col h-full max-h-[85vh] sm:max-h-[80vh]"
+          >
+            {/* Header */}
+            <div className="flex-none px-6 py-5 border-b border-gray-100 dark:border-white/10 bg-white dark:bg-gray-900 rounded-t-2xl">
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-brand-50 dark:bg-white/5 rounded-lg text-brand-600 dark:text-brand-400">
+                    <HiOutlineAdjustmentsHorizontal className="size-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight leading-none">
+                      Filter Clients
+                    </h3>
+                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mt-1">
+                      Refine your directory list
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsFilterModalOpen(false)}
+                  className="group p-2 -mr-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"
+                >
+                  <HiOutlineXMark className="size-5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors" />
+                </button>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
+              <div className="flex flex-col gap-6">
+                <FilterFields />
+              </div>
+            </div>
+
+            {/* Sticky Footer */}
+            <div className="flex-none px-6 py-5 bg-gray-50/80 dark:bg-white/[0.02] border-t border-gray-100 dark:border-white/5 backdrop-blur-sm rounded-b-2xl">
+              <div className="flex flex-col-reverse sm:flex-row items-center gap-3">
+                <button
+                  type="button"
+                  disabled={!hasActiveFilters}
+                  onClick={handleReset}
+                  className={`w-full sm:w-auto px-4 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all duration-200 border border-transparent
+                    ${
+                      hasActiveFilters
+                        ? "text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer"
+                        : "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                    }
+                  `}
+                >
+                  Reset
+                </button>
+                <Button
+                  type="submit"
+                  className="w-full sm:flex-1 h-11 text-xs font-bold uppercase tracking-widest shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30"
+                >
+                  Show Results
+                </Button>
+              </div>
+            </div>
+          </form>
+        </Modal>
+      )}
     </div>
   );
 }

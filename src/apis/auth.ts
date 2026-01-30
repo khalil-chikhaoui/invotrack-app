@@ -39,6 +39,9 @@ export const authApi = {
       body: JSON.stringify(credentials),
     });
     const data = await response.json();
+    
+    // Note: If backend returns 403 (Unverified), the UI should catch this error
+    // and redirect the user to the OTP input page.
     if (!response.ok) throw new Error(data.message || "Invalid credentials");
 
     return data;
@@ -59,6 +62,44 @@ export const authApi = {
     if (!response.ok) throw new Error(data.message || "Registration failed");
     return data;
   },
+
+  // --- NEW VERIFICATION METHODS ---
+
+  /**
+   * Verifies the user's email address using the OTP code.
+   * @param {object} payload - { email: string, code: string }
+   * @returns {Promise<any>} Success message and user token.
+   */
+  verifyEmail: async (payload: { email: string; code: string }) => {
+    const response = await fetch(`${BASE_URL}/verify-email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok) 
+      throw new Error(data.message || "Verification failed");
+    return data;
+  },
+
+  /**
+   * Resends the verification OTP to the user's email.
+   * @param {string} email - The user's email address.
+   * @returns {Promise<any>} Confirmation message.
+   */
+  resendVerification: async (email: string) => {
+    const response = await fetch(`${BASE_URL}/resend-verification`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await response.json();
+    if (!response.ok) 
+      throw new Error(data.message || "Failed to resend code");
+    return data;
+  },
+
+  // --------------------------------
 
   /**
    * Fetches the profile data of the currently authenticated user.

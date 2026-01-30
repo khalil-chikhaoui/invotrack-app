@@ -41,6 +41,8 @@ export interface User {
   name: string;
   email: string;
   profileImage?: string;
+  // ✅ ADDED: Matches backend model
+  isVerified: boolean; 
   memberships: Membership[];
 }
 
@@ -80,6 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(freshUser);
     } catch (error) {
       console.error("Failed to refresh user", error);
+      // Optional: If refresh fails due to 401, you might want to logout
     }
   };
 

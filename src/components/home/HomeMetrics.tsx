@@ -171,7 +171,7 @@ export default function HomeMetrics({
         >
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h4 className="text-xl font-bold text-gray-800 dark:text-white/90">
+              <h4 className="text-xl font-semibold text-gray-800 dark:text-white/90">
                 {item.value}
               </h4>
               <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mt-1">

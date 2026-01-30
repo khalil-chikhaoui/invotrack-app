@@ -131,7 +131,7 @@ export default function HomeHeader({
         {/* Left Section: Title + Chips */}
         <div className="flex flex-col gap-4 w-full xl:w-auto overflow-hidden">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl tracking-tight">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl tracking-tight">
               Dashboard
             </h2>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">

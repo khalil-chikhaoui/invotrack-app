@@ -5,7 +5,6 @@ import { businessApi, BusinessData } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import CustomAlert from "../../components/common/CustomAlert";
-import { HiOutlineCube } from "react-icons/hi2";
 import ItemFormModal from "./ItemFormModal";
 import StockInjectModal from "./StockInjectModal";
 import ItemsTable from "./ItemsTable";
@@ -14,9 +13,7 @@ import { usePermissions } from "../../hooks/usePermissions";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import Button from "../../components/ui/button/Button";
 import ItemFilters from "../../components/items/ItemFilters";
-import LoadingState from "../../components/common/LoadingState";
 
 export default function Items() {
   const { businessId } = useParams();
@@ -43,7 +40,7 @@ export default function Items() {
     isOpen: isFormOpen,
     openModal: openFormModal,
     closeModal: closeFormModal,
-  } = useModal();
+  } = useModal();  
   const {
     isOpen: isDeleteOpen,
     openModal: openDeleteModal,
@@ -116,7 +113,7 @@ export default function Items() {
     return (
       <PermissionDenied
         title="Inventory Access Restricted"
-        description="Your current role (Deliver) does not have permission to view inventory data."
+        description="Your current role does not have permission to view inventory data."
         actionText="Return to Dashboard"
       />
     );
@@ -128,8 +125,10 @@ export default function Items() {
       <PageBreadcrumb pageTitle="Inventory Management" />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className="space-y-4">
-        {/* --- REFACTORED FILTERS --- */}
+      {/* --- MASTER UNIFIED CARD --- */}
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+        
+        {/* 1. Filters Header */}
         <ItemFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -149,58 +148,27 @@ export default function Items() {
           onRefresh={fetchData}
         />
 
-        {loading && items.length === 0 ? (
-          <div className="py-20 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl">
-            <LoadingState
-              message="Fetching Inventory Registry..."
-              minHeight="200px"
-            />
-          </div>
-        ) : !loading && items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl text-center">
-            <div className="w-16 h-16 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
-              <HiOutlineCube className="size-8 text-gray-400" />
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              No Items Found
-            </h3>
-            <p className="text-sm text-gray-500 max-w-xs mx-auto mb-6">
-              {searchTerm
-                ? `No results for "${searchTerm}".`
-                : "Your inventory is currently empty."}
-            </p>
-            {searchTerm && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSearchTerm("")}
-                className="uppercase tracking-widest text-[10px] font-bold"
-              >
-                Clear Search
-              </Button>
-            )}
-          </div>
-        ) : (
-          <ItemsTable
-            items={items}
-            business={business}
-            canManage={canManage}
-            meta={meta}
-            onPageChange={setPage}
-            onOpenStock={(item) => {
-              setSelectedItem(item);
-              openStockModal();
-            }}
-            onOpenEdit={(item) => {
-              setSelectedItem(item);
-              openFormModal();
-            }}
-            onOpenDelete={(item) => {
-              setSelectedItem(item);
-              openDeleteModal();
-            }}
-          />
-        )}
+        {/* 2. Table Body (Handles Empty/Loading States Internally) */}
+        <ItemsTable
+          items={items}
+          business={business}
+          canManage={canManage}
+          meta={meta}
+          loading={loading} // Pass loading state
+          onPageChange={setPage}
+          onOpenStock={(item) => {
+            setSelectedItem(item);
+            openStockModal();
+          }}
+          onOpenEdit={(item) => {
+            setSelectedItem(item);
+            openFormModal();
+          }}
+          onOpenDelete={(item) => {
+            setSelectedItem(item);
+            openDeleteModal();
+          }}
+        />
       </div>
 
       {/* --- MODALS --- */}

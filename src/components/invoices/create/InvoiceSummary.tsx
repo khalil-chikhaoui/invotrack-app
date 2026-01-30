@@ -81,7 +81,7 @@ export default function InvoiceSummary({
           <span className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
             TOTAL
           </span>
-          <span className="text-lg font-bold text-brand-600 dark:text-brand-500 tracking-tight">
+          <span className="text-lg font-semibold text-brand-600 dark:text-brand-500 tracking-tight">
             {formatMoney(totals.grandTotal, currency, currencyFormat)}
           </span>
         </div>

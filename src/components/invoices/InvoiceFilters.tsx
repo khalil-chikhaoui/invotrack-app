@@ -31,22 +31,13 @@ interface InvoiceFiltersProps {
   canManage: boolean;
   onAdd: () => void;
   onRefresh: () => void;
+  placeholder: string;
 }
 
 const CustomChevron = () => (
   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg
-      className="size-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M19 9l-7 7-7-7"
-      />
+    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
     </svg>
   </div>
 );
@@ -78,6 +69,7 @@ export default function InvoiceFilters({
   canManage,
   onAdd,
   onRefresh,
+  placeholder,
 }: InvoiceFiltersProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const datePickerRef = useRef<HTMLInputElement>(null);
@@ -99,10 +91,7 @@ export default function InvoiceFilters({
         mode: "range",
         static: true,
         dateFormat: "M d, Y",
-        defaultDate:
-          startDate && endDate
-            ? [startDate, endDate]
-            : [new Date(), new Date()],
+        defaultDate: startDate && endDate ? [startDate, endDate] : [new Date(), new Date()],
         onClose: (selectedDates, _, instance) => {
           if (selectedDates.length === 2) {
             setStartDate(instance.formatDate(selectedDates[0], "Y-m-d"));
@@ -123,7 +112,7 @@ export default function InvoiceFilters({
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
           >
@@ -144,7 +133,7 @@ export default function InvoiceFilters({
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
@@ -167,7 +156,7 @@ export default function InvoiceFilters({
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
             value={deliveryFilter}
             onChange={(e) => {
               setDeliveryFilter(e.target.value);
@@ -192,7 +181,7 @@ export default function InvoiceFilters({
         </label>
         <div className="relative">
           <select
-            className="appearance-none w-full h-11 rounded-lg border border-gray-300 bg-transparent pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
+            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
             value={sortConfig}
             onChange={(e) => setSortConfig(e.target.value)}
           >
@@ -212,63 +201,95 @@ export default function InvoiceFilters({
   );
 
   return (
-    <div className="p-4 xl:p-5 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm">
+    // DESIGN CHANGE: Removed border/shadow/rounded. Added border-b for separation.
+    <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col gap-4">
+        {/* Top Row: Search + Filters + Actions */}
         <div className="flex flex-col xl:flex-row gap-4 xl:items-end">
+          {/* SEARCH FIELD + MOBILE BUTTONS */}
           <div className="flex-1 flex gap-2 items-end">
             <div className="flex-1">
               <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
                 Search
               </label>
               <Input
-                placeholder="Invoice # or Client..."
+                placeholder={placeholder}
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                   setPage(1);
                 }}
+                className="h-10" // Matched height
               />
             </div>
-            <Button
-              variant="outline"
-              onClick={() => setIsModalOpen(true)}
-              className="xl:hidden h-11 px-3 relative border-gray-200 dark:border-white/10"
-            >
-              <HiOutlineAdjustmentsHorizontal className="size-5" />
-              {hasActiveFilters && (
-                <span className="absolute -top-1 -right-1 flex h-3 w-3 bg-brand-500 rounded-full border-2 border-white dark:border-gray-900" />
-              )}
-            </Button>
+
+            {/* MOBILE: Inline Group */}
+            <div className="flex xl:hidden gap-2">
+              <Button
+                variant="outline"
+                onClick={onRefresh}
+                disabled={loading}
+                className="h-10 px-1 border-gray-200 dark:border-white/10"
+              >
+                <HiOutlineArrowPath className={`size-4.5 ${loading ? "animate-spin" : ""}`} />
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={() => setIsModalOpen(true)}
+                className="h-10 px-1 relative border-gray-200 dark:border-white/10"
+              >
+                <HiOutlineAdjustmentsHorizontal className="size-4.5" />
+                {hasActiveFilters && (
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3 bg-brand-500 rounded-full border-2 border-white dark:border-gray-900" />
+                )}
+              </Button>
+            </div>
           </div>
 
-          <div className="hidden xl:flex items-end gap-4">
+          {/* DESKTOP: Filter Fields */}
+          <div className="hidden xl:flex items-end gap-3">
             <FilterFields />
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* DESKTOP: Action Buttons */}
+          <div className="hidden xl:flex items-center gap-2">
             <Button
               variant="outline"
               onClick={onRefresh}
               disabled={loading}
-              className="h-11 px-4"
+              className="h-10 px-3 bg-white dark:bg-transparent"
+             
             >
-              <HiOutlineArrowPath
-                className={`size-5 ${loading ? "animate-spin" : ""}`}
-              />
+              <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
             </Button>
+
             {canManage && (
               <Button
                 onClick={onAdd}
-                className="flex-1 xl:flex-none h-11 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-6"
+                className="h-10 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-5 shadow-sm shadow-brand-500/20"
               >
-                <PlusIcon className="size-5 fill-current" />{" "}
-                <span className="xl:inline">New Invoice</span>
+              <PlusIcon className="size-5 fill-current" />
+                <span>New Invoice</span>
               </Button>
             )}
           </div>
         </div>
 
-        {/* Custom Date Range Expanded Row (Desktop) */}
+        {/* MOBILE: New Invoice Button */}
+        {canManage && (
+          <div className="xl:hidden">
+            <Button
+              onClick={onAdd}
+              className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest"
+            >
+             <PlusIcon className="size-4 fill-current" />
+              <span>New Invoice</span>
+            </Button>
+          </div>
+        )}
+
+        {/* Custom Date Range Expanded Row */}
         {dateRange === "custom" && (
           <div className="hidden xl:flex animate-in fade-in slide-in-from-top-2 duration-300 pt-2 border-t border-gray-100 dark:border-white/5">
             <div className="relative w-64">
@@ -283,15 +304,17 @@ export default function InvoiceFilters({
         )}
       </div>
 
+      {/* Mobile Modal Filter */}
       {isModalOpen && (
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          className="max-w-[500px] m-4"
+          className="max-w-[500px] m-2.5"
         >
-          <div className="flex flex-col h-full max-h-[90vh]">
+          {/* ... Modal content remains the same ... */}
+           <div className="flex flex-col h-full max-h-[90vh]">
             <div className="px-6 py-5 border-b dark:border-white/5 flex items-center justify-between">
-              <h3 className="text-xl font-bold dark:text-white">
+              <h3 className="text-xl font-semibold dark:text-white">
                 Refine Registry
               </h3>
               <button onClick={() => setIsModalOpen(false)}>
@@ -319,13 +342,13 @@ export default function InvoiceFilters({
             <div className="p-6 bg-gray-50 dark:bg-white/[0.02] flex flex-col gap-3">
               <Button
                 onClick={() => setIsModalOpen(false)}
-                className="w-full h-12 text-sm font-bold tracking-widest"
+                className="w-full h-12 text-sm font-medium tracking-widest"
               >
                 Apply Filters
               </Button>
               <button
                 onClick={handleReset}
-                className="w-full py-2 text-xs font-bold uppercase tracking-widest text-red-500 opacity-80"
+                className="w-full py-2 mt-1 text-xs font-medium uppercase tracking-widest text-red-500 dark:text-red-400 "
               >
                 Reset All
               </button>

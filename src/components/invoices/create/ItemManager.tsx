@@ -148,7 +148,7 @@ export default function ItemManager({
             <div className="p-1 rounded-lg bg-gray-100 dark:bg-white/5">
               <HiOutlineCubeTransparent className="size-3.5 text-gray-600 dark:text-gray-400" />
             </div>
-            <h3 className="font-bold text-[10px] tracking-widest uppercase text-gray-400">
+            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-400">
               Nomenclature
             </h3>
           </div> 
@@ -239,12 +239,12 @@ export default function ItemManager({
           {items.length === 0 ? (
              <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
             <HiOutlineCubeTransparent className="size-8 mb-2 " />
-            <span className="text-[10px] font-bold uppercase tracking-[0.1em] ">Empty Ledger</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] ">Empty Ledger</span>
           </div>
           ) : (
             <table className="w-full text-start border-t border-gray-100 dark:border-white/5">
               <thead>
-                <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400">
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-start">
                     Nomenclature
                   </th>
@@ -269,17 +269,17 @@ export default function ItemManager({
                     className="text-sm hover:bg-gray-50/30 hover:dark:bg-brand-500/10 transition-colors group"
                   >
                     <td className="px-6 py-4">
-                      <span className="font-bold text-gray-800 dark:text-white uppercase text-xs tracking-tight">
+                      <span className="font-semibold text-gray-800 dark:text-white uppercase text-xs tracking-tight">
                         {item.name}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="font-bold text-gray-600 dark:text-gray-300 text-xs">
+                      <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                         {item.quantity}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-end">
-                      <span className="font-bold text-gray-600 dark:text-gray-300 text-xs">
+                      <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                         {formatMoney(item.price, currency, currencyFormat)}
                       </span>
                     </td>

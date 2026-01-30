@@ -56,7 +56,7 @@ export default function PermissionDenied({
         <HiOutlineShieldExclamation className="size-8 text-red-500" />
       </div>
 
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 uppercase tracking-tight">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 uppercase tracking-tight">
         {title}
       </h2>
       <form
@@ -73,7 +73,7 @@ export default function PermissionDenied({
         <Button
           type="submit"
           variant="outline"
-          className="flex items-center gap-2 px-6 uppercase tracking-widest text-[10px] font-bold border-gray-200 
+          className="flex items-center gap-2 px-6 uppercase tracking-widest text-[10px] font-semibold border-gray-200 
         dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5"
         >
           <HiOutlineArrowLeft className="size-4" />

@@ -91,7 +91,7 @@ export default function AddMember() {
         {/* Navigation Control */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 mb-6 text-[10px] font-bold text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400 transition-colors uppercase tracking-widest"
+          className="flex items-center gap-2 mb-6 text-[10px] font-semibold text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400 transition-colors uppercase tracking-widest"
         >
           <ChevronLeftIcon className="size-4" />
           Back
@@ -102,7 +102,7 @@ export default function AddMember() {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-6">
-            <h3 className="text-xl font-bold text-gray-800 dark:text-white/90 uppercase tracking-tight">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90 uppercase tracking-tight">
               Invite Team Member
             </h3>
             <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -197,14 +197,14 @@ export default function AddMember() {
               <Button
               type="button"
                 variant="outline"
-                className="text-[10px] uppercase font-bold tracking-widest px-6"
+                className="text-[10px] uppercase font-semibold tracking-widest px-6"
                 onClick={() => navigate(-1)}
               >
                 Cancel
               </Button>
               <Button type="submit"
                 disabled={loading}
-                className="flex items-center gap-2 shadow-lg shadow-brand-500/20 text-[10px] uppercase font-bold tracking-widest px-6"
+                className="flex items-center gap-2 shadow-lg shadow-brand-500/20 text-[10px] uppercase font-semibold tracking-widest px-6"
               >
                 {loading ? "Transmitting..." : "Send Invitation"}
                 <PaperPlaneIcon className="fill-current size-4" />

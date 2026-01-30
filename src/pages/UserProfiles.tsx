@@ -15,6 +15,7 @@ import CustomAlert from "../components/common/CustomAlert";
 import { useAuth } from "../context/AuthContext";
 import { useAlert } from "../hooks/useAlert";
 import { authApi } from "../apis/auth"; // Import API
+import { scrollToTopAppLayout } from "../layout/AppLayout";
 
 export default function UserProfiles() {
   const { logout, user } = useAuth(); // Destructure 'user' to get the email
@@ -63,6 +64,7 @@ export default function UserProfiles() {
       });
     } finally {
       setLoadingReset(false);
+      scrollToTopAppLayout()
     }
   };
 
@@ -83,7 +85,7 @@ export default function UserProfiles() {
           <UserInfoCard setAlert={setAlert} />
 
           {/* Action Buttons Area */}
-          <div className="flex flex-col sm:flex-row justify-end pt-6 gap-3 border-t border-gray-100 dark:border-gray-800 mt-6">
+          <div className="flex flex-col sm:flex-row justify-end pt-6 gap-3 ">
             {/* 1. Change Password Button */}
             <button
               onClick={handleSendPasswordReset}
@@ -97,9 +99,9 @@ export default function UserProfiles() {
                 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <HiOutlineKey
-                className={`w-5 h-5 ${loadingReset ? "animate-pulse" : ""}`}
+                className={`w-4 h-4 ${loadingReset ? "animate-pulse" : ""}`}
               />
-              <span className="font-semibold tracking-wide text-sm">
+              <span className="font-medium text-sm">
                 {loadingReset ? "Sending Link..." : "Change Password"}
               </span>
             </button>
@@ -111,16 +113,14 @@ export default function UserProfiles() {
               className="group cursor-pointer relative flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl transition-all duration-300 ease-out
                 w-full sm:w-auto
                 border border-red-100 bg-red-50 text-red-600
-                dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400
-                hover:bg-red-500 hover:border-red-500 hover:text-white 
-                dark:hover:bg-red-600 dark:hover:border-red-600 dark:hover:text-white
+                dark:border-red-600/20 dark:bg-red-600/10 dark:text-red-400
+                hover:bg-red-600 hover:border-red-600 hover:text-white 
+                dark:hover:bg-red-800 dark:hover:border-red-600 dark:hover:text-white
                 
                 "
             >
-              <HiOutlineArrowRightOnRectangle className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
-              <span className="font-semibold tracking-wide text-sm">
-                Sign Out
-              </span>
+              <HiOutlineArrowRightOnRectangle className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+              <span className="font-medium text-sm">Sign Out</span>
             </button>
           </div>
         </div>

@@ -209,14 +209,14 @@ export default function InvoiceLedger({
         {invoice.items.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
             <HiOutlineCubeTransparent className="size-8 mb-2 " />
-            <span className="text-[10px] font-bold uppercase tracking-[0.1em] ">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] ">
               Empty Ledger
             </span>
           </div>
         ) : (
           <table className="w-full text-start">
             <thead>
-              <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 dark:border-white/5">
+              <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 dark:border-white/5">
                 <th className="px-6 py-3 text-start">Nomenclature</th>
                 <th className="px-6 py-3 text-center">Qty</th>
                 <th className="px-6 py-3 text-end">Rate</th>
@@ -233,18 +233,18 @@ export default function InvoiceLedger({
                   <td className="px-6 py-4">
                     <Link
                       to={`/business/${businessId}/items/${item.itemId}`}
-                      className="font-bold text-gray-800 dark:text-white uppercase text-xs tracking-tight hover:text-brand-500 transition-colors"
+                      className="font-semibold text-gray-800 dark:text-white uppercase text-xs tracking-tight hover:text-brand-500 transition-colors"
                     >
                       {item.name}
                     </Link>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className="font-bold text-gray-600 dark:text-gray-300 text-xs">
+                    <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                       {item.quantity}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-end">
-                    <span className="font-bold text-gray-600 dark:text-gray-300 text-xs">
+                    <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                       {formatMoney(
                         item.price,
                         business?.currency,
@@ -292,14 +292,14 @@ export default function InvoiceLedger({
           {/* Notes Section */}
           <div className="w-full lg:w-1/2 p-6 lg:border-r border-gray-100 dark:border-white/5">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+              <h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-2">
                 <HiOutlineDocumentText className="size-3.5 text-brand-500" />{" "}
                 Notes & Instructions
               </h4>
               {isEditable && !isEditingNotes && (
                 <button
                   onClick={() => setIsEditingNotes(true)}
-                  className="text-[10px] font-bold text-brand-600 hover:text-brand-700 dark:text-brand-400 uppercase tracking-wider transition-colors"
+                  className="text-[10px] font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 uppercase tracking-wider transition-colors"
                 >
                   Edit
                 </button>
@@ -324,7 +324,7 @@ export default function InvoiceLedger({
                   </button>
                   <button
                     onClick={handleSaveNotes}
-                    className="flex items-center gap-1.5 px-4 py-1.5 bg-brand-500 hover:bg-brand-600 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all shadow-sm"
+                    className="flex items-center gap-1.5 px-4 py-1.5 bg-brand-500 hover:bg-brand-600 text-white text-[10px] font-semibold uppercase tracking-wider rounded-lg transition-all shadow-sm"
                   >
                     {savingNotes ? (
                       "Saving..."
@@ -353,7 +353,7 @@ export default function InvoiceLedger({
               {isEditable && onEditTaxDiscount && (
                 <button
                   onClick={onEditTaxDiscount}
-                  className="flex items-center gap-1.5 text-[10px] font-bold text-brand-600 hover:text-brand-700 dark:text-brand-400 uppercase tracking-wider transition-colors"
+                  className="flex items-center gap-1.5 text-[10px] font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 uppercase tracking-wider transition-colors"
                 >
                   <HiOutlineCalculator className="size-3.5" /> Adjust
                   Tax/Discount
@@ -361,7 +361,7 @@ export default function InvoiceLedger({
               )}
             </div>
 
-            <div className="flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            <div className="flex justify-between text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
               <span>Subtotal</span>
               <span className="text-gray-600 dark:text-gray-300">
                 {formatMoney(
@@ -372,7 +372,7 @@ export default function InvoiceLedger({
               </span>
             </div>
             {invoice.totalDiscount > 0 && (
-              <div className="flex justify-between text-[10px] font-bold text-red-500 uppercase tracking-widest">
+              <div className="flex justify-between text-[10px] font-semibold text-red-500 uppercase tracking-widest">
                 <span>
                   Discount ({invoice.discountValue}
                   {invoice.discountType === "percentage" ? "%" : ""})
@@ -387,7 +387,7 @@ export default function InvoiceLedger({
                 </span>
               </div>
             )}
-            <div className="flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            <div className="flex justify-between text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
               <span>Tax ({invoice.taxRate}%)</span>
               <span className="text-gray-600 dark:text-gray-300">
                 {formatMoney(
@@ -398,7 +398,7 @@ export default function InvoiceLedger({
               </span>
             </div>
             <div className="flex justify-between pt-4 border-t border-gray-100 dark:border-white/5 mt-2">
-              <span className="text-xs font-bold text-gray-800 dark:text-white uppercase tracking-tighter">
+              <span className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
                 Grand Total
               </span>
               <span className="text-xl font-black text-brand-600 dark:text-brand-400">

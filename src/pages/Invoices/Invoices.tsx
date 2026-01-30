@@ -172,7 +172,10 @@ export default function Invoices() {
       <PageBreadcrumb pageTitle="Billing & Invoices" />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className="space-y-4">
+      {/* THE MASTER CARD CONTAINER */}
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+        
+        {/* Section 1: The Filter Header */}
         <InvoiceFilters
           searchTerm={searchTerm} setSearchTerm={setSearchTerm}
           statusFilter={statusFilter} setStatusFilter={setStatusFilter}
@@ -184,31 +187,28 @@ export default function Invoices() {
           setPage={setPage} loading={loading} canManage={canManage}
           onAdd={() => navigate(`/business/${businessId}/invoices/create`)}
           onRefresh={fetchData}
+          placeholder="Invoice # or Client..."
         />
 
-        {loading && invoices.length === 0 ? (
-          <div className="py-20 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl">
-            <LoadingState message="Syncing Invoice Registry..." minHeight="100px" />
-          </div>
-        ) : (
-          <InvoiceTable
-            invoices={invoices}
-            business={business}
-            canManage={canManage}
-            meta={meta}
-            onPageChange={setPage}
-            onOpenStatus={(inv) => {
-              setSelectedInvoice(inv);
-              setTargetStatus(getInvoiceDisplayStatus(inv));
-              statusModal.openModal();
-            }}
-            onOpenDelivery={(inv) => {
-              setSelectedInvoice(inv);
-              setTargetDelivery(inv.deliveryStatus);
-              deliveryModal.openModal();
-            }}
-          />
-        )}
+        {/* Section 2: The Data Table (Seamlessly attached) */}
+        <InvoiceTable
+          invoices={invoices}
+          business={business}
+          canManage={canManage}
+          meta={meta}
+          loading={loading} // Pass loading here to handle empty states internally
+          onPageChange={setPage}
+          onOpenStatus={(inv) => {
+            setSelectedInvoice(inv);
+            setTargetStatus(getInvoiceDisplayStatus(inv));
+            statusModal.openModal();
+          }}
+          onOpenDelivery={(inv) => {
+            setSelectedInvoice(inv);
+            setTargetDelivery(inv.deliveryStatus);
+            deliveryModal.openModal();
+          }}
+        />
       </div>
 
       {/* 1. Payment Status */}

@@ -131,7 +131,7 @@ const MemoizedPDFPreview = memo(
           }
           if (error) {
             return (
-              <div className="w-full h-full flex items-center justify-center text-red-500 text-sm font-bold uppercase tracking-widest">
+              <div className="w-full h-full flex items-center justify-center text-red-500 text-sm font-semibold uppercase tracking-widest">
                 Failed to load preview
               </div>
             );
@@ -290,7 +290,7 @@ export default function InvoiceSettings() {
                 Style
               </h3>
               {saving && (
-                <span className="text-[10px] font-bold text-brand-500 animate-pulse uppercase tracking-widest">
+                <span className="text-[10px] font-semibold text-brand-500 animate-pulse uppercase tracking-widest">
                   Saving...
                 </span>
               )}
@@ -418,7 +418,7 @@ export default function InvoiceSettings() {
               )}
             </div>
             <div className="mt-4 text-center">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/5 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
                 Scaled Preview (Fit Width)
               </span>
             </div>

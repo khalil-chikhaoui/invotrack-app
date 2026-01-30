@@ -71,7 +71,7 @@ export default function BusinessSettings() {
 
   if (!businessData) {
     return (
-      <div className="flex items-center justify-center min-h-[40vh] text-error-500 font-bold uppercase tracking-[0.2em]">
+      <div className="flex items-center justify-center min-h-[40vh] text-error-500 font-semibold uppercase tracking-[0.2em]">
         Registry Entry Not Found
       </div>
     );

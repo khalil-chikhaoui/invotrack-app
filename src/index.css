@@ -558,10 +558,30 @@ span.flatpickr-weekday,
 
 @media (max-width: 639px) {
   .flatpickr-calendar.static {
-    left: auto !important;
-    right: 0 !important;
-    margin-right: -70px;
+    left: 50% !important;       
+    right: auto !important;     
+    margin-right: 0 !important;  
+    transform: translateX(-50%) !important; 
+    width: auto !important;     
   }
+}
+
+
+/* Fix for Year Navigation Arrows in Dark Mode */
+.dark .flatpickr-current-month .numInputWrapper span.arrowUp:after {
+  border-bottom-color: #ffffff !important;
+}
+
+.dark .flatpickr-current-month .numInputWrapper span.arrowDown:after {
+  border-top-color: #ffffff !important;
+}
+
+/* Optional: Make them slightly transparent white on hover/default to match theme */
+.dark .flatpickr-current-month .numInputWrapper span.arrowUp:after {
+  border-bottom-color: rgba(255, 255, 255, 0.9) !important;
+}
+.dark .flatpickr-current-month .numInputWrapper span.arrowDown:after {
+  border-top-color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .fc .fc-view-harness {

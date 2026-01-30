@@ -8,7 +8,6 @@ import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
-import { useAuth } from "../../context/AuthContext";
 import { authApi } from "../../apis/auth";
 
 export default function SignUpForm() {
@@ -20,17 +19,19 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
     try {
-      const data = await authApi.signUp({ name, email, password });
-      login(data.token, data.user);
-      navigate("/create-business");
+      // 1. Call API (returns { message, email })
+      await authApi.signUp({ name, email, password });
+      
+      // 2. Redirect to Verify Page with email in state
+      navigate("/verify-email", { state: { email } });
+      
     } catch (err: any) {
       setError(err.message || "An error occurred while creating your account.");
     } finally {

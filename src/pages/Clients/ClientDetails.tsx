@@ -382,7 +382,7 @@ export default function ClientDetails() {
       />
 
       {/* --- TAB NAVIGATION --- */}
-      <div className="flex gap-6 border-b border-gray-200 dark:border-white/5 mb-8 overflow-x-auto w-full no-scrollbar">
+      <div className="flex gap-6  mb-8 overflow-x-auto w-full no-scrollbar px-1">
         {TABS.map((tab) => (
           <button
             key={tab.id}

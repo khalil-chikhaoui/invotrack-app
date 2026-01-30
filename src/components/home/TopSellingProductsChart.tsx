@@ -132,7 +132,7 @@ export default function TopSellingProductsChart({
     <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm flex flex-col h-full p-4 animate-in fade-in zoom-in-95 duration-500">
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white tracking-tight">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             Top Selling Products
           </h3>
           <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
