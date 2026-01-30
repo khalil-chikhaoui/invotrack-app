@@ -21,7 +21,7 @@ interface ProfitAnalyticsCardProps {
   subtitle?: string;
   emptyTitle?: string;
   emptyDescription?: string;
-  rightAction?: React.ReactNode; // ✅ Add this prop
+  rightAction?: React.ReactNode; 
 }
 
 export default function ProfitAnalyticsCard({
@@ -32,7 +32,7 @@ export default function ProfitAnalyticsCard({
   subtitle = "Cost vs Profit analysis",
   emptyTitle = "Insufficient Data",
   emptyDescription = "Cost prices needed for analysis.",
-  rightAction, // ✅ Destructure it
+  rightAction, 
 }: ProfitAnalyticsCardProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -107,7 +107,7 @@ export default function ProfitAnalyticsCard({
             {subtitle}
           </p>
         </div>
-        {/* ✅ Render the right action (Dropdowns) here */}
+       
         {rightAction && <div className="flex gap-2">{rightAction}</div>}
       </div>
 

@@ -4,7 +4,6 @@
  * Clients, Items, and Invoices.
  */
 
-// ✅ FIX: Use the Environment Variable for the API URL
 const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**

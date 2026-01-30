@@ -41,7 +41,7 @@ export default function NotificationsPage() {
   };
   */
 
-  // ✅ MOCK HANDLER: Just visual update
+  // MOCK HANDLER: Just visual update
   const handleMarkAllRead = async () => {
     setMarkingAll(true);
     setTimeout(() => {
@@ -89,7 +89,7 @@ export default function NotificationsPage() {
             {notifications.map((n) => (
               <Link
                 key={n._id}
-                to="#" // ✅ FIX: Safe Link for now
+                to="#" 
                 className={`flex gap-4 p-6 transition-all hover:bg-gray-50 dark:hover:bg-white/5 relative ${
                   !n.isRead
                     ? "bg-brand-500/[0.04] dark:bg-brand-500/[0.08]"

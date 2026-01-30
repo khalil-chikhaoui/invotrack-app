@@ -18,7 +18,7 @@ const getDefaultRange = (): DashboardDateRange => {
   const now = new Date();
   return {
     // Set weekStartsOn: 1 for Monday start, or 0 for Sunday
-    start: startOfWeek(now, { weekStartsOn: 0 }), 
+    start: startOfWeek(now, { weekStartsOn: 0 }),
     end: endOfWeek(now, { weekStartsOn: 0 }),
   };
 };
@@ -57,7 +57,7 @@ export default function Home() {
         description="You do not have the required permissions to view the financial performance dashboard."
         actionText="Return to Dashboard"
       />
-    ); 
+    );
   }
 
   return (
@@ -69,8 +69,7 @@ export default function Home() {
 
       <div className="py-4 px-2 md:px-4">
         <div className="">
-        <HomeHeader dateRange={dateRange} setDateRange={setDateRange} />
-
+          <HomeHeader dateRange={dateRange} setDateRange={setDateRange} />
         </div>
 
         <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
@@ -116,8 +115,6 @@ export default function Home() {
               loadingBusiness={loadingBusiness}
             />
           </div>
-
-          
         </div>
       </div>
     </>

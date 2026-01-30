@@ -305,7 +305,6 @@ export const invoiceApi = {
     clientId: string,
     params: FilterParams = {}
   ): Promise<ClientInvoiceResponse> => {
-    // ✅ FIX: Absolute URL
     const url = new URL(`${BASE_URL}/client/${clientId}`);
     
     Object.keys(params).forEach(key => {
@@ -327,7 +326,6 @@ export const invoiceApi = {
     itemId: string,
     params: FilterParams = {}
   ): Promise<ItemInvoiceResponse> => {
-    // ✅ FIX: Absolute URL
     const url = new URL(`${BASE_URL}/item/${itemId}`);
     
     Object.keys(params).forEach(key => {
@@ -346,7 +344,6 @@ export const invoiceApi = {
   },
  
   // --- Analytics Methods ---
-  // ✅ FIX: Use API_ROOT directly for cleaner paths
 
   getClientStats: async (clientId: string, mode: string, customRange?: any) => {
     const url = new URL(`${API_ROOT}/client-stats/${clientId}`);

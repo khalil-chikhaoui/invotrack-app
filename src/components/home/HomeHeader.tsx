@@ -42,7 +42,7 @@ export default function HomeHeader({
       {
         key: 'thisWeek',
         label: 'This Week',
-        getRange: () => ({ start: startOfWeek(now, { weekStartsOn: 1 }), end: endOfWeek(now, { weekStartsOn: 1 }) })
+        getRange: () => ({ start: startOfWeek(now, { weekStartsOn: 0 }), end: endOfWeek(now, { weekStartsOn: 0 }) })
       },
       {
         key: 'thisMonth',

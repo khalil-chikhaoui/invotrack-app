@@ -4,7 +4,6 @@
  * and chart visualizations for the main dashboard.
  */
 
-// ✅ FIX: Use the Environment Variable for the API URL
 const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 const BASE_URL = `${API_ROOT}/dashboard-stats`;
@@ -107,7 +106,6 @@ export const dashboardApi = {
     startDate: Date, 
     endDate: Date
   ): Promise<DashboardStatsResponse> => {
-    // ✅ FIX: Removed window.location.origin
     const url = new URL(`${BASE_URL}/stats`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());
@@ -131,7 +129,6 @@ export const dashboardApi = {
     startDate: Date, 
     endDate: Date
   ): Promise<DashboardChartPoint[]> => {
-    // ✅ FIX: Removed window.location.origin
     const url = new URL(`${BASE_URL}/chart`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());
@@ -155,7 +152,6 @@ export const dashboardApi = {
     startDate: Date,
     endDate: Date
   ): Promise<TopItemsResponse> => {
-    // ✅ FIX: Removed window.location.origin
     const url = new URL(`${BASE_URL}/top-items`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());
@@ -177,7 +173,7 @@ export const dashboardApi = {
     startDate: Date, 
     endDate: Date
   ): Promise<DeliveryStatsResponse> => {
-    // ✅ FIX: Removed window.location.origin
+    
     const url = new URL(`${BASE_URL}/delivery`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());
@@ -198,7 +194,7 @@ export const dashboardApi = {
     startDate: Date, 
     endDate: Date
   ): Promise<ClientProfitResponse> => {
-    // ✅ FIX: Removed window.location.origin
+    
     const url = new URL(`${BASE_URL}/client-profitability`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());

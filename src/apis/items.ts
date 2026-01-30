@@ -6,7 +6,6 @@
 
 import { InvoiceData, InvoicePaginationMeta } from "./invoices";
 
-// ✅ FIX: Use the Environment Variable for the API URL
 const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
@@ -109,7 +108,6 @@ export const itemApi = {
       isArchived?: boolean; 
     } = {},
   ): Promise<GetItemsResponse> => {
-    // ✅ FIX: Removed window.location.origin
     const url = new URL(`${BASE_URL}/business/${businessId}`);
 
     if (params.page) url.searchParams.append("page", params.page.toString());
@@ -245,7 +243,6 @@ export const itemApi = {
     id: string,
     params: { page?: number; limit?: number } = {},
   ): Promise<ItemDetailsResponse> => {
-    // ✅ FIX: Removed window.location.origin
     const url = new URL(`${BASE_URL}/${id}/details`);
 
     if (params.page) url.searchParams.append("page", params.page.toString());
@@ -284,7 +281,6 @@ export const itemApi = {
    * Lean search for Invoice Item selection.
    */
   pickerSearch: async (businessId: string, query: string): Promise<ItemData[]> => {
-    // ✅ FIX: Removed window.location.origin
     const url = new URL(`${BASE_URL}/business/${businessId}/search`);
     url.searchParams.append("q", query);
 

@@ -10,7 +10,7 @@ import ChartSkeleton from "./ChartSkeleton";
 interface HomeDeliveryChartProps {
   business: BusinessData | null;
   dateRange: DashboardDateRange;
-  loadingBusiness?: boolean; // ✅ Add optional prop
+  loadingBusiness?: boolean; 
 }
  
 export default function HomeDeliveryChart({ 

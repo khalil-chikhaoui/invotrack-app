@@ -4,7 +4,6 @@
  * sophisticated filtering/pagination, and asset management.
  */
 
-// ✅ FIX: Use the Environment Variable for the API URL
 const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
@@ -108,7 +107,6 @@ export const clientApi = {
       isArchived?: boolean;
     } = {},
   ): Promise<GetClientsResponse> => {
-    // ✅ FIX: Use absolute URL without window.location.origin
     const url = new URL(`${BASE_URL}/business/${businessId}`);
 
     if (params.page) url.searchParams.append("page", params.page.toString());
@@ -244,7 +242,6 @@ export const clientApi = {
    * Lean search for Invoice Creation picker.
    */
   pickerSearch: async (businessId: string, query: string): Promise<ClientData[]> => {
-    // ✅ FIX: Use absolute URL
     const url = new URL(`${BASE_URL}/business/${businessId}/search`);
     url.searchParams.append("q", query);
 

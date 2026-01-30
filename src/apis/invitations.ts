@@ -4,7 +4,6 @@
  * Manages the transition from an invite token to a full user session.
  */
 
-// ✅ FIX: Use the Environment Variable for the API URL
 const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**

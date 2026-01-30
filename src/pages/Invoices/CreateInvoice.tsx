@@ -89,7 +89,6 @@ useEffect(() => {
       setDiscountValue(biz.defaultDiscount?.value || 0);
       setDiscountType(biz.defaultDiscount?.type || "percentage");
 
-      // 2. ✅ FIXED: Keep query parameter logic working
       if (queryClientId) {
         try {
           // Instead of finding in a local list, fetch the specific client

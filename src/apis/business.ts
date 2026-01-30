@@ -4,7 +4,6 @@
  * specialized invoice settings, and team/member orchestration.
  */
 
-// ✅ FIX: Use the Environment Variable for the API URL
 const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
@@ -246,7 +245,6 @@ export const businessApi = {
    */
   getMembers: async (id: string, search: string = "") => {
     const token = localStorage.getItem("accessToken");
-    // ✅ FIX: Use the absolute BASE_URL without window.location.origin
     const url = new URL(`${BASE_URL}/${id}/members`);
 
     if (search) url.searchParams.append("search", search);
