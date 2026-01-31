@@ -50,6 +50,10 @@
     "language_updated_title": "Language Updated",
     "language_updated_body": "Your preference has been saved."
   },
+    "status": {
+    "error": "Error",
+    "success": "Success"
+  },
   "errors": {
     "AUTH_USER_NOT_FOUND": "User account not found.",
     "UPLOAD_NO_FILE": "Please select an image file to upload.",

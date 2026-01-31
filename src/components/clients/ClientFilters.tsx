@@ -8,6 +8,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { useState } from "react";
 import { Modal } from "../ui/modal";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 
 interface ClientFiltersProps {
   searchTerm: string;
@@ -27,8 +28,18 @@ interface ClientFiltersProps {
 
 const CustomChevron = () => (
   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+    <svg
+      className="size-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M19 9l-7 7-7-7"
+      />
     </svg>
   </div>
 );
@@ -55,6 +66,7 @@ export default function ClientFilters({
   onAdd,
   onRefresh,
 }: ClientFiltersProps) {
+  const { t } = useTranslation("client"); // <--- Load "client" namespace
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const defaults = {
@@ -81,7 +93,7 @@ export default function ClientFilters({
       {/* Status Filter */}
       <div className="w-full xl:w-36">
         <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          Status {isStatusChanged && <PulseDot />}
+          {t("filters.status_label")} {isStatusChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
@@ -92,8 +104,8 @@ export default function ClientFilters({
               setPage(1);
             }}
           >
-            <option value="active">Active</option>
-            <option value="archived">Archived</option>
+            <option value="active">{t("filters.status.active")}</option>
+            <option value="archived">{t("filters.status.archived")}</option>
           </select>
           <CustomChevron />
         </div>
@@ -102,7 +114,7 @@ export default function ClientFilters({
       {/* Type Filter */}
       <div className="w-full xl:w-40">
         <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          Client Type {isTypeChanged && <PulseDot />}
+          {t("filters.type_label")} {isTypeChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
@@ -113,9 +125,9 @@ export default function ClientFilters({
               setPage(1);
             }}
           >
-            <option value="all">All Types</option>
-            <option value="Business">Business</option>
-            <option value="Individual">Individual</option>
+            <option value="all">{t("filters.type.all")}</option>
+            <option value="Business">{t("filters.type.business")}</option>
+            <option value="Individual">{t("filters.type.individual")}</option>
           </select>
           <CustomChevron />
         </div>
@@ -124,7 +136,7 @@ export default function ClientFilters({
       {/* Sort Filter */}
       <div className="w-full xl:w-48">
         <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          Sort By {isSortChanged && <PulseDot />}
+          {t("filters.sort_label")} {isSortChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
@@ -132,10 +144,10 @@ export default function ClientFilters({
             value={sortConfig}
             onChange={(e) => setSortConfig(e.target.value)}
           >
-            <option value="name:asc">Name (A-Z)</option>
-            <option value="name:desc">Name (Z-A)</option>
-            <option value="createdAt:desc">Newest First</option>
-            <option value="createdAt:asc">Oldest First</option>
+            <option value="name:asc">{t("filters.sort.name_asc")}</option>
+            <option value="name:desc">{t("filters.sort.name_desc")}</option>
+            <option value="createdAt:desc">{t("filters.sort.newest")}</option>
+            <option value="createdAt:asc">{t("filters.sort.oldest")}</option>
           </select>
           <CustomChevron />
         </div>
@@ -144,43 +156,44 @@ export default function ClientFilters({
   );
 
   return (
-    // DESIGN CHANGE: Removed border/rounded. Added border-b.
     <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col xl:flex-row gap-4 xl:items-end">
-        
         {/* Search + Mobile Controls */}
         <div className="flex flex-1 items-end gap-2">
           <div className="flex-1">
             <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
-              Search
+              {t("filters.search_label")}
             </label>
             <Input
-              placeholder="Search clients..."
+              placeholder={t("filters.search_placeholder")}
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
-              className="h-10" // Matched height
+              className="h-10"
             />
           </div>
 
           <div className="relative flex xl:hidden gap-2">
-             {/* Mobile Filter Trigger */}
-            <Button
-              variant="outline"
-              onClick={() => setIsFilterModalOpen(true)}
-              className="h-10 px-3 border-gray-200 dark:border-white/10"
-            >
-              <HiOutlineAdjustmentsHorizontal className="size-5" />
-            </Button>
-            {hasActiveFilters && (
-              <span className="xl:hidden absolute -top-1 right-[52px] flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-500 border-2 border-white dark:border-gray-900"></span>
-              </span>
-            )}
-            
+            {/* Mobile Filter Trigger Group */}
+            <div className="relative">
+              <Button
+                variant="outline"
+                onClick={() => setIsFilterModalOpen(true)}
+                className="h-10 px-3 border-gray-200 dark:border-white/10"
+              >
+                <HiOutlineAdjustmentsHorizontal className="size-5" />
+              </Button>
+
+              {hasActiveFilters && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-500 border-2 border-white dark:border-gray-900"></span>
+                </span>
+              )}
+            </div>
+
             {/* Mobile Refresh */}
             <Button
               variant="outline"
@@ -188,7 +201,9 @@ export default function ClientFilters({
               disabled={loading}
               className="h-10 px-3 border-gray-200 dark:border-white/10"
             >
-              <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
+              <HiOutlineArrowPath
+                className={`size-5 ${loading ? "animate-spin" : ""}`}
+              />
             </Button>
           </div>
         </div>
@@ -205,23 +220,24 @@ export default function ClientFilters({
             onClick={onRefresh}
             disabled={loading}
             className="h-10 px-4 bg-white dark:bg-transparent"
-           
           >
-            <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
+            <HiOutlineArrowPath
+              className={`size-5 ${loading ? "animate-spin" : ""}`}
+            />
           </Button>
 
           {canManage && (
             <Button
               onClick={onAdd}
-              className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm shadow-brand-500/20"
+              className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 "
             >
-               <PlusIcon className="size-5 fill-current" />
-              <span>Add Client</span>
+              <PlusIcon className="size-5 fill-current" />
+              <span>{t("list.add_button")}</span>
             </Button>
           )}
         </div>
       </div>
-      
+
       {/* Mobile Add Button Row */}
       {canManage && (
         <div className="mt-4 xl:hidden">
@@ -229,13 +245,13 @@ export default function ClientFilters({
             onClick={onAdd}
             className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
           >
-              <PlusIcon className="size-4 fill-current" />
-             <span>Add Client</span>
+            <PlusIcon className="size-4 fill-current" />
+            <span>{t("list.add_button")}</span>
           </Button>
         </div>
       )}
 
-      {/* Professional Modal */}
+      {/* Filter Modal */}
       {isFilterModalOpen && (
         <Modal
           isOpen={isFilterModalOpen}
@@ -258,10 +274,10 @@ export default function ClientFilters({
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight leading-none">
-                      Filter Clients
+                      {t("filters.modal_title")}
                     </h3>
                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mt-1">
-                      Refine your directory list
+                      {t("filters.modal_desc")}
                     </p>
                   </div>
                 </div>
@@ -297,13 +313,13 @@ export default function ClientFilters({
                     }
                   `}
                 >
-                  Reset
+                  {t("filters.reset")}
                 </button>
                 <Button
                   type="submit"
-                  className="w-full sm:flex-1 h-11 text-xs font-bold uppercase tracking-widest shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30"
+                  className="w-full sm:flex-1 h-11 text-xs font-bold uppercase tracking-widest"
                 >
-                  Show Results
+                  {t("filters.apply")}
                 </Button>
               </div>
             </div>

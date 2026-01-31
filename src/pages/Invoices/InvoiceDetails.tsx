@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react"; // 1. Added useRef
+import { useState, useEffect, useRef } from "react"; 
 import { useParams, useNavigate, useLocation } from "react-router";
 import { pdf } from "@react-pdf/renderer";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   invoiceApi,
   InvoiceData,
@@ -32,40 +33,39 @@ import ItemFormModal from "../Items/ItemFormModal";
 import EditTaxDiscountModal from "../../components/invoices/details/EditTaxDiscountModal";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import LoadingState from "../../components/common/LoadingState";
-import { HiOutlineChartPie, HiOutlineDocumentText } from "react-icons/hi";
+import { HiOutlineChartPie, HiOutlineDocumentText } from "react-icons/hi"; 
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function InvoiceDetails() {
+  const { t } = useTranslation("invoice_details"); // <--- Load namespace
   const { businessId, id: invoiceId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { canManage, canViewFinancials } = usePermissions();
-  const { alert, setAlert } = useAlert();
+  const { alert, setAlert } = useAlert(); 
 
-  // --- Data State ---
   const [invoice, setInvoice] = useState<InvoiceData | null>(null);
   const [business, setBusiness] = useState<BusinessData | null>(null);
   const [availableItems, setAvailableItems] = useState<ItemData[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // --- Tab State & Configuration ---
   const [activeTab, setActiveTab] = useState<"general" | "stats">("general");
 
-  // Define the tabs configuration here
  const TABS = [
     { 
       id: "general", 
-      label: "General Information",
+      label: t("tabs.general"),
       icon: <HiOutlineDocumentText  className="size-5" />
     },
     { 
       id: "stats", 
-      label: "Performance Stats",
+      label: t("tabs.stats"),
       icon: <HiOutlineChartPie className="size-5" />
     },
   ];
 
-  // --- Modal Controllers ---
+
   const statusModal = useModal();
   const deliveryModal = useModal();
   const clientEditModal = useModal();
@@ -74,24 +74,19 @@ export default function InvoiceDetails() {
   const itemCreateModal = useModal();
   const taxModal = useModal();
 
-  //  Delete Item Confirmation State
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [isDeletingItem, setIsDeletingItem] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState<any>(null);
 
-  // --- Action States ---
   const [tempStatus, setTempStatus] = useState<string>("Open");
   const [tempDelivery, setTempDelivery] = useState<DeliveryStatus>("Pending");
   const [updating, setUpdating] = useState(false);
-  const [sendingEmail, setSendingEmail] = useState(false);
 
-  // Dropdown States
   const [isStyleDropdownOpen, setIsStyleDropdownOpen] = useState(false);
   const [downloadingStyle, setDownloadingStyle] = useState(false);
 
-  // --- Data Fetching ---
   const fetchData = async () => {
     if (!invoiceId || !businessId || !canViewFinancials) return;
     setLoading(true);
@@ -107,7 +102,7 @@ export default function InvoiceDetails() {
       setTempStatus(getInvoiceDisplayStatus(invData));
       setTempDelivery(invData.deliveryStatus);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Sync Error", message: error.message });
+      setAlert({ type: "error", title: t("messages.SYNC_ERROR"), message: error.message });
     } finally {
       setLoading(false);
     }
@@ -125,9 +120,14 @@ export default function InvoiceDetails() {
     }
   };
 
-  // ==========================================
-  // --- Ledger Logic ---
-  // ==========================================
+  // --- SMART SCROLL EFFECT ---
+  // Whenever 'alert' changes and is not null, scroll to top
+  useEffect(() => {
+    if (alert) {
+      scrollToTopAppLayout();
+    }
+  }, [alert]);
+
 
   const areIdsEqual = (id1: any, id2: any) => String(id1) === String(id2);
 
@@ -165,14 +165,12 @@ export default function InvoiceDetails() {
     itemEditModal.openModal();
   };
 
-  //  Unified Save Handler
   const handleItemModalSave = async (_ignoredId: string, data: any) => {
     if (!invoice || !selectedItem) return;
 
     try {
       const targetItemId = selectedItem.itemId;
 
-      // Create clean array for API
       const currentItems = invoice.items.map((i) => ({
         itemId: i.itemId,
         name: i.name,
@@ -188,7 +186,6 @@ export default function InvoiceDetails() {
       );
 
       if (existingIndex >= 0) {
-        //  UPDATE EXISTING LINE
         currentItems[existingIndex].quantity = Number(data.quantity);
         currentItems[existingIndex].price = Number(data.price);
         currentItems[existingIndex].costPrice = Number(data.costPrice);
@@ -206,13 +203,12 @@ export default function InvoiceDetails() {
         });
       }
 
-      // Send full updated list to backend
       await invoiceApi.updateInvoice(invoice._id, { items: currentItems });
 
-      setAlert({ type: "success", title: "Saved", message: "Ledger updated." });
+      setAlert({ type: "success", title: "Saved", message: t("messages.LEDGER_UPDATED") });
       fetchData();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Error", message: e.message });
+      setAlert({ type: "error", title: t("errors.FAILED"), message: e.message });
     }
   };
   const handleDeleteItem = (targetItemId: string) => {
@@ -232,13 +228,13 @@ export default function InvoiceDetails() {
       setAlert({
         type: "success",
         title: "Removed",
-        message: "Item removed from ledger.",
+        message: t("messages.ITEM_REMOVED"),
       });
       fetchData();
       setIsConfirmDeleteOpen(false);
       setItemToDelete(null);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Error", message: error.message });
+      setAlert({ type: "error", title: t("errors.FAILED"), message: error.message });
     } finally {
       setIsDeletingItem(false);
     }
@@ -256,11 +252,11 @@ export default function InvoiceDetails() {
       setAlert({
         type: "success",
         title: "Saved",
-        message: "Invoice notes updated.",
+        message: t("messages.NOTES_UPDATED"),
       });
       setInvoice({ ...invoice, notes: newNotes });
     } catch (e: any) {
-      setAlert({ type: "error", title: "Error", message: e.message });
+      setAlert({ type: "error", title: t("errors.FAILED"), message: e.message });
     }
   };
 
@@ -279,7 +275,7 @@ export default function InvoiceDetails() {
       setAlert({
         type: "success",
         title: "Updated",
-        message: "Tax and Discount updated.",
+        message: t("messages.FINANCIALS_UPDATED"),
       });
       fetchData();
     } catch (e: any) {
@@ -311,13 +307,13 @@ export default function InvoiceDetails() {
       setAlert({
         type: "success",
         title: "Synced",
-        message: "Transaction state updated.",
+        message: t("messages.STATUS_SYNCED"),
       });
       fetchData();
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Failed", message: e.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: e.message });
     } finally {
       setUpdating(false);
     }
@@ -336,7 +332,7 @@ export default function InvoiceDetails() {
       setAlert({
         type: "success",
         title: "Success",
-        message: "Dates updated successfully.",
+        message: t("messages.DATES_UPDATED"),
       });
       fetchData();
     } catch (e: any) {
@@ -385,20 +381,19 @@ export default function InvoiceDetails() {
       setAlert({
         type: "success",
         title: "Downloaded",
-        message: `${templateStyle} version exported.`,
+        message: t("messages.EXPORT_SUCCESS", { style: templateStyle }),
       });
     } catch (error) {
       setAlert({
         type: "error",
         title: "Export Error",
-        message: "Failed to generate specific style.",
+        message: t("messages.EXPORT_ERROR"),
       });
     } finally {
       setDownloadingStyle(false);
     }
   };
 
-  // 2. Scroll Logic Added Here
   const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   useEffect(() => {
@@ -415,7 +410,7 @@ export default function InvoiceDetails() {
   if (loading && !invoice) {
     return (
       <LoadingState
-        message="Decrypting Financial Record..." 
+        message={t("loading")} 
         minHeight="60vh" 
       />
     );
@@ -424,9 +419,9 @@ export default function InvoiceDetails() {
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Protected Document"
-        description="You do not have permission to view the details of this financial record."
-        actionText="Return to Dashboard"
+        title={t("errors.RESTRICTED_ACCESS")}
+        description={t("errors.RESTRICTED_DESC")}
+        actionText={t("actions.return")}
       />
     );
   }
@@ -434,9 +429,9 @@ export default function InvoiceDetails() {
   if (!invoice || !business) {
     return (
       <RecordNotFound
-        title="Invoice Not Found"
-        description="This invoice record does not exist or has been permanently removed."
-        actionText="Back"
+        title={t("errors.NOT_FOUND_TITLE")}
+        description={t("errors.NOT_FOUND_DESC")}
+        actionText={t("actions.back")}
         onAction={handleSmartBack}
       />
     );
@@ -445,8 +440,8 @@ export default function InvoiceDetails() {
   return (
     <>
       <PageMeta
-        title={`${invoice.invoiceNumber} | Details`}
-        description="Invoice Registry Details"
+        title={t("meta_title", { number: invoice.invoiceNumber })}
+        description={t("meta_desc")}
       />
 
       <InvoiceHeader
@@ -463,7 +458,7 @@ export default function InvoiceDetails() {
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <InvoiceIdentityCard
+      <InvoiceIdentityCard 
         invoice={invoice}
         business={business}
         canManage={canManage}
@@ -471,12 +466,10 @@ export default function InvoiceDetails() {
         onEditDates={canManage ? dateEditModal.openModal : undefined}
       />
 
-      {/* --- TABS (Updated) --- */}
       <div className="flex gap-6 border-b border-gray-200 dark:border-white/5 mb-8 overflow-x-auto w-full no-scrollbar">
         {TABS.map((tab) => (
           <button
             key={tab.id}
-            // 3. Added Ref and Scrollable CSS classes
             ref={(el) => {
               tabsRef.current[tab.id] = el;
             }}
@@ -497,7 +490,6 @@ export default function InvoiceDetails() {
 
       {activeTab === "general" ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start text-start animate-in fade-in slide-in-from-bottom-2 duration-300">
-          {/* This pushes the Ledger to the bottom on mobile, but keeps it first on desktop */}
           <div className="lg:col-span-2 space-y-8 order-last lg:order-none">
             <InvoiceParties
               invoice={invoice}
@@ -525,8 +517,6 @@ export default function InvoiceDetails() {
             invoice={invoice}
             openStatusModal={statusModal.openModal}
             openDeliveryModal={deliveryModal.openModal}
-            handleSendRecord={()=>{}}
-            sendingEmail={sendingEmail}
           />
         </div>
       ) : (
@@ -552,6 +542,7 @@ export default function InvoiceDetails() {
         invoice={invoice}
         onSave={async (d) => {
           await invoiceApi.updateClientSnapshot(invoice._id, d);
+          setAlert({ type: "success", title: "Success", message: t("messages.CLIENT_UPDATED") });
           fetchData();
         }}
       />
@@ -561,8 +552,8 @@ export default function InvoiceDetails() {
         item={selectedItem}
         onSave={handleItemModalSave}
         currency={business?.currency}
-  currencyFormat={business?.currencyFormat}
-      />
+        currencyFormat={business?.currencyFormat}
+      /> 
       <EditDatesModal
         isOpen={dateEditModal.isOpen}
         onClose={dateEditModal.closeModal}
@@ -577,7 +568,7 @@ export default function InvoiceDetails() {
         refresh={() => {}}
         setAlert={setAlert}
         item={null}
-      />
+      /> 
       <EditTaxDiscountModal
         isOpen={taxModal.isOpen}
         onClose={taxModal.closeModal}
@@ -589,9 +580,9 @@ export default function InvoiceDetails() {
         isOpen={isConfirmDeleteOpen}
         onClose={() => setIsConfirmDeleteOpen(false)}
         onConfirm={confirmDeleteItem}
-        title="Remove Item?"
-        description="This will remove the item from the invoice ledger. This action cannot be undone."
-        confirmText="Remove"
+        title={t("modals.delete_item.title")}
+        description={t("modals.delete_item.desc")}
+        confirmText={t("modals.delete_item.confirm")}
         variant="danger"
         isLoading={isDeletingItem}
       />

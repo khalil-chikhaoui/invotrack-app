@@ -2,8 +2,9 @@
  * @fileoverview BusinessSettings Component
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
 import { businessApi, BusinessData } from "../../apis/business";
@@ -11,23 +12,26 @@ import CustomAlert from "../../components/common/CustomAlert";
 import BusinessMetaCard from "../../components/BusinessProfile/BusinessMetaCard";
 import BusinessAddressCard from "../../components/BusinessProfile/BusinessAddressCard";
 import BusinessLegalCard from "../../components/BusinessProfile/BusinessLegalCard";
-import LoadingState from "../../components/common/LoadingState"; // Integrated Loader
+import LoadingState from "../../components/common/LoadingState";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 import PermissionDenied from "../../components/common/PermissionDenied";
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function BusinessSettings() {
+  const { t } = useTranslation("business");
   const { businessId } = useParams();
   const { isAdmin } = usePermissions();
 
-  // --- Data & Loading State ---
   const [businessData, setBusinessData] = useState<BusinessData | null>(null);
   const [loading, setLoading] = useState(true);
   const { alert, setAlert } = useAlert();
 
-  /**
-   * Synchronization Engine
-   */
+  const triggerAlert = (data: { type: "success" | "error" | "warning" | "info"; title: string; message: string }) => {
+    setAlert(data);
+    scrollToTopAppLayout();
+  };
+
   const fetchBusiness = async () => {
     if (!businessId) return;
     try {
@@ -48,12 +52,10 @@ export default function BusinessSettings() {
     }
   }, [businessId, isAdmin]);
 
-  // --- RENDERING LOGIC ---
-
   if (loading) {
     return (
       <LoadingState 
-        message="Syncing Business Profile..." 
+        message={t("settings.general.loading")} 
         minHeight="50vh" 
       />
     );
@@ -62,9 +64,9 @@ export default function BusinessSettings() {
   if (!isAdmin) {
     return (
       <PermissionDenied
-        title="Configuration Locked"
-        description="Your current membership role does not permit administrative modifications to this business registry."
-        actionText="Return to Dashboard"
+        title={t("settings.general.locked_title")}
+        description={t("settings.general.locked_desc")}
+        actionText={t("create.nav.back")} // Or a specific dashboard link text
       />
     );
   }
@@ -72,7 +74,7 @@ export default function BusinessSettings() {
   if (!businessData) {
     return (
       <div className="flex items-center justify-center min-h-[40vh] text-error-500 font-semibold uppercase tracking-[0.2em]">
-        Registry Entry Not Found
+        {t("settings.general.not_found")}
       </div>
     );
   }
@@ -80,34 +82,31 @@ export default function BusinessSettings() {
   return (
     <>
       <PageMeta
-        title={`Settings | ${businessData.name}`}
-        description="Business Management Console"
+        title={`${t("settings.general.title")} | ${businessData.name}`}
+        description={t("settings.general.description")}
       />
-      <PageBreadcrumb pageTitle="Business Configuration" />
+      <PageBreadcrumb pageTitle={t("settings.general.title")} />
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       <div className="space-y-6">
-        {/* Identity & Visual Branding */}
         <BusinessMetaCard
           business={businessData}
           refresh={fetchBusiness}
-          setAlert={setAlert}
+          setAlert={triggerAlert}
         />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 items-start">
-          {/* Geographic Location Registry */}
           <BusinessAddressCard
             business={businessData}
             refresh={fetchBusiness}
-            setAlert={setAlert}
+            setAlert={triggerAlert}
           />
 
-          {/* Legal Identifiers & Tax Registry */}
           <BusinessLegalCard
             business={businessData}
             refresh={fetchBusiness}
-            setAlert={setAlert}
+            setAlert={triggerAlert}
           />
         </div>
       </div>

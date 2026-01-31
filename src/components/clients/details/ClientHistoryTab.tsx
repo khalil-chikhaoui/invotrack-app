@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { HiOutlineDocumentText, HiPlus } from "react-icons/hi2";
 import Button from "../../ui/button/Button";
 import { InvoiceData, InvoicePaginationMeta } from "../../../apis/invoices";
@@ -27,7 +28,7 @@ export default function ClientHistoryTab({
   loading,
   canManage,
   meta,
-  isArchived,
+  isArchived, 
   businessId,
   clientId,
   setPage,
@@ -36,9 +37,8 @@ export default function ClientHistoryTab({
   onOpenDelivery,
   filterProps,
 }: ClientHistoryTabProps) {
+  const { t } = useTranslation("client_details");
   
-  // Logic: Show table if it's loading OR if we have data. 
-  // Only show the custom empty state if we are done loading AND have 0 records.
   const showTable = loading || clientInvoices.length > 0;
 
   return (
@@ -48,7 +48,7 @@ export default function ClientHistoryTab({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between px-1">
           <h3 className="font-semibold text-gray-800 dark:text-white tracking-widest text-sm md:text-md uppercase flex items-center gap-2">
-            <HiOutlineDocumentText className="size-4" /> Transaction Ledger
+            <HiOutlineDocumentText className="size-4" /> {t("history_tab.title")}
           </h3>
 
           {!isArchived && (
@@ -62,27 +62,24 @@ export default function ClientHistoryTab({
                 bg-brand-500 hover:bg-brand-600 text-white 
                 dark:bg-brand-500 dark:hover:bg-brand-400 
                 border border-transparent rounded-xl 
-                shadow-sm shadow-brand-500/20 hover:shadow-brand-500/40 
                 transition-all duration-200 ease-in-out"
             >
               <div className="flex items-center justify-center size-5 bg-white/20 rounded-lg group-hover:scale-110 transition-transform">
                 <HiPlus className="size-3.5 stroke-[3]" />
               </div>
               <span className="text-[10px] font-semibold uppercase tracking-widest">
-                New Invoice
+                {t("history_tab.new_invoice")}
               </span>
             </Button>
           )}
         </div>
       </div>
 
-      {/* 2. THE MASTER CARD (Filters + Table/Empty State) */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
+      {/* 2. THE MASTER CARD */}
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl  overflow-hidden">
         
-        {/* A. Filters (Always visible at top of card) */}
         <InvoiceFilters placeholder="Invoice # ..." {...filterProps} />
 
-        {/* B. Content Area */}
         {showTable ? (
           <InvoiceTable
             invoices={clientInvoices}
@@ -96,15 +93,14 @@ export default function ClientHistoryTab({
             showClient={false}
           />
         ) : (
-          /* C. Custom Empty State (Preserved Logic) */
           <div className="flex flex-col items-center justify-center py-20 bg-gray-50/30 dark:bg-white/[0.01]">
             <div className="p-4 rounded-full bg-gray-100 dark:bg-white/5 mb-3">
               <HiOutlineDocumentText className="size-8 text-gray-300 dark:text-gray-600" />
             </div>
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
               {filterProps.statusFilter === "Cancelled"
-                ? "No cancelled records found"
-                : "No transaction history matches criteria"}
+                ? t("history_tab.empty_cancelled")
+                : t("history_tab.empty_generic")}
             </p>
           </div>
         )}

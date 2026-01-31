@@ -1,0 +1,133 @@
+{
+  "list": {
+    "title": "Lagerbestand",
+    "meta_desc": "Katalog verwalten.",
+    "breadcrumb": "Lagerverwaltung",
+    "add_button": "Artikel hinzufügen",
+    "syncing": "Lagerbestand wird synchronisiert...",
+    "empty": {
+      "title": "Keine Artikel gefunden",
+      "desc": "Passen Sie die Filter an oder erstellen Sie einen neuen Artikel."
+    },
+    "columns": {
+      "details": "Artikeldetails",
+      "type": "Typ",
+      "price": "Preis",
+      "stock": "Bestand",
+      "actions": "Aktionen"
+    }
+  },
+  "filters": {
+    "search_label": "Suche",
+    "search_placeholder": "Lagerbestand durchsuchen...",
+    "status_label": "Status",
+    "type_label": "Typ",
+    "sort_label": "Sortieren nach",
+    "modal_title": "Lagerbestand filtern",
+    "modal_desc": "Verfeinern Sie Ihre Produktliste",
+    "reset": "Zurücksetzen",
+    "apply": "Ergebnisse anzeigen",
+    "status": {
+      "active": "Aktiv",
+      "archived": "Archiviert"
+    },
+    "type": {
+      "all": "Alle Typen",
+      "product": "Produkt",
+      "service": "Dienstleistung"
+    },
+    "sort": {
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)",
+      "price_asc": "Preis (Niedrig-Hoch)",
+      "price_desc": "Preis (Hoch-Niedrig)"
+    }
+  },
+  "form": {
+    "title_new": "Neuer Lagerartikel",
+    "title_edit": "Artikeldetails bearbeiten",
+    "subtitle_1": "Identität & Klassifizierung.",
+    "subtitle_2": "Kosten & Verkaufspreise.",
+    "subtitle_3": "Lagerbestände & Beschreibung.",
+    "steps": {
+      "general": "Allgemein",
+      "pricing": "Preise",
+      "details": "Details"
+    },
+    "fields": {
+      "name": "Artikelname",
+      "sku": "SKU / Code",
+      "type": "Artikeltyp",
+      "price": "Verkaufspreis",
+      "cost": "Selbstkosten ($)",
+      "stock": "Anfangsbestand",
+      "desc": "Beschreibung / Notizen"
+    },
+    "placeholders": {
+      "name": "Produkt- oder Dienstleistungsname",
+      "sku": "SKU-Code",
+      "stock": "0",
+      "desc": "Details hinzufügen..."
+    },
+    "options": {
+      "product": "Produkt (Lagerware)",
+      "service": "Dienstleistung (Arbeit/Gebühr)"
+    },
+    "actions": {
+      "next": "Nächster Schritt",
+      "cancel": "Abbrechen",
+      "back": "Zurück",
+      "create": "Artikel erstellen",
+      "update": "Artikel aktualisieren",
+      "processing": "Wird verarbeitet..."
+    },
+    "errors": {
+      "name_required": "Artikelname ist erforderlich.",
+      "price_required": "Gültiger Verkaufspreis erforderlich."
+    }
+  },
+  "stock_modal": {
+    "title": "Lagerbestand anpassen",
+    "subtitle": "Bestand aktualisieren für",
+    "label_quantity": "Menge",
+    "current": "Aktuell",
+    "new_total": "Neuer Gesamtbestand",
+    "inbound": "Eingang",
+    "outbound": "Ausgang",
+    "actions": {
+      "confirm_restock": "Aufstockung bestätigen",
+      "confirm_removal": "Entnahme bestätigen",
+      "cancel": "Abbrechen",
+      "updating": "Wird aktualisiert..."
+    }
+  },
+  "modals": {
+    "delete_title": "Artikel löschen",
+    "delete_desc": "{{name}} entfernen?",
+    "confirm_delete": "Löschen",
+    "confirm_archive": "Archivieren"
+  },
+  "errors": {
+    "ITEM_NOT_FOUND": "Artikeldatensatz wurde nicht gefunden.",
+    "ITEM_EXISTS": "Ein Artikel mit diesem Namen existiert bereits.",
+    "UNAUTHORIZED_ACTION": "Nur Admins oder Manager können Artikel hinzufügen.",
+    "UNAUTHORIZED_DELETE": "Nicht berechtigt, Lagerartikel zu löschen.",
+    "CANNOT_STOCK_SERVICE": "Lagerbestand für Dienstleistungen kann nicht angepasst werden.",
+    "INVALID_QUANTITY": "Ungültige Menge angegeben.",
+    "UPLOAD_NO_FILE": "Bitte laden Sie eine gültige Bilddatei hoch.",
+    "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
+    "SYNC_ERROR": "Synchronisationsfehler",
+    "FAILED": "Fehlgeschlagen"
+  },
+  "messages": {
+    "ITEM_CREATED": "Artikel erfolgreich erstellt.",
+    "ITEM_RESTORED": "Artikel erfolgreich wiederhergestellt.",
+    "ITEM_DELETED": "Artikel erfolgreich gelöscht.",
+    "ITEM_UPDATED": "Artikel aktualisiert.",
+    "ITEM_ARCHIVED_HISTORY": "Artikel aufgrund bestehender Transaktionshistorie archiviert.",
+    "IMAGE_UPLOADED": "Bild erfolgreich hochgeladen.",
+    "IMAGE_REMOVED": "Bild erfolgreich entfernt.",
+    "DELETED": "Gelöscht",
+    "ARCHIVED": "Archiviert"
+  }
+}

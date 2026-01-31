@@ -1,9 +1,9 @@
 /**
  * @fileoverview BusinessAddressCard Component
- * Manages the physical and digital connectivity of the business.
  */
 
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { BusinessData, businessApi } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
 import { usePermissions } from "../../hooks/usePermissions";
@@ -23,10 +23,7 @@ import PhoneInput from "../form/group-input/PhoneInput";
 
 function SectionEditButton() {
   return (
-    <div
-      className="flex items-center justify-center w-8 h-8 text-gray-400 group-hover:text-brand-500 
-    group-hover:bg-brand-50 dark:group-hover:bg-brand-500/10 rounded-full transition-all"
-    >
+    <div className="flex items-center justify-center w-8 h-8 text-gray-400 group-hover:text-brand-500 group-hover:bg-brand-50 dark:group-hover:bg-brand-500/10 rounded-full transition-all">
       <HiOutlinePencil className="size-4" />
     </div>
   );
@@ -41,6 +38,7 @@ export default function BusinessAddressCard({
   refresh: () => void;
   setAlert: (alert: any) => void;
 }) {
+  const { t } = useTranslation("business");
   const { canManageSettings } = usePermissions();
   const canEdit = canManageSettings;
 
@@ -50,8 +48,6 @@ export default function BusinessAddressCard({
 
   const [loading, setLoading] = useState(false);
 
-  // --- State Management ---
-  // Ensure phone handles the object structure, providing defaults if missing
   const [formData, setFormData] = useState({
     address: { ...business.address },
     phone: (business.phoneNumber as any) || { country: "US", number: "" },
@@ -59,7 +55,6 @@ export default function BusinessAddressCard({
     socialLinks: { ...business.socialLinks },
   });
 
-  // Sync state with prop updates
   useEffect(() => {
     setFormData({
       address: { ...business.address },
@@ -75,16 +70,17 @@ export default function BusinessAddressCard({
       await businessApi.updateBusiness(business._id, data);
       setAlert({
         type: "success",
-        title: "Updated Successfully",
-        message: "Registry details synchronized.",
+        title: t("messages.SETTINGS_SAVED"),
+        message: t("messages.REGISTRY_UPDATED"),
       });
       refresh();
       modal.closeModal();
     } catch (error: any) {
+      const errorCode = error.message;
       setAlert({
         type: "error",
-        title: "Update Failed",
-        message: error.message,
+        title: t("errors.UPDATE_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -94,19 +90,17 @@ export default function BusinessAddressCard({
   return (
     <div className="p-5 border border-gray-200 rounded-2xl bg-white dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 text-start">
       <h4 className="mb-6 text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-        Location & Connectivity
+        {t("settings.general.cards.address_title")}
       </h4>
 
       <div className="flex flex-col gap-4">
-        {/* --- SECTION 1: PHYSICAL ADDRESS --- */}
+        {/* --- PHYSICAL ADDRESS --- */}
         <div
           onClick={canEdit ? addressModal.openModal : undefined}
-          className={`group flex justify-between items-start p-4 rounded-xl border border-transparent bg-gray-50/50 dark:bg-white/[0.02] transition-all
-            ${canEdit ? "cursor-pointer hover:border-brand-500 hover:shadow-sm hover:bg-gray-50 dark:hover:bg-white/[0.03]" : ""}
-          `}
+          className={`group flex justify-between items-start p-4 rounded-xl border border-transparent bg-gray-50/50 dark:bg-white/[0.02] transition-all ${canEdit ? "cursor-pointer hover:border-brand-500  hover:bg-gray-50 dark:hover:bg-white/[0.03]" : ""}`}
         >
           <div className="flex gap-4">
-            <div className="flex items-center justify-center w-12 h-12 bg-brand-50/50 text-brand-500 rounded-xl dark:bg-brand-500/10 flex-shrink-0 shadow-sm border border-brand-100 dark:border-brand-500/20">
+            <div className="flex items-center justify-center w-12 h-12 bg-brand-50/50 text-brand-500 rounded-xl dark:bg-brand-500/10 flex-shrink-0  border border-brand-100 dark:border-brand-500/20">
               <HiOutlineLocationMarker className="size-6" />
             </div>
             <div>
@@ -118,52 +112,48 @@ export default function BusinessAddressCard({
                 {business.address?.zipCode}
               </p>
               <p className="text-[10px] font-semibold text-gray-400 mt-1 uppercase tracking-widest">
-                {business.address?.country || "International Registry"}
+                {business.address?.country || "International"}
               </p>
             </div>
           </div>
           {canEdit && <SectionEditButton />}
         </div>
 
-        {/* --- SECTION 2: TELECOMMUNICATIONS --- */}
+        {/* --- TELECOMMUNICATIONS --- */}
         <div
           onClick={canEdit ? contactModal.openModal : undefined}
-          className={`group flex justify-between items-start p-4 rounded-xl border border-transparent bg-gray-50/50 dark:bg-white/[0.02] transition-all
-            ${canEdit ? "cursor-pointer hover:border-brand-500 hover:shadow-sm hover:bg-gray-50 dark:hover:bg-white/[0.03]" : ""}
-          `}
+          className={`group flex justify-between items-start p-4 rounded-xl border border-transparent bg-gray-50/50 dark:bg-white/[0.02] transition-all ${canEdit ? "cursor-pointer hover:border-brand-500  hover:bg-gray-50 dark:hover:bg-white/[0.03]" : ""}`}
         >
           <div className="flex gap-4">
-            <div className="flex items-center justify-center w-12 h-12 bg-success-50/50 text-success-600 rounded-xl dark:bg-success-500/10 flex-shrink-0 shadow-sm border border-success-100 dark:border-success-500/20">
+            <div className="flex items-center justify-center w-12 h-12 bg-success-50/50 text-success-600 rounded-xl dark:bg-success-500/10 flex-shrink-0  border border-success-100 dark:border-success-500/20">
               <HiOutlinePhone className="size-6" />
             </div>
             <div>
               <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">
-                Official Contact
+                {t("settings.general.cards.official_contact")}
               </span>
               <p className="text-sm font-semibold text-gray-800 dark:text-white">
-                {/* Access the .number property of the phone object */}
-                {(business.phoneNumber as any)?.number || "No phone connected"}
+                {(business.phoneNumber as any)?.number ||
+                  t("settings.general.cards.no_phone")}
               </p>
             </div>
           </div>
           {canEdit && <SectionEditButton />}
         </div>
 
-        {/* --- SECTION 3: DIGITAL FOOTPRINT --- */}
+        {/* --- DIGITAL FOOTPRINT --- */}
         <div
           onClick={canEdit ? socialModal.openModal : undefined}
-          className={`group flex flex-col gap-4 p-4 rounded-xl border border-transparent bg-gray-50/50 dark:bg-white/[0.02] transition-all
-            ${canEdit ? "cursor-pointer hover:border-brand-500 hover:shadow-sm hover:bg-gray-50 dark:hover:bg-white/[0.03]" : ""}
-          `}
+          className={`group flex flex-col gap-4 p-4 rounded-xl border border-transparent bg-gray-50/50 dark:bg-white/[0.02] transition-all ${canEdit ? "cursor-pointer hover:border-brand-500  hover:bg-gray-50 dark:hover:bg-white/[0.03]" : ""}`}
         >
           <div className="flex justify-between items-start w-full">
             <div className="flex gap-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-blue-50/50 text-blue-600 rounded-xl dark:bg-blue-500/10 flex-shrink-0 shadow-sm border border-blue-100 dark:border-blue-500/20">
+              <div className="flex items-center justify-center w-12 h-12 bg-blue-50/50 text-blue-600 rounded-xl dark:bg-blue-500/10 flex-shrink-0  border border-blue-100 dark:border-blue-500/20">
                 <HiOutlineGlobeAlt className="size-6" />
               </div>
               <div>
                 <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">
-                  Online Presence
+                  {t("settings.general.cards.online_presence")}
                 </span>
                 {business.website ? (
                   <a
@@ -181,14 +171,13 @@ export default function BusinessAddressCard({
                   </a>
                 ) : (
                   <p className="text-sm text-gray-400 italic">
-                    No website configured
+                    {t("settings.general.cards.no_website")}
                   </p>
                 )}
               </div>
             </div>
             {canEdit && <SectionEditButton />}
           </div>
-
           <div className="flex flex-wrap gap-3 pl-[64px]">
             {business.socialLinks?.facebook && (
               <SocialIcon
@@ -216,7 +205,6 @@ export default function BusinessAddressCard({
       </div>
 
       {/* --- MODAL SUITE --- */}
-      {/* 1. Address Modal */}
       <Modal
         isOpen={addressModal.isOpen}
         onClose={addressModal.closeModal}
@@ -231,11 +219,11 @@ export default function BusinessAddressCard({
             className="p-6 bg-white dark:bg-gray-900 rounded-3xl text-start"
           >
             <h4 className="mb-6 text-xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-              Update Registry Location
+              {t("settings.general.cards.address_update_title")}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <Label>Street Address</Label>
+                <Label>{t("create.form.address_label")}</Label>
                 <Input
                   value={formData.address?.street}
                   onChange={(e) =>
@@ -247,7 +235,7 @@ export default function BusinessAddressCard({
                 />
               </div>
               <div>
-                <Label>City</Label>
+                <Label>{t("create.form.city_label")}</Label>
                 <Input
                   value={formData.address?.city}
                   onChange={(e) =>
@@ -259,7 +247,7 @@ export default function BusinessAddressCard({
                 />
               </div>
               <div>
-                <Label>State / Province</Label>
+                <Label>{t("create.form.state_label")}</Label>
                 <Input
                   value={formData.address?.state}
                   onChange={(e) =>
@@ -271,7 +259,7 @@ export default function BusinessAddressCard({
                 />
               </div>
               <div>
-                <Label>Postal Code / ZIP</Label>
+                <Label>{t("create.form.zip_label")}</Label>
                 <Input
                   value={formData.address?.zipCode}
                   onChange={(e) =>
@@ -282,9 +270,8 @@ export default function BusinessAddressCard({
                   }
                 />
               </div>
-
               <div>
-                <Label>Country</Label>
+                <Label>{t("create.form.country_label")}</Label>
                 <CountryInput
                   value={formData.address?.country || ""}
                   onChange={(val) =>
@@ -293,7 +280,7 @@ export default function BusinessAddressCard({
                       address: { ...formData.address, country: val },
                     })
                   }
-                  placeholder="Search country registry..."
+                  placeholder={t("create.form.country_label")}
                 />
               </div>
             </div>
@@ -304,21 +291,22 @@ export default function BusinessAddressCard({
                 onClick={addressModal.closeModal}
                 className="text-[10px] font-semibold uppercase"
               >
-                Cancel
+                {t("settings.general.form.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
                 className="text-[10px] font-semibold uppercase"
               >
-                {loading ? "Saving..." : "Save Address"}
+                {loading
+                  ? t("settings.general.form.saving")
+                  : t("settings.general.form.save_address")}
               </Button>
             </div>
           </form>
         </div>
       </Modal>
 
-      {/* 2. Contact Modal */}
       <Modal
         isOpen={contactModal.isOpen}
         onClose={contactModal.closeModal}
@@ -332,19 +320,15 @@ export default function BusinessAddressCard({
             }}
           >
             <h4 className="mb-6 text-xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-              Update Registry Contact
+              {t("settings.general.cards.contact_update_title")}
             </h4>
-
-            <Label>Official Phone Number</Label>
-
-            {/* UPDATED: Uses PhoneInput component */}
+            <Label>{t("settings.general.form.phone_label")}</Label>
             <PhoneInput
               country={formData.phone.country}
               value={formData.phone.number}
               onChange={(data) => setFormData({ ...formData, phone: data })}
-              placeholder="Phone number"
+              placeholder={t("create.form.phone_placeholder")}
             />
-
             <div className="flex justify-end gap-3 mt-8">
               <Button
                 type="button"
@@ -352,20 +336,22 @@ export default function BusinessAddressCard({
                 onClick={contactModal.closeModal}
                 className="text-[10px] font-semibold uppercase"
               >
-                Cancel
+                {t("settings.general.form.cancel")}
               </Button>
               <Button
+                type="submit"
                 disabled={loading}
                 className="text-[10px] font-semibold uppercase"
               >
-                {loading ? "Saving..." : "Save Contact"}
+                {loading
+                  ? t("settings.general.form.saving")
+                  : t("settings.general.form.save_contact")}
               </Button>
             </div>
           </form>
         </div>
       </Modal>
 
-      {/* 3. Socials Modal */}
       <Modal
         isOpen={socialModal.isOpen}
         onClose={socialModal.closeModal}
@@ -384,12 +370,12 @@ export default function BusinessAddressCard({
               );
             }}
           >
-            <h4 className="my-4 text-md  font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-              Update Digital Connectivity
+            <h4 className="my-4 text-md font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+              {t("settings.general.cards.digital_update_title")}
             </h4>
             <div className="space-y-4">
               <div>
-                <Label>Website URL</Label>
+                <Label>{t("settings.general.form.website_label")}</Label>
                 <Input
                   value={formData.website}
                   onChange={(e) =>
@@ -399,7 +385,7 @@ export default function BusinessAddressCard({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-100 dark:border-white/5">
                 <div>
-                  <Label>Facebook</Label>
+                  <Label>{t("settings.general.form.social_facebook")}</Label>
                   <Input
                     value={formData.socialLinks?.facebook}
                     onChange={(e) =>
@@ -414,7 +400,7 @@ export default function BusinessAddressCard({
                   />
                 </div>
                 <div>
-                  <Label>Twitter / X</Label>
+                  <Label>{t("settings.general.form.social_twitter")}</Label>
                   <Input
                     value={formData.socialLinks?.twitter}
                     onChange={(e) =>
@@ -429,7 +415,7 @@ export default function BusinessAddressCard({
                   />
                 </div>
                 <div>
-                  <Label>LinkedIn</Label>
+                  <Label>{t("settings.general.form.social_linkedin")}</Label>
                   <Input
                     value={formData.socialLinks?.linkedin}
                     onChange={(e) =>
@@ -444,7 +430,7 @@ export default function BusinessAddressCard({
                   />
                 </div>
                 <div>
-                  <Label>Instagram</Label>
+                  <Label>{t("settings.general.form.social_instagram")}</Label>
                   <Input
                     value={formData.socialLinks?.instagram}
                     onChange={(e) =>
@@ -467,14 +453,16 @@ export default function BusinessAddressCard({
                 onClick={socialModal.closeModal}
                 className="text-[10px] font-semibold uppercase"
               >
-                Cancel
+                {t("settings.general.form.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
                 className="text-[10px] font-semibold uppercase"
               >
-                {loading ? "Saving..." : "Save Registry"}
+                {loading
+                  ? t("settings.general.form.saving")
+                  : t("settings.general.form.save_registry")}
               </Button>
             </div>
           </form>

@@ -1,0 +1,70 @@
+{
+  "meta_title": "Dashboard",
+  "meta_desc": "Business Intelligence und Performance-Übersicht",
+  "header": {
+    "title": "Dashboard",
+    "subtitle": "Übersicht Ihrer Unternehmensleistung",
+    "custom_range": "Benutzerdefiniert",
+    "select_range": "Zeitraum auswählen",
+    "presets": {
+      "today": "Heute",
+      "last3days": "Letzte 3 Tage",
+      "this_week": "Diese Woche",
+      "this_month": "Dieser Monat",
+      "this_trimester": "Dieses Quartal",
+      "this_semester": "Dieses Halbjahr",
+      "this_year": "Dieses Jahr"
+    }
+  },
+  "metrics": {
+    "revenue": {
+      "title": "Gesamtumsatz",
+      "desc": "Gesamter fakturierter Betrag"
+    },
+    "profit": {
+      "title": "Bruttogewinn",
+      "desc": "Umsatz abzüglich Kosten"
+    },
+    "invoices": {
+      "title": "Rechnungen",
+      "desc": "Anzahl versendeter Rechnungen"
+    },
+    "clients": {
+      "title": "Neukunden",
+      "desc": "Gewonnene Kunden"
+    },
+    "comparison": "vs. {{start}} - {{end}}"
+  },
+  "charts": {
+    "revenue": {
+      "title": "Finanzielle Performance",
+      "subtitle": "Umsatz vs. Nettogewinn • {{range}}",
+      "series_revenue": "Gesamtumsatz",
+      "series_profit": "Nettogewinn",
+      "no_data_title": "Keine Transaktionen",
+      "no_data_desc": "Kein Umsatz im ausgewählten Zeitraum erfasst"
+    },
+    "products": {
+      "title": "Meistverkaufte Produkte",
+      "subtitle": "Umsatz • {{range}}",
+      "total_sales": "Gesamtverkäufe",
+      "no_data_title": "Keine Daten",
+      "no_data_desc": "Keine Produktverkäufe in diesem Zeitraum gefunden."
+    },
+    "delivery": {
+      "title": "Logistik",
+      "subtitle": "Lieferperformance • {{range}}",
+      "empty_title": "Keine Sendungen",
+      "empty_desc": "Keine Lieferdaten für diesen Zeitraum gefunden."
+    },
+    "profit": {
+      "title": "Rentabilität der Top-Kunden",
+      "subtitle": "Nettogewinn vs. Kosten • {{range}}"
+    }
+  },
+  "errors": {
+    "access_restricted": "Dashboard-Zugriff eingeschränkt",
+    "access_desc": "Sie verfügen nicht über die erforderlichen Berechtigungen, um das Dashboard für die Finanzleistung einzusehen.",
+    "return": "Zurück zum Dashboard"
+  }
+}

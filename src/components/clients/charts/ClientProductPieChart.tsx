@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
 import { HiChevronDown, HiOutlineShoppingBag } from "react-icons/hi2";
@@ -14,10 +15,11 @@ interface ClientProductPieChartProps {
   currency?: string;
 }
 
-export default function ClientProductPieChart({
+export default function ClientProductPieChart({ 
   clientId,
   currency = "USD",
 }: ClientProductPieChartProps) {
+  const { t } = useTranslation("client_details"); // <--- Load namespace
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -65,7 +67,7 @@ export default function ClientProductPieChart({
   const hasData = useMemo(() => productData.length > 0, [productData]);
 
   const getYearLabel = () => {
-    if (selectedYear === -1) return "All Time";
+    if (selectedYear === -1) return t("analytics.products.year_all");
     return selectedYear.toString();
   };
 
@@ -91,7 +93,7 @@ export default function ClientProductPieChart({
             show: true,
             total: {
               show: true,
-              label: "Total",
+              label: t("analytics.products.legend_total"),
               fontSize: "12px",
               fontWeight: 600,
               color: isDark ? "#FFFFFF" : "#6B7280",
@@ -139,15 +141,15 @@ export default function ClientProductPieChart({
 
   return (
     <div
-      className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm flex flex-col h-full p-6"
+      className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]  flex flex-col h-full p-6"
     >
       <div className="flex justify-between items-start mb-6">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
-            Top Products
+            {t("analytics.products.title")}
           </h3>
           <p className="mt-1 text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-            Revenue by Item ({getYearLabel()})
+            {t("analytics.products.subtitle", { year: getYearLabel() })}
           </p>
         </div>
 
@@ -177,7 +179,7 @@ export default function ClientProductPieChart({
                   : "text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5"
               }`}
             >
-              All Time
+              {t("analytics.products.year_all")}
             </DropdownItem>
             <div className="border-t border-gray-100 dark:border-white/10 my-1"></div>
             {yearOptions.map((year) => (
@@ -202,17 +204,17 @@ export default function ClientProductPieChart({
 
       <div className="relative flex-1 flex items-center justify-center flex-col min-h-[280px]">
         {loading ? (
-          <LoadingState message="Calculating top items..." minHeight="full" />
+          <LoadingState message={t("analytics.products.loading")} minHeight="full" />
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
               <HiOutlineShoppingBag className="size-6 text-gray-400 dark:text-gray-500" />
             </div>
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-              No Purchases
+              {t("analytics.products.no_data_title")}
             </h4>
             <p className="text-[10px] text-gray-500 dark:text-gray-400 max-w-xs mt-1">
-              Client hasn't bought any products yet.
+              {t("analytics.products.no_data_desc")}
             </p>
           </div>
         ) : (

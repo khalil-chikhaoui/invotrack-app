@@ -37,7 +37,7 @@ export default function ConfirmModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-md m-4">
-      <div className="p-6 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl">
+      <div className="p-6 bg-white dark:bg-gray-900 rounded-3xl ">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           {title}
         </h3>

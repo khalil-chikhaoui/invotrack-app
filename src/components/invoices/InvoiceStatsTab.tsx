@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlinePresentationChartBar,
   HiOutlineReceiptPercent,
@@ -18,6 +19,7 @@ export default function InvoiceStatsTab({
   invoice,
   business,
 }: InvoiceStatsTabProps) {
+  const { t } = useTranslation("invoice_details");
 
   const stats = useMemo(() => {
     const totalCost = invoice.items.reduce(
@@ -41,38 +43,41 @@ export default function InvoiceStatsTab({
 
   const cards = [
     {
-      label: "Net Profit",
+      label: t("stats.profit"),
       value: formatMoney(
         stats.profit,
         business.currency,
         business.currencyFormat,
       ),
-      description: "Revenue minus cost of goods",
+      description: t("stats.profit_desc"),
       icon: <HiOutlineScale className="size-6 text-emerald-500" />,
       color: "bg-emerald-50 dark:bg-emerald-500/10",
     },
     {
-      label: "Profit Margin",
+      label: t("stats.margin"),
       value: `${stats.margin.toFixed(1)}%`,
-      description: "Percentage of revenue kept",
+      description: t("stats.margin_desc"),
       icon: <HiOutlineReceiptPercent className="size-6 text-brand-500" />,
       color: "bg-brand-50 dark:bg-brand-500/10",
     },
     {
-      label: "Total Cost (COGS)",
+      label: t("stats.cost"),
       value: formatMoney(
         stats.totalCost,
         business.currency,
         business.currencyFormat,
       ),
-      description: "Total expense for items",
+      description: t("stats.cost_desc"),
       icon: <HiOutlinePresentationChartBar className="size-6 text-amber-500" />,
       color: "bg-amber-50 dark:bg-amber-500/10",
     },
     {
-      label: "Payment Velocity",
-      value: stats.daysToPay !== null ? `${stats.daysToPay} Days` : "---",
-      description: "Time from issue to settlement",
+      label: t("stats.velocity"),
+      value:
+        stats.daysToPay !== null
+          ? `${stats.daysToPay} ${t("stats.days")}`
+          : "---",
+      description: t("stats.velocity_desc"),
       icon: <HiOutlineClock className="size-6 text-purple-500" />,
       color: "bg-purple-50 dark:bg-purple-500/10",
     },
@@ -84,7 +89,7 @@ export default function InvoiceStatsTab({
         {cards.map((card, idx) => (
           <div
             key={idx}
-            className="p-6 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl shadow-sm hover:shadow-md transition-shadow"
+            className="p-6 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xltransition-shadow"
           >
             <div
               className={`w-12 h-12 ${card.color} rounded-xl flex items-center justify-center mb-4`}

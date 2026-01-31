@@ -1,0 +1,112 @@
+{
+  "list": {
+    "title": "Kunden",
+    "meta_desc": "Verwalten Sie Ihre Kunden.",
+    "breadcrumb": "Kundenverzeichnis",
+    "loading": "Verzeichnis wird synchronisiert...",
+    "add_button": "Kunde hinzufügen",
+    "no_email": "— Keine E-Mail",
+    "open_inv": "Offene Rech.",
+    "lifetime_paid": "Gesamtumsatz",
+    "empty": {
+      "title": "Keine Kunden gefunden",
+      "desc": "Passen Sie die Filter an oder fügen Sie einen neuen Kunden hinzu."
+    },
+    "columns": {
+      "info": "Kunden-Info",
+      "contact": "Kontaktdaten",
+      "outstanding": "Ausstehend",
+      "revenue": "Gesamtumsatz"
+    }
+  },
+  "filters": {
+    "search_label": "Suche",
+    "search_placeholder": "Kunden suchen...",
+    "status_label": "Status",
+    "type_label": "Kundentyp",
+    "sort_label": "Sortieren nach",
+    "modal_title": "Kunden filtern",
+    "modal_desc": "Verzeichnisliste verfeinern",
+    "reset": "Zurücksetzen",
+    "apply": "Ergebnisse anzeigen",
+    "status": {
+      "active": "Aktiv",
+      "archived": "Archiviert"
+    },
+    "type": {
+      "all": "Alle Typen",
+      "business": "Unternehmen",
+      "individual": "Privatperson"
+    },
+    "sort": {
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)",
+      "newest": "Neueste zuerst",
+      "oldest": "Älteste zuerst"
+    }
+  },
+  "form": {
+    "title": "Neues Kundenregister",
+    "subtitle_1": "Rechtliche Identität und Klassifizierung.",
+    "subtitle_2": "Digitale Kommunikationskanäle.",
+    "subtitle_3": "Rechnungs- und Versandkoordinaten.",
+    "steps": {
+      "identity": "Identität",
+      "contact": "Kontakt",
+      "location": "Standort"
+    },
+    "fields": {
+      "name": "Kundenname",
+      "classification": "Klassifizierung",
+      "tax_id": "Steuernummer / USt-ID",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "website": "Website",
+      "street": "Straße & Hausnummer",
+      "city": "Stadt",
+      "state": "Bundesland",
+      "zip": "Postleitzahl",
+      "country": "Land / Region"
+    },
+    "placeholders": {
+      "name": "z.B. Acme GmbH",
+      "tax_id": "Optionale Reg.-Nr.",
+      "email": "kontakt@kunde.de",
+      "phone": "+49 30 1234567",
+      "website": "https://www.kunden-website.de",
+      "street": "Musterstraße 123",
+      "city": "Stadt",
+      "state": "Bundesland",
+      "zip": "PLZ"
+    },
+    "options": {
+      "individual": "Privatperson",
+      "business": "Unternehmen / Organisation"
+    },
+    "actions": {
+      "next": "Nächster Schritt",
+      "submit": "Register erstellen",
+      "processing": "Wird verarbeitet..."
+    },
+    "errors": {
+      "name_required": "Kundenname ist erforderlich."
+    }
+  },
+  "messages": {
+    "CLIENT_CREATED": "Erfolgreich",
+    "CLIENT_CREATED_DESC": "Kundenregister erfolgreich erstellt.",
+    "CLIENT_RESTORED": "Kundeneintrag erfolgreich reaktiviert.",
+    "CLIENT_DELETED": "Kundeneintrag erfolgreich gelöscht.",
+    "CLIENT_ARCHIVED_HISTORY": "Kunde aufgrund bestehender Transaktionen archiviert.",
+    "LOGO_UPLOADED": "Kundenlogo erfolgreich aktualisiert.",
+    "LOGO_REMOVED": "Kundenlogo entfernt."
+  },
+  "errors": {
+    "CLIENT_NOT_FOUND": "Kundendatensatz konnte nicht gefunden werden.",
+    "CLIENT_EXISTS": "Ein Kunde mit diesem Namen existiert bereits.",
+    "UNAUTHORIZED_ACTION": "Sie sind nicht berechtigt, diese Aktion durchzuführen.",
+    "UNAUTHORIZED_ACCESS": "Sie sind nicht berechtigt, diesen Kunden anzuzeigen.",
+    "UPLOAD_NO_FILE": "Bitte laden Sie eine gültige Bilddatei hoch.",
+    "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten."
+  }
+}

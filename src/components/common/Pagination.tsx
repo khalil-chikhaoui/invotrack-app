@@ -62,11 +62,11 @@ export default function Pagination({
         {/* Left: Info Text (Hidden on mobile to declutter, shown on sm+) */}
         <div className="hidden sm:block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
           Showing Page{" "}
-          <span className="font-semibold text-gray-900 dark:text-white">
+          <span className="font-bold text-gray-900 dark:text-white">
             {currentPage}
           </span>{" "}
           of{" "}
-          <span className="font-semibold text-gray-900 dark:text-white">
+          <span className="font-bold text-gray-900 dark:text-white">
             {totalPages}
           </span>
         </div>
@@ -109,7 +109,7 @@ export default function Pagination({
             <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">
               Page
             </span>
-            <span className="text-sm font-semibold text-gray-800 dark:text-gray-100 font-mono">
+            <span className="text-sm font-bold text-gray-800 dark:text-gray-100 font-mono">
               {currentPage} / {totalPages}
             </span>
           </div>
@@ -128,7 +128,7 @@ export default function Pagination({
                 }
                 disabled={typeof pageNum !== "number"}
                 className={`
-                  relative w-7 h-7 flex items-center justify-center rounded-full text-[10px] font-semibold transition-all duration-200
+                  relative w-7 h-7 flex items-center justify-center rounded-full text-[10px] font-bold transition-all duration-200
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-500
                   ${
                     typeof pageNum !== "number"

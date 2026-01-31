@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { invoiceApi, InvoiceStatusStats } from "../../../apis/invoices";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { useTheme } from "../../../context/ThemeContext";
-import LoadingState from "../../common/LoadingState"; // Integrated Loader
+import LoadingState from "../../common/LoadingState"; 
 
 interface ClientInvoiceStatusChartProps {
   clientId: string;
@@ -13,12 +14,13 @@ interface ClientInvoiceStatusChartProps {
 export default function ClientInvoiceStatusChart({
   clientId,
 }: ClientInvoiceStatusChartProps) {
+  const { t } = useTranslation("client_details"); // <--- Load namespace
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [stats, setStats] = useState<InvoiceStatusStats | null>(null);
   const [loading, setLoading] = useState(true);
-
+ 
   const LIGHT_COLORS = ["#10B981", "#6366F1", "#EF4444"];
   const DARK_COLORS = ["#34D399", "#818CF8", "#F87171"];
 
@@ -52,22 +54,26 @@ export default function ClientInvoiceStatusChart({
     ];
   }, [stats, total]);
 
-  const labels = ["Paid", "Open", "Cancelled"];
+  const labels = [
+    t("analytics.status.legend.paid"), 
+    t("analytics.status.legend.open"), 
+    t("analytics.status.legend.cancelled")
+  ];
 
   if (!loading && total === 0) {
     return (
       <div
         className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-5 dark:border-white/[0.05] 
-      dark:bg-white/[0.03] shadow-sm min-w-0 items-center justify-center text-center"
+      dark:bg-white/[0.03] min-w-0 items-center justify-center text-center"
       >
         <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
           <HiOutlineDocumentText className="size-6 text-gray-400 dark:text-gray-500" />
         </div>
         <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-          No Invoices
+          {t("analytics.status.no_data_title")}
         </h4>
         <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
-          No invoice history found.
+          {t("analytics.status.no_data_desc")}
         </p>
       </div>
     );
@@ -107,7 +113,7 @@ export default function ClientInvoiceStatusChart({
           },
           total: {
             show: true,
-            label: "Total",
+            label: t("analytics.status.legend.total"),
             fontSize: "11px",
             fontWeight: "600",
             color: isDark ? "#9CA3AF" : "#6B7280",
@@ -136,19 +142,19 @@ export default function ClientInvoiceStatusChart({
   };
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm flex flex-col h-full p-6">
+    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]flex flex-col h-full p-6">
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
-          Invoice Status
+          {t("analytics.status.title")}
         </h3>
         <p className="mt-1 text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-          Ledger Distribution
+          {t("analytics.status.subtitle")}
         </p>
       </div>
 
       <div className="relative flex-1 flex items-center justify-center flex-col min-h-[280px]">
         {loading ? (
-          <LoadingState message="Syncing..." minHeight="full" />
+          <LoadingState message={t("analytics.status.loading")} minHeight="full" />
         ) : (
           <div className="absolute inset-0 w-full h-full flex items-center justify-center">
             <Chart

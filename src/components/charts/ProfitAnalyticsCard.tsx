@@ -6,7 +6,7 @@ import { formatMoney } from "../../hooks/formatMoney";
 import { useTheme } from "../../context/ThemeContext";
 import LoadingState from "../common/LoadingState";
 
-export interface ProfitStat {
+export interface ProfitStat { 
   label: string;
   revenue?: number;
   cost: number;
@@ -97,7 +97,7 @@ export default function ProfitAnalyticsCard({
   };
 
   return (
-    <div className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-5 dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm min-w-0">
+    <div className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-5 dark:border-white/[0.05] dark:bg-white/[0.03]  min-w-0">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">

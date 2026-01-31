@@ -1,16 +1,27 @@
 {
+  "auth_guards": {
+    "establishing_session": "Sitzung wird aufgebaut...",
+    "syncing_session": "Sitzung wird synchronisiert...",
+    "verifying_access": "Unternehmenszugriff wird geprüft..."
+  },
+  "languages": {
+    "label": "Sprache",
+    "en": "🇺🇸 English (US)",
+    "fr": "🇫🇷 Français",
+    "de": "🇩🇪 Deutsch"
+  },
   "sidebar": {
     "nav": {
-      "dashboard": "Übersicht",
+      "dashboard": "Dashboard",
       "clients": "Kunden",
       "items": "Artikel",
       "invoices": "Rechnungen",
       "calendar": "Kalender",
-      "business_settings": "Einstellungen",
-      "team_members": "Team"
+      "business_settings": "Unternehmenseinstellungen",
+      "team_members": "Teammitglieder"
     },
     "sub": {
-      "general": "Allgemein",
+      "general": "Allgemeine Einstellungen",
       "design": "Rechnungsdesign",
       "currency": "Währung",
       "tax": "Steuern & Rabatte",
@@ -19,7 +30,7 @@
     },
     "workspace": {
       "label": "Arbeitsbereich",
-      "select": "Unternehmen wählen"
+      "select": "Unternehmen auswählen"
     },
     "actions": {
       "sign_out": "Abmelden"
@@ -28,25 +39,44 @@
       "pro": "Pro"
     }
   },
-  "languages": {
-    "label": "Language"
-  },
-  "errors": {
-    "required": "This field is required",
-    "generic": "An error occurred"
-  },
   "header": {
-    "search_placeholder": "Artikel, Kunden oder Rechnung suchen...",
+    "search_placeholder": "Artikel, Kunde oder Rechnung suchen...",
     "categories": {
       "clients": "Kunden",
       "inventory": "Inventar",
       "invoices": "Rechnungen"
     },
-    "no_matches": "Keine Einträge gefunden."
+    "no_matches": "Keine Treffer in den Datensätzen gefunden."
   },
-  "auth_guards": {
-    "establishing_session": "Sitzung wird aufgebaut...",
-    "syncing_session": "Sitzung wird synchronisiert...",
-    "verifying_access": "Zugriff wird überprüft..."
+  "currency_select": {
+    "placeholder": "Währung wählen",
+    "search_placeholder": "Suchen...",
+    "no_results": "Keine Währung gefunden."
+  },
+  "charts": {
+    "loading": "Daten werden abgerufen...",
+    "no_data_title": "Keine Daten gefunden",
+    "no_data_desc": "Keine Finanzdaten für diesen Zeitraum verfügbar.",
+    "custom_date": "Benutzerdefiniert",
+    "revenue": "Umsatz",
+    "tabs": {
+      "monthly": "Monatlich",
+      "quarterly": "Quartalsweise",
+      "annually": "Jährlich"
+    }
+  },
+  "status": {
+    "open": "Offen",
+    "paid": "Bezahlt",
+    "cancelled": "Storniert",
+    "pending": "Ausstehend",
+    "shipped": "Versandt",
+    "delivered": "Geliefert",
+    "returned": "Retoure" 
+  },
+  "actions": {
+    "cancel": "Abbrechen",
+    "back": "Zurück",
+    "return_dashboard": "Zurück zum Dashboard"
   }
 }

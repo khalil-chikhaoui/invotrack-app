@@ -1,0 +1,200 @@
+{
+  "meta_title": "{{name}} | Détails",
+  "tabs": {
+    "analytics": "Analyses",
+    "profile": "Aperçu du profil",
+    "history": "Historique des factures"
+  },
+  "header": {
+    "back": "Retour",
+    "directory": "Répertoire des clients",
+    "restore": "Restaurer le compte"
+  },
+  "identity_card": {
+    "type_business": "Entreprise",
+    "type_individual": "Particulier",
+    "archived": "Archivé",
+    "edit": "Modifier les détails",
+    "modals": {
+      "remove_logo_title": "Supprimer l'image du client ?",
+      "remove_logo_desc": "Cela supprimera définitivement le logo actuel pour ce client.",
+      "confirm_remove": "Supprimer l'image"
+    }
+  },
+  "profile_tab": {
+    "address_title": "Adresse enregistrée",
+    "edit_address": "Modifier l'adresse",
+    "labels": {
+      "street": "Rue",
+      "city_state": "Ville / État",
+      "zip": "Code postal",
+      "country": "Pays"
+    },
+    "lifecycle": {
+      "title": "Cycle de vie du compte",
+      "restore_title": "Restaurer l'accès client",
+      "restore_desc": "Réactivez ce client pour permettre de nouvelles factures et relevés.",
+      "archive_title": "Exécuter la suppression / l'archivage",
+      "archive_desc": "Le système archivera si un historique existe, sinon il sera supprimé définitivement.",
+      "btn_restore": "Restaurer le compte",
+      "btn_archive": "Supprimer / Archiver"
+    }
+  },
+  "history_tab": {
+    "title": "Grand livre des transactions",
+    "new_invoice": "Nouvelle facture",
+    "empty_cancelled": "Aucun enregistrement annulé trouvé",
+    "empty_generic": "Aucun historique de transaction ne correspond aux critères"
+  },
+  "modals": {
+    "identity": {
+      "title": "Mettre à jour l'identité",
+      "subtitle": "Informations de profil de base",
+      "fields": {
+        "name": "Nom du client",
+        "type": "Type",
+        "tax_id": "N° de TVA",
+        "email": "E-mail",
+        "phone": "Téléphone"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "save": "Enregistrer l'identité",
+        "saving": "Enregistrement..."
+      }
+    },
+    "address": {
+      "title": "Mettre à jour le registre de localisation",
+      "fields": {
+        "street": "Adresse (rue)",
+        "city": "Ville",
+        "state": "État / Province",
+        "zip": "Code postal",
+        "country": "Pays"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "save": "Enregistrer l'adresse",
+        "saving": "Enregistrement..."
+      }
+    },
+    "lifecycle": {
+      "restore_title": "Restaurer le compte ?",
+      "restore_desc": "Cela restaurera l'accès complet pour ce client.",
+      "confirm_restore": "Restaurer le client",
+      "archive_title": "Archiver le compte ?",
+      "archive_desc": "Cela retirera le client des listes actives.",
+      "confirm_archive": "Archiver le client"
+    },
+    "void": {
+      "title": "Annuler la facture ?",
+      "desc": "Annuler définitivement la facture {{number}} ? Le stock sera retourné à l'inventaire."
+    }
+  },
+  "messages": {
+    "STATUS_UPDATED": "Statut mis à jour.",
+    "CLIENT_RESTORED": "Client réactivé.",
+    "CLIENT_ARCHIVED": "Client archivé.",
+    "INVOICE_VOIDED": "Facture annulée.",
+    "LOGO_UPDATED": "Photo du client mise à jour avec succès.",
+    "LOGO_REMOVED": "Le logo du client a été effacé.",
+    "PROFILE_SAVED": "Profil client enregistré.",
+    "ADDRESS_UPDATED": "Détails de localisation mis à jour."
+  },
+  "errors": {
+    "PROFILE_LOAD_FAILED": "Erreur de profil",
+    "HISTORY_LOAD_FAILED": "Erreur d'historique",
+    "HISTORY_LOAD_DESC": "Impossible de charger l'historique des transactions.",
+    "UPDATE_FAILED": "Échec de la mise à jour",
+    "UPLOAD_FAILED": "Échec du téléchargement",
+    "REMOVAL_FAILED": "Échec de la suppression",
+    "RESTRICTED_ACCESS": "Accès restreint",
+    "RESTRICTED_DESC": "Vous n'avez pas l'autorisation de consulter les détails du client.",
+    "NOT_FOUND_TITLE": "Client introuvable",
+    "NOT_FOUND_DESC": "Le dossier client demandé est introuvable. Il peut avoir été archivé ou supprimé."
+  },
+  "loading": "Ouverture du dossier client...",
+  "analytics": {
+    "health": {
+      "loading": "Analyse des indicateurs de santé...",
+      "lifetime_title": "Revenu total",
+      "lifetime_desc": "Valeur totale des factures payées à ce jour.",
+      "balance_title": "Solde ouvert",
+      "balance_desc": "Montant impayé en attente de règlement.",
+      "balance_due": "Dû",
+      "score_title": "Probabilité de rétention",
+      "score_desc": "Probabilité de passer une autre commande.",
+      "ai_score": "Score IA",
+      "freq_title": "Cycle d'achat moyen",
+      "freq_average": "Moyenne",
+      "last_order": "Dernière commande :",
+      "days_ago": "il y a {{days}}j",
+      "days": "Jours",
+      "risk": {
+        "low": "Actif",
+        "medium": "À risque",
+        "high": "Perdu",
+        "new": "Nouveau"
+      }
+    },
+    "products": {
+      "title": "Top Produits",
+      "subtitle": "Revenu par article ({{year}})",
+      "loading": "Calcul des articles phares...",
+      "no_data_title": "Aucun achat",
+      "no_data_desc": "Le client n'a pas encore acheté de produits.",
+      "year_all": "Depuis le début",
+      "legend_total": "Total"
+    },
+    "status": {
+      "title": "Statut des factures",
+      "subtitle": "Distribution du grand livre",
+      "loading": "Synchronisation...",
+      "no_data_title": "Aucune facture",
+      "no_data_desc": "Aucun historique de facturation trouvé.",
+      "legend": {
+        "paid": "Payé",
+        "open": "Ouvert",
+        "cancelled": "Annulé",
+        "total": "Total"
+      }
+    },
+    "stats": {
+      "title": "Croissance client",
+      "subtitle": "Revenu & Volume de factures",
+      "secondary_label": "Factures"
+    },
+    "monthly": {
+      "title": "Ventes mensuelles",
+      "subtitle": "Revenu pour {{year}}",
+      "select_year": "Sélectionner l'année",
+      "loading": "Synchronisation des ventes...",
+      "no_data_title": "Aucune donnée disponible",
+      "no_data_desc": "Aucune vente enregistrée pour l'exercice fiscal {{year}}.",
+      "series_name": "Ventes",
+      "months": [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin",
+        "Juil",
+        "Août",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc"
+      ]
+    },
+    "aov": {
+      "title": "Tendance Panier Moyen",
+      "subtitle": "Revenu vs Taille de facture",
+      "loading": "Calcul des tendances...",
+      "series": {
+        "revenue": "Revenu total",
+        "aov": "Panier moyen"
+      }
+    }
+  }
+}

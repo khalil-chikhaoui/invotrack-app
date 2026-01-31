@@ -27,7 +27,7 @@ export default function ClientAnalyticsTab({
       <ClientHealthMetrics
         clientId={clientId}
         financialStats={stats}
-        business={business}
+        business={business} 
       />
 
       {/* 2. Product Pie & Invoice Status */}

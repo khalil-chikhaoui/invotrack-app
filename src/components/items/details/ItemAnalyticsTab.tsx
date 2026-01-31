@@ -18,7 +18,7 @@ interface ItemAnalyticsTabProps {
     currentStock: number;
     avgSalePrice: number;
     salesVelocity: number;
-  };
+  }; 
   business: BusinessData | null;
 }
  
@@ -27,9 +27,10 @@ export default function ItemAnalyticsTab({
   item,
   currency,
   refreshKey,
-  stats,
+  stats, 
   business,
 }: ItemAnalyticsTabProps) {
+  // Logic-only wrapper, pass translations down if charts need them, or handle inside charts
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
       {/* 1. Key Metrics Cards */}
@@ -78,7 +79,7 @@ export default function ItemAnalyticsTab({
         </div>
         <div className="hidden xl:flex h-full min-h-[350px] rounded-2xl border border-dashed border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.01] items-center justify-center">
           <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">
-            Stock Intelligence
+           TODO MORE :D 
           </span>
         </div>
       </div>

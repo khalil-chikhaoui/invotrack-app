@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineArrowLeft,
   HiOutlineArrowsRightLeft,
@@ -23,14 +24,16 @@ export default function ItemHeader({
   onOpenStock,
   onRestore,
 }: ItemHeaderProps) {
-  return (
+  const { t } = useTranslation("item_details");
+
+  return ( 
     <div className="flex items-center justify-between mb-6">
       <button
         onClick={handleSmartBack}
         className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" />
-        {canGoBack ? "Back" : "Inventory Registry"}
+        {canGoBack ? t("header.back") : t("header.directory")}
       </button>
 
       {/* Action Area */}
@@ -42,7 +45,7 @@ export default function ItemHeader({
             className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest border-amber-200 text-amber-600 hover:bg-amber-50 dark:border-amber-500/20 dark:text-amber-400 dark:hover:bg-amber-500/10"
             onClick={onRestore}
           >
-            <HiOutlineArrowPathRoundedSquare className="size-4" /> Restore Item
+            <HiOutlineArrowPathRoundedSquare className="size-4" /> {t("header.restore")}
           </Button>
         ) : item.itemType === "Product" ? (
           <Button
@@ -51,7 +54,7 @@ export default function ItemHeader({
             className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest border-brand-200 text-brand-600 hover:bg-brand-50 dark:border-brand-500/20 dark:text-brand-400 dark:hover:bg-brand-500/5"
             onClick={onOpenStock}
           >
-            <HiOutlineArrowsRightLeft className="size-4" /> Adjust Stock
+            <HiOutlineArrowsRightLeft className="size-4" /> {t("header.adjust_stock")}
           </Button>
         ) : null)}
     </div>

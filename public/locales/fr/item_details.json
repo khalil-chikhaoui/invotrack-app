@@ -1,0 +1,208 @@
+{
+  "meta_title": "{{name}} | Inventaire",
+  "meta_desc": "Détails de l'article",
+  "tabs": {
+    "analytics": "Analyses",
+    "general": "Détails de l'article",
+    "history": "Historique des factures"
+  },
+  "header": {
+    "back": "Retour",
+    "directory": "Registre d'inventaire",
+    "restore": "Restaurer l'article",
+    "adjust_stock": "Ajuster le stock"
+  },
+  "identity_card": {
+    "archived": "Archivé",
+    "edit": "Modifier les détails",
+    "sku": "SKU",
+    "type_product": "Produit",
+    "type_service": "Service",
+    "modals": {
+      "remove_logo_title": "Supprimer l'image de l'article ?",
+      "remove_logo_desc": "Supprimer définitivement l'atout visuel de cet article.",
+      "confirm_remove": "Supprimer l'image"
+    }
+  },
+  "general_tab": {
+    "specs_title": "Spécifications & Description",
+    "no_desc": "Aucune description détaillée fournie pour cet article.",
+    "labels": {
+      "unit_price": "Prix unitaire",
+      "sku": "Référence SKU",
+      "status": "Statut de l'inventaire"
+    },
+    "status": {
+      "service": "N/A (Service)",
+      "out_of_stock": "Rupture de stock",
+      "units": "unités"
+    },
+    "lifecycle": {
+      "title": "Cycle de vie de l'article",
+      "restore_title": "Restaurer la disponibilité",
+      "restore_desc": "La réactivation de cet article le rendra immédiatement disponible pour de nouvelles factures et ajustements de stock.",
+      "retire_title": "Retirer ou supprimer l'article",
+      "retire_desc": "Si cet article possède un historique de transactions, il sera archivé pour préserver les registres financiers. Sinon, il sera définitivement supprimé.",
+      "btn_restore": "Restaurer l'article",
+      "btn_archive": "Supprimer / Archiver"
+    }
+  },
+  "history_tab": {
+    "title": "Grand livre des transactions",
+    "empty_filter": "Aucune facture ne correspond aux filtres sélectionnés",
+    "empty_item": "Aucune facture trouvée contenant cet article"
+  },
+  "modals": {
+    "lifecycle": {
+      "restore_title": "Restaurer l'article ?",
+      "archive_title": "Supprimer ou archiver l'article ?",
+      "restore_desc": "Cela rendra l'article disponible pour de nouvelles factures et ajustements de stock.",
+      "archive_desc": "Si cet article a des transactions existantes, il sera archivé pour préserver l'historique. Sinon, il sera définitivement supprimé.",
+      "confirm_restore": "Confirmer la restauration",
+      "confirm_proceed": "Continuer"
+    },
+    "void": {
+      "title": "Annuler la facture ?",
+      "desc": "Annuler définitivement la facture {{number}} ? Le stock sera retourné."
+    }
+  },
+  "messages": {
+    "RESTORED": "Restauré",
+    "RESTORED_DESC": "L'article est maintenant actif.",
+    "ARCHIVED": "Archivé",
+    "DELETED": "Supprimé",
+    "DELETED_DESC": "Article définitivement supprimé.",
+    "SYNC_SUCCESS": "Synchronisation réussie",
+    "SYNC_DESC": "Transaction mise à jour.",
+    "VOIDED": "Annulé",
+    "VOIDED_DESC": "Enregistrement de facture annulé.",
+    "IMAGE_UPDATED": "Image mise à jour",
+    "IMAGE_UPDATED_DESC": "Visuels de l'article synchronisés.",
+    "ASSET_REMOVED": "Atout supprimé",
+    "ASSET_REMOVED_DESC": "Image de l'article effacée."
+  },
+  "errors": {
+    "PROFILE_LOAD": "Erreur de profil",
+    "HISTORY_LOAD": "Erreur d'historique",
+    "HISTORY_DESC": "Impossible de charger l'historique des transactions.",
+    "ACTION_FAILED": "L'action a échoué",
+    "UPDATE_FAILED": "Mise à jour échouée",
+    "UPLOAD_FAILED": "Téléchargement échoué",
+    "REMOVAL_FAILED": "Suppression échouée",
+    "RESTRICTED_ACCESS": "Accès restreint",
+    "RESTRICTED_DESC": "Vous n'avez pas l'autorisation de consulter les détails de l'inventaire.",
+    "NOT_FOUND_TITLE": "Article introuvable",
+    "NOT_FOUND_DESC": "Cet article d'inventaire n'existe pas ou a été définitivement supprimé."
+  },
+  "loading": "Récupération du dossier de l'article...",
+  "actions": {
+    "return": "Retourner",
+    "back": "Retour"
+  },
+  "analytics": {
+    "health": {
+      "loading": "Analyse des indicateurs de santé...",
+      "revenue_title": "Revenu total",
+      "revenue_subtitle": "Cumulé",
+      "sold_title": "Total vendu",
+      "sold_subtitle": "Volume",
+      "inventory_title": "Inventaire",
+      "inventory_subtitle": "En stock",
+      "inventory_low": "Bas",
+      "price_title": "Prix moyen",
+      "price_subtitle": "Valeur réalisée",
+      "velocity_title": "Vitesse",
+      "velocity_unit": "/jour",
+      "velocity_subtitle": "Derniers 30 jours"
+    },
+    "stats": {
+      "title": "Performance de l'article",
+      "subtitle": "Revenu & Unités vendues",
+      "secondary_label": "Unités vendues"
+    },
+    "monthly": {
+      "title": "Ventes mensuelles",
+      "subtitle": "Revenu pour {{year}}",
+      "select_year": "Sélectionner l'année",
+      "loading": "Synchro des ventes d'articles...",
+      "no_data_title": "Aucune donnée disponible",
+      "no_data_desc": "Aucune vente enregistrée pour {{year}}.",
+      "series_name": "Ventes",
+      "months": [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai",
+        "Juin",
+        "Juil",
+        "Août",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc"
+      ]
+    },
+    "delivery": {
+      "title": "Succès de livraison",
+      "subtitle": "Commandes livrées avec succès",
+      "empty_title": "Aucune donnée de livraison",
+      "empty_desc": "Les données logistiques apparaîtront ici."
+    },
+    "buyers": {
+      "title": "Top Acheteurs",
+      "subtitle_all": "Plus gros clients (Historique)",
+      "subtitle_year": "Plus gros clients en {{year}}",
+      "select_month": "Mois",
+      "select_year": "Année",
+      "all_months": "Tous les mois",
+      "all_time": "Depuis le début",
+      "loading": "Identification des acheteurs...",
+      "no_data_title": "Aucun acheteur trouvé",
+      "no_data_desc": "Aucune vente enregistrée pour cette période.",
+      "series_name": "Revenu",
+      "months_full": [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Décembre"
+      ],
+      "tooltip_units": "unités"
+    },
+    "profit": {
+      "title": "Rentabilité",
+      "subtitle": "Analyse Coût vs Profit",
+      "series_revenue": "Revenu",
+      "series_cost": "Coût",
+      "series_profit": "Bénéfice net",
+      "loading": "Calcul des marges...",
+      "all_months": "Tous les mois",
+      "all_time": "Depuis le début",
+      "select_month": "Sélectionner le mois",
+      "select_year": "Sélectionner l'année",
+      "months_full": [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Décembre"
+      ]
+    },
+    "stock_intelligence": "Intelligence de Stock"
+  }
+}

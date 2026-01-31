@@ -1,0 +1,112 @@
+{
+  "list": {
+    "title": "Clients",
+    "meta_desc": "Manage your customers.",
+    "breadcrumb": "Client Directory",
+    "loading": "Syncing Directory...",
+    "add_button": "Add Client",
+    "no_email": "— No email",
+    "open_inv": "Open Inv.",
+    "lifetime_paid": "Lifetime Paid",
+    "empty": {
+      "title": "No clients found",
+      "desc": "Adjust filters or add a new client to get started."
+    },
+    "columns": {
+      "info": "Client Info",
+      "contact": "Contact Details",
+      "outstanding": "Outstanding",
+      "revenue": "Lifetime Revenue"
+    }
+  },
+  "filters": {
+    "search_label": "Search",
+    "search_placeholder": "Search clients...",
+    "status_label": "Status",
+    "type_label": "Client Type",
+    "sort_label": "Sort By",
+    "modal_title": "Filter Clients",
+    "modal_desc": "Refine your directory list",
+    "reset": "Reset",
+    "apply": "Show Results",
+    "status": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "type": {
+      "all": "All Types",
+      "business": "Business",
+      "individual": "Individual"
+    },
+    "sort": {
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)",
+      "newest": "Newest First",
+      "oldest": "Oldest First"
+    }
+  },
+  "form": {
+    "title": "New Client Registry",
+    "subtitle_1": "Legal identity and classification.",
+    "subtitle_2": "Digital communication channels.",
+    "subtitle_3": "Billing and Shipping coordinates.",
+    "steps": {
+      "identity": "Identity",
+      "contact": "Contact",
+      "location": "Location"
+    },
+    "fields": {
+      "name": "Client Name",
+      "classification": "Classification",
+      "tax_id": "Tax ID / VAT",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "website": "Website",
+      "street": "Street Address",
+      "city": "City",
+      "state": "State / Province",
+      "zip": "Postal Code",
+      "country": "Country Region"
+    },
+    "placeholders": {
+      "name": "e.g. Acme Corporation",
+      "tax_id": "Optional Registration #",
+      "email": "contact@client.com",
+      "phone": "+1 234 567 890",
+      "website": "https://www.client-website.com",
+      "street": "123 Business St.",
+      "city": "City",
+      "state": "State",
+      "zip": "ZIP / Postal"
+    },
+    "options": {
+      "individual": "Individual",
+      "business": "Business / Entity"
+    },
+    "actions": {
+      "next": "Next Step",
+      "submit": "Create Registry",
+      "processing": "Processing..."
+    },
+    "errors": {
+      "name_required": "Client Name is required."
+    }
+  },
+  "messages": {
+    "CLIENT_CREATED": "Success",
+    "CLIENT_CREATED_DESC": "Client registry established successfully.",
+     "CLIENT_RESTORED": "Client record reactivated successfully.",
+    "CLIENT_DELETED": "Client record purged successfully.",
+    "CLIENT_ARCHIVED_HISTORY": "Client archived due to existing transaction history.",
+    "LOGO_UPLOADED": "Client logo updated successfully.",
+    "LOGO_REMOVED": "Client logo removed."
+  },
+  "errors": {
+    "CLIENT_NOT_FOUND": "Client record could not be found.",
+    "CLIENT_EXISTS": "A client with this name already exists.",
+    "UNAUTHORIZED_ACTION": "You are not authorized to perform this action.",
+    "UNAUTHORIZED_ACCESS": "You are not authorized to view this client.",
+    "UPLOAD_NO_FILE": "Please upload a valid image file.",
+    "GENERIC_ERROR": "An unexpected error occurred."
+  }
+}

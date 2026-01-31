@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, memo } from "react";
 import { useParams } from "react-router";
 import { BlobProvider } from "@react-pdf/renderer";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import {
   businessApi,
   InvoiceSettings as IInvoiceSettings,
@@ -19,6 +20,7 @@ import { EyeCloseIcon, EyeIcon } from "../../icons";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 
+// Constants (Internal logic, not user-facing)
 export const DEFAULT_COLORS = {
   primary: "#231f70",
   secondary: "#5c16b1",
@@ -53,41 +55,11 @@ const PREVIEW_INVOICE: InvoiceData = {
     },
   },
   items: [
-    {
-      itemId: "1",
-      name: "Strategic Consulting",
-      quantity: 10,
-      price: 150,
-      total: 1500,
-    },
-    {
-      itemId: "2",
-      name: "UI/UX Design Phase",
-      quantity: 1,
-      price: 2500,
-      total: 2500,
-    },
-    {
-      itemId: "3",
-      name: "Server Maintenance",
-      quantity: 5,
-      price: 100,
-      total: 500,
-    },
-    {
-      itemId: "4",
-      name: "Product Design",
-      quantity: 2,
-      price: 250,
-      total: 500,
-    },
-    {
-      itemId: "5",
-      name: "Web Development",
-      quantity: 6,
-      price: 200,
-      total: 1200,
-    },
+    { itemId: "1", name: "Strategic Consulting", quantity: 10, price: 150, total: 1500 },
+    { itemId: "2", name: "UI/UX Design Phase", quantity: 1, price: 2500, total: 2500 },
+    { itemId: "3", name: "Server Maintenance", quantity: 5, price: 100, total: 500 },
+    { itemId: "4", name: "Product Design", quantity: 2, price: 250, total: 500 },
+    { itemId: "5", name: "Web Development", quantity: 6, price: 200, total: 1200 },
   ],
   subTotal: 6200,
   discountType: "percentage",
@@ -104,35 +76,34 @@ const PREVIEW_INVOICE: InvoiceData = {
   issueDate: new Date(Date.now()).toISOString(),
   createdBy: { _id: "user", name: "Admin" },
   updatedAt: new Date().toISOString(),
-  notes:
-    "Thank you for your business! We appreciate the opportunity to work with you.",
+  notes: "Thank you for your business! We appreciate the opportunity to work with you.",
 };
 
-const ResetButton = ({ onClick }: { onClick: () => void }) => (
+const ResetButton = ({ onClick, label }: { onClick: () => void; label: string }) => (
   <button
     onClick={onClick}
     className="group flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-brand-500 transition-colors cursor-pointer"
-    title="Reset to system defaults"
+    title={label}
   >
     <HiArrowPath className="size-3.5 group-hover:rotate-180 transition-transform duration-500" />
-    Set Default
+    {label}
   </button>
 );
 
 const MemoizedPDFPreview = memo(
-  ({ business, invoice }: { business: any; invoice: any }) => {
+  ({ business, invoice, loadingText, errorText }: { business: any; invoice: any; loadingText: string; errorText: string }) => {
     return (
       <BlobProvider
         document={<InvoicePDF invoice={invoice} business={business} />}
       >
         {({ url, loading, error }) => {
           if (loading) {
-            return <LoadingState message="Rendering PDF..." minHeight="30vh" />;
+            return <LoadingState message={loadingText} minHeight="30vh" />;
           }
           if (error) {
             return (
               <div className="w-full h-full flex items-center justify-center text-red-500 text-sm font-semibold uppercase tracking-widest">
-                Failed to load preview
+                {errorText}
               </div>
             );
           }
@@ -156,14 +127,14 @@ const MemoizedPDFPreview = memo(
 );
 
 export default function InvoiceSettings() {
+  const { t } = useTranslation("business"); // <--- Load "business" namespace
   const { businessId } = useParams();
   const { canManageSettings } = usePermissions();
   const [initialLoading, setInitialLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { alert, setAlert } = useAlert();
-  const [realBusinessData, setRealBusinessData] = useState<BusinessData | null>(
-    null,
-  );
+  const [realBusinessData, setRealBusinessData] = useState<BusinessData | null>(null);
+  
   const [settings, setSettings] = useState<IInvoiceSettings>({
     template: "Classic",
     color: DEFAULT_COLORS,
@@ -190,18 +161,23 @@ export default function InvoiceSettings() {
           }));
         }
       })
-      .catch((err) =>
-        setAlert({ type: "error", title: "Error", message: err.message }),
-      )
+      .catch((err) => {
+        const errorCode = err.message;
+        setAlert({ 
+          type: "error", 
+          title: t("errors.GENERIC_ERROR"), // Or specific error title
+          message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+        });
+      })
       .finally(() => setInitialLoading(false));
-  }, [businessId, canManageSettings]);
+  }, [businessId, canManageSettings, t, setAlert]); // Added dependencies
 
   if (!canManageSettings)
     return (
       <PermissionDenied
-        title="Settings Locked"
-        description="Only Administrators can customize invoice templates."
-        actionText="Return to Dashboard"
+        title={t("errors.ACCESS_DENIED_ADMIN_ONLY")}
+        description={t("settings.general.locked_desc")}
+        actionText={t("create.nav.back")}
       />
     );
 
@@ -213,12 +189,17 @@ export default function InvoiceSettings() {
       await businessApi.updateInvoiceSettings(businessId, newSettings);
       setAlert({
         type: "success",
-        title: "Saved",
-        message: "Changes applied successfully.",
+        title: t("messages.SETTINGS_SAVED"),
+        message: t("messages.INVOICE_SETTINGS_UPDATED"),
       });
       setTimeout(() => setAlert(null), 1500);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Save Failed", message: error.message });
+      const errorCode = error.message;
+      setAlert({ 
+        type: "error", 
+        title: t("errors.UPDATE_FAILED"), 
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setSaving(false);
     }
@@ -226,15 +207,13 @@ export default function InvoiceSettings() {
 
   const handleTemplateChange = (template: any) =>
     saveSettings({ ...settings, template });
-  const handleColorChange = (
-    key: "primary" | "secondary" | "accent",
-    value: string,
-  ) => {
+  
+  const handleColorChange = (key: "primary" | "secondary" | "accent", value: string) => {
     setSettings({ ...settings, color: { ...settings.color, [key]: value } });
   };
+  
   const saveColorFinal = () => saveSettings(settings);
-  const handleLogoSizeChange = (size: any) =>
-    saveSettings({ ...settings, logoSize: size });
+ 
   const toggleVisibility = (field: keyof IInvoiceSettings["visibility"]) => {
     const newVisibility = {
       ...settings.visibility,
@@ -242,13 +221,7 @@ export default function InvoiceSettings() {
     };
     saveSettings({ ...settings, visibility: newVisibility });
   };
-  const handleTextChange = (
-    field: "paymentTerms" | "footerNote",
-    value: string,
-  ) => {
-    setSettings((prev) => ({ ...prev, [field]: value }));
-  };
-  const saveTextFinal = () => saveSettings(settings);
+
   const resetBranding = () => {
     saveSettings({
       ...settings,
@@ -256,6 +229,7 @@ export default function InvoiceSettings() {
       logoSize: DEFAULT_LOGO_SIZE as "Medium",
     });
   };
+  
   const resetVisibility = () =>
     saveSettings({ ...settings, visibility: DEFAULT_VISIBILITY });
 
@@ -269,16 +243,22 @@ export default function InvoiceSettings() {
   }, [realBusinessData, settings]);
 
   if (initialLoading) {
-    return <LoadingState message="Loading Configuration..." minHeight="50vh" />;
+    return <LoadingState message={t("settings.invoice_design.loading_config")} minHeight="50vh" />;
   }
+
+  // Helper to translate visibility keys safely
+  const getVisibilityLabel = (key: string) => {
+    const cleanKey = key.replace("show", "");
+    return t(`settings.invoice_design.visibility.${cleanKey}` as any, cleanKey);
+  };
 
   return (
     <>
       <PageMeta
-        title="Invoice Customization"
-        description="Customize invoice look and feel"
+        title={t("settings.invoice_design.title") + " | Invotrack"}
+        description={t("settings.invoice_design.description")} // Using title as description fallback
       />
-      <PageBreadcrumb pageTitle="Invoice Templates" />
+      <PageBreadcrumb pageTitle={t("settings.invoice_design.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 text-start">
@@ -287,27 +267,27 @@ export default function InvoiceSettings() {
           <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-                Style
+                {t("settings.invoice_design.style_title")}
               </h3>
               {saving && (
                 <span className="text-[10px] font-semibold text-brand-500 animate-pulse uppercase tracking-widest">
-                  Saving...
+                  {t("settings.invoice_design.actions.saving")}
                 </span>
               )}
             </div>
             <div className="space-y-3">
-              {["Classic", "Minimal", "Modern"].map((t) => (
+              {["Classic", "Minimal", "Modern"].map((templateName) => (
                 <div
-                  key={t}
-                  onClick={() => handleTemplateChange(t)}
-                  className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-all ${settings.template === t ? "border-brand-500 bg-brand-50 dark:bg-brand-500/10 ring-1 ring-brand-500" : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+                  key={templateName}
+                  onClick={() => handleTemplateChange(templateName)}
+                  className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-all ${settings.template === templateName ? "border-brand-500 bg-brand-50 dark:bg-brand-500/10 ring-1 ring-brand-500" : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5"}`}
                 >
                   <span
-                    className={`text-sm font-semibold ${settings.template === t ? "text-brand-600 dark:text-brand-400" : "text-gray-600 dark:text-gray-300"}`}
+                    className={`text-sm font-semibold ${settings.template === templateName ? "text-brand-600 dark:text-brand-400" : "text-gray-600 dark:text-gray-300"}`}
                   >
-                    {t}
+                    {t(`settings.invoice_design.templates.${templateName}` as any, templateName)}
                   </span>
-                  {settings.template === t && (
+                  {settings.template === templateName && (
                     <HiOutlineCheckCircle className="size-5 text-brand-500" />
                   )}
                 </div>
@@ -319,20 +299,18 @@ export default function InvoiceSettings() {
           <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-                Branding
+                {t("settings.invoice_design.branding_title")}
               </h3>
-              <ResetButton onClick={resetBranding} />
+              <ResetButton onClick={resetBranding} label={t("settings.invoice_design.actions.reset")} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label>Primary</Label>
+                <Label>{t("settings.invoice_design.colors.primary")}</Label>
                 <div className="flex items-center gap-3 h-11 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent">
                   <input
                     type="color"
                     value={settings.color.primary}
-                    onChange={(e) =>
-                      handleColorChange("primary", e.target.value)
-                    }
+                    onChange={(e) => handleColorChange("primary", e.target.value)}
                     onBlur={saveColorFinal}
                     className="h-6 w-6 p-0 border-0 rounded cursor-pointer bg-transparent"
                   />
@@ -342,14 +320,12 @@ export default function InvoiceSettings() {
                 </div>
               </div>
               <div>
-                <Label>Accent</Label>
+                <Label>{t("settings.invoice_design.colors.accent")}</Label>
                 <div className="flex items-center gap-3 h-11 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent">
                   <input
                     type="color"
                     value={settings.color.accent || "#bc1010"}
-                    onChange={(e) =>
-                      handleColorChange("accent", e.target.value)
-                    }
+                    onChange={(e) => handleColorChange("accent", e.target.value)}
                     onBlur={saveColorFinal}
                     className="h-6 w-6 p-0 border-0 rounded cursor-pointer bg-transparent"
                   />
@@ -365,9 +341,9 @@ export default function InvoiceSettings() {
           <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-                Fields
+                {t("settings.invoice_design.fields_title")}
               </h3>
-              <ResetButton onClick={resetVisibility} />
+              <ResetButton onClick={resetVisibility} label={t("settings.invoice_design.actions.reset")} />
             </div>
             <div className="space-y-2">
               {Object.keys(settings.visibility)
@@ -378,18 +354,13 @@ export default function InvoiceSettings() {
                     className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors"
                   >
                     <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase truncate pr-2">
-                      {key
-                        .replace("show", "")
-                        .replace(/([A-Z])/g, " $1")
-                        .trim()}
+                      {getVisibilityLabel(key)}
                     </span>
                     <button
                       onClick={() => toggleVisibility(key as any)}
                       className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
                     >
-                      {settings.visibility[
-                        key as keyof typeof settings.visibility
-                      ] ? (
+                      {settings.visibility[key as keyof typeof settings.visibility] ? (
                         <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
                       ) : (
                         <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
@@ -409,17 +380,19 @@ export default function InvoiceSettings() {
                 <MemoizedPDFPreview
                   invoice={PREVIEW_INVOICE}
                   business={previewBusinessObject}
+                  loadingText={t("settings.invoice_design.loading_pdf")}
+                  errorText={t("settings.invoice_design.preview_error")}
                 />
               ) : (
                 <LoadingState
-                  message="Preparing Configuration..."
+                  message={t("settings.invoice_design.preparing_config")}
                   minHeight="full"
                 />
               )}
             </div>
             <div className="mt-4 text-center">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/5 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
-                Scaled Preview (Fit Width)
+                {t("settings.invoice_design.preview_label")}
               </span>
             </div>
           </div>

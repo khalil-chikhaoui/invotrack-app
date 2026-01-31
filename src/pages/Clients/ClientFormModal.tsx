@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
@@ -22,7 +23,7 @@ interface ClientFormModalProps {
   onClose: () => void;
   businessId: string;
   setAlert: (alert: {
-    type: "success" | "error";
+    type: "success" | "error" | "warning" | "info";
     title: string;
     message: string;
   }) => void;
@@ -39,13 +40,14 @@ const INITIAL_STATE = {
   address: { street: "", city: "", state: "", zipCode: "", country: "" },
 };
 
-export default function ClientFormModal({
+export default function ClientFormModal({ 
   isOpen,
   onClose,
   businessId,
   setAlert,
   onSuccess,
 }: ClientFormModalProps) {
+  const { t } = useTranslation("client"); // <--- Load "client" namespace
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -72,8 +74,8 @@ export default function ClientFormModal({
     // --- STEP 1 VALIDATION: Identity ---
     if (step === 1) {
       if (!formData.name.trim()) {
-        setErrors({ name: "Client Name is required." });
-        return; // Stop here
+        setErrors({ name: t("form.errors.name_required", { defaultValue: "Client Name is required." }) });
+        return; 
       }
       setStep(2);
     }
@@ -104,8 +106,8 @@ export default function ClientFormModal({
 
       setAlert({
         type: "success",
-        title: "Success",
-        message: "Client registry established successfully.",
+        title: t("messages.CLIENT_CREATED", { defaultValue: "Success" }),
+        message: t("messages.CLIENT_CREATED_DESC", { defaultValue: "Client registry established successfully." }),
       });
 
       // Close modal ONLY on success
@@ -117,7 +119,12 @@ export default function ClientFormModal({
         navigate(`/business/${businessId}/clients/${result._id}`);
       }
     } catch (error: any) {
-      setAlert({ type: "error", title: "Error", message: error.message });
+      const errorCode = error.message;
+      setAlert({ 
+        type: "error", 
+        title: t("errors.GENERIC_ERROR"), 
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setLoading(false);
     }
@@ -142,7 +149,7 @@ export default function ClientFormModal({
             step >= 1 ? "text-brand-500" : "text-gray-400"
           }`}
         >
-          Identity
+          {t("form.steps.identity")}
         </span>
       </div>
 
@@ -170,7 +177,7 @@ export default function ClientFormModal({
             step >= 2 ? "text-brand-500" : "text-gray-400"
           }`}
         >
-          Contact
+          {t("form.steps.contact")}
         </span>
       </div>
 
@@ -198,7 +205,7 @@ export default function ClientFormModal({
             step === 3 ? "text-brand-500" : "text-gray-400"
           }`}
         >
-          Location
+          {t("form.steps.location")}
         </span>
       </div>
     </div>
@@ -224,12 +231,12 @@ export default function ClientFormModal({
           </div>
           <div>
             <h4 className="text-xl font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
-              New Client Registry
+              {t("form.title")}
             </h4>
             <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
-              {step === 1 && "Legal identity and classification."}
-              {step === 2 && "Digital communication channels."}
-              {step === 3 && "Billing and Shipping coordinates."}
+              {step === 1 && t("form.subtitle_1")}
+              {step === 2 && t("form.subtitle_2")}
+              {step === 3 && t("form.subtitle_3")}
             </p>
           </div>
         </div>
@@ -239,21 +246,20 @@ export default function ClientFormModal({
         <form
           onSubmit={handleSubmit}
           className="flex-1 flex flex-col relative z-10"
-          noValidate={true} // <--- THIS FIXES THE "INVALID FORM CONTROL" ERROR
+          noValidate={true} 
         >
           {/* Step 1: Identity */}
           <div className={step === 1 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Client Name{" "}
-                  <span className="text-red-500 dark:text-red-400">*</span>
+                  {t("form.fields.name")} <span className="text-red-500 dark:text-red-400">*</span>
                 </Label>
 
                 <Input
                   autoFocus={isOpen && step === 1}
                   required
-                  placeholder="e.g. Acme Corporation or John Doe"
+                  placeholder={t("form.placeholders.name")}
                   value={formData.name}
                   error={!!errors.name}
                   hint={errors.name}
@@ -266,7 +272,7 @@ export default function ClientFormModal({
 
               <div>
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Classification
+                  {t("form.fields.classification")}
                 </Label>
                 <div className="relative">
                   <select
@@ -279,8 +285,8 @@ export default function ClientFormModal({
                       })
                     }
                   >
-                    <option value="Individual">Individual</option>
-                    <option value="Business">Business / Entity</option>
+                    <option value="Individual">{t("form.options.individual")}</option>
+                    <option value="Business">{t("form.options.business")}</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-600 dark:text-gray-300">
                     <HiChevronDown className="size-4" />
@@ -290,10 +296,10 @@ export default function ClientFormModal({
 
               <div>
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Tax ID / VAT
+                  {t("form.fields.tax_id")}
                 </Label>
                 <Input
-                  placeholder="Optional Registration #"
+                  placeholder={t("form.placeholders.tax_id")}
                   value={formData.taxId}
                   onChange={(e) =>
                     setFormData({ ...formData, taxId: e.target.value })
@@ -308,12 +314,12 @@ export default function ClientFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Email Address
+                  {t("form.fields.email")}
                 </Label>
                 <Input
                   autoFocus={step === 2}
                   type="email"
-                  placeholder="contact@client.com"
+                  placeholder={t("form.placeholders.email")}
                   value={formData.email}
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
@@ -323,22 +329,22 @@ export default function ClientFormModal({
 
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Phone Number
+                  {t("form.fields.phone")}
                 </Label>
                 <PhoneInput
                   country={formData.phone.country}
                   value={formData.phone.number}
                   onChange={(data) => setFormData({ ...formData, phone: data })}
-                  placeholder="+1 234 567 890"
+                  placeholder={t("form.placeholders.phone")}
                 />
               </div>
 
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Website
+                  {t("form.fields.website")}
                 </Label>
                 <Input
-                  placeholder="https://www.client-website.com"
+                  placeholder={t("form.placeholders.website")}
                   value={formData.website}
                   onChange={(e) =>
                     setFormData({ ...formData, website: e.target.value })
@@ -353,11 +359,11 @@ export default function ClientFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Street Address
+                  {t("form.fields.street")}
                 </Label>
                 <Input
                   autoFocus={step === 3}
-                  placeholder="123 Business St."
+                  placeholder={t("form.placeholders.street")}
                   value={formData.address.street}
                   onChange={(e) =>
                     setFormData({
@@ -370,10 +376,10 @@ export default function ClientFormModal({
 
               <div>
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  City
+                  {t("form.fields.city")}
                 </Label>
                 <Input
-                  placeholder="City"
+                  placeholder={t("form.placeholders.city")}
                   value={formData.address.city}
                   onChange={(e) =>
                     setFormData({
@@ -386,10 +392,10 @@ export default function ClientFormModal({
 
               <div>
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  State / Province
+                  {t("form.fields.state")}
                 </Label>
                 <Input
-                  placeholder="State"
+                  placeholder={t("form.placeholders.state")}
                   value={formData.address.state}
                   onChange={(e) =>
                     setFormData({
@@ -402,10 +408,10 @@ export default function ClientFormModal({
 
               <div>
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Postal Code
+                  {t("form.fields.zip")}
                 </Label>
                 <Input
-                  placeholder="ZIP / Postal"
+                  placeholder={t("form.placeholders.zip")}
                   value={formData.address.zipCode}
                   onChange={(e) =>
                     setFormData({
@@ -418,7 +424,7 @@ export default function ClientFormModal({
 
               <div>
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Country Region
+                  {t("form.fields.country")}
                 </Label>
                 <CountryInput
                   value={formData.address.country}
@@ -441,7 +447,7 @@ export default function ClientFormModal({
                 className="text-[10px] font-semibold uppercase tracking-widest px-6"
                 onClick={onClose}
               >
-                Cancel
+                {t("common:actions.cancel", { defaultValue: "Cancel" })}
               </Button>
             ) : (
               <Button
@@ -451,7 +457,7 @@ export default function ClientFormModal({
                 onClick={handleBack}
               >
                 <HiChevronLeft className="group-hover:-translate-x-1 transition-transform" />{" "}
-                Back
+                {t("common:actions.back", { defaultValue: "Back" })}
               </Button>
             )}
 
@@ -461,8 +467,7 @@ export default function ClientFormModal({
                 onClick={handleNext}
                 className="text-[10px] font-semibold uppercase tracking-widest px-8 flex items-center gap-2 group"
               >
-                Next Step{" "}
-                <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                {t("form.actions.next")} <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Button>
             ) : (
               <Button
@@ -471,10 +476,10 @@ export default function ClientFormModal({
                 className="text-[10px] font-semibold uppercase tracking-widest px-8 flex items-center gap-2"
               >
                 {loading ? (
-                  "Processing..."
+                  t("form.actions.processing")
                 ) : (
                   <>
-                    Create Registry <HiCheck className="text-lg" />
+                    {t("form.actions.submit")} <HiCheck className="text-lg" />
                   </>
                 )}
               </Button>

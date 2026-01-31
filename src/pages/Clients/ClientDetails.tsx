@@ -1,11 +1,6 @@
-/**
- * @fileoverview ClientDetails Controller
- * Orchestrates client data, financial stats, and lifecycle management.
- * Secured with RBAC.
- */
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 
 // APIs & Types
 import { clientApi, ClientData } from "../../apis/clients";
@@ -34,8 +29,8 @@ import ClientAnalyticsTab from "../../components/clients/details/ClientAnalytics
 // UI Components
 import PageMeta from "../../components/common/PageMeta";
 import CustomAlert from "../../components/common/CustomAlert";
-import ClientIdentityModal from "../Clients/ClientIdentityModal";
-import ClientAddressModal from "../Clients/ClientAddressModal";
+import ClientIdentityModal from "./ClientIdentityModal"; // Fixed import path
+import ClientAddressModal from "./ClientAddressModal";   // Fixed import path
 import ConfirmModal from "../../components/common/ConfirmModal";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import {
@@ -47,9 +42,10 @@ import RecordNotFound from "../../components/common/RecordNotFound";
 import LoadingState from "../../components/common/LoadingState";
 
 export default function ClientDetails() {
+  const { t } = useTranslation("client_details"); // <--- Load namespace
   const { businessId, id: clientId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); 
   const { alert, setAlert } = useAlert();
 
   const { canManage, canViewFinancials } = usePermissions();
@@ -75,17 +71,12 @@ export default function ClientDetails() {
   const [page, setPage] = useState(1);
 
   // --- UI State ---
-  const [activeTab, setActiveTab] = useState<
-    "analytics" | "profile" | "history"
-  >("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "profile" | "history">("analytics");
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
   // --- Transaction State ---
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
-    null,
-  );
-
+  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
   const [tempStatus, setTempStatus] = useState<string>("Open");
   const [tempDelivery, setTempDelivery] = useState<DeliveryStatus>("Pending");
 
@@ -109,10 +100,6 @@ export default function ClientDetails() {
     else navigate(`/business/${businessId}/clients`);
   };
 
-  // ==========================================
-  // --- DATA FETCHING (SPLIT) ---
-  // ==========================================
-
   // 1. Fetch Client Profile (Critical)
   const fetchProfile = async () => {
     if (!clientId || !businessId || !canViewFinancials) return;
@@ -125,7 +112,7 @@ export default function ClientDetails() {
       setClient(clientData);
       setBusiness(bizData);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Profile Error", message: error.message });
+      setAlert({ type: "error", title: t("errors.PROFILE_LOAD_FAILED"), message: error.message });
     } finally {
       setLoading(false);
     }
@@ -160,74 +147,45 @@ export default function ClientDetails() {
         setMeta(invRes.meta);
       } catch (error: any) {
         console.error("Invoice history fetch failed:", error);
-        // We do NOT set client to null here, so the page stays visible
         setAlert({ 
           type: "error", 
-          title: "History Error", 
-          message: "Could not load transaction history." 
+          title: t("errors.HISTORY_LOAD_FAILED"), 
+          message: t("errors.HISTORY_LOAD_DESC") 
         });
       }
     };
 
     fetchInvoices();
   }, [
-    clientId, 
-    page, 
-    refreshKey, 
-    canViewFinancials, 
-    searchTerm, 
-    statusFilter, 
-    deliveryFilter, 
-    sortConfig, 
-    dateRange, 
-    startDate, 
-    endDate
+    clientId, page, refreshKey, canViewFinancials, 
+    searchTerm, statusFilter, deliveryFilter, sortConfig, dateRange, startDate, endDate
   ]);
 
-  // ==========================================
-  // --- HANDLERS ---
-  // ==========================================
-
-  const handleStatusUpdate = async (payload: {
-    status?: string;
-    deliveryStatus?: DeliveryStatus;
-  }) => {
+  const handleStatusUpdate = async (payload: { status?: string; deliveryStatus?: DeliveryStatus; }) => {
     if (!selectedInvoice) return;
     setUpdating(true);
     try {
-      // 1. Status Logic
       if (payload.status) {
         if (payload.status === "Cancelled") {
           await invoiceApi.deleteInvoice(selectedInvoice._id);
         } else if (payload.status === "Paid") {
-          if (!selectedInvoice.isPaid)
-            await invoiceApi.togglePayment(selectedInvoice._id);
+          if (!selectedInvoice.isPaid) await invoiceApi.togglePayment(selectedInvoice._id);
         } else if (payload.status === "Open") {
-          if (selectedInvoice.isDeleted) {
-            await invoiceApi.restoreInvoice(selectedInvoice._id);
-          } else if (selectedInvoice.isPaid) {
-            await invoiceApi.togglePayment(selectedInvoice._id);
-          }
+          if (selectedInvoice.isDeleted) await invoiceApi.restoreInvoice(selectedInvoice._id);
+          else if (selectedInvoice.isPaid) await invoiceApi.togglePayment(selectedInvoice._id);
         }
       }
 
-      // 2. Delivery Update Logic
       if (payload.deliveryStatus) {
-        await invoiceApi.updateInvoice(selectedInvoice._id, {
-          deliveryStatus: payload.deliveryStatus,
-        });
+        await invoiceApi.updateInvoice(selectedInvoice._id, { deliveryStatus: payload.deliveryStatus });
       }
 
-      setAlert({
-        type: "success",
-        title: "Success",
-        message: "Status updated.",
-      });
+      setAlert({ type: "success", title: "Success", message: t("messages.STATUS_UPDATED") });
       setRefreshKey((k) => k + 1);
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Error", message: e.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: e.message });
     } finally {
       setUpdating(false);
     }
@@ -239,24 +197,16 @@ export default function ClientDetails() {
     try {
       if (client.isArchived) {
         await clientApi.restoreClient(client._id);
-        setAlert({
-          type: "success",
-          title: "Restored",
-          message: "Client reactivated.",
-        });
+        setAlert({ type: "success", title: "Success", message: t("messages.CLIENT_RESTORED") });
       } else {
         await clientApi.deleteClient(client._id);
-        setAlert({
-          type: "success",
-          title: "Archived",
-          message: "Client archived.",
-        });
+        setAlert({ type: "success", title: "Success", message: t("messages.CLIENT_ARCHIVED") });
       }
-      setRefreshKey((k) => k + 1); // Refresh invoices/stats
-      fetchProfile(); // Refresh client status
+      setRefreshKey((k) => k + 1);
+      fetchProfile();
       lifecycleModal.closeModal();
     } catch (error: any) {
-      setAlert({ type: "error", title: "Error", message: error.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: error.message });
     } finally {
       setLifecycleLoading(false);
     }
@@ -267,15 +217,11 @@ export default function ClientDetails() {
     setDeleting(true);
     try {
       await invoiceApi.deleteInvoice(selectedInvoice._id);
-      setAlert({
-        type: "success",
-        title: "Voided",
-        message: "Invoice cancelled.",
-      });
+      setAlert({ type: "success", title: "Success", message: t("messages.INVOICE_VOIDED") });
       setRefreshKey((k) => k + 1);
       deleteModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Error", message: e.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: e.message });
     } finally {
       setDeleting(false);
     }
@@ -285,65 +231,37 @@ export default function ClientDetails() {
     if (!client) return;
     try {
       await clientApi.restoreClient(client._id);
-      setAlert({
-        type: "success",
-        title: "Restored",
-        message: "Client reactivated.",
-      });
+      setAlert({ type: "success", title: "Success", message: t("messages.CLIENT_RESTORED") });
       fetchProfile();
     } catch (error: any) {
-      setAlert({ type: "error", title: "Error", message: error.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: error.message });
     }
   };
 
   const TABS = [
-    {
-      id: "analytics",
-      label: "Analytics",
-      icon: <HiOutlineChartPie className="size-5" />,
-    },
-    {
-      id: "profile",
-      label: "Profile Overview",
-      icon: <HiOutlineUser className="size-5" />,
-    },
-    {
-      id: "history",
-      label: "Invoices History",
-      icon: <HiOutlineDocumentText className="size-5" />,
-    },
+    { id: "analytics", label: t("tabs.analytics"), icon: <HiOutlineChartPie className="size-5" /> },
+    { id: "profile", label: t("tabs.profile"), icon: <HiOutlineUser className="size-5" /> },
+    { id: "history", label: t("tabs.history"), icon: <HiOutlineDocumentText className="size-5" /> },
   ];
   const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
-
 
   useEffect(() => {
     const currentTabElement = tabsRef.current[activeTab];
     if (currentTabElement) {
-      currentTabElement.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
+      currentTabElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     }
   }, [activeTab]);
 
-
-  // ==========================================
-  // --- RENDERING ---
-  // ==========================================
-
   if (loading && !client) {
-    return (
-      <LoadingState message="Opening Client Dossier..." minHeight="60vh" />
-    );
+    return <LoadingState message={t("loading")} minHeight="60vh" />;
   }
 
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Restricted Access"
-        description="You do not have permission to view client details."
-        actionText="Return"
+        title={t("errors.RESTRICTED_ACCESS")}
+        description={t("errors.RESTRICTED_DESC")}
+        actionText={t("header.back")}
       />
     );
   }
@@ -351,9 +269,9 @@ export default function ClientDetails() {
   if (!client) {
     return (
       <RecordNotFound
-        title="Client Not Found"
-        description="The requested client dossier could not be located. It may have been archived or removed."
-        actionText="Back"
+        title={t("errors.NOT_FOUND_TITLE")}
+        description={t("errors.NOT_FOUND_DESC")}
+        actionText={t("header.back")}
         onAction={handleSmartBack}
       />
     );
@@ -361,9 +279,9 @@ export default function ClientDetails() {
 
   return (
     <div className="pb-12">
-      <PageMeta description="" title={`${client.name} | Details`} />
+      <PageMeta description="" title={t("meta_title", { name: client.name })} />
 
-      <ClientHeader
+      <ClientHeader 
         handleSmartBack={handleSmartBack}
         canGoBack={canGoBack}
         isArchived={client.isArchived}
@@ -381,14 +299,11 @@ export default function ClientDetails() {
         setAlert={setAlert}
       />
 
-      {/* --- TAB NAVIGATION --- */}
       <div className="flex gap-6  mb-8 overflow-x-auto w-full no-scrollbar px-1">
         {TABS.map((tab) => (
           <button
             key={tab.id}
-            ref={(el) => {
-              tabsRef.current[tab.id] = el;
-            }}
+            ref={(el) => { tabsRef.current[tab.id] = el; }}
             onClick={() => setActiveTab(tab.id as any)}
             className={`pb-4 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest transition-all relative whitespace-nowrap shrink-0 ${
               activeTab === tab.id
@@ -397,14 +312,11 @@ export default function ClientDetails() {
             }`}
           >
             {tab.icon} {tab.label}
-            {activeTab === tab.id && (
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-500 dark:bg-brand-300 rounded-full" />
-            )}
+            {activeTab === tab.id && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-500 dark:bg-brand-300 rounded-full" />}
           </button>
         ))}
       </div>
 
-      {/* --- TAB CONTENT --- */}
       <div className="min-h-[400px]"> 
         {activeTab === "profile" && (
           <ClientProfileTab
@@ -430,7 +342,7 @@ export default function ClientDetails() {
           <ClientHistoryTab
             clientInvoices={clientInvoices}
             business={business}
-            loading={false} // We don't want to show global loading for table updates
+            loading={false}
             canManage={canManage}
             meta={meta}
             isArchived={client.isArchived}
@@ -457,7 +369,7 @@ export default function ClientDetails() {
                 startDate, setStartDate,
                 endDate, setEndDate,
                 setPage,
-                loading: false, // Local table loading
+                loading: false,
                 canManage: false,
                 onAdd: () => {}, 
                 onRefresh: () => setRefreshKey(k => k + 1)
@@ -466,7 +378,6 @@ export default function ClientDetails() {
         )}
       </div>
 
-      {/* --- MODALS --- */}
       <ClientIdentityModal
         isOpen={identityModal.isOpen}
         onClose={identityModal.closeModal}
@@ -487,14 +398,14 @@ export default function ClientDetails() {
         isOpen={lifecycleModal.isOpen}
         onClose={lifecycleModal.closeModal}
         onConfirm={handleLifecycleConfirm}
-        title={client.isArchived ? "Restore Account?" : "Archive Account?"}
+        title={client.isArchived ? t("modals.lifecycle.restore_title") : t("modals.lifecycle.archive_title")}
         description={
           client.isArchived
-            ? "This will restore full access for this client."
-            : "This will remove the client from active lists."
+            ? t("modals.lifecycle.restore_desc")
+            : t("modals.lifecycle.archive_desc")
         }
         variant={client.isArchived ? "primary" : "danger"}
-        confirmText={client.isArchived ? "Restore Client" : "Archive Client"}
+        confirmText={client.isArchived ? t("modals.lifecycle.confirm_restore") : t("modals.lifecycle.confirm_archive")}
         isLoading={lifecycleLoading}
       />
 

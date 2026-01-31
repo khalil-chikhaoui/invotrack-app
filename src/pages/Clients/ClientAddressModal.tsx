@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
@@ -21,12 +22,13 @@ export default function ClientAddressModal({
   refresh,
   setAlert,
 }: ClientAddressModalProps) {
+  const { t } = useTranslation("client_details");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     street: "",
     city: "",
     state: "",
-    zipCode: "",
+    zipCode: "", 
     country: "",
   });
 
@@ -50,12 +52,12 @@ export default function ClientAddressModal({
       await clientApi.updateClient(client._id, { address: formData });
       setAlert({
         type: "success",
-        title: "Address Sync",
-        message: `Location details updated.`,
+        title: "Success",
+        message: t("messages.ADDRESS_UPDATED"),
       });
       refresh();
     } catch (error: any) {
-      setAlert({ type: "error", title: "Error", message: error.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: error.message });
     } finally {
       onClose();
       setLoading(false);
@@ -66,82 +68,70 @@ export default function ClientAddressModal({
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[600px] m-4">
       <div className="p-6 bg-white dark:bg-gray-900 rounded-3xl text-start">
         <h4 className="mb-6 text-xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-          Update Location Registry
+          {t("modals.address.title")}
         </h4>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* --- Full Width Street Input --- */}
             <div className="md:col-span-2">
-              <Label>Street Address</Label>
+              <Label>{t("modals.address.fields.street")}</Label>
               <Input
-                placeholder="123 Business St."
+                placeholder=""
                 value={formData.street}
-                onChange={(e) =>
-                  setFormData({ ...formData, street: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, street: e.target.value })}
               />
             </div>
 
-            {/* --- Geographic Details --- */}
             <div>
-              <Label>City</Label>
+              <Label>{t("modals.address.fields.city")}</Label>
               <Input
-                placeholder="City"
+                placeholder=""
                 value={formData.city}
-                onChange={(e) =>
-                  setFormData({ ...formData, city: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
               />
             </div>
             <div>
-              <Label>State / Province</Label>
+              <Label>{t("modals.address.fields.state")}</Label>
               <Input
-                placeholder="State"
+                placeholder=""
                 value={formData.state}
-                onChange={(e) =>
-                  setFormData({ ...formData, state: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
               />
             </div>
             <div>
-              <Label>Postal Code</Label>
+              <Label>{t("modals.address.fields.zip")}</Label>
               <Input
-                placeholder="ZIP"
+                placeholder=""
                 value={formData.zipCode}
-                onChange={(e) =>
-                  setFormData({ ...formData, zipCode: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
               />
             </div>
 
-            {/* --- Smart Country Autocomplete Picker --- */}
             <div>
-              <Label>Country</Label>
+              <Label>{t("modals.address.fields.country")}</Label>
               <CountryInput
                 value={formData.country}
                 onChange={(val) => setFormData({ ...formData, country: val })}
-                placeholder="Search country registry..."
+                placeholder=""
               />
             </div>
           </div>
 
-          {/* --- Modal Actions --- */}
           <div className="flex justify-end gap-3 mt-8">
             <Button
-            type="button"
+              type="button"
               variant="outline"
               onClick={onClose}
               className="text-[10px] font-semibold uppercase tracking-widest"
             >
-              Cancel
+              {t("modals.address.actions.cancel")}
             </Button>
             <Button
-            type="submit"
+              type="submit"
               disabled={loading}
               className="text-[10px] font-semibold uppercase tracking-widest"
             >
-              {loading ? "Saving..." : "Save Address"}
+              {loading ? t("modals.address.actions.saving") : t("modals.address.actions.save")}
             </Button>
           </div>
         </form>

@@ -1,12 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
 import { HiChevronDown, HiOutlinePresentationChartLine } from "react-icons/hi2";
 import { invoiceApi } from "../../../apis/invoices";
 import { formatMoney } from "../../../hooks/formatMoney";
-import LoadingState from "../../common/LoadingState"; 
+import LoadingState from "../../common/LoadingState";
 import { useTheme } from "../../../context/ThemeContext";
 
 interface ItemMonthlySalesChartProps {
@@ -18,8 +19,9 @@ export default function ItemMonthlySalesChart({
   itemId,
   currency = "USD",
 }: ItemMonthlySalesChartProps) {
+  const { t } = useTranslation("item_details");
   const currentYear = new Date().getFullYear();
-  const {theme} = useTheme()
+  const { theme } = useTheme();
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [availableYears, setAvailableYears] = useState<number[]>([currentYear]);
   const [salesData, setSalesData] = useState<number[]>([]);
@@ -47,7 +49,12 @@ export default function ItemMonthlySalesChart({
   }, [itemId, selectedYear]);
 
   const hasData = useMemo(() => salesData.some((val) => val > 0), [salesData]);
-  const series = [{ name: "Sales", data: salesData }];
+  const series = [
+    { name: t("analytics.monthly.series_name"), data: salesData },
+  ];
+  const categories = t("analytics.monthly.months", {
+    returnObjects: true,
+  }) as string[];
 
   const options: ApexOptions = {
     colors: ["#465fff"],
@@ -68,7 +75,7 @@ export default function ItemMonthlySalesChart({
     dataLabels: { enabled: false },
     stroke: { show: true, width: 4, colors: ["transparent"] },
     xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      categories: categories,
       axisBorder: { show: false },
       axisTicks: { show: false },
       labels: { style: { fontSize: "10px", colors: "#9CA3AF" } },
@@ -98,10 +105,10 @@ export default function ItemMonthlySalesChart({
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
-            Monthly Sales
+            {t("analytics.monthly.title")}
           </h3>
           <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-            Revenue for {selectedYear}
+            {t("analytics.monthly.subtitle", { year: selectedYear })}
           </p>
         </div>
 
@@ -112,18 +119,27 @@ export default function ItemMonthlySalesChart({
             className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider hover:bg-gray-100 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
           >
             {selectedYear}
-            <HiChevronDown className={`size-3 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+            <HiChevronDown
+              className={`size-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
+            />
           </button>
 
-          <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)} className="w-32 right-0 mt-2 p-1">
+          <Dropdown
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            className="w-32 right-0 mt-2 p-1"
+          >
             <div className="px-3 py-2 text-[9px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
-              Select Year
+              {t("analytics.monthly.select_year")}
             </div>
             <div className="max-h-40 overflow-y-auto custom-scrollbar">
               {availableYears.map((year) => (
                 <DropdownItem
                   key={year}
-                  onItemClick={() => { setSelectedYear(year); setIsOpen(false); }}
+                  onItemClick={() => {
+                    setSelectedYear(year);
+                    setIsOpen(false);
+                  }}
                   className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${
                     selectedYear === year
                       ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
@@ -138,19 +154,24 @@ export default function ItemMonthlySalesChart({
         </div>
       </div>
 
-      <div className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? 'flex items-center justify-center' : ''}`}>
+      <div
+        className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? "flex items-center justify-center" : ""}`}
+      >
         {loading ? (
-          <LoadingState message="Syncing item sales..." minHeight="full" />
+          <LoadingState
+            message={t("analytics.monthly.loading")}
+            minHeight="full"
+          />
         ) : !hasData ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-xl bg-gray-50/50 dark:bg-white/[0.01]">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
               <HiOutlinePresentationChartLine className="size-6 text-gray-400 dark:text-gray-500" />
             </div>
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-              No Data Available
+              {t("analytics.monthly.no_data_title")}
             </h4>
             <p className="text-[10px] text-gray-500 dark:text-gray-400 max-w-xs mt-1">
-              No sales recorded for {selectedYear}.
+              {t("analytics.monthly.no_data_desc", { year: selectedYear })}
             </p>
           </div>
         ) : (

@@ -1,0 +1,200 @@
+{
+  "meta_title": "{{name}} | Details",
+  "tabs": {
+    "analytics": "Analysen",
+    "profile": "Profilübersicht",
+    "history": "Rechnungshistorie"
+  },
+  "header": {
+    "back": "Zurück",
+    "directory": "Kundenverzeichnis",
+    "restore": "Konto wiederherstellen"
+  },
+  "identity_card": {
+    "type_business": "Unternehmen",
+    "type_individual": "Privatperson",
+    "archived": "Archiviert",
+    "edit": "Details bearbeiten",
+    "modals": {
+      "remove_logo_title": "Kundenbild entfernen?",
+      "remove_logo_desc": "Dies wird das aktuelle Logo für diesen Kunden dauerhaft löschen.",
+      "confirm_remove": "Bild entfernen"
+    }
+  },
+  "profile_tab": {
+    "address_title": "Registrierte Adresse",
+    "edit_address": "Adresse bearbeiten",
+    "labels": {
+      "street": "Straße",
+      "city_state": "Stadt / Bundesland",
+      "zip": "Postleitzahl",
+      "country": "Land"
+    },
+    "lifecycle": {
+      "title": "Konto-Lebenszyklus",
+      "restore_title": "Kundenzugriff wiederherstellen",
+      "restore_desc": "Reaktivieren Sie diesen Kunden, um neue Rechnungen und Abrechnungen zu ermöglichen.",
+      "archive_title": "Löschen / Archivieren ausführen",
+      "archive_desc": "Das System wird automatisch archivieren, wenn eine Historie existiert, andernfalls wird gelöscht.",
+      "btn_restore": "Konto wiederherstellen",
+      "btn_archive": "Löschen / Archivieren"
+    }
+  },
+  "history_tab": {
+    "title": "Transaktionsjournal",
+    "new_invoice": "Neue Rechnung",
+    "empty_cancelled": "Keine stornierten Datensätze gefunden",
+    "empty_generic": "Keine Transaktionshistorie entspricht den Kriterien"
+  },
+  "modals": {
+    "identity": {
+      "title": "Identität aktualisieren",
+      "subtitle": "Basis-Profilinformationen",
+      "fields": {
+        "name": "Kundenname",
+        "type": "Typ",
+        "tax_id": "Steuernummer",
+        "email": "E-Mail",
+        "phone": "Telefon"
+      },
+      "actions": {
+        "cancel": "Abbrechen",
+        "save": "Identität speichern",
+        "saving": "Speichern..."
+      }
+    },
+    "address": {
+      "title": "Standortregister aktualisieren",
+      "fields": {
+        "street": "Straße & Hausnummer",
+        "city": "Stadt",
+        "state": "Bundesland / Kanton",
+        "zip": "Postleitzahl",
+        "country": "Land"
+      },
+      "actions": {
+        "cancel": "Abbrechen",
+        "save": "Adresse speichern",
+        "saving": "Speichern..."
+      }
+    },
+    "lifecycle": {
+      "restore_title": "Konto wiederherstellen?",
+      "restore_desc": "Dies wird den vollen Zugriff für diesen Kunden wiederherstellen.",
+      "confirm_restore": "Kunde wiederherstellen",
+      "archive_title": "Konto archivieren?",
+      "archive_desc": "Dies wird den Kunden aus den aktiven Listen entfernen.",
+      "confirm_archive": "Kunde archivieren"
+    },
+    "void": {
+      "title": "Rechnung stornieren?",
+      "desc": "Rechnung {{number}} dauerhaft stornieren? Der Bestand wird ins Lager zurückgebucht."
+    }
+  },
+  "messages": {
+    "STATUS_UPDATED": "Status aktualisiert.",
+    "CLIENT_RESTORED": "Kunde reaktiviert.",
+    "CLIENT_ARCHIVED": "Kunde archiviert.",
+    "INVOICE_VOIDED": "Rechnung storniert.",
+    "LOGO_UPDATED": "Kundenbild erfolgreich aktualisiert.",
+    "LOGO_REMOVED": "Kundenlogo wurde entfernt.",
+    "PROFILE_SAVED": "Kundenprofil gespeichert.",
+    "ADDRESS_UPDATED": "Standortdetails aktualisiert."
+  },
+  "errors": {
+    "PROFILE_LOAD_FAILED": "Profilfehler",
+    "HISTORY_LOAD_FAILED": "Historienfehler",
+    "HISTORY_LOAD_DESC": "Transaktionshistorie konnte nicht geladen werden.",
+    "UPDATE_FAILED": "Aktualisierung fehlgeschlagen",
+    "UPLOAD_FAILED": "Upload fehlgeschlagen",
+    "REMOVAL_FAILED": "Entfernen fehlgeschlagen",
+    "RESTRICTED_ACCESS": "Eingeschränkter Zugriff",
+    "RESTRICTED_DESC": "Sie haben keine Berechtigung, die Kundendetails einzusehen.",
+    "NOT_FOUND_TITLE": "Kunde nicht gefunden",
+    "NOT_FOUND_DESC": "Das angeforderte Kundendossier konnte nicht gefunden werden. Es wurde möglicherweise archiviert oder entfernt."
+  },
+  "loading": "Kundendossier wird geöffnet...",
+  "analytics": {
+    "health": {
+      "loading": "Gesundheitsmetriken werden analysiert...",
+      "lifetime_title": "Gesamtumsatz",
+      "lifetime_desc": "Gesamtwert der bisher bezahlten Rechnungen.",
+      "balance_title": "Offener Saldo",
+      "balance_desc": "Ausstehender Betrag, der auf Zahlung wartet.",
+      "balance_due": "Fällig",
+      "score_title": "Kundenbindungs-Wahrscheinlichkeit",
+      "score_desc": "Wahrscheinlichkeit für eine weitere Bestellung.",
+      "ai_score": "KI-Score",
+      "freq_title": "Durchschn. Kaufzyklus",
+      "freq_average": "Durchschnitt",
+      "last_order": "Letzte Bestellung:",
+      "days_ago": "vor {{days}} Tg.",
+      "days": "Tage",
+      "risk": {
+        "low": "Aktiv",
+        "medium": "Gefährdet",
+        "high": "Abgewandert",
+        "new": "Neu"
+      }
+    },
+    "products": {
+      "title": "Top-Produkte",
+      "subtitle": "Umsatz nach Artikel ({{year}})",
+      "loading": "Top-Artikel werden berechnet...",
+      "no_data_title": "Keine Käufe",
+      "no_data_desc": "Der Kunde hat noch keine Produkte gekauft.",
+      "year_all": "Gesamtzeitraum",
+      "legend_total": "Gesamt"
+    },
+    "status": {
+      "title": "Rechnungsstatus",
+      "subtitle": "Journal-Verteilung",
+      "loading": "Synchronisierung...",
+      "no_data_title": "Keine Rechnungen",
+      "no_data_desc": "Keine Rechnungshistorie gefunden.",
+      "legend": {
+        "paid": "Bezahlt",
+        "open": "Offen",
+        "cancelled": "Storniert",
+        "total": "Gesamt"
+      }
+    },
+    "stats": {
+      "title": "Kundenwachstum",
+      "subtitle": "Umsatz & Rechnungsvolumen",
+      "secondary_label": "Rechnungen"
+    },
+    "monthly": {
+      "title": "Monatliche Verkäufe",
+      "subtitle": "Umsatz für {{year}}",
+      "select_year": "Jahr auswählen",
+      "loading": "Verkäufe werden synchronisiert...",
+      "no_data_title": "Keine Daten verfügbar",
+      "no_data_desc": "Keine Verkäufe für das Geschäftsjahr {{year}} erfasst.",
+      "series_name": "Verkäufe",
+      "months": [
+        "Jan",
+        "Feb",
+        "Mär",
+        "Apr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Dez"
+      ]
+    },
+    "aov": {
+      "title": "AOV-Trend",
+      "subtitle": "Umsatz vs. Rechnungsgröße",
+      "loading": "Trends werden berechnet...",
+      "series": {
+        "revenue": "Gesamtumsatz",
+        "aov": "Durchschn. Bestellwert"
+      }
+    }
+  }
+}

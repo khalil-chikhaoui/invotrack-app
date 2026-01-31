@@ -1,0 +1,200 @@
+{
+  "meta_title": "{{name}} | Details",
+  "tabs": {
+    "analytics": "Analytics",
+    "profile": "Profile Overview",
+    "history": "Invoices History"
+  },
+  "header": {
+    "back": "Back",
+    "directory": "Client Directory",
+    "restore": "Restore Account"
+  },
+  "identity_card": {
+    "type_business": "Business",
+    "type_individual": "Individual",
+    "archived": "Archived",
+    "edit": "Edit Details",
+    "modals": {
+      "remove_logo_title": "Remove Client Image?",
+      "remove_logo_desc": "This will permanently delete the current logo asset for this client.",
+      "confirm_remove": "Remove Image"
+    }
+  },
+  "profile_tab": {
+    "address_title": "Registered Address",
+    "edit_address": "Edit Address",
+    "labels": {
+      "street": "Street",
+      "city_state": "City / State",
+      "zip": "Postal Code",
+      "country": "Country"
+    },
+    "lifecycle": {
+      "title": "Account Lifecycle",
+      "restore_title": "Restore Client Access",
+      "restore_desc": "Re-activate this client to allow new invoices and billing statements.",
+      "archive_title": "Execute Removal / Archive",
+      "archive_desc": "System will automatically archive if history exists, otherwise purge.",
+      "btn_restore": "Restore Account",
+      "btn_archive": "Delete / Archive"
+    }
+  },
+  "history_tab": {
+    "title": "Transaction Ledger",
+    "new_invoice": "New Invoice",
+    "empty_cancelled": "No cancelled records found",
+    "empty_generic": "No transaction history matches criteria"
+  },
+  "modals": {
+    "identity": {
+      "title": "Update Identity",
+      "subtitle": "Basic Profile Information",
+      "fields": {
+        "name": "Client Name",
+        "type": "Type",
+        "tax_id": "Tax ID",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save Identity",
+        "saving": "Saving..."
+      }
+    },
+    "address": {
+      "title": "Update Location Registry",
+      "fields": {
+        "street": "Street Address",
+        "city": "City",
+        "state": "State / Province",
+        "zip": "Postal Code",
+        "country": "Country"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save Address",
+        "saving": "Saving..."
+      }
+    },
+    "lifecycle": {
+      "restore_title": "Restore Account?",
+      "restore_desc": "This will restore full access for this client.",
+      "confirm_restore": "Restore Client",
+      "archive_title": "Archive Account?",
+      "archive_desc": "This will remove the client from active lists.",
+      "confirm_archive": "Archive Client"
+    },
+    "void": {
+      "title": "Void Invoice?",
+      "desc": "Permanently cancel invoice {{number}}? Stock will be returned to inventory."
+    }
+  },
+  "messages": {
+    "STATUS_UPDATED": "Status updated.",
+    "CLIENT_RESTORED": "Client reactivated.",
+    "CLIENT_ARCHIVED": "Client archived.",
+    "INVOICE_VOIDED": "Invoice cancelled.",
+    "LOGO_UPDATED": "Client picture updated successfully.",
+    "LOGO_REMOVED": "Client logo has been cleared.",
+    "PROFILE_SAVED": "Client profile saved.",
+    "ADDRESS_UPDATED": "Location details updated."
+  },
+  "errors": {
+    "PROFILE_LOAD_FAILED": "Profile Error",
+    "HISTORY_LOAD_FAILED": "History Error",
+    "HISTORY_LOAD_DESC": "Could not load transaction history.",
+    "UPDATE_FAILED": "Update Failed",
+    "UPLOAD_FAILED": "Upload Failed",
+    "REMOVAL_FAILED": "Removal Failed",
+    "RESTRICTED_ACCESS": "Restricted Access",
+    "RESTRICTED_DESC": "You do not have permission to view client details.",
+    "NOT_FOUND_TITLE": "Client Not Found",
+    "NOT_FOUND_DESC": "The requested client dossier could not be located. It may have been archived or removed."
+  },
+  "loading": "Opening Client Dossier...",
+  "analytics": {
+    "health": {
+      "loading": "Analyzing Health Metrics...",
+      "lifetime_title": "Lifetime Revenue",
+      "lifetime_desc": "Total value of paid invoices to date.",
+      "balance_title": "Open Balance",
+      "balance_desc": "Outstanding amount waiting for payment.",
+      "balance_due": "Due",
+      "score_title": "Retention Probability",
+      "score_desc": "Likelihood of placing another order.",
+      "ai_score": "AI Score",
+      "freq_title": "Avg. Purchase Cycle",
+      "freq_average": "Average",
+      "last_order": "Last Order:",
+      "days_ago": "{{days}}d ago",
+      "days": "Days",
+      "risk": {
+        "low": "Active",
+        "medium": "At Risk",
+        "high": "Churned",
+        "new": "New"
+      }
+    },
+    "products": {
+      "title": "Top Products",
+      "subtitle": "Revenue by Item ({{year}})",
+      "loading": "Calculating top items...",
+      "no_data_title": "No Purchases",
+      "no_data_desc": "Client hasn't bought any products yet.",
+      "year_all": "All Time",
+      "legend_total": "Total"
+    },
+    "status": {
+      "title": "Invoice Status",
+      "subtitle": "Ledger Distribution",
+      "loading": "Syncing...",
+      "no_data_title": "No Invoices",
+      "no_data_desc": "No invoice history found.",
+      "legend": {
+        "paid": "Paid",
+        "open": "Open",
+        "cancelled": "Cancelled",
+        "total": "Total"
+      }
+    },
+    "stats": {
+      "title": "Client Growth",
+      "subtitle": "Revenue & Invoice Volume",
+      "secondary_label": "Invoices"
+    },
+    "monthly": {
+      "title": "Monthly Sales",
+      "subtitle": "Revenue for {{year}}",
+      "select_year": "Select Year",
+      "loading": "Syncing sales...",
+      "no_data_title": "No Data Available",
+      "no_data_desc": "No sales recorded for the fiscal year {{year}}.",
+      "series_name": "Sales",
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ]
+    },
+    "aov": {
+      "title": "AOV Trend",
+      "subtitle": "Revenue vs. Invoice Size",
+      "loading": "Calculating Trends...",
+      "series": {
+        "revenue": "Total Revenue",
+        "aov": "Avg Order Value"
+      }
+    }
+  }
+}

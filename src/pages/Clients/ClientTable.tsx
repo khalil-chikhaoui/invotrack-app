@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { ClientData, ClientPaginationMeta } from "../../apis/clients";
 import { BusinessData } from "../../apis/business";
 import {
@@ -22,8 +23,8 @@ import LoadingState from "../../components/common/LoadingState";
 interface ClientsTableProps {
   clients: ClientData[];
   business: BusinessData | null;
-  meta?: ClientPaginationMeta | null;
-  loading?: boolean; // Added loading prop
+  meta?: ClientPaginationMeta | null; 
+  loading?: boolean; 
   onPageChange?: (page: number) => void;
   onView: (client: ClientData) => void;
 }
@@ -36,36 +37,25 @@ export default function ClientsTable({
   onPageChange,
   onView,
 }: ClientsTableProps) {
+  const { t } = useTranslation("client"); // <--- Load "client" namespace
+
   return (
-    // DESIGN CHANGE: Just a flex wrapper, no card styles
     <div className="flex flex-col w-full">
       <div className="max-w-full overflow-x-auto">
         <Table>
           <TableHeader className="bg-gray-50/50 dark:bg-white/[0.01] border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest w-[30%]"
-              >
-                Client Info
+              <TableCell isHeader className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest w-[30%]">
+                {t("list.columns.info")}
               </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest"
-              >
-                Contact Details
+              <TableCell isHeader className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest">
+                {t("list.columns.contact")}
               </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest"
-              >
-                Outstanding
+              <TableCell isHeader className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest">
+                {t("list.columns.outstanding")}
               </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest"
-              >
-                Lifetime Revenue
+              <TableCell isHeader className="px-5 py-3 font-bold text-start text-gray-400 text-[10px] uppercase tracking-widest">
+                {t("list.columns.revenue")}
               </TableCell>
             </TableRow>
           </TableHeader>
@@ -75,12 +65,11 @@ export default function ClientsTable({
               <TableRow>
                 <td colSpan={4} className="p-0 border-none">
                   <div className="min-h-[300px] flex items-center justify-center">
-                    <LoadingState message="Syncing Directory..." minHeight="200px" />
+                    <LoadingState message={t("list.loading")} minHeight="200px" />
                   </div>
                 </td>
               </TableRow>
             ) : clients.length === 0 ? (
-              // Empty State Integrated Inside Table
               <TableRow>
                 <td colSpan={4} className="p-0 border-none">
                   <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -88,10 +77,10 @@ export default function ClientsTable({
                       <HiOutlineUsers className="size-8 text-gray-300 dark:text-gray-600" />
                     </div>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      No clients found
+                      {t("list.empty.title")}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      Adjust filters or add a new client to get started.
+                      {t("list.empty.desc")}
                     </p>
                   </div>
                 </td>
@@ -108,11 +97,7 @@ export default function ClientsTable({
                     <div className="flex items-center gap-3 text-start">
                       <div className="w-10 h-10 overflow-hidden rounded-lg bg-gray-50 dark:bg-white/[0.05] flex items-center justify-center border border-gray-100 dark:border-white/[0.05] shrink-0 group-hover:border-brand-200 dark:group-hover:border-brand-500/30 transition-colors">
                         {client.logo ? (
-                          <img
-                            src={client.logo}
-                            className="object-cover w-full h-full"
-                            alt=""
-                          />
+                          <img src={client.logo} className="object-cover w-full h-full" alt="" />
                         ) : client.clientType === "Business" ? (
                           <HiOutlineBuildingOffice2 className="size-5 text-gray-400 group-hover:text-brand-500 transition-colors" />
                         ) : (
@@ -130,15 +115,11 @@ export default function ClientsTable({
                             color={client.clientType === "Business" ? "warning" : "info"}
                             className="text-[9px] px-1.5 py-0 uppercase tracking-widest font-bold"
                           >
-                            {client.clientType}
+                            {t(`form.options.${client.clientType.toLowerCase()}` as any, client.clientType)}
                           </Badge>
                           {client.isArchived && (
-                            <Badge
-                              color="error"
-                              size="sm"
-                              className="text-[9px] px-1.5 py-0 uppercase tracking-widest font-bold"
-                            >
-                              Archived
+                            <Badge color="error" size="sm" className="text-[9px] px-1.5 py-0 uppercase tracking-widest font-bold">
+                              {t("filters.status.archived")}
                             </Badge>
                           )}
                         </div>
@@ -152,13 +133,11 @@ export default function ClientsTable({
                       {client.email ? (
                         <div className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                           <HiMiniPaperAirplane className="size-3.5 text-brand-500" />
-                          <span className="truncate max-w-[150px]">
-                            {client.email}
-                          </span>
+                          <span className="truncate max-w-[150px]">{client.email}</span>
                         </div>
                       ) : (
                         <span className="text-gray-300 text-[10px] italic pl-5">
-                          — No email
+                          {t("list.no_email")}
                         </span>
                       )}
                       {client.phone?.number && (
@@ -173,22 +152,12 @@ export default function ClientsTable({
                   {/* 3. OUTSTANDING (Unpaid) */}
                   <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                     <div className="flex flex-col items-start gap-1">
-                      <span
-                        className={`text-sm font-bold font-mono tracking-tight ${
-                          client.metrics?.unpaidTotal
-                            ? "text-error-600 dark:text-error-400"
-                            : "text-gray-400 dark:text-gray-500"
-                        }`}
-                      >
-                        {formatMoney(
-                          client.metrics?.unpaidTotal || 0,
-                          business?.currency,
-                          business?.currencyFormat
-                        )}
+                      <span className={`text-sm font-bold font-mono tracking-tight ${client.metrics?.unpaidTotal ? "text-error-600 dark:text-error-400" : "text-gray-400 dark:text-gray-500"}`}>
+                        {formatMoney(client.metrics?.unpaidTotal || 0, business?.currency, business?.currencyFormat)}
                       </span>
                       {client.metrics?.unpaidCount ? (
                          <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
-                           {client.metrics.unpaidCount} Open Inv.
+                           {client.metrics.unpaidCount} {t("list.open_inv")}
                          </span>
                       ) : null}
                     </div>
@@ -197,21 +166,11 @@ export default function ClientsTable({
                   {/* 4. REVENUE (Paid) */}
                   <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                     <div className="flex flex-col items-start gap-1">
-                      <span
-                        className={`text-sm font-bold font-mono tracking-tight ${
-                          client.metrics?.paidTotal
-                            ? "text-success-600 dark:text-success-400"
-                            : "text-gray-400 dark:text-gray-500"
-                        }`}
-                      >
-                        {formatMoney(
-                          client.metrics?.paidTotal || 0,
-                          business?.currency,
-                          business?.currencyFormat
-                        )}
+                      <span className={`text-sm font-bold font-mono tracking-tight ${client.metrics?.paidTotal ? "text-success-600 dark:text-success-400" : "text-gray-400 dark:text-gray-500"}`}>
+                        {formatMoney(client.metrics?.paidTotal || 0, business?.currency, business?.currencyFormat)}
                       </span>
                        <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
-                        Lifetime Paid
+                        {t("list.lifetime_paid")}
                       </span>
                     </div>
                   </TableCell>

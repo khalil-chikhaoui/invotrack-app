@@ -1,0 +1,161 @@
+{
+  "meta_title": "{{number}} | Details",
+  "meta_desc": "Invoice Registry Details",
+  "tabs": {
+    "general": "General Information",
+    "stats": "Performance Stats"
+  },
+  "header": {
+    "back": "Back",
+    "directory": "Invoice Directory",
+    "export_pdf": "Default PDF",
+    "export_alt": "Export Alternative Style",
+    "loading_pdf": "Loading...",
+    "styles": {
+      "classic": "Classic",
+      "classic_desc": "Traditional & Professional.",
+      "minimal": "Minimal",
+      "minimal_desc": "Clean lines, data-focused.",
+      "modern": "Modern",
+      "modern_desc": "High impact visual design."
+    }
+  },
+  "identity_card": {
+    "edit_record": "Edit Record",
+    "issued": "Issued:",
+    "due": "Due:",
+    "edit": "Edit",
+    "created_on": "Invoice created on {{date}} by {{user}}",
+    "valuation": "Valuation"
+  },
+  "parties": {
+    "recipient": "Recipient Registry",
+    "edit": "Edit"
+  },
+  "ledger": {
+    "title": "Ledger Items",
+    "quick_item": "Quick Item",
+    "search_placeholder": "Find products or services to add...",
+    "empty": "Empty Ledger",
+    "no_results": "No products found",
+    "headers": {
+      "nomenclature": "Nomenclature",
+      "qty": "Qty",
+      "rate": "Rate",
+      "total": "Total",
+      "control": "Control"
+    },
+    "notes": {
+      "title": "Notes & Instructions",
+      "edit": "Edit",
+      "placeholder": "Enter payment terms or notes...",
+      "save": "Save Notes",
+      "saving": "Saving...",
+      "empty": "No additional notes provided."
+    },
+    "totals": {
+      "adjust": "Adjust Tax/Discount",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "tax": "Tax",
+      "grand_total": "Grand Total"
+    }
+  },
+  "sidebar": {
+    "lifecycle_title": "Lifecycle Management",
+    "payment_state": "Payment State",
+    "logistics": "Logistics",
+    "notes_title": "Internal Notes",
+    "notes_placeholder": "Add private notes here..."
+  },
+  "stats": {
+    "profit": "Net Profit",
+    "profit_desc": "Revenue minus cost of goods",
+    "margin": "Profit Margin",
+    "margin_desc": "Percentage of revenue kept",
+    "cost": "Total Cost (COGS)",
+    "cost_desc": "Total expense for items",
+    "velocity": "Payment Velocity",
+    "velocity_desc": "Time from issue to settlement",
+    "days": "Days"
+  },
+  "modals": {
+    "payment": {
+      "title": "Payment Status",
+      "confirm_void": "Confirm Void",
+      "apply": "Apply Sync"
+    },
+    "delivery": {
+      "title": "Logistics State",
+      "update": "Update Ledger"
+    },
+    "client": {
+      "title": "Edit Recipient",
+      "subtitle": "Modify the client details for this specific invoice record.",
+      "fields": {
+        "name": "Client Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "billing": "Billing Address",
+        "street": "Street Address",
+        "city": "City",
+        "state": "State / Province",
+        "zip": "Postal Code",
+        "country": "Country"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving..."
+      }
+    },
+    "dates": {
+      "title": "Update Invoice Timeline",
+      "desc": "Adjust the issuance and due dates for this financial record.",
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save New Dates",
+        "saving": "Saving Changes..."
+      }
+    },
+    "financials": {
+      "title": "Financial Adjustments",
+      "desc": "Configure the applicable tax rates and discount models for this invoice.",
+      "actions": {
+        "cancel": "Cancel",
+        "apply": "Apply Adjustments",
+        "calculating": "Calculating..."
+      }
+    },
+    "delete_item": {
+      "title": "Remove Item?",
+      "desc": "This will remove the item from the invoice ledger. This action cannot be undone.",
+      "confirm": "Remove"
+    }
+  },
+  "messages": {
+    "SYNC_ERROR": "Sync Error",
+    "LEDGER_UPDATED": "Ledger updated.",
+    "ITEM_REMOVED": "Item removed from ledger.",
+    "NOTES_UPDATED": "Invoice notes updated.",
+    "FINANCIALS_UPDATED": "Tax and Discount updated.",
+    "STATUS_SYNCED": "Transaction state updated.",
+    "DATES_UPDATED": "Dates updated successfully.",
+    "EXPORT_SUCCESS": "{{style}} version exported.",
+    "EXPORT_ERROR": "Failed to generate specific style.",
+    "CLIENT_UPDATED": "Client details updated."
+  },
+  "errors": {
+    "FAILED": "Failed",
+    "UPDATE_FAILED": "Update Failed",
+    "RESTRICTED_ACCESS": "Protected Document",
+    "RESTRICTED_DESC": "You do not have permission to view the details of this financial record.",
+    "NOT_FOUND_TITLE": "Invoice Not Found",
+    "NOT_FOUND_DESC": "This invoice record does not exist or has been permanently removed."
+  },
+  "loading": "Decrypting Financial Record...",
+  "actions": {
+    "return": "return",
+    "back": "Back"
+  }
+}

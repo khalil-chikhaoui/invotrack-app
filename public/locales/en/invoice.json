@@ -1,0 +1,159 @@
+{
+  "list": {
+    "title": "Invoices",
+    "meta_desc": "Manage business billing and invoices",
+    "breadcrumb": "Billing & Invoices",
+    "syncing": "Syncing Ledger...",
+    "new_invoice": "New Invoice",
+    "empty": {
+      "title": "No records found",
+      "desc": "Try adjusting your filters or create a new invoice."
+    },
+    "columns": {
+      "details": "Invoice Details",
+      "client": "Client Info",
+      "amount": "Amount",
+      "payment": "Payment",
+      "logistics": "Logistics"
+    }
+  },
+  "filters": {
+    "search_label": "Search",
+    "search_placeholder": "Invoice # or Client...",
+    "date_range_label": "Time Frame",
+    "status_label": "Payment",
+    "logistics_label": "Logistics",
+    "sort_label": "Sort By",
+    "modal_title": "Refine Registry",
+    "modal_desc": "Filter by date, status or tracking",
+    "select_dates": "Select Dates",
+    "pick_range": "Pick Range",
+    "apply": "Apply Filters",
+    "reset": "Reset All",
+    "date_ranges": {
+      "all": "All Time",
+      "today": "Today",
+      "lastweek": "Last Week",
+      "lastmonth": "Last Month",
+      "custom": "Custom Range"
+    },
+    "status": {
+      "all": "All Status",
+      "unpaid": "Unpaid",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    },
+    "logistics": {
+      "all": "All Tracking"
+    },
+    "sort": {
+      "created_new": "Created: Newest",
+      "created_old": "Created: Oldest",
+      "issued_new": "Issued: Newest",
+      "issued_old": "Issued: Oldest",
+      "number_asc": "Invoice # (0-9)",
+      "number_desc": "Invoice # (9-0)",
+      "amount_high": "Amount (High-Low)",
+      "amount_low": "Amount (Low-High)"
+    }
+  },
+  "status_modal": {
+    "title_payment": "Payment Status",
+    "title_delivery": "Logistics Tracker",
+    "actions": {
+      "cancel": "Cancel",
+      "update": "Update",
+      "confirm_void": "Confirm Void"
+    },
+    "options": {
+      "open": "Open",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    }
+  },
+  "errors": {
+    "BUSINESS_NOT_FOUND": "Business profile not found.",
+    "INVOICE_NOT_FOUND": "Invoice record could not be found.",
+    "CLIENT_ARCHIVED": "The selected client has been archived.",
+    "ITEMS_ARCHIVED": "One or more selected items have been archived.",
+    "CANNOT_UPDATE_VOIDED": "Cannot modify a voided or cancelled invoice.",
+    "INVOICE_ALREADY_ACTIVE": "This invoice is already active.",
+    "INVOICE_ALREADY_VOIDED": "This invoice has already been voided.",
+    "GENERIC_ERROR": "An unexpected error occurred.",
+    "SYNC_ERROR": "Sync Error",
+    "UPDATE_FAILED": "Update Failed",
+    "ACCESS_RESTRICTED": "Access Restricted",
+    "ACCESS_RESTRICTED_DESC": "No permission to view invoices."
+  },
+  "messages": {
+    "INVOICE_CREATED": "Invoice created successfully.",
+    "INVOICE_UPDATED": "Invoice updated successfully.",
+    "INVOICE_RESTORED": "Invoice restored to active status.",
+    "INVOICE_VOIDED": "Invoice cancelled and stock returned.",
+    "STATUS_SYNCED": "Ledger status synced."
+  },
+  "create": {
+    "title": "New Invoice",
+    "meta_desc": "Draft and dispatch new financial documents.",
+    "breadcrumb": "New Invoice",
+    "loading": "Initializing Invoice Builder...",
+    "sections": {
+      "bill_to": "Bill To",
+      "new_client": "New Client",
+      "items": "Nomenclature",
+      "quick_item": "Quick Item",
+      "dates": "Dates",
+      "issue_date": "Invoice Issue Date",
+      "due_date": "Settlement Due Date",
+      "tax_discount": "Tax & Discount",
+      "amount": "Amount",
+      "mode": "Mode",
+      "tax_rate": "Tax Ledger Rate (%)",
+      "summary": "Valuation Summary",
+      "notes": "Invoice Notes & Terms"
+    },
+    "placeholders": {
+      "client_search": "Find client...",
+      "item_search": "Find products or services...",
+      "select_date": "Select date",
+      "select_due_date": "Select due date",
+      "notes": "Payment instructions, bank wire details, or custom messages..."
+    },
+    "summary": {
+      "subtotal": "Subtotal",
+      "adjustment": "Adjustment",
+      "taxation": "Taxation",
+      "total": "TOTAL"
+    },
+    "actions": {
+      "syncing": "Synchronizing...",
+      "sync_update": "Sync Invoice Update",
+      "confirm": "Confirm & Dispatch",
+      "back": "Back"
+    },
+    "item_manager": {
+      "empty_ledger": "Empty Ledger",
+      "no_products": "No products found",
+      "headers": {
+        "nomenclature": "Nomenclature",
+        "qty": "Qty",
+        "rate": "Rate",
+        "total": "Total",
+        "control": "Control"
+      },
+      "modals": {
+        "remove_title": "Remove Item?",
+        "remove_desc": "Delete this item from the current invoice?",
+        "edit_title": "Edit Line Item",
+        "edit_desc": "Update details for",
+        "qty": "Quantity",
+        "selling_price": "Selling Price",
+        "internal_costing": "Internal Costing",
+        "margin": "Projected Margin",
+        "line_total": "New Line Total",
+        "save": "Update Item",
+        "saving": "Saving..."
+      }
+    }
+  }
+}

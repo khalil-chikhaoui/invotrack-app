@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineInformationCircle,
   HiOutlineDocumentText,
@@ -25,11 +26,12 @@ export default function ItemHistoryTab({
   loading,
   canManage,
   meta,
-  setPage,
+  setPage, 
   onOpenStatus,
   onOpenDelivery,
   filterProps,
 }: ItemHistoryTabProps) {
+  const { t } = useTranslation("item_details");
 
   const showTable = loading || invoices.length > 0;
 
@@ -39,7 +41,7 @@ export default function ItemHistoryTab({
       {/* 1. Header */}
       <div className="px-1">
         <h3 className="font-semibold text-gray-800 dark:text-white tracking-widest text-sm md:text-md uppercase flex items-center gap-2">
-          <HiOutlineDocumentText className="size-4" /> Transaction Ledger
+          <HiOutlineDocumentText className="size-4" /> {t("history_tab.title")}
         </h3>
       </div>
 
@@ -69,8 +71,8 @@ export default function ItemHistoryTab({
             </div>
             <p className="text-xs font-semibold text-center text-gray-400 uppercase tracking-widest">
               {filterProps.statusFilter 
-                ? "No invoices match the selected filters"
-                : "No invoices found containing this item"}
+                ? t("history_tab.empty_filter")
+                : t("history_tab.empty_item")}
             </p>
           </div>
         )}

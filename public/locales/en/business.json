@@ -59,9 +59,187 @@
     "errors": {
       "name_required": "Business Name is required",
       "name_short": "Name must be at least 3 characters",
-      "AUTH_NOT_AUTHENTICATED": "You must be logged in to create a business.",
-      "AUTH_USER_NOT_FOUND": "User account could not be found.",
       "generic": "Failed to create business."
     }
+  },
+  "settings": {
+    "general": {
+      "title": "General Settings",
+      "description": "Update your business identity and contact details.",
+      "loading": "Syncing Business Profile...",
+      "not_found": "Registry Entry Not Found",
+      "locked_title": "Configuration Locked",
+      "locked_desc": "Your current membership role does not permit administrative modifications to this business registry.",
+      "form": {
+        "name_label": "Business Name",
+        "legal_name_label": "Legal Name",
+        "email_label": "Contact Email",
+        "phone_label": "Phone Number",
+        "desc_label": "Description / Bio",
+        "language_label": "Business Language",
+        "website_label": "Website URL",
+        "social_facebook": "Facebook",
+        "social_twitter": "Twitter / X",
+        "social_linkedin": "LinkedIn",
+        "social_instagram": "Instagram",
+        "save": "Save Changes",
+        "save_address": "Save Address",
+        "save_contact": "Save Contact",
+        "save_registry": "Save Registry",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "edit_identity": "Edit Identity",
+        "saving": "Saving...",
+        "synchronizing": "Synchronizing...",
+        "apply_updates": "Apply Updates"
+      },
+      "cards": {
+        "identity_title": "Organizational Branding",
+        "edit_identity_title": "Edit Organizational Branding",
+        "address_title": "Location & Connectivity",
+        "address_update_title": "Update Registry Location",
+        "contact_update_title": "Update Registry Contact",
+        "digital_update_title": "Update Digital Connectivity",
+        "legal_title": "Legal & Finance Registry",
+        "legal_update_title": "Update Registry",
+        "legal_subtitle": "Modify official identification and contact details",
+        "tax_label": "Tax ID / VAT",
+        "reg_label": "Registration #",
+        "billing_email_label": "Billing Email",
+        "billing_help": "Invoices and payment receipts will be synchronized with this address.",
+        "unset": "UNSET",
+        "not_registered": "NOT REGISTERED",
+        "no_phone": "No phone connected",
+        "no_website": "No website configured",
+        "official_contact": "Official Contact",
+        "online_presence": "Online Presence"
+      }
+    },
+    "invoice_design": {
+      "title": "Invoice Customization",
+      "description": "Customize Your invoice design",
+      "breadcrumb": "Invoice Templates",
+      "style_title": "Style",
+      "branding_title": "Branding",
+      "fields_title": "Fields",
+      "preview_label": "Scaled Preview (Fit Width)",
+      "templates": {
+        "Classic": "Classic",
+        "Minimal": "Minimal",
+        "Modern": "Modern"
+      },
+      "colors": {
+        "primary": "Primary",
+        "accent": "Accent"
+      },
+      "visibility": {
+        "Logo": "Logo",
+        "TaxId": "Tax ID",
+        "DueDate": "Due Date",
+        "Discount": "Discount",
+        "Notes": "Notes",
+        "PaymentTerms": "Payment Terms",
+        "Footer": "Footer"
+      },
+      "actions": {
+        "reset": "Set Default",
+        "saving": "Saving..."
+      },
+      "loading_pdf": "Rendering PDF...",
+      "preview_error": "Failed to load preview",
+      "loading_config": "Loading Configuration...",
+      "preparing_config": "Preparing Configuration..."
+    },
+    "currency_settings": {
+      "title": "Currency Settings",
+      "meta_desc": "Manage financial formatting",
+      "breadcrumb": "Currency & Formatting",
+      "main_card_title": "Currency Configuration",
+      "primary_currency_label": "Primary Currency",
+      "decimal_places_label": "Decimal Places",
+      "thousands_separator_label": "Thousands Separator",
+      "decimal_separator_label": "Decimal Separator",
+      "symbol_mode_label": "Symbol Mode",
+      "symbol_position_label": "Symbol Position",
+      "symbol_text": "Symbol",
+      "code_text": "Code",
+      "left": "Left",
+      "right": "Right",
+      "live_preview_title": "Live Preview",
+      "live_preview_desc": "How amounts will appear on your invoices.",
+      "total_amount_label": "Total Amount",
+      "actions": {
+        "saving": "Saving Changes...",
+        "update": "Update Configuration"
+      },
+      "options": {
+        "comma": "Comma",
+        "dot": "Dot",
+        "space": "Space",
+        "apostrophe": "Apostrophe",
+        "precision": "Precision"
+      },
+      "loading": "Fetching currency profile...",
+      "locked_title": "Financial Settings Locked",
+      "locked_desc": "Currency and numbering formats are critical financial settings restricted to Administrators."
+    },
+    "tax_discount": {
+      "title": "Fiscal Rules",
+      "meta_desc": "Manage global tax and discount defaults.",
+      "breadcrumb": "Tax & Discount Defaults",
+      "main_card_title": "Invoicing Defaults",
+      "main_card_desc": "Automatically applied to all newly generated invoices.",
+      "tax_label": "Standard Tax Rate",
+      "tax_help": "Calculated against the subtotal after global discounts are applied.",
+      "discount_label": "Standard Discount Rule",
+      "value_label": "Value",
+      "mode_label": "Calculation Mode",
+      "mode_percentage": "Percentage (%)",
+      "mode_fixed": "Fixed Currency Value",
+      "actions": {
+        "updating": "Updating Rules...",
+        "save": "Save Default Rules"
+      },
+      "loading": "Initialising Fiscal Rules...",
+      "locked_title": "Fiscal Access Denied",
+      "locked_desc": "Only Business Administrators are authorised to modify global tax and discount rules.",
+      "sandbox": {
+        "title": "Calculation Sandbox",
+        "desc": "Simulating rules against a sample {{amount}} subtotal.",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "fixed": "Fixed",
+        "tax": "Tax",
+        "estimated_total": "Estimated Total"
+      }
+    }
+  },
+  "modals": {
+    "remove_logo_title": "Remove Business Logo?",
+    "remove_logo_desc": "This action will permanently delete the custom branding asset and revert to a monogram.",
+    "confirm_remove": "Remove Logo"
+  },
+  "messages": {
+    "BUSINESS_UPDATED": "Business settings updated successfully.",
+    "BUSINESS_DELETED": "Business profile deleted permanently.",
+    "LOGO_UPLOADED": "Branding logo updated successfully.",
+    "LOGO_REMOVED": "Branding logo removed.",
+    "SETTINGS_SAVED": "Settings saved successfully.",
+    "REGISTRY_UPDATED": "Registry details synchronized.",
+    "BRANDING_UPDATED": "Business logo has been synchronized.",
+    "ASSET_PURGED": "Business logo has been removed.",
+    "INVOICE_SETTINGS_UPDATED": "Invoice design settings saved."
+  },
+  "errors": {
+    "AUTH_NOT_AUTHENTICATED": "You must be logged in.",
+    "AUTH_USER_NOT_FOUND": "User account could not be found.",
+    "BUSINESS_NOT_FOUND": "Business profile not found.",
+    "UPLOAD_NO_FILE": "Please select an image file.",
+    "LOGO_UPLOAD_FAILED": "Failed to upload logo image.",
+    "ACCESS_DENIED_ADMIN_ONLY": "Access denied. Admin privileges required.",
+    "UPDATE_FAILED": "Failed to update settings.",
+    "SYNC_FAILED": "Sync Failed",
+    "REMOVAL_FAILED": "Removal Failed",
+    "GENERIC_ERROR": "An unexpected error occurred."
   }
 }

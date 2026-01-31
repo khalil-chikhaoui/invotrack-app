@@ -278,7 +278,7 @@ const AppHeader: React.FC = () => {
         {/* --- Right Section Utilities --- */}
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-6">
           <ThemeToggleButton />
-          <NotificationDropdown />
+          {/*<NotificationDropdown />*/}
         </div>
       </div>
     </header>

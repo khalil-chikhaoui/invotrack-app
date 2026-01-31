@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { HiOutlinePresentationChartLine } from "react-icons/hi2";
 import { dashboardApi, DashboardChartPoint } from "../../apis/dashboard";
 import { useAuth } from "../../context/AuthContext";
@@ -10,16 +11,19 @@ import { formatMoney } from "../../hooks/formatMoney";
 import { useTheme } from "../../context/ThemeContext";
 import { formatDate } from "date-fns";
 import ChartSkeleton from "./ChartSkeleton";
+import { useDateLocale } from "../../hooks/useDateLocale"; // <--- Import Hook
 
 interface RevenueChartProps {
   business: BusinessData | null;
   dateRange: DashboardDateRange;
-  loadingBusiness?: boolean; // Added prop
+  loadingBusiness?: boolean; 
 }
-
+ 
 export default function RevenueChart({ business, dateRange, loadingBusiness }: RevenueChartProps) {
+  const { t } = useTranslation("home"); // <--- Load namespace
   const { user } = useAuth();
   const { theme } = useTheme();
+  const dateLocale = useDateLocale(); // <--- Get locale
   
   const businessId = business?._id || user?.memberships[0]?.businessId._id;
   const currency = business?.currency || "USD";
@@ -50,14 +54,12 @@ export default function RevenueChart({ business, dateRange, loadingBusiness }: R
     fetchData();
   }, [businessId, dateRange]);
 
-  // Combined Loading State
   const isLoading = loadingBusiness || internalLoading;
-
   const hasData = useMemo(() => data.length > 0, [data]);
 
   const series = [
-    { name: "Total Revenue", data: data.map((d) => d.revenue) },
-    { name: "Net Profit", data: data.map((d) => d.profit) },
+    { name: t("charts.revenue.series_revenue"), data: data.map((d) => d.revenue) },
+    { name: t("charts.revenue.series_profit"), data: data.map((d) => d.profit) },
   ];
 
   const options: ApexOptions = {
@@ -113,22 +115,22 @@ export default function RevenueChart({ business, dateRange, loadingBusiness }: R
     },
   };
 
-  const rangeLabel = `${formatDate(dateRange.start, "MMM d")} - ${formatDate(dateRange.end, "MMM d")}`;
-
+  // Use the dateLocale here
+  const rangeLabel = `${formatDate(dateRange.start, "MMM d", { locale: dateLocale })} - ${formatDate(dateRange.end, "MMM d", { locale: dateLocale })}`;
 
   if (isLoading) {
     return <ChartSkeleton />;
   }
   
   return (
-    <div className="w-full h-full flex flex-col rounded-2xl border border-gray-200 bg-white p-5 pl-0 dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm overflow-hidden">
+    <div className="w-full h-full flex flex-col rounded-2xl border border-gray-200 bg-white p-5 pl-0 dark:border-white/[0.05] dark:bg-white/[0.03] overflow-hidden">
       <div className="mb-6 flex items-start justify-between">
         <div className="pl-4">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
-            Financial Performance
+            {t("charts.revenue.title")}
           </h3>
           <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-            Revenue vs Net Profit • {rangeLabel}
+            {t("charts.revenue.subtitle", { range: rangeLabel })}
           </p>
         </div>
       </div>
@@ -140,10 +142,10 @@ export default function RevenueChart({ business, dateRange, loadingBusiness }: R
               <HiOutlinePresentationChartLine className="size-6 text-gray-600 dark:text-gray-400" />
             </div>
             <h4 className="text-[12px] font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-              No Transactions
+              {t("charts.revenue.no_data_title")}
             </h4>
             <p className="text-[12px] text-gray-600 dark:text-gray-400 mt-1 max-w-[200px] leading-relaxed">
-              No revenue recorded for the selected period
+              {t("charts.revenue.no_data_desc")}
             </p>
           </div>
         ) : (

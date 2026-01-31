@@ -1,0 +1,70 @@
+{
+  "meta_title": "Tableau de bord",
+  "meta_desc": "Aperçu de l'intelligence d'affaires et de la performance",
+  "header": {
+    "title": "Tableau de bord",
+    "subtitle": "Aperçu de la performance de votre entreprise",
+    "custom_range": "Personnalisé",
+    "select_range": "Sélectionner une période",
+    "presets": {
+      "today": "Aujourd'hui",
+      "last3days": "Derniers 3 jours",
+      "this_week": "Cette semaine",
+      "this_month": "Ce mois-ci",
+      "this_trimester": "Ce trimestre",
+      "this_semester": "Ce semestre",
+      "this_year": "Cette année"
+    }
+  },
+  "metrics": {
+    "revenue": {
+      "title": "Revenu Total",
+      "desc": "Montant total facturé"
+    },
+    "profit": {
+      "title": "Bénéfice Brut",
+      "desc": "Revenu moins les coûts"
+    },
+    "invoices": {
+      "title": "Factures",
+      "desc": "Volume de factures envoyées"
+    },
+    "clients": {
+      "title": "Nouveaux Clients",
+      "desc": "Clients acquis"
+    },
+    "comparison": "vs {{start}} - {{end}}"
+  },
+  "charts": {
+    "revenue": {
+      "title": "Performance Financière",
+      "subtitle": "Revenu vs Bénéfice Net • {{range}}",
+      "series_revenue": "Revenu Total",
+      "series_profit": "Bénéfice Net",
+      "no_data_title": "Aucune Transaction",
+      "no_data_desc": "Aucun revenu enregistré pour la période sélectionnée"
+    },
+    "products": {
+      "title": "Top Produits",
+      "subtitle": "Revenu • {{range}}",
+      "total_sales": "Ventes Totales",
+      "no_data_title": "Aucune Donnée",
+      "no_data_desc": "Aucune vente de produit trouvée sur cette période."
+    },
+    "delivery": {
+      "title": "Logistique",
+      "subtitle": "Performance de Livraison • {{range}}",
+      "empty_title": "Aucune Expédition",
+      "empty_desc": "Aucune donnée de livraison trouvée pour cette période."
+    },
+    "profit": {
+      "title": "Rentabilité des Top Clients",
+      "subtitle": "Bénéfice Net vs Coût • {{range}}"
+    }
+  },
+  "errors": {
+    "access_restricted": "Accès au Tableau de Bord Restreint",
+    "access_desc": "Vous n'avez pas les permissions requises pour consulter le tableau de bord de performance financière.",
+    "return": "Retour au Tableau de bord"
+  }
+}

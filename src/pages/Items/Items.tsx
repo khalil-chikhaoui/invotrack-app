@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { itemApi, ItemData, ItemPaginationMeta } from "../../apis/items";
 import { businessApi, BusinessData } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
@@ -14,8 +15,10 @@ import PermissionDenied from "../../components/common/PermissionDenied";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import ItemFilters from "../../components/items/ItemFilters";
+import { scrollToTopAppLayout } from "../../layout/AppLayout"; // <--- Scroll helper
 
 export default function Items() {
+  const { t } = useTranslation("item"); // <--- Load namespace
   const { businessId } = useParams();
   const { canManage, canViewFinancials } = usePermissions();
   const { alert, setAlert } = useAlert();
@@ -52,6 +55,14 @@ export default function Items() {
     closeModal: closeStockModal,
   } = useModal();
 
+  /**
+   * WRAPPER FUNCTION for Alerts
+   */
+  const triggerAlert = (data: { type: "success" | "error" | "warning" | "info"; title: string; message: string }) => {
+    setAlert(data);
+    scrollToTopAppLayout();
+  };
+
   const fetchData = async () => {
     if (!businessId || !canViewFinancials) return;
     setLoading(true);
@@ -71,7 +82,7 @@ export default function Items() {
       setItems(res.items);
       setMeta(res.meta);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Sync Error", message: error.message });
+      triggerAlert({ type: "error", title: t("errors.SYNC_ERROR"), message: error.message });
     } finally {
       setLoading(false);
     }
@@ -95,15 +106,27 @@ export default function Items() {
     setDeleting(true);
     try {
       const res: any = await itemApi.deleteItem(selectedItem._id);
-      setAlert({
+      
+      // Determine correct translation keys based on backend action
+      const titleKey = res.action === "ARCHIVED" ? "messages.ARCHIVED" : "messages.DELETED";
+      // We assume backend returns a message key like 'ITEM_DELETED' now, or fallback
+      // For safety, let's map the backend code or use generic success
+      const msgKey = res.message === "ITEM_ARCHIVED_HISTORY" ? "messages.ITEM_ARCHIVED_HISTORY" : "messages.ITEM_DELETED";
+
+      triggerAlert({
         type: res.action === "ARCHIVED" ? "warning" : "success",
-        title: res.action === "ARCHIVED" ? "Archived" : "Deleted",
-        message: res.message,
+        title: t(titleKey),
+        message: t(msgKey),
       });
       fetchData();
       closeDeleteModal();
     } catch (error: any) {
-      setAlert({ type: "error", title: "Failed", message: error.message });
+      const errorCode = error.message;
+      triggerAlert({ 
+        type: "error", 
+        title: t("errors.FAILED"), 
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setDeleting(false);
     }
@@ -112,7 +135,7 @@ export default function Items() {
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Inventory Access Restricted"
+        title="Inventory Access Restricted" // Consider adding to translation if needed
         description="Your current role does not have permission to view inventory data."
         actionText="Return to Dashboard"
       />
@@ -121,8 +144,8 @@ export default function Items() {
 
   return (
     <>
-      <PageMeta description="Manage catalog." title="Inventory | Invotrack" />
-      <PageBreadcrumb pageTitle="Inventory Management" />
+      <PageMeta description={t("list.meta_desc")} title={`${t("list.title")} | Invotrack`} />
+      <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       {/* --- MASTER UNIFIED CARD --- */}
@@ -134,7 +157,7 @@ export default function Items() {
           setSearchTerm={setSearchTerm}
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
-          typeFilter={typeFilter}
+          typeFilter={typeFilter} 
           setTypeFilter={setTypeFilter}
           sortConfig={sortConfig}
           setSortConfig={setSortConfig}
@@ -178,14 +201,14 @@ export default function Items() {
         item={selectedItem}
         businessId={businessId!}
         refresh={fetchData}
-        setAlert={setAlert}
+        setAlert={triggerAlert}
       />
       <ConfirmModal
         isOpen={isDeleteOpen}
         onClose={closeDeleteModal}
         onConfirm={confirmDelete}
-        title="Delete Item"
-        description={`Remove ${selectedItem?.name}?`}
+        title={t("modals.delete_title")}
+        description={t("modals.delete_desc", { name: selectedItem?.name })}
         variant="danger"
         isLoading={deleting}
       />

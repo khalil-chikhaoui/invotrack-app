@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineCubeTransparent,
   HiOutlineMagnifyingGlass,
@@ -34,6 +35,7 @@ export default function ItemManager({
   currency,
   currencyFormat,
 }: ItemManagerProps) {
+  const { t } = useTranslation("invoice");
   const { businessId } = useParams<{ businessId: string }>();
   const [search, setSearch] = useState("");
   const [searching, setSearching] = useState(false);
@@ -149,15 +151,15 @@ export default function ItemManager({
               <HiOutlineCubeTransparent className="size-3.5 text-gray-600 dark:text-gray-400" />
             </div>
             <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-400">
-              Nomenclature
+              {t("create.sections.items")}
             </h3>
-          </div> 
+          </div>
           <button
             type="button"
             onClick={onNewItem}
-           className="group flex items-center bg-brand-500/7 hover:bg-brand-500/10 dark:bg-brand-50/10 dark:hover:bg-brand-50/20 py-1.5 px-3 rounded-md gap-1.5 text-[12px] font-medium  tracking-wide text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors"
+            className="group flex items-center bg-brand-500/7 hover:bg-brand-500/10 dark:bg-brand-50/10 dark:hover:bg-brand-50/20 py-1.5 px-3 rounded-md gap-1.5 text-[12px] font-medium  tracking-wide text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors"
           >
-            <HiPlus className="size-3.5" /> Quick Item
+            <HiPlus className="size-3.5" /> {t("create.sections.quick_item")}
           </button>
         </div>
 
@@ -173,7 +175,7 @@ export default function ItemManager({
               value={search}
               onFocus={() => setIsOpen(true)}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Find products or services..."
+              placeholder={t("create.placeholders.item_search")}
               className="w-full h-11 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 pl-11 pr-10 text-sm font-medium focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 transition-all text-gray-900 dark:text-white placeholder:text-gray-400"
             />
             <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -204,7 +206,6 @@ export default function ItemManager({
                             : "hover:bg-gray-50 dark:hover:bg-white/[0.02]"
                         }`}
                       >
-
                         <div className="flex flex-col min-w-0 flex-1">
                           <span className="text-sm font-medium text-gray-800 dark:text-white truncate  tracking-tight leading-tight">
                             <HighlightText text={i.name} highlight={search} />
@@ -225,7 +226,7 @@ export default function ItemManager({
                   ) : (
                     <div className="p-6 text-center">
                       <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
-                        No products found
+                        {t("create.item_manager.no_products")}
                       </p>
                     </div>
                   )}
@@ -237,28 +238,30 @@ export default function ItemManager({
 
         <div className="overflow-x-auto rounded-b-[2rem]">
           {items.length === 0 ? (
-             <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
-            <HiOutlineCubeTransparent className="size-8 mb-2 " />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.1em] ">Empty Ledger</span>
-          </div>
+            <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
+              <HiOutlineCubeTransparent className="size-8 mb-2 " />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.1em] ">
+                {t("create.item_manager.empty_ledger")}
+              </span>
+            </div>
           ) : (
             <table className="w-full text-start border-t border-gray-100 dark:border-white/5">
               <thead>
                 <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400">
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-start">
-                    Nomenclature
+                    {t("create.item_manager.headers.nomenclature")}
                   </th>
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-center">
-                    Qty
+                    {t("create.item_manager.headers.qty")}
                   </th>
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end">
-                    Rate
+                    {t("create.item_manager.headers.rate")}
                   </th>
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end">
-                    Total
+                    {t("create.item_manager.headers.total")}
                   </th>
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end">
-                    Control
+                    {t("create.item_manager.headers.control")}
                   </th>
                 </tr>
               </thead>
@@ -324,8 +327,8 @@ export default function ItemManager({
           if (deleteIndex !== null) onRemoveItem(deleteIndex);
           setIsConfirmOpen(false);
         }}
-        title="Remove Item?"
-        description="Delete this item from the current invoice?"
+        title={t("create.item_manager.modals.remove_title")}
+        description={t("create.item_manager.modals.remove_desc")}
         variant="danger"
       />
     </div>

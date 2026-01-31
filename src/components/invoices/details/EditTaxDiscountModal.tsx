@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import { InvoiceData } from "../../../apis/invoices";
@@ -22,6 +23,7 @@ export default function EditTaxDiscountModal({
   invoice,
   onSave,
 }: EditTaxDiscountModalProps) {
+  const { t } = useTranslation("invoice_details");
   const [discountValue, setDiscountValue] = useState(0);
   const [discountType, setDiscountType] = useState<"percentage" | "fixed">(
     "percentage",
@@ -39,7 +41,7 @@ export default function EditTaxDiscountModal({
   }, [invoice, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Stop page refresh
+    e.preventDefault();
     setSaving(true);
     try {
       await onSave({
@@ -67,11 +69,10 @@ export default function EditTaxDiscountModal({
             <HiOutlineCalculator className="size-7 text-brand-500" />
           </div>
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Financial Adjustments
+            {t("modals.financials.title")}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-xs mx-auto">
-            Configure the applicable tax rates and discount models for this
-            invoice.
+            {t("modals.financials.desc")}
           </p>
         </div>
 
@@ -92,20 +93,22 @@ export default function EditTaxDiscountModal({
         {/* Footer Actions */}
         <div className="px-8 py-5 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-white/[0.05] flex justify-end gap-3">
           <Button
-            type="button" 
+            type="button"
             variant="outline"
             onClick={onClose}
             disabled={saving}
             className="h-10 text-xs uppercase tracking-wider font-semibold"
           >
-            Cancel
+            {t("modals.financials.actions.cancel")}
           </Button>
           <Button
             type="submit"
             disabled={saving}
             className="h-10 px-6 text-xs uppercase tracking-wider font-semibold shadow-lg shadow-brand-500/20"
           >
-            {saving ? "Calculating..." : "Apply Adjustments"}
+            {saving
+              ? t("modals.financials.actions.calculating")
+              : t("modals.financials.actions.apply")}
           </Button>
         </div>
       </form>

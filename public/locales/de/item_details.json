@@ -1,0 +1,208 @@
+{
+  "meta_title": "{{name}} | Lagerbestand",
+  "meta_desc": "Artikeldetails",
+  "tabs": {
+    "analytics": "Analysen",
+    "general": "Artikeldetails",
+    "history": "Rechnungshistorie"
+  },
+  "header": {
+    "back": "Zurück",
+    "directory": "Lagerregister",
+    "restore": "Artikel wiederherstellen",
+    "adjust_stock": "Bestand anpassen"
+  },
+  "identity_card": {
+    "archived": "Archiviert",
+    "edit": "Details bearbeiten",
+    "sku": "SKU",
+    "type_product": "Produkt",
+    "type_service": "Dienstleistung",
+    "modals": {
+      "remove_logo_title": "Artikelbild entfernen?",
+      "remove_logo_desc": "Das visuelle Asset für diesen Artikel dauerhaft löschen.",
+      "confirm_remove": "Bild entfernen"
+    }
+  },
+  "general_tab": {
+    "specs_title": "Spezifikationen & Beschreibung",
+    "no_desc": "Keine detaillierte Beschreibung für diesen Artikel hinterlegt.",
+    "labels": {
+      "unit_price": "Einzelpreis",
+      "sku": "SKU-Referenz",
+      "status": "Lagerstatus"
+    },
+    "status": {
+      "service": "N/A (Dienstleistung)",
+      "out_of_stock": "Nicht vorrätig",
+      "units": "Einheiten"
+    },
+    "lifecycle": {
+      "title": "Artikel-Lebenszyklus",
+      "restore_title": "Verfügbarkeit wiederherstellen",
+      "restore_desc": "Die Reaktivierung macht diesen Artikel sofort wieder für neue Rechnungen und Bestandsanpassungen verfügbar.",
+      "retire_title": "Artikel ausmustern oder entfernen",
+      "retire_desc": "Falls dieser Artikel eine Transaktionshistorie hat, wird er archiviert, um Finanzunterlagen zu erhalten. Andernfalls wird er dauerhaft gelöscht.",
+      "btn_restore": "Artikel wiederherstellen",
+      "btn_archive": "Löschen / Archivieren"
+    }
+  },
+  "history_tab": {
+    "title": "Transaktionsjournal",
+    "empty_filter": "Keine Rechnungen entsprechen den gewählten Filtern",
+    "empty_item": "Keine Rechnungen mit diesem Artikel gefunden"
+  },
+  "modals": {
+    "lifecycle": {
+      "restore_title": "Artikel wiederherstellen?",
+      "archive_title": "Artikel löschen oder archivieren?",
+      "restore_desc": "Dies macht den Artikel wieder für neue Rechnungen und Bestandsanpassungen verfügbar.",
+      "archive_desc": "Falls dieser Artikel Transaktionen hat, wird er archiviert. Andernfalls wird er dauerhaft gelöscht.",
+      "confirm_restore": "Wiederherstellung bestätigen",
+      "confirm_proceed": "Fortfahren"
+    },
+    "void": {
+      "title": "Rechnung stornieren?",
+      "desc": "Rechnung {{number}} dauerhaft stornieren? Lagerbestand wird zurückgebucht."
+    }
+  },
+  "messages": {
+    "RESTORED": "Wiederhergestellt",
+    "RESTORED_DESC": "Artikel ist jetzt aktiv.",
+    "ARCHIVED": "Archiviert",
+    "DELETED": "Gelöscht",
+    "DELETED_DESC": "Artikel dauerhaft entfernt.",
+    "SYNC_SUCCESS": "Synchronisierung erfolgreich",
+    "SYNC_DESC": "Transaktion aktualisiert.",
+    "VOIDED": "Storniert",
+    "VOIDED_DESC": "Rechnungsdatensatz storniert.",
+    "IMAGE_UPDATED": "Bild aktualisiert",
+    "IMAGE_UPDATED_DESC": "Artikelbilder synchronisiert.",
+    "ASSET_REMOVED": "Asset entfernt",
+    "ASSET_REMOVED_DESC": "Artikelbild gelöscht."
+  },
+  "errors": {
+    "PROFILE_LOAD": "Profilfehler",
+    "HISTORY_LOAD": "Historienfehler",
+    "HISTORY_DESC": "Transaktionshistorie konnte nicht geladen werden.",
+    "ACTION_FAILED": "Aktion fehlgeschlagen",
+    "UPDATE_FAILED": "Aktualisierung fehlgeschlagen",
+    "UPLOAD_FAILED": "Upload fehlgeschlagen",
+    "REMOVAL_FAILED": "Entfernen fehlgeschlagen",
+    "RESTRICTED_ACCESS": "Eingeschränkter Zugriff",
+    "RESTRICTED_DESC": "Sie haben keine Berechtigung, Lagerdetails einzusehen.",
+    "NOT_FOUND_TITLE": "Artikel nicht gefunden",
+    "NOT_FOUND_DESC": "Dieser Lagerartikel existiert nicht oder wurde dauerhaft gelöscht."
+  },
+  "loading": "Artikel-Dossier wird abgerufen...",
+  "actions": {
+    "return": "Zurückkehren",
+    "back": "Zurück"
+  },
+  "analytics": {
+    "health": {
+      "loading": "Gesundheitsmetriken werden analysiert...",
+      "revenue_title": "Gesamtumsatz",
+      "revenue_subtitle": "Gesamtzeitraum",
+      "sold_title": "Verkauft Gesamt",
+      "sold_subtitle": "Volumen",
+      "inventory_title": "Bestand",
+      "inventory_subtitle": "Vorrätig",
+      "inventory_low": "Niedrig",
+      "price_title": "Durchschn. Preis",
+      "price_subtitle": "Realisierter Wert",
+      "velocity_title": "Umschlagsgeschw.",
+      "velocity_unit": "/Tag",
+      "velocity_subtitle": "Letzte 30 Tage"
+    },
+    "stats": {
+      "title": "Artikel-Performance",
+      "subtitle": "Umsatz & verkaufte Einheiten",
+      "secondary_label": "Verkaufte Einheiten"
+    },
+    "monthly": {
+      "title": "Monatliche Verkäufe",
+      "subtitle": "Umsatz für {{year}}",
+      "select_year": "Jahr wählen",
+      "loading": "Verkäufe werden synchronisiert...",
+      "no_data_title": "Keine Daten verfügbar",
+      "no_data_desc": "Keine Verkäufe für {{year}} erfasst.",
+      "series_name": "Verkäufe",
+      "months": [
+        "Jan",
+        "Feb",
+        "Mär",
+        "Apr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Dez"
+      ]
+    },
+    "delivery": {
+      "title": "Liefererfolg",
+      "subtitle": "Erfolgreich zugestellte Bestellungen",
+      "empty_title": "Keine Lieferdaten",
+      "empty_desc": "Logistikdaten werden hier erscheinen."
+    },
+    "buyers": {
+      "title": "Top-Käufer",
+      "subtitle_all": "Umsatzstärkste Kunden (Gesamt)",
+      "subtitle_year": "Umsatzstärkste Kunden in {{year}}",
+      "select_month": "Monat wählen",
+      "select_year": "Jahr wählen",
+      "all_months": "Alle Monate",
+      "all_time": "Gesamtzeitraum",
+      "loading": "Top-Käufer werden ermittelt...",
+      "no_data_title": "Keine Käufer gefunden",
+      "no_data_desc": "Keine Verkäufe für diesen Zeitraum erfasst.",
+      "series_name": "Umsatz",
+      "months_full": [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ],
+      "tooltip_units": "Einheiten"
+    },
+    "profit": {
+      "title": "Rentabilität",
+      "subtitle": "Kosten- vs. Gewinnanalyse",
+      "series_revenue": "Umsatz",
+      "series_cost": "Kosten",
+      "series_profit": "Nettogewinn",
+      "loading": "Margen werden berechnet...",
+      "all_months": "Alle Monate",
+      "all_time": "Gesamtzeitraum",
+      "select_month": "Monat wählen",
+      "select_year": "Jahr wählen",
+      "months_full": [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ]
+    },
+    "stock_intelligence": "Bestands-Intelligenz"
+  }
+}

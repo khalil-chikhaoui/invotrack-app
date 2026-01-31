@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineInformationCircle,
   HiOutlineArchiveBoxXMark,
@@ -21,8 +22,9 @@ export default function ItemGeneralTab({
   canManage,
   onLifecycleAction,
 }: ItemGeneralTabProps) {
+  const { t } = useTranslation("item_details");
   const isArchived = item.isArchived;
-
+ 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
       {/* --- Specifications Block --- */}
@@ -30,19 +32,18 @@ export default function ItemGeneralTab({
         <div className="flex items-center gap-2 mb-6 text-brand-500">
           <HiOutlineInformationCircle className="size-5 stroke-[2.5]" />
           <h3 className="font-semibold text-[10px] tracking-widest uppercase">
-            Specifications & Description
+            {t("general_tab.specs_title")}
           </h3>
         </div>
 
         <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-4xl text-sm">
-          {item.description ||
-            "No detailed description provided for this item record."}
+          {item.description || t("general_tab.no_desc")}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-10 pt-8 border-t border-gray-100 dark:border-white/5">
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              Unit Price
+              {t("general_tab.labels.unit_price")}
             </span>
             <p className="text-sm font-semibold text-gray-800 dark:text-white">
               {formatMoney(
@@ -54,7 +55,7 @@ export default function ItemGeneralTab({
           </div>
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              SKU Reference
+              {t("general_tab.labels.sku")}
             </span>
             <p className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
               {item.sku || "---"}
@@ -62,7 +63,7 @@ export default function ItemGeneralTab({
           </div>
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              Inventory Status
+              {t("general_tab.labels.status")}
             </span>
             <p
               className={`text-sm font-semibold ${
@@ -74,10 +75,10 @@ export default function ItemGeneralTab({
               }`}
             >
               {item.itemType === "Service"
-                ? "N/A (Service)"
+                ? t("general_tab.status.service")
                 : item.currentStock > 0
-                  ? `${item.currentStock} ${item.unit || "units"}`
-                  : "Out of Stock"}
+                  ? `${item.currentStock} ${item.unit || t("general_tab.status.units")}`
+                  : t("general_tab.status.out_of_stock")}
             </p>
           </div>
         </div>
@@ -93,7 +94,7 @@ export default function ItemGeneralTab({
                 : "text-rose-600 dark:text-rose-400"
             }`}
           >
-            Item Lifecycle
+            {t("general_tab.lifecycle.title")}
           </h4>
 
           <div
@@ -112,14 +113,14 @@ export default function ItemGeneralTab({
                 )}
                 <p className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
                   {isArchived
-                    ? "Restore Item Availability"
-                    : "Retire or Remove Item"}
+                    ? t("general_tab.lifecycle.restore_title")
+                    : t("general_tab.lifecycle.retire_title")}
                 </p>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400 font-medium max-w-lg leading-relaxed">
                 {isArchived
-                  ? "Re-activating this item will make it available for new invoices and stock adjustments immediately."
-                  : "If this item has existing transaction history, it will be Archived to preserve financial records. Otherwise, it will be permanently deleted."}
+                  ? t("general_tab.lifecycle.restore_desc")
+                  : t("general_tab.lifecycle.retire_desc")}
               </p>
             </div>
 
@@ -132,7 +133,7 @@ export default function ItemGeneralTab({
               }`}
               onClick={onLifecycleAction}
             >
-              {isArchived ? "Restore Item" : "Delete / Archive"}
+              {isArchived ? t("general_tab.lifecycle.btn_restore") : t("general_tab.lifecycle.btn_archive")}
             </Button>
           </div>
         </div>

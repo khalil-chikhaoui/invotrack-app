@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { CURRENCIES } from "../../hooks/currencies";
 
 interface CurrencySelectProps {
@@ -12,6 +13,7 @@ export default function CurrencySelect({
   onChange,
   className = "",
 }: CurrencySelectProps) {
+  const { t } = useTranslation("common"); // <--- Load "common" namespace
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +55,6 @@ export default function CurrencySelect({
   // 4. iOS Optimized Focus Logic
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
-      // Increased timeout slightly to 100ms to account for iOS animation/rendering frames
       const timer = setTimeout(() => {
         searchInputRef.current?.focus({ preventScroll: true });
       }, 100);
@@ -87,7 +88,7 @@ export default function CurrencySelect({
         <span className="truncate">
           {selectedCurrency
             ? `${selectedCurrency.code} - ${selectedCurrency.name} (${selectedCurrency.symbol})`
-            : "Select Currency"}
+            : t("currency_select.placeholder")}
         </span>
         <svg
           className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
@@ -128,16 +129,14 @@ export default function CurrencySelect({
               <input
                 ref={searchInputRef}
                 type="text"
-                autoFocus // React prop to help trigger focus on mount
-                autoComplete="off" // Prevents iOS autocomplete suggestions covering the list
-                autoCorrect="off" // Prevents iOS from correcting "USD" to "Used"
+                autoFocus
+                autoComplete="off"
+                autoCorrect="off"
                 spellCheck="false"
-                // IMPORTANT: text-base prevents iOS from zooming in. sm:text-sm reverts to small on desktop.
                 className="w-full rounded-lg bg-gray-50 py-2 pl-9 pr-4 text-base sm:text-sm text-gray-700 placeholder-gray-400 focus:outline-none dark:bg-gray-800 dark:text-gray-200"
-                placeholder="Search..."
+                placeholder={t("currency_select.search_placeholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                // Prevent clicking input from bubbling up and potentially closing modal (though handled by clickOutside)
                 onClick={(e) => e.stopPropagation()} 
               />
             </div>
@@ -165,7 +164,7 @@ export default function CurrencySelect({
               ))
             ) : (
               <li className="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
-                No currency found.
+                {t("currency_select.no_results")}
               </li>
             )}
           </ul>

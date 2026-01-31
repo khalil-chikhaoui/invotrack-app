@@ -1,4 +1,15 @@
 {
+  "auth_guards": {
+    "establishing_session": "Établissement de la session...",
+    "syncing_session": "Synchronisation de la session...",
+    "verifying_access": "Vérification de l'accès à l'entreprise..."
+  },
+  "languages": {
+    "label": "Langue",
+    "en": "🇺🇸 English (US)",
+    "fr": "🇫🇷 Français",
+    "de": "🇩🇪 Deutsch"
+  },
   "sidebar": {
     "nav": {
       "dashboard": "Tableau de bord",
@@ -6,12 +17,12 @@
       "items": "Articles",
       "invoices": "Factures",
       "calendar": "Calendrier",
-      "business_settings": "Paramètres",
-      "team_members": "Équipe"
+      "business_settings": "Paramètres d'entreprise",
+      "team_members": "Membres de l'équipe"
     },
     "sub": {
-      "general": "Général",
-      "design": "Design des factures",
+      "general": "Paramètres généraux",
+      "design": "Design de facture",
       "currency": "Devise",
       "tax": "Taxes & Remises",
       "all_members": "Tous les membres",
@@ -19,27 +30,53 @@
     },
     "workspace": {
       "label": "Espace de travail",
-      "select": "Choisir l'entreprise"
+      "select": "Choisir une entreprise"
     },
     "actions": {
-      "sign_out": "Déconnexion"
+      "sign_out": "Se déconnecter"
     },
     "badges": {
       "pro": "Pro"
     }
   },
   "header": {
-    "search_placeholder": "Rechercher un article, un client ou une facture...",
+    "search_placeholder": "Rechercher article, client ou facture...",
     "categories": {
       "clients": "Clients",
       "inventory": "Inventaire",
       "invoices": "Factures"
     },
-    "no_matches": "Aucune correspondance trouvée."
+    "no_matches": "Aucun résultat trouvé dans les dossiers."
   },
-  "auth_guards": {
-    "establishing_session": "Établissement de la session...",
-    "syncing_session": "Synchronisation de la session...",
-    "verifying_access": "Vérification de l'accès..."
+  "currency_select": {
+    "placeholder": "Sélectionner la devise",
+    "search_placeholder": "Rechercher...",
+    "no_results": "Aucune devise trouvée."
+  },
+  "charts": {
+    "loading": "Récupération des données...",
+    "no_data_title": "Aucune donnée trouvée",
+    "no_data_desc": "Aucune donnée financière disponible pour cette période.",
+    "custom_date": "Personnalisé",
+    "revenue": "Revenu",
+    "tabs": {
+      "monthly": "Mensuel",
+      "quarterly": "Trimestriel",
+      "annually": "Annuel"
+    }
+  },
+  "status": {
+    "open": "Ouvert",
+    "paid": "Payé",
+    "cancelled": "Annulé",
+    "pending": "En attente",
+    "shipped": "Expédié",
+    "delivered": "Livré",
+    "returned": "Retourné" 
+  },
+  "actions": {
+    "cancel": "Annuler",
+    "back": "Retour",
+    "return_dashboard": "Retour au tableau de bord"
   }
 }

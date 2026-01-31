@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import InvoiceDates from "../create/InvoiceDates";
@@ -18,11 +19,12 @@ export default function EditDatesModal({
   invoice,
   onSave,
 }: EditDatesModalProps) {
+  const { t } = useTranslation("invoice_details");
   const [issueDate, setIssueDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (invoice) {
       const fmt = (d: string | Date) => new Date(d).toISOString().split("T")[0];
       setIssueDate(invoice.issueDate ? fmt(invoice.issueDate) : "");
@@ -58,10 +60,10 @@ export default function EditDatesModal({
             <HiOutlineCalendarDays className="size-7 text-brand-500" />
           </div>
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Update Invoice Timeline
+            {t("modals.dates.title")}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-xs mx-auto">
-            Adjust the issuance and due dates for this financial record.
+            {t("modals.dates.desc")}
           </p>
         </div>
 
@@ -80,20 +82,20 @@ export default function EditDatesModal({
         {/* Footer Actions */}
         <div className="px-8 py-5 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-white/[0.05] flex justify-end gap-3">
           <Button 
-            type="button" // Cancel should never submit
+            type="button" 
             variant="outline" 
             onClick={onClose} 
             disabled={saving}
             className="h-10 text-xs uppercase tracking-wider font-semibold"
           >
-            Cancel
+            {t("modals.dates.actions.cancel")}
           </Button>
           <Button 
-            type="submit" // Triggers handleSubmit on click or Enter key
+            type="submit" 
             disabled={saving}
             className="h-10 px-6 text-xs uppercase tracking-wider font-semibold shadow-lg shadow-brand-500/20"
           >
-            {saving ? "Saving Changes..." : "Save New Dates"}
+            {saving ? t("modals.dates.actions.saving") : t("modals.dates.actions.save")}
           </Button>
         </div>
       </form>

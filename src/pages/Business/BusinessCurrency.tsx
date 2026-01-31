@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { businessApi, BusinessData, CurrencyFormat } from "../../apis/business";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
@@ -10,13 +11,14 @@ import Select from "../../components/form/Select";
 import ComponentCard from "../../components/common/ComponentCard";
 import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
-import LoadingState from "../../components/common/LoadingState"; // Integrated Loader
+import LoadingState from "../../components/common/LoadingState"; 
 import { CURRENCIES } from "../../hooks/currencies";
 import { formatMoney } from "../../hooks/formatMoney";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 
 export default function BusinessCurrency() {
+  const { t } = useTranslation("business"); // <--- Load "business" namespace
   const { businessId } = useParams();
   const { canManageSettings } = usePermissions();
 
@@ -93,20 +95,21 @@ export default function BusinessCurrency() {
         currency: currencyCode,
         currencyFormat: format,
       });
-      await fetchBusiness(); // Refresh local data
+      await fetchBusiness(); 
 
       setAlert({
         type: "success",
-        title: "Success",
-        message: "Financial formatting settings saved successfully.",
+        title: t("messages.SETTINGS_SAVED"),
+        message: t("messages.BUSINESS_UPDATED"),
       });
 
       setTimeout(() => setAlert(null), 4000);
     } catch (error: any) {
+      const errorCode = error.message;
       setAlert({
         type: "error",
-        title: "Error",
-        message: error.message || "Failed to update settings.",
+        title: t("errors.UPDATE_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setSaving(false);
@@ -117,9 +120,8 @@ export default function BusinessCurrency() {
 
   if (loading) {
     return (
-      
       <LoadingState 
-        message="Fetching currency profile..." 
+        message={t("settings.currency_settings.loading")} 
         minHeight="60vh" 
       />
     );
@@ -128,30 +130,33 @@ export default function BusinessCurrency() {
   if (!canManageSettings) {
     return (
       <PermissionDenied
-        title="Financial Settings Locked"
-        description="Currency and numbering formats are critical financial settings restricted to Administrators."
-        actionText="Return to Dashboard"
+        title={t("settings.currency_settings.locked_title")}
+        description={t("settings.currency_settings.locked_desc")}
+        actionText={t("create.nav.back")}
       />
     );
   }
 
+  // Helper to get current currency symbol
+  const currentSymbol = CURRENCIES.find((c) => c.code === currencyCode)?.symbol;
+
   return (
     <>
       <PageMeta
-        title="Currency Settings"
-        description="Manage financial formatting"
+        title={`${t("settings.currency_settings.title")} | Invotrack`}
+        description={t("settings.currency_settings.meta_desc")}
       />
-      <PageBreadcrumb pageTitle="Currency & Formatting" />
+      <PageBreadcrumb pageTitle={t("settings.currency_settings.breadcrumb")} />
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         {/* Main Configuration Card */}
         <div className="xl:col-span-2 space-y-6">
-          <ComponentCard title="Currency Configuration">
+          <ComponentCard title={t("settings.currency_settings.main_card_title")}>
             <div className="space-y-6">
               <div>
-                <Label>Primary Currency</Label>
+                <Label>{t("settings.currency_settings.primary_currency_label")}</Label>
                 <CurrencySelect
                   value={currencyCode}
                   onChange={handleCurrencyChange}
@@ -164,13 +169,13 @@ export default function BusinessCurrency() {
               {/* Number Format Selection Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 <div>
-                  <Label>Decimal Places</Label>
+                  <Label>{t("settings.currency_settings.decimal_places_label")}</Label>
                   <Select
                     options={[
                       { value: "0", label: "0 (e.g. 100)" },
                       { value: "2", label: "2 (e.g. 100.00)" },
                       { value: "3", label: "3 (e.g. 100.000)" },
-                      { value: "4", label: "4 (Precision)" },
+                      { value: "4", label: `4 (${t("settings.currency_settings.options.precision")})` },
                     ]}
                     onChange={(val) =>
                       setFormat({ ...format, digits: parseInt(val) })
@@ -179,24 +184,24 @@ export default function BusinessCurrency() {
                   />
                 </div>
                 <div>
-                  <Label>Thousands Separator</Label>
+                  <Label>{t("settings.currency_settings.thousands_separator_label")}</Label>
                   <Select
                     options={[
-                      { value: ",", label: "Comma (1,000)" },
-                      { value: ".", label: "Dot (1.000)" },
-                      { value: " ", label: "Space (1 000)" },
-                      { value: "'", label: "Apostrophe (1'000)" },
+                      { value: ",", label: `${t("settings.currency_settings.options.comma")} (1,000)` },
+                      { value: ".", label: `${t("settings.currency_settings.options.dot")} (1.000)` },
+                      { value: " ", label: `${t("settings.currency_settings.options.space")} (1 000)` },
+                      { value: "'", label: `${t("settings.currency_settings.options.apostrophe")} (1'000)` },
                     ]}
                     onChange={(val) => setFormat({ ...format, groupSep: val })}
                     defaultValue={format.groupSep}
                   />
                 </div>
                 <div>
-                  <Label>Decimal Separator</Label>
+                  <Label>{t("settings.currency_settings.decimal_separator_label")}</Label>
                   <Select
                     options={[
-                      { value: ".", label: "Dot (0.99)" },
-                      { value: ",", label: "Comma (0,99)" },
+                      { value: ".", label: `${t("settings.currency_settings.options.dot")} (0.99)` },
+                      { value: ",", label: `${t("settings.currency_settings.options.comma")} (0,99)` },
                     ]}
                     onChange={(val) =>
                       setFormat({ ...format, decimalSep: val })
@@ -209,7 +214,7 @@ export default function BusinessCurrency() {
               {/* Symbol Styling & Positioning */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <Label>Symbol Mode</Label>
+                  <Label>{t("settings.currency_settings.symbol_mode_label")}</Label>
                   <div className="flex gap-4 mt-3">
                     <label className="flex items-center cursor-pointer">
                       <input
@@ -221,12 +226,7 @@ export default function BusinessCurrency() {
                         className="sr-only peer"
                       />
                       <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
-                        Symbol (
-                        {
-                          CURRENCIES.find((c) => c.code === currencyCode)
-                            ?.symbol
-                        }
-                        )
+                        {t("settings.currency_settings.symbol_text")} ({currentSymbol})
                       </div>
                     </label>
 
@@ -240,14 +240,14 @@ export default function BusinessCurrency() {
                         className="sr-only peer"
                       />
                       <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
-                        Code ({currencyCode})
+                        {t("settings.currency_settings.code_text")} ({currencyCode})
                       </div>
                     </label>
                   </div>
                 </div>
 
                 <div>
-                  <Label>Symbol Position</Label>
+                  <Label>{t("settings.currency_settings.symbol_position_label")}</Label>
                   <div className="flex gap-4 mt-3">
                     <label className="flex items-center cursor-pointer">
                       <input
@@ -259,7 +259,7 @@ export default function BusinessCurrency() {
                         className="sr-only peer"
                       />
                       <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
-                        Left ($100)
+                        {t("settings.currency_settings.left")} ($100)
                       </div>
                     </label>
 
@@ -273,7 +273,7 @@ export default function BusinessCurrency() {
                         className="sr-only peer"
                       />
                       <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
-                        Right (100$)
+                        {t("settings.currency_settings.right")} (100$)
                       </div>
                     </label>
                   </div>
@@ -282,7 +282,7 @@ export default function BusinessCurrency() {
 
               <div className="pt-4 flex justify-end">
                 <Button onClick={handleSave} disabled={saving}>
-                  {saving ? "Saving Changes..." : "Update Configuration"}
+                  {saving ? t("settings.currency_settings.actions.saving") : t("settings.currency_settings.actions.update")}
                 </Button>
               </div>
             </div>
@@ -294,15 +294,15 @@ export default function BusinessCurrency() {
           <div className="sticky top-24">
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                Live Preview
+                {t("settings.currency_settings.live_preview_title")}
               </h3>
               <p className="text-sm text-gray-500 mb-6">
-                How amounts will appear on your invoices.
+                {t("settings.currency_settings.live_preview_desc")}
               </p>
 
               <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-gray-700">
                 <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
-                  Total Amount
+                  {t("settings.currency_settings.total_amount_label")}
                 </span>
                 <div className="text-3xl font-semibold text-gray-900 dark:text-white">
                   {formatMoney(1234567.89, currencyCode, format)}

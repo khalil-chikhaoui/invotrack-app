@@ -1,6 +1,7 @@
 import { useRef, useEffect, useMemo } from "react";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { HiOutlineCalendar, HiChevronDown, HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import { 
   startOfDay, endOfDay, subDays, startOfWeek, endOfWeek, 
@@ -18,10 +19,11 @@ interface HomeHeaderProps {
   setDateRange: (range: DashboardDateRange) => void;
 }
 
-export default function HomeHeader({
+export default function HomeHeader({ 
   dateRange,
   setDateRange,
 }: HomeHeaderProps) {
+  const { t } = useTranslation("home"); // <--- Load namespace
   const pickerRef = useRef<HTMLInputElement>(null);
   const fpInstance = useRef<flatpickr.Instance | null>(null);
 
@@ -31,32 +33,32 @@ export default function HomeHeader({
     return [
       {
         key: 'today',
-        label: 'Today',
+        label: t("header.presets.today"),
         getRange: () => ({ start: startOfDay(now), end: endOfDay(now) })
       },
       {
         key: 'last3days',
-        label: 'Last 3 Days',
+        label: t("header.presets.last3days"),
         getRange: () => ({ start: startOfDay(subDays(now, 2)), end: endOfDay(now) })
       },
       {
         key: 'thisWeek',
-        label: 'This Week',
+        label: t("header.presets.this_week"),
         getRange: () => ({ start: startOfWeek(now, { weekStartsOn: 0 }), end: endOfWeek(now, { weekStartsOn: 0 }) })
       },
       {
         key: 'thisMonth',
-        label: 'This Month',
+        label: t("header.presets.this_month"),
         getRange: () => ({ start: startOfMonth(now), end: endOfMonth(now) })
       },
       {
         key: 'thisTrimester',
-        label: 'This Trimester',
+        label: t("header.presets.this_trimester"),
         getRange: () => ({ start: startOfQuarter(now), end: endOfQuarter(now) })
       },
       {
         key: 'thisSemester',
-        label: 'This Semester',
+        label: t("header.presets.this_semester"),
         getRange: () => {
           const currentMonth = now.getMonth();
           const startMonth = currentMonth < 6 ? 0 : 6;
@@ -67,11 +69,11 @@ export default function HomeHeader({
       },
       {
         key: 'thisYear',
-        label: 'This Year',
+        label: t("header.presets.this_year"),
         getRange: () => ({ start: startOfYear(now), end: endOfYear(now) })
       },
     ];
-  }, []);
+  }, [t]); // Add t as dependency so labels update on language switch
 
   // 2. Initialize Flatpickr
   useEffect(() => {
@@ -122,24 +124,20 @@ export default function HomeHeader({
 
   return (
     <div className="mb-8">
-      {/* Responsive Layout Strategy:
-        - Mobile: Flex-col (Stacked)
-        - XL: Flex-row (Inline)
-      */}
       <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
         
         {/* Left Section: Title + Chips */}
         <div className="flex flex-col gap-4 w-full xl:w-auto overflow-hidden">
           <div>
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl tracking-tight">
-              Dashboard
+              {t("header.title")}
             </h2>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Overview of your business performance
+              {t("header.subtitle")}
             </p>
           </div>
 
-          {/* Scrollable Chips - Consistent styling for ALL chips including Custom */}
+          {/* Scrollable Chips */}
           <div 
             className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1 no-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} 
@@ -154,24 +152,19 @@ export default function HomeHeader({
               </button>
             ))}
 
-            {/* Custom Chip - Now looks identical to others in design */}
             <button
               onClick={() => fpInstance.current?.open()}
               className={getChipStyle(activePresetKey === 'custom')}
             >
               <HiOutlineAdjustmentsHorizontal className="size-3.5" />
-              Custom
+              {t("header.custom_range")}
             </button>
           </div>
         </div>
 
-        {/* Right Section: Date Input 
-          - Mobile: Full Width
-          - MD: Flex Row, Justify End (Right Aligned on its own row)
-          - XL: Auto width, inline with chips
-        */}
+        {/* Right Section: Date Input */}
         <div className="w-full md:flex md:justify-end xl:block xl:w-auto">
-          <div className="relative w-full md:w-80"> {/* Increased width to 20rem (80) */}
+          <div className="relative w-full md:w-80"> 
             <HiOutlineCalendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 z-10" />
             
             <input
@@ -181,7 +174,7 @@ export default function HomeHeader({
                 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 
                 dark:bg-gray-900 dark:border-gray-800 dark:text-gray-200 dark:hover:border-gray-700 dark:hover:bg-white/5 
                 placeholder-gray-500 dark:placeholder-gray-400"
-              placeholder="Select Date Range"
+              placeholder={t("header.select_range")}
             />
             
             <HiChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-400" />

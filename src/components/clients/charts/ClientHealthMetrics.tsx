@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineHeart,
   HiOutlineClock,
@@ -12,7 +13,7 @@ import {
 import { invoiceApi } from "../../../apis/invoices";
 import { BusinessData } from "../../../apis/business";
 import { formatMoney } from "../../../hooks/formatMoney";
-import Badge from "../../ui/badge/Badge";
+import Badge from "../../ui/badge/Badge"; 
 import LoadingState from "../../common/LoadingState";
 
 interface ClientHealthMetricsProps {
@@ -29,6 +30,7 @@ export default function ClientHealthMetrics({
   financialStats = { lifetimeValue: 0, openBalance: 0 },
   business,
 }: ClientHealthMetricsProps) {
+  const { t } = useTranslation("client_details"); // <--- Load namespace
   const [healthData, setHealthData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -47,11 +49,10 @@ export default function ClientHealthMetrics({
     fetchData();
   }, [clientId]);
 
-  // --- INTEGRATED LOADER ---
   if (loading) {
     return (
       <div className="mb-8">
-        <LoadingState message="Analyzing Health Metrics..." minHeight="144px" />
+        <LoadingState message={t("analytics.health.loading")} minHeight="144px" />
       </div>
     );
   }
@@ -64,22 +65,22 @@ export default function ClientHealthMetrics({
         return {
           color: "success" as const,
           icon: <HiCheckCircle className="mr-1 size-3.5" />,
-          text: "Active",
+          text: t("analytics.health.risk.low"),
         };
       case "Medium":
         return {
           color: "warning" as const,
           icon: <HiExclamationTriangle className="mr-1 size-3.5" />,
-          text: "At Risk",
+          text: t("analytics.health.risk.medium"),
         };
       case "High":
         return {
           color: "error" as const,
           icon: <HiArrowTrendingDown className="mr-1 size-3.5" />,
-          text: "Churned",
+          text: t("analytics.health.risk.high"),
         };
       default:
-        return { color: "light" as const, icon: null, text: "New" };
+        return { color: "light" as const, icon: null, text: t("analytics.health.risk.new") };
     }
   };
 
@@ -98,13 +99,13 @@ export default function ClientHealthMetrics({
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Lifetime Revenue
+            {t("analytics.health.lifetime_title")}
           </span>
           <h4 className="mt-1 text-2xl font-semibold text-gray-800 dark:text-white">
             {formatMoney(safeLifetime, business?.currency, business?.currencyFormat)}
           </h4>
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
-            Total value of paid invoices to date.
+            {t("analytics.health.lifetime_desc")}
           </p>
         </div>
       </div>
@@ -115,17 +116,17 @@ export default function ClientHealthMetrics({
           <div className="flex items-center justify-center w-12 h-12 bg-orange-50 rounded-xl dark:bg-orange-500/10">
             <HiOutlineScale className="text-orange-500 size-6" />
           </div>
-          {safeOpenBalance > 0 && <Badge color="warning">Due</Badge>}
+          {safeOpenBalance > 0 && <Badge color="warning">{t("analytics.health.balance_due")}</Badge>}
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Open Balance
+            {t("analytics.health.balance_title")}
           </span>
           <h4 className={`mt-1 text-2xl font-semibold ${safeOpenBalance > 0 ? "text-error-500" : "text-gray-800 dark:text-white"}`}>
             {formatMoney(safeOpenBalance, business?.currency, business?.currencyFormat)}
           </h4>
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
-            Outstanding amount waiting for payment.
+            {t("analytics.health.balance_desc")}
           </p>
         </div>
       </div>
@@ -138,12 +139,12 @@ export default function ClientHealthMetrics({
           </div>
           <div className="flex items-center gap-1 text-[10px] font-medium text-gray-400 bg-gray-50 dark:bg-white/5 px-2 py-1 rounded-lg">
             <HiOutlineInformationCircle className="size-3" />
-            <span>AI Score</span>
+            <span>{t("analytics.health.ai_score")}</span>
           </div>
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Retention Probability
+            {t("analytics.health.score_title")}
           </span>
           <div className="flex items-center justify-between mt-1">
             <h4 className="text-2xl font-semibold text-gray-800 dark:text-white">
@@ -154,7 +155,7 @@ export default function ClientHealthMetrics({
             </Badge>
           </div>
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
-            Likelihood of placing another order.
+            {t("analytics.health.score_desc")}
           </p>
         </div>
       </div>
@@ -167,22 +168,22 @@ export default function ClientHealthMetrics({
           </div>
           <div className="flex items-center gap-1 text-[10px] font-medium text-gray-400 bg-gray-50 dark:bg-white/5 px-2 py-1 rounded-lg">
             <HiOutlineInformationCircle className="size-3" />
-            <span>Average</span>
+            <span>{t("analytics.health.freq_average")}</span>
           </div>
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Avg. Purchase Cycle
+            {t("analytics.health.freq_title")}
           </span>
           <div className="flex items-center justify-between mt-1">
             <h4 className="text-2xl font-semibold text-gray-800 dark:text-white">
-              {healthData.avgFrequency} Days
+              {healthData.avgFrequency} {t("analytics.health.days")}
             </h4>
           </div>
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
-            Last Order:{" "}
+            {t("analytics.health.last_order")}{" "}
             <span className="text-gray-800 dark:text-gray-200 font-semibold">
-              {healthData.daysSinceLast}d ago
+              {t("analytics.health.days_ago", { days: healthData.daysSinceLast })}
             </span>
           </p>
         </div>

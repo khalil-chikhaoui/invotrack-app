@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { invoiceApi } from "../../../apis/invoices";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { useTheme } from "../../../context/ThemeContext";
@@ -15,6 +16,7 @@ export default function ClientAOVChart({
   clientId,
   currency = "USD",
 }: ClientAOVChartProps) {
+  const { t } = useTranslation("client_details"); // <--- Load namespace
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [data, setData] = useState<any[]>([]);
@@ -29,15 +31,15 @@ export default function ClientAOVChart({
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false);
+        setLoading(false); 
       }
     };
     fetchData();
   }, [clientId]);
 
   const series = [
-    { name: "Total Revenue", type: "column", data: data.map((d) => d.revenue) },
-    { name: "Avg Order Value", type: "line", data: data.map((d) => d.aov) },
+    { name: t("analytics.aov.series.revenue"), type: "column", data: data.map((d) => d.revenue) },
+    { name: t("analytics.aov.series.aov"), type: "line", data: data.map((d) => d.aov) },
   ];
 
   const options: ApexOptions = {
@@ -61,7 +63,7 @@ export default function ClientAOVChart({
     yaxis: [
       {
         title: {
-          text: "Revenue",
+          text: t("analytics.aov.series.revenue"),
           style: { color: "#465FFF", fontSize: "10px" },
         },
         labels: {
@@ -72,7 +74,7 @@ export default function ClientAOVChart({
       {
         opposite: true,
         title: {
-          text: "Avg Order Value",
+          text: t("analytics.aov.series.aov"),
           style: { color: "#10B981", fontSize: "10px" },
         },
         labels: {
@@ -91,23 +93,23 @@ export default function ClientAOVChart({
   return (
     <div
       className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-5 dark:border-white/[0.05] 
-    dark:bg-white/[0.03] shadow-sm min-w-0 
+    dark:bg-white/[0.03]  min-w-0 
       [--chart-axis-text:#6B7280] dark:[--chart-axis-text:#9CA3AF]
       [--chart-grid-color:#E5E7EB] dark:[--chart-grid-color:#374151]"
     >
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-          AOV Trend
+          {t("analytics.aov.title")}
         </h3>
         <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-          Revenue vs. Invoice Size
+          {t("analytics.aov.subtitle")}
         </p>
       </div>
       <div
         className={`flex-1 min-h-[300px] ${loading ? "flex items-center justify-center" : ""}`}
       >
         {loading ? (
-          <LoadingState minHeight="full" message="Calculating Trends..." />
+          <LoadingState minHeight="full" message={t("analytics.aov.loading")} />
         ) : (
           <Chart
             options={options}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { DeliveryStatus, DELIVERY_STATUS_OPTIONS } from "../../../apis/invoices";
 import StatusUpdateModal from "../../common/StatusUpdateModal";
 
@@ -16,7 +17,7 @@ interface InvoiceModalsProps {
   updating: boolean;
 }
 
-const PAYMENT_STATES = ["Paid", "Open", "Cancelled"];
+const PAYMENT_STATES = ["Paid", "Open", "Cancelled"]; 
 
 export default function InvoiceModals({
   isStatusOpen,
@@ -25,11 +26,12 @@ export default function InvoiceModals({
   setTempStatus,
   tempDelivery,
   setTempDelivery,
-  isDeliveryOpen,
+  isDeliveryOpen, 
   closeDeliveryModal,
   handleUpdate,
   updating,
 }: InvoiceModalsProps) {
+  const { t } = useTranslation("invoice_details");
   
   return (
     <>
@@ -37,28 +39,28 @@ export default function InvoiceModals({
       <StatusUpdateModal
         isOpen={isStatusOpen}
         onClose={closeStatusModal}
-        title="Payment Status"
+        title={t("modals.payment.title")}
         type="payment"
         options={PAYMENT_STATES}
         currentValue={tempStatus}
         onValueChange={setTempStatus}
         onConfirm={() => handleUpdate({ status: tempStatus })}
         isLoading={updating} 
-        confirmLabel="Apply Sync"
+        confirmLabel={t("modals.payment.apply")}
       />
 
       {/* Delivery Modal */}
       <StatusUpdateModal
         isOpen={isDeliveryOpen}
         onClose={closeDeliveryModal}
-        title="Logistics State"
+        title={t("modals.delivery.title")}
         type="delivery"
         options={DELIVERY_STATUS_OPTIONS}
         currentValue={tempDelivery}
         onValueChange={(val) => setTempDelivery(val as DeliveryStatus)}
         onConfirm={() => handleUpdate({ deliveryStatus: tempDelivery })}
         isLoading={updating}
-        confirmLabel="Update Ledger"
+        confirmLabel={t("modals.delivery.update")}
       />
     </>
   );

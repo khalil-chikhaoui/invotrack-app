@@ -1,0 +1,161 @@
+{
+  "meta_title": "{{number}} | Détails",
+  "meta_desc": "Détails du registre de facturation",
+  "tabs": {
+    "general": "Informations générales",
+    "stats": "Stats de performance"
+  },
+  "header": {
+    "back": "Retour",
+    "directory": "Répertoire des factures",
+    "export_pdf": "PDF par défaut",
+    "export_alt": "Exporter style alternatif",
+    "loading_pdf": "Chargement...",
+    "styles": {
+      "classic": "Classique",
+      "classic_desc": "Traditionnel & Professionnel.",
+      "minimal": "Minimaliste",
+      "minimal_desc": "Lignes épurées, focus sur les données.",
+      "modern": "Moderne",
+      "modern_desc": "Design visuel à fort impact."
+    }
+  },
+  "identity_card": {
+    "edit_record": "Modifier le registre",
+    "issued": "Émise le :",
+    "due": "Échéance :",
+    "edit": "Modifier",
+    "created_on": "Facture créée le {{date}} par {{user}}",
+    "valuation": "Évaluation"
+  },
+  "parties": {
+    "recipient": "Registre du destinataire",
+    "edit": "Modifier"
+  },
+  "ledger": {
+    "title": "Articles du grand livre",
+    "quick_item": "Article rapide",
+    "search_placeholder": "Trouver des produits ou services à ajouter...",
+    "empty": "Grand livre vide",
+    "no_results": "Aucun produit trouvé",
+    "headers": {
+      "nomenclature": "Nomenclature",
+      "qty": "Qté",
+      "rate": "Taux",
+      "total": "Total",
+      "control": "Contrôle"
+    },
+    "notes": {
+      "title": "Notes & Instructions",
+      "edit": "Modifier",
+      "placeholder": "Entrez les conditions de paiement ou des notes...",
+      "save": "Enregistrer les notes",
+      "saving": "Enregistrement...",
+      "empty": "Aucune note additionnelle fournie."
+    },
+    "totals": {
+      "adjust": "Ajuster Taxe/Remise",
+      "subtotal": "Sous-total",
+      "discount": "Remise",
+      "tax": "Taxe",
+      "grand_total": "Total général"
+    }
+  },
+  "sidebar": {
+    "lifecycle_title": "Gestion du cycle de vie",
+    "payment_state": "État du paiement",
+    "logistics": "Logistique",
+    "notes_title": "Notes internes",
+    "notes_placeholder": "Ajouter des notes privées ici..."
+  },
+  "stats": {
+    "profit": "Bénéfice net",
+    "profit_desc": "Revenu moins coût des marchandises",
+    "margin": "Marge bénéficiaire",
+    "margin_desc": "Pourcentage de revenu conservé",
+    "cost": "Coût total (CPV)",
+    "cost_desc": "Dépense totale pour les articles",
+    "velocity": "Vitesse de paiement",
+    "velocity_desc": "Délai entre l'émission et le règlement",
+    "days": "Jours"
+  },
+  "modals": {
+    "payment": {
+      "title": "Statut du paiement",
+      "confirm_void": "Confirmer l'annulation",
+      "apply": "Appliquer la synchro"
+    },
+    "delivery": {
+      "title": "État logistique",
+      "update": "Mettre à jour le grand livre"
+    },
+    "client": {
+      "title": "Modifier le destinataire",
+      "subtitle": "Modifier les détails du client pour ce registre spécifique.",
+      "fields": {
+        "name": "Nom du client",
+        "email": "Adresse e-mail",
+        "phone": "Numéro de téléphone",
+        "billing": "Adresse de facturation",
+        "street": "Rue",
+        "city": "Ville",
+        "state": "État / Province",
+        "zip": "Code postal",
+        "country": "Pays"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "save": "Enregistrer les modifications",
+        "saving": "Enregistrement..."
+      }
+    },
+    "dates": {
+      "title": "Mettre à jour la chronologie",
+      "desc": "Ajuster les dates d'émission et d'échéance de ce registre.",
+      "actions": {
+        "cancel": "Annuler",
+        "save": "Enregistrer les dates",
+        "saving": "Enregistrement..."
+      }
+    },
+    "financials": {
+      "title": "Ajustements financiers",
+      "desc": "Configurer les taux de taxe et modèles de remise pour cette facture.",
+      "actions": {
+        "cancel": "Annuler",
+        "apply": "Appliquer les ajustements",
+        "calculating": "Calcul en cours..."
+      }
+    },
+    "delete_item": {
+      "title": "Supprimer l'article ?",
+      "desc": "Ceci retirera l'article du grand livre. Cette action est irréversible.",
+      "confirm": "Supprimer"
+    }
+  },
+  "messages": {
+    "SYNC_ERROR": "Erreur de synchro",
+    "LEDGER_UPDATED": "Grand livre mis à jour.",
+    "ITEM_REMOVED": "Article retiré du grand livre.",
+    "NOTES_UPDATED": "Notes de facture mises à jour.",
+    "FINANCIALS_UPDATED": "Taxe et Remise mises à jour.",
+    "STATUS_SYNCED": "État de la transaction mis à jour.",
+    "DATES_UPDATED": "Dates mises à jour avec succès.",
+    "EXPORT_SUCCESS": "Version {{style}} exportée.",
+    "EXPORT_ERROR": "Échec de la génération du style.",
+    "CLIENT_UPDATED": "Détails du client mis à jour."
+  },
+  "errors": {
+    "FAILED": "Échec",
+    "UPDATE_FAILED": "Échec de la mise à jour",
+    "RESTRICTED_ACCESS": "Document protégé",
+    "RESTRICTED_DESC": "Vous n'avez pas l'autorisation de consulter ce registre financier.",
+    "NOT_FOUND_TITLE": "Facture introuvable",
+    "NOT_FOUND_DESC": "Cette facture n'existe pas ou a été définitivement supprimée."
+  },
+  "loading": "Décryptage du registre financier...",
+  "actions": {
+    "return": "retourner",
+    "back": "Retour"
+  }
+}

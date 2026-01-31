@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 import DatePicker from "../../form/date-picker";
 
@@ -15,12 +16,12 @@ export default function InvoiceDates({
   dueDate,
   setDueDate,
 }: InvoiceDatesProps) {
+  const { t } = useTranslation("invoice");
   
-  // Logic: If Issue Date pushes past Due Date, auto-update Due Date
   useEffect(() => {
     if (issueDate && dueDate && new Date(issueDate) > new Date(dueDate)) {
       setDueDate(issueDate);
-    }
+    } 
   }, [issueDate, dueDate, setDueDate]);
 
   return (
@@ -28,15 +29,15 @@ export default function InvoiceDates({
       <div className="flex items-center gap-2 mb-4">
         <HiOutlineCalendarDays className="text-brand-500 size-5" />
         <h3 className="font-semibold text-gray-800 dark:text-white text-sm">
-          Dates
+          {t("create.sections.dates")}
         </h3>
       </div> 
       <div className="space-y-4">
         <div>
           <DatePicker
             id="invoice-issue-date"
-            label="Invoice Issue Date"
-            placeholder="Select date"
+            label={t("create.sections.issue_date")}
+            placeholder={t("create.placeholders.select_date")}
             defaultDate={issueDate}
             onChange={(_, dateStr) => setIssueDate(dateStr)}
           />
@@ -44,11 +45,10 @@ export default function InvoiceDates({
         <div>
           <DatePicker
             id="invoice-due-date"
-            label="Settlement Due Date"
-            placeholder="Select due date"
+            label={t("create.sections.due_date")}
+            placeholder={t("create.placeholders.select_due_date")}
             defaultDate={dueDate}
             onChange={(_, dateStr) => setDueDate(dateStr)}
-            // Physically disable dates before the issue date
             options={{
               minDate: issueDate,
             }}

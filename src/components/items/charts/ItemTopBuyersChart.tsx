@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
 import { HiChevronDown, HiOutlineUsers } from "react-icons/hi2";
@@ -14,25 +15,11 @@ interface ItemTopBuyersChartProps {
   currency?: string;
 }
 
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 export default function ItemTopBuyersChart({
   itemId,
-  currency = "USD",
+  currency = "USD", 
 }: ItemTopBuyersChartProps) {
+  const { t } = useTranslation("item_details");
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const currentYear = new Date().getFullYear();
@@ -46,6 +33,8 @@ export default function ItemTopBuyersChart({
 
   const [isYearOpen, setIsYearOpen] = useState(false);
   const [isMonthOpen, setIsMonthOpen] = useState(false);
+
+  const MONTH_NAMES = t("analytics.buyers.months_full", { returnObjects: true }) as string[];
 
   const yearOptions = useMemo(() => {
     return availableYears.length > 0 ? availableYears : [currentYear];
@@ -78,7 +67,7 @@ export default function ItemTopBuyersChart({
     [buyersData],
   );
 
-  const series = [{ name: "Revenue", data: buyersData.map((d) => d.value) }];
+  const series = [{ name: t("analytics.buyers.series_name"), data: buyersData.map((d) => d.value) }];
 
   const options: ApexOptions = {
     colors: ["#465FFF"],
@@ -125,7 +114,7 @@ export default function ItemTopBuyersChart({
         formatter: (val, { dataPointIndex }) => {
           const revenue = formatMoney(val, currency);
           const qty = buyersData[dataPointIndex]?.quantity || 0;
-          return `${revenue} (${qty} units)`;
+          return `${revenue} (${qty} ${t("analytics.buyers.tooltip_units")})`;
         },
       },
     },
@@ -136,11 +125,12 @@ export default function ItemTopBuyersChart({
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
-            Top Buyers
+            {t("analytics.buyers.title")}
           </h3>
           <p className="text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-            Highest revenue clients{" "}
-            {selectedYear === -1 ? "of all time" : `in ${selectedYear}`}
+            {selectedYear === -1 
+              ? t("analytics.buyers.subtitle_all") 
+              : t("analytics.buyers.subtitle_year", { year: selectedYear })}
           </p>
         </div>
 
@@ -154,7 +144,7 @@ export default function ItemTopBuyersChart({
               className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
             >
               {selectedMonth === -1
-                ? "All Months"
+                ? t("analytics.buyers.all_months")
                 : MONTH_NAMES[selectedMonth].substring(0, 3)}
               <HiChevronDown
                 className={`size-3 transition-transform ${isMonthOpen ? "rotate-180" : ""}`}
@@ -166,7 +156,7 @@ export default function ItemTopBuyersChart({
               className="w-32 right-0 mt-2 p-1"
             >
               <div className="px-3 py-2 text-[9px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
-                Select Month
+                {t("analytics.buyers.select_month")}
               </div>
               <div className="max-h-40 overflow-y-auto custom-scrollbar">
                 <DropdownItem
@@ -176,7 +166,7 @@ export default function ItemTopBuyersChart({
                   }}
                   className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedMonth === -1 ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
                 >
-                  All Months
+                  {t("analytics.buyers.all_months")}
                 </DropdownItem>
                 {MONTH_NAMES.map((m, idx) => (
                   <DropdownItem
@@ -200,7 +190,7 @@ export default function ItemTopBuyersChart({
               onClick={() => setIsYearOpen(!isYearOpen)}
               className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
             >
-              {selectedYear === -1 ? "All Time" : selectedYear}
+              {selectedYear === -1 ? t("analytics.buyers.all_time") : selectedYear}
               <HiChevronDown
                 className={`size-3 transition-transform ${isYearOpen ? "rotate-180" : ""}`}
               />
@@ -211,7 +201,7 @@ export default function ItemTopBuyersChart({
               className="w-32 right-0 mt-2 p-1"
             >
               <div className="px-3 py-2 text-[9px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
-                Select Year
+                {t("analytics.buyers.select_year")}
               </div>
               <div className="max-h-40 overflow-y-auto custom-scrollbar">
                 <DropdownItem
@@ -222,7 +212,7 @@ export default function ItemTopBuyersChart({
                   }}
                   className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedYear === -1 ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
                 >
-                  All Time
+                  {t("analytics.buyers.all_time")}
                 </DropdownItem>
                 {yearOptions.map((year) => (
                   <DropdownItem
@@ -246,15 +236,15 @@ export default function ItemTopBuyersChart({
         className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? "flex items-center justify-center" : ""}`}
       >
         {loading ? (
-          <LoadingState message="Identifying top buyers..." minHeight="full" />
+          <LoadingState message={t("analytics.buyers.loading")} minHeight="full" />
         ) : !hasData ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-xl bg-gray-50/50 dark:bg-white/[0.01]">
             <HiOutlineUsers className="size-10 text-gray-400 mb-3" />
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-              No Buyers Found
+              {t("analytics.buyers.no_data_title")}
             </h4>
             <p className="text-[10px] text-gray-500 mt-1">
-              No sales recorded for this period.
+              {t("analytics.buyers.no_data_desc")}
             </p>
           </div>
         ) : (

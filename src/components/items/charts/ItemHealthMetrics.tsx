@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineBanknotes,
   HiOutlineCube,
@@ -27,10 +28,10 @@ export default function ItemHealthMetrics({
   business,
   item,
 }: ItemHealthMetricsProps) {
+  const { t } = useTranslation("item_details");
   const isService = item?.itemType === "Service";
 
   return (
-    // Responsive Grid: 1 col on small, 2 on medium, 5 on large
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 md:gap-6 mb-8">
       {/* 1. Total Revenue */}
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-white/[0.05] dark:bg-white/[0.03] group hover:border-brand-100 dark:hover:border-brand-500/20 transition-all flex flex-col justify-between min-h-[160px]">
@@ -41,7 +42,7 @@ export default function ItemHealthMetrics({
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Total Revenue
+            {t("analytics.health.revenue_title")}
           </span>
           <h4 className="mt-1 text-xl font-semibold text-gray-800 dark:text-white">
             {formatMoney(
@@ -51,7 +52,7 @@ export default function ItemHealthMetrics({
             )}
           </h4>
           <p className="mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-            Lifetime
+            {t("analytics.health.revenue_subtitle")}
           </p>
         </div>
       </div>
@@ -65,13 +66,13 @@ export default function ItemHealthMetrics({
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Total Sold
+            {t("analytics.health.sold_title")}
           </span>
           <h4 className="mt-1 text-xl font-semibold text-gray-800 dark:text-white">
             {stats.totalSold}
           </h4>
           <p className="mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-            Volume
+            {t("analytics.health.sold_subtitle")}
           </p>
         </div>
       </div>
@@ -83,17 +84,19 @@ export default function ItemHealthMetrics({
             <div className="flex items-center justify-center w-12 h-12 bg-orange-50 rounded-xl dark:bg-orange-500/10">
               <HiOutlineCube className="text-orange-500 size-6" />
             </div>
-            {stats.currentStock <= 5 && <Badge color="error">Low</Badge>}
+            {stats.currentStock <= 5 && (
+              <Badge color="error">{t("analytics.health.inventory_low")}</Badge>
+            )}
           </div>
           <div>
             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              Inventory
+              {t("analytics.health.inventory_title")}
             </span>
             <h4 className="mt-1 text-xl font-semibold text-gray-800 dark:text-white">
               {stats.currentStock || "0"}
             </h4>
             <p className="mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-              On Hand
+              {t("analytics.health.inventory_subtitle")}
             </p>
           </div>
         </div>
@@ -108,7 +111,7 @@ export default function ItemHealthMetrics({
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Avg. Price
+            {t("analytics.health.price_title")}
           </span>
           <h4 className="mt-1 text-xl font-semibold text-gray-800 dark:text-white">
             {formatMoney(
@@ -118,7 +121,7 @@ export default function ItemHealthMetrics({
             )}
           </h4>
           <p className="mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-            Realized Value
+            {t("analytics.health.price_subtitle")}
           </p>
         </div>
       </div>
@@ -132,14 +135,16 @@ export default function ItemHealthMetrics({
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            Velocity
+            {t("analytics.health.velocity_title")}
           </span>
           <h4 className="mt-1 text-xl font-semibold text-gray-800 dark:text-white">
             {stats.salesVelocity}{" "}
-            <span className="text-xs font-normal text-gray-400">/day</span>
+            <span className="text-xs font-normal text-gray-400">
+              {t("analytics.health.velocity_unit")}
+            </span>
           </h4>
           <p className="mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
-            Last 30 Days
+            {t("analytics.health.velocity_subtitle")}
           </p>
         </div>
       </div>

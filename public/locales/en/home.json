@@ -1,0 +1,70 @@
+{
+  "meta_title": "Dashboard",
+  "meta_desc": "Business Intelligence and Performance Overview",
+  "header": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your business performance",
+    "custom_range": "Custom",
+    "select_range": "Select Date Range",
+    "presets": {
+      "today": "Today",
+      "last3days": "Last 3 Days",
+      "this_week": "This Week",
+      "this_month": "This Month",
+      "this_trimester": "This Trimester",
+      "this_semester": "This Semester",
+      "this_year": "This Year"
+    }
+  },
+  "metrics": {
+    "revenue": {
+      "title": "Total Revenue",
+      "desc": "Total invoiced amount"
+    },
+    "profit": {
+      "title": "Gross Profit",
+      "desc": "Revenue minus costs"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "desc": "Volume of bills sent"
+    },
+    "clients": {
+      "title": "New Clients",
+      "desc": "Acquired customers"
+    },
+    "comparison": "vs. {{start}} - {{end}}"
+  },
+  "charts": {
+    "revenue": {
+      "title": "Financial Performance",
+      "subtitle": "Revenue vs Net Profit • {{range}}",
+      "series_revenue": "Total Revenue",
+      "series_profit": "Net Profit",
+      "no_data_title": "No Transactions",
+      "no_data_desc": "No revenue recorded for the selected period"
+    },
+    "products": {
+      "title": "Top Selling Products",
+      "subtitle": "Revenue • {{range}}",
+      "total_sales": "Total Sales",
+      "no_data_title": "No Data",
+      "no_data_desc": "No product sales found in this period."
+    },
+    "delivery": {
+      "title": "Logistics",
+      "subtitle": "Delivery Performance • {{range}}",
+      "empty_title": "No Shipments",
+      "empty_desc": "No delivery data found for this period."
+    },
+    "profit": {
+      "title": "Top Clients Profitability",
+      "subtitle": "Net Profit vs Cost : • {{range}}"
+    }
+  },
+  "errors": {
+    "access_restricted": "Dashboard Access Restricted",
+    "access_desc": "You do not have the required permissions to view the financial performance dashboard.",
+    "return": "Return to Dashboard"
+  }
+}

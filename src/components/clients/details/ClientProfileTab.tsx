@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { HiOutlineMapPin, HiOutlinePencilSquare } from "react-icons/hi2";
 import Button from "../../ui/button/Button";
 import { ClientData } from "../../../apis/clients";
 
-function SectionEditButton({ onClick }: { onClick: () => void }) {
+function SectionEditButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
     <div className="flex justify-center md:justify-end">
       <Button
@@ -10,7 +11,7 @@ function SectionEditButton({ onClick }: { onClick: () => void }) {
         className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
         onClick={onClick}
       >
-        <HiOutlinePencilSquare className="size-4" /> Edit Address
+        <HiOutlinePencilSquare className="size-4" /> {label}
       </Button>
     </div>
   );
@@ -29,27 +30,29 @@ export default function ClientProfileTab({
   canManage,
   isArchived,
   onEditAddress,
-  onLifecycleAction,
+  onLifecycleAction, 
 }: ClientProfileTabProps) {
+  const { t } = useTranslation("client_details");
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
       {/* Address Block */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl px-8 pt-4 shadow-sm">
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl px-8 pt-4 ">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-end gap-1.5 text-brand-500 dark:text-brand-400 uppercase font-semibold text-sm tracking-widest">
-            <HiOutlineMapPin className="size-5 stroke-[2.5]" /> Registered
-            Address
+            <HiOutlineMapPin className="size-5 stroke-[2.5]" /> 
+            {t("profile_tab.address_title")}
           </div>
 
           {canManage && !isArchived && (
-            <SectionEditButton onClick={onEditAddress} />
+            <SectionEditButton onClick={onEditAddress} label={t("profile_tab.edit_address")} />
           )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 pb-5">
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              Street
+              {t("profile_tab.labels.street")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {client.address?.street || "---"}
@@ -57,7 +60,7 @@ export default function ClientProfileTab({
           </div>
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              City / State
+              {t("profile_tab.labels.city_state")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {client.address?.city || "---"}
@@ -66,7 +69,7 @@ export default function ClientProfileTab({
           </div>
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              Postal Code
+              {t("profile_tab.labels.zip")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {client.address?.zipCode || "---"}
@@ -74,7 +77,7 @@ export default function ClientProfileTab({
           </div>
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
-              Country
+              {t("profile_tab.labels.country")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {client.address?.country || "---"}
@@ -93,7 +96,7 @@ export default function ClientProfileTab({
                 : "text-error-500 dark:text-error-400"
             }`}
           >
-            Account Lifecycle
+            {t("profile_tab.lifecycle.title")}
           </h4>
           <div
             className={`p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 ${
@@ -105,13 +108,13 @@ export default function ClientProfileTab({
             <div>
               <p className="text-sm mb-1 font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
                 {isArchived
-                  ? "Restore Client Access"
-                  : "Execute Removal / Archive"}
+                  ? t("profile_tab.lifecycle.restore_title")
+                  : t("profile_tab.lifecycle.archive_title")}
               </p>
               <p className="text-xs text-gray-500 font-medium max-w-md">
                 {isArchived
-                  ? "Re-activate this client to allow new invoices and billing statements."
-                  : "System will automatically archive if history exists, otherwise purge."}
+                  ? t("profile_tab.lifecycle.restore_desc")
+                  : t("profile_tab.lifecycle.archive_desc")}
               </p>
             </div>
 
@@ -124,7 +127,7 @@ export default function ClientProfileTab({
               }`}
               onClick={onLifecycleAction}
             >
-              {isArchived ? "Restore Account" : "Delete / Archive"}
+              {isArchived ? t("profile_tab.lifecycle.btn_restore") : t("profile_tab.lifecycle.btn_archive")}
             </Button>
           </div>
         </div>

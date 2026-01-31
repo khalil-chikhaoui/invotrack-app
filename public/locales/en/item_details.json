@@ -1,0 +1,208 @@
+{
+  "meta_title": "{{name}} | Inventory",
+  "meta_desc": "Item Details",
+  "tabs": {
+    "analytics": "Analytics",
+    "general": "Item Details",
+    "history": "Invoices History"
+  },
+  "header": {
+    "back": "Back",
+    "directory": "Inventory Registry",
+    "restore": "Restore Item",
+    "adjust_stock": "Adjust Stock"
+  },
+  "identity_card": {
+    "archived": "Archived",
+    "edit": "Edit Details",
+    "sku": "SKU",
+    "type_product": "Product",
+    "type_service": "Service",
+    "modals": {
+      "remove_logo_title": "Remove Item Image?",
+      "remove_logo_desc": "Permanently delete the visual asset for this item.",
+      "confirm_remove": "Remove Image"
+    }
+  },
+  "general_tab": {
+    "specs_title": "Specifications & Description",
+    "no_desc": "No detailed description provided for this item record.",
+    "labels": {
+      "unit_price": "Unit Price",
+      "sku": "SKU Reference",
+      "status": "Inventory Status"
+    },
+    "status": {
+      "service": "N/A (Service)",
+      "out_of_stock": "Out of Stock",
+      "units": "units"
+    },
+    "lifecycle": {
+      "title": "Item Lifecycle",
+      "restore_title": "Restore Item Availability",
+      "restore_desc": "Re-activating this item will make it available for new invoices and stock adjustments immediately.",
+      "retire_title": "Retire or Remove Item",
+      "retire_desc": "If this item has existing transaction history, it will be Archived to preserve financial records. Otherwise, it will be permanently deleted.",
+      "btn_restore": "Restore Item",
+      "btn_archive": "Delete / Archive"
+    }
+  },
+  "history_tab": {
+    "title": "Transaction Ledger",
+    "empty_filter": "No invoices match the selected filters",
+    "empty_item": "No invoices found containing this item"
+  },
+  "modals": {
+    "lifecycle": {
+      "restore_title": "Restore Item?",
+      "archive_title": "Delete or Archive Item?",
+      "restore_desc": "This will make the item available for new invoices and stock adjustments.",
+      "archive_desc": "If this item has existing transactions, it will be Archived to preserve history. Otherwise, it will be permanently deleted.",
+      "confirm_restore": "Confirm Restore",
+      "confirm_proceed": "Proceed"
+    },
+    "void": {
+      "title": "Void Invoice?",
+      "desc": "Permanently cancel invoice {{number}}? Stock will be returned."
+    }
+  },
+  "messages": {
+    "RESTORED": "Restored",
+    "RESTORED_DESC": "Item is now active.",
+    "ARCHIVED": "Archived",
+    "DELETED": "Deleted",
+    "DELETED_DESC": "Item permanently removed.",
+    "SYNC_SUCCESS": "Sync Successful",
+    "SYNC_DESC": "Transaction updated.",
+    "VOIDED": "Voided",
+    "VOIDED_DESC": "Invoice record cancelled.",
+    "IMAGE_UPDATED": "Image Updated",
+    "IMAGE_UPDATED_DESC": "Item visuals synchronized.",
+    "ASSET_REMOVED": "Asset Removed",
+    "ASSET_REMOVED_DESC": "Item image cleared."
+  },
+  "errors": {
+    "PROFILE_LOAD": "Profile Error",
+    "HISTORY_LOAD": "History Error",
+    "HISTORY_DESC": "Could not load transaction history.",
+    "ACTION_FAILED": "Action Failed",
+    "UPDATE_FAILED": "Update Failed",
+    "UPLOAD_FAILED": "Upload Failed",
+    "REMOVAL_FAILED": "Removal Failed",
+    "RESTRICTED_ACCESS": "Restricted Access",
+    "RESTRICTED_DESC": "You do not have permission to view inventory details.",
+    "NOT_FOUND_TITLE": "Item Not Found",
+    "NOT_FOUND_DESC": "This inventory item does not exist or has been permanently deleted."
+  },
+  "loading": "Fetching Item Dossier...",
+  "actions": {
+    "return": "Return",
+    "back": "Back"
+  },
+  "analytics": {
+    "health": {
+      "loading": "Analyzing Health Metrics...",
+      "revenue_title": "Total Revenue",
+      "revenue_subtitle": "Lifetime",
+      "sold_title": "Total Sold",
+      "sold_subtitle": "Volume",
+      "inventory_title": "Inventory",
+      "inventory_subtitle": "On Hand",
+      "inventory_low": "Low",
+      "price_title": "Avg. Price",
+      "price_subtitle": "Realized Value",
+      "velocity_title": "Velocity",
+      "velocity_unit": "/day",
+      "velocity_subtitle": "Last 30 Days"
+    },
+    "stats": {
+      "title": "Item Performance",
+      "subtitle": "Revenue & Units Sold",
+      "secondary_label": "Units Sold"
+    },
+    "monthly": {
+      "title": "Monthly Sales",
+      "subtitle": "Revenue for {{year}}",
+      "select_year": "Select Year",
+      "loading": "Syncing item sales...",
+      "no_data_title": "No Data Available",
+      "no_data_desc": "No sales recorded for {{year}}.",
+      "series_name": "Sales",
+      "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ]
+    },
+    "delivery": {
+      "title": "Delivery Success",
+      "subtitle": "Successfully delivered orders",
+      "empty_title": "No Delivery Data",
+      "empty_desc": "Logistics data will appear here."
+    },
+    "buyers": {
+      "title": "Top Buyers",
+      "subtitle_all": "Highest revenue clients of all time",
+      "subtitle_year": "Highest revenue clients in {{year}}",
+      "select_month": "Select Month",
+      "select_year": "Select Year",
+      "all_months": "All Months",
+      "all_time": "All Time",
+      "loading": "Identifying top buyers...",
+      "no_data_title": "No Buyers Found",
+      "no_data_desc": "No sales recorded for this period.",
+      "series_name": "Revenue",
+      "months_full": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "tooltip_units": "units"
+    },
+    "profit": {
+      "title": "Profitability",
+      "subtitle": "Cost vs Profit analysis",
+      "series_revenue": "Revenue",
+      "series_cost": "Cost",
+      "series_profit": "Net Profit",
+      "loading": "Calculating margins...",
+      "all_months": "All Months",
+      "all_time": "All Time",
+      "select_month": "Select Month",
+      "select_year": "Select Year",
+      "months_full": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "stock_intelligence": "Stock Intelligence"
+  }
+}

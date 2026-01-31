@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineArrowLeft,
   HiOutlineArrowPathRoundedSquare,
@@ -19,6 +20,8 @@ export default function ClientHeader({
   canManage,
   onRestore,
 }: ClientHeaderProps) {
+  const { t } = useTranslation("client_details");
+
   return (
     <div className="flex items-center justify-between mb-8">
       <button
@@ -26,7 +29,7 @@ export default function ClientHeader({
         className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" />
-        {canGoBack ? "Back" : "Client Directory"}
+        {canGoBack ? t("header.back") : t("header.directory")}
       </button>
       {isArchived && canManage && (
         <Button
@@ -36,7 +39,7 @@ export default function ClientHeader({
           border-amber-200 text-amber-600 hover:bg-amber-50"
           onClick={onRestore}
         >
-          <HiOutlineArrowPathRoundedSquare className="size-4" /> Restore Account
+          <HiOutlineArrowPathRoundedSquare className="size-4" /> {t("header.restore")}
         </Button>
       )}
     </div>

@@ -1,0 +1,112 @@
+{
+  "list": {
+    "title": "Clients",
+    "meta_desc": "Gérez vos clients.",
+    "breadcrumb": "Répertoire des clients",
+    "loading": "Synchronisation du répertoire...",
+    "add_button": "Ajouter un client",
+    "no_email": "— Aucun e-mail",
+    "open_inv": "Fact. en cours",
+    "lifetime_paid": "Total payé",
+    "empty": {
+      "title": "Aucun client trouvé",
+      "desc": "Ajustez les filtres ou ajoutez un nouveau client pour commencer."
+    },
+    "columns": {
+      "info": "Infos Client",
+      "contact": "Coordonnées",
+      "outstanding": "En attente",
+      "revenue": "Revenu total"
+    }
+  },
+  "filters": {
+    "search_label": "Rechercher",
+    "search_placeholder": "Rechercher des clients...",
+    "status_label": "Statut",
+    "type_label": "Type de client",
+    "sort_label": "Trier par",
+    "modal_title": "Filtrer les clients",
+    "modal_desc": "Affinez votre liste de répertoire",
+    "reset": "Réinitialiser",
+    "apply": "Afficher les résultats",
+    "status": {
+      "active": "Actif",
+      "archived": "Archivé"
+    },
+    "type": {
+      "all": "Tous les types",
+      "business": "Entreprise",
+      "individual": "Particulier"
+    },
+    "sort": {
+      "name_asc": "Nom (A-Z)",
+      "name_desc": "Nom (Z-A)",
+      "newest": "Plus récent",
+      "oldest": "Plus ancien"
+    }
+  },
+  "form": {
+    "title": "Nouveau registre client",
+    "subtitle_1": "Identité légale et classification.",
+    "subtitle_2": "Canaux de communication numérique.",
+    "subtitle_3": "Coordonnées de facturation et d'expédition.",
+    "steps": {
+      "identity": "Identité",
+      "contact": "Contact",
+      "location": "Localisation"
+    },
+    "fields": {
+      "name": "Nom du client",
+      "classification": "Classification",
+      "tax_id": "N° TVA / Taxe",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "website": "Site web",
+      "street": "Rue et numéro",
+      "city": "Ville",
+      "state": "État / Province",
+      "zip": "Code postal",
+      "country": "Pays / Région"
+    },
+    "placeholders": {
+      "name": "ex: Acme Corporation",
+      "tax_id": "N° d'enregistrement optionnel",
+      "email": "contact@client.com",
+      "phone": "+33 1 23 45 67 89",
+      "website": "https://www.site-client.com",
+      "street": "123 Rue de l'Innovation",
+      "city": "Ville",
+      "state": "Région",
+      "zip": "Code postal"
+    },
+    "options": {
+      "individual": "Particulier",
+      "business": "Entreprise / Entité"
+    },
+    "actions": {
+      "next": "Étape suivante",
+      "submit": "Créer le registre",
+      "processing": "Traitement..."
+    },
+    "errors": {
+      "name_required": "Le nom du client est obligatoire."
+    }
+  },
+  "messages": {
+    "CLIENT_CREATED": "Succès",
+    "CLIENT_CREATED_DESC": "Registre client établi avec succès.",
+    "CLIENT_RESTORED": "Fiche client réactivée avec succès.",
+    "CLIENT_DELETED": "Fiche client supprimée définitivement.",
+    "CLIENT_ARCHIVED_HISTORY": "Client archivé en raison de l'historique des transactions.",
+    "LOGO_UPLOADED": "Logo du client mis à jour avec succès.",
+    "LOGO_REMOVED": "Logo du client supprimé."
+  },
+  "errors": {
+    "CLIENT_NOT_FOUND": "Le dossier client est introuvable.",
+    "CLIENT_EXISTS": "Un client portant ce nom existe déjà.",
+    "UNAUTHORIZED_ACTION": "Vous n'êtes pas autorisé à effectuer cette action.",
+    "UNAUTHORIZED_ACCESS": "Vous n'êtes pas autorisé à consulter ce client.",
+    "UPLOAD_NO_FILE": "Veuillez télécharger un fichier image valide.",
+    "GENERIC_ERROR": "Une erreur inattendue est survenue."
+  }
+}

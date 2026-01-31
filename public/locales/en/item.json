@@ -1,0 +1,133 @@
+{
+  "list": {
+    "title": "Inventory",
+    "meta_desc": "Manage catalog.",
+    "breadcrumb": "Inventory Management",
+    "add_button": "Add Item",
+    "syncing": "Syncing Inventory...",
+    "empty": {
+      "title": "No items found",
+      "desc": "Adjust filters or create a new item."
+    },
+    "columns": {
+      "details": "Item Details",
+      "type": "Type",
+      "price": "Price",
+      "stock": "Stock",
+      "actions": "Actions"
+    }
+  },
+  "filters": {
+    "search_label": "Search",
+    "search_placeholder": "Search inventory...",
+    "status_label": "Status",
+    "type_label": "Type",
+    "sort_label": "Sort By",
+    "modal_title": "Filter Inventory",
+    "modal_desc": "Refine your product list",
+    "reset": "Reset",
+    "apply": "Show Results",
+    "status": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "type": {
+      "all": "All Types",
+      "product": "Product",
+      "service": "Service"
+    },
+    "sort": {
+      "name_asc": "Name (A-Z)",
+      "name_desc": "Name (Z-A)",
+      "price_asc": "Price (Low-High)",
+      "price_desc": "Price (High-Low)"
+    }
+  },
+  "form": {
+    "title_new": "New Inventory Item",
+    "title_edit": "Edit Item Details",
+    "subtitle_1": "Identity & Classification.",
+    "subtitle_2": "Cost & Sales Pricing.",
+    "subtitle_3": "Stock Levels & Description.",
+    "steps": {
+      "general": "General",
+      "pricing": "Pricing",
+      "details": "Details"
+    },
+    "fields": {
+      "name": "Item Name",
+      "sku": "SKU / Code",
+      "type": "Item Type",
+      "price": "Selling Price",
+      "cost": "Cost Price ($)",
+      "stock": "Initial Stock Level",
+      "desc": "Description / Notes"
+    },
+    "placeholders": {
+      "name": "Product or Service Name",
+      "sku": "Sku code",
+      "stock": "0",
+      "desc": "Add details..."
+    },
+    "options": {
+      "product": "Product (Stocked)",
+      "service": "Service (Labor/Fee)"
+    },
+    "actions": {
+      "next": "Next Step",
+      "cancel": "Cancel",
+      "back": "Back",
+      "create": "Create Item",
+      "update": "Update Item",
+      "processing": "Processing..."
+    },
+    "errors": {
+      "name_required": "Item Name is required.",
+      "price_required": "Valid selling price required."
+    }
+  },
+  "stock_modal": {
+    "title": "Adjust Stock Level",
+    "subtitle": "Update inventory for",
+    "label_quantity": "Quantity",
+    "current": "Current",
+    "new_total": "New Total",
+    "inbound": "Inbound",
+    "outbound": "Outbound",
+    "actions": {
+      "confirm_restock": "Confirm Restock",
+      "confirm_removal": "Confirm Removal",
+      "cancel": "Cancel",
+      "updating": "Updating..."
+    }
+  },
+  "modals": {
+    "delete_title": "Delete Item",
+    "delete_desc": "Remove {{name}}?",
+    "confirm_delete": "Delete",
+    "confirm_archive": "Archive"
+  },
+  "errors": {
+    "ITEM_NOT_FOUND": "Item record could not be found.",
+    "ITEM_EXISTS": "An item with this name already exists.",
+    "UNAUTHORIZED_ACTION": "Only Admins or Managers can add items.",
+    "UNAUTHORIZED_DELETE": "Unauthorized to delete inventory items.",
+    "CANNOT_STOCK_SERVICE": "Cannot adjust stock for a Service.",
+    "INVALID_QUANTITY": "Invalid quantity provided.",
+    "UPLOAD_NO_FILE": "Please upload a valid image file.",
+    "GENERIC_ERROR": "An unexpected error occurred.",
+    "SYNC_ERROR": "Sync Error",
+    "FAILED": "Failed"
+  },
+  "messages": {
+    "ITEM_CREATED": "Item created successfully.",
+    "ITEM_RESTORED": "Item restored successfully.",
+    "ITEM_DELETED": "Item deleted successfully.",
+    "ITEM_UPDATED": "Item updated.",
+    "ITEM_ARCHIVED_HISTORY": "Item archived due to existing transaction history.",
+    "IMAGE_UPLOADED": "Image uploaded successfully.",
+    "IMAGE_REMOVED": "Image removed successfully.",
+    "DELETED": "Deleted",
+    "ARCHIVED": "Archived"
+  }
+}

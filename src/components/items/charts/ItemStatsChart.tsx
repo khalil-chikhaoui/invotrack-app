@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { invoiceApi } from "../../../apis/invoices";
 import GenericStatsChart from "../../charts/GenericStatsChart";
 
@@ -7,15 +8,17 @@ interface ItemStatsChartProps {
 }
 
 export default function ItemStatsChart({ itemId, currency }: ItemStatsChartProps) {
+  const { t } = useTranslation("item_details");
+
   return (
     <GenericStatsChart
       entityId={itemId}
       currency={currency}
-      fetchData={invoiceApi.getItemStats} // Pass the API function directly
-      title="Item Performance"
-      subtitle="Revenue & Units Sold"
-      colors={["#465FFF","#34D399"]} // Blue & Orange
-      secondaryLabel="Units Sold"
+      fetchData={invoiceApi.getItemStats} 
+      title={t("analytics.stats.title")}
+      subtitle={t("analytics.stats.subtitle")}
+      colors={["#465FFF","#34D399"]} 
+      secondaryLabel={t("analytics.stats.secondary_label")}
     />
   );
 }

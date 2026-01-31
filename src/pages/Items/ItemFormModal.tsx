@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
@@ -11,11 +12,10 @@ import {
   HiChevronDown,
   HiOutlineCube,
   HiArrowRight,
-  HiChevronLeft,
   HiCheck,
   HiCurrencyDollar,
 } from "react-icons/hi2";
-
+ 
 interface ItemFormModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,6 +35,7 @@ export default function ItemFormModal({
   setAlert,
   onSuccess,
 }: ItemFormModalProps) {
+  const { t } = useTranslation("item"); // <--- Load namespace
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -85,7 +86,7 @@ export default function ItemFormModal({
 
     if (step === 1) {
       if (!formData.name.trim()) {
-        newErrors.name = "Item Name is required.";
+        newErrors.name = t("form.errors.name_required");
         hasError = true;
       }
       setErrors((prev) => ({ ...prev, name: newErrors.name })); 
@@ -93,7 +94,7 @@ export default function ItemFormModal({
     } 
     else if (step === 2) {
       if (formData.price === undefined || formData.price === null || isNaN(formData.price) || formData.price < 0) {
-        newErrors.price = "Valid selling price required.";
+        newErrors.price = t("form.errors.price_required");
         hasError = true;
       }
       setErrors((prev) => ({ ...prev, price: newErrors.price })); 
@@ -109,7 +110,6 @@ export default function ItemFormModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // If not on the last step, handle transition logic instead of API call
     if (step < 3) {
       handleNext();
       return;
@@ -121,10 +121,10 @@ export default function ItemFormModal({
       if (isEdit && item) {
         const { currentStock, ...updateData } = formData;
         result = await itemApi.updateItem(item._id, updateData);
-        setAlert({ type: "success", title: "Success", message: "Item updated." });
+        setAlert({ type: "success", title: "Success", message: t("messages.ITEM_UPDATED") });
       } else {
         result = await itemApi.createItem({ ...formData, businessId });
-        setAlert({ type: "success", title: "Success", message: "Item created." });
+        setAlert({ type: "success", title: "Success", message: t("messages.ITEM_CREATED") });
       }
 
       if (onSuccess) {
@@ -137,7 +137,12 @@ export default function ItemFormModal({
       }
       onClose();
     } catch (err: any) {
-      setAlert({ type: "error", title: "Error", message: err.message || "Failed to save." });
+      const errorCode = err.message;
+      setAlert({ 
+        type: "error", 
+        title: "Error", 
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setLoading(false);
     }
@@ -153,7 +158,7 @@ export default function ItemFormModal({
               <span className="text-xs font-semibold">{s}</span>
             </div>
             <span className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${step >= s ? "text-brand-500" : "text-gray-400"}`}>
-              {s === 1 ? "General" : s === 2 ? "Pricing" : "Details"}
+              {s === 1 ? t("form.steps.general") : s === 2 ? t("form.steps.pricing") : t("form.steps.details")}
             </span>
           </div>
           {i < 2 && (
@@ -176,12 +181,12 @@ export default function ItemFormModal({
           </div>
           <div>
             <h4 className="text-xl font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
-              {isEdit ? "Edit Item Details" : "New Inventory Item"}
+              {isEdit ? t("form.title_edit") : t("form.title_new")}
             </h4>
             <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
-              {step === 1 && "Identity & Classification."}
-              {step === 2 && "Cost & Sales Pricing."}
-              {step === 3 && "Stock Levels & Description."}
+              {step === 1 && t("form.subtitle_1")}
+              {step === 2 && t("form.subtitle_2")}
+              {step === 3 && t("form.subtitle_3")}
             </p>
           </div>
         </div>
@@ -195,12 +200,12 @@ export default function ItemFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  Item Name <span className="text-red-500 dark:text-red-400">*</span>
+                  {t("form.fields.name")} <span className="text-red-500 dark:text-red-400">*</span>
                 </Label>
                 <Input
                   autoFocus={isOpen && step === 1}
                   required
-                  placeholder="Product or Service Name"
+                  placeholder={t("form.placeholders.name")}
                   value={formData.name}
                   error={!!errors.name}
                   hint={errors.name}
@@ -211,20 +216,20 @@ export default function ItemFormModal({
                 />
               </div>
               <div className={isEdit ? "md:col-span-2" : ""}>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">SKU / Code</Label>
-                <Input placeholder="Sku code" value={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} />
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">{t("form.fields.sku")}</Label>
+                <Input placeholder={t("form.placeholders.sku")} value={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} />
               </div>
               {!isEdit && (
                 <div>
-                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">Item Type</Label>
+                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">{t("form.fields.type")}</Label>
                   <div className="relative">
                     <select
                       className="appearance-none w-full h-11 rounded-xl border border-gray-300 bg-white pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all text-sm font-normal" 
                       value={formData.itemType}
                       onChange={(e) => setFormData({ ...formData, itemType: e.target.value as any })}
                     >
-                      <option value="Product">Product (Stocked)</option>
-                      <option value="Service">Service (Labor/Fee)</option>
+                      <option value="Product">{t("form.options.product")}</option>
+                      <option value="Service">{t("form.options.service")}</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-600 dark:text-gray-300"><HiChevronDown className="size-4" /></div>
                   </div>
@@ -237,7 +242,7 @@ export default function ItemFormModal({
           <div className={step === 2 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2 mt-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">Selling Price <span className="text-red-500 dark:text-red-400">*</span></Label>
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">{t("form.fields.price")} <span className="text-red-500 dark:text-red-400">*</span></Label>
                <NumericInput
                   variant="currency"
                   autoFocus={step === 2}
@@ -253,7 +258,7 @@ export default function ItemFormModal({
                 />
               </div>
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">Cost Price ($)</Label>
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">{t("form.fields.cost")}</Label>
                 <NumericInput variant="currency" value={formData.cost} onChange={(val) => setFormData({ ...formData, cost: Number(val) })} />
                 <p className="text-[11px] text-gray-600 dark:text-gray-300 mt-2">Used to calculate profit margins.</p>
               </div>
@@ -265,15 +270,15 @@ export default function ItemFormModal({
             <div className="space-y-5">
               {!isEdit && formData.itemType === "Product" && (
                 <div>
-                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">Initial Stock Level</Label>
-                  <NumericInput variant="quantity" autoFocus={step === 3} placeholder="0" value={formData.currentStock} onChange={(val) => setFormData({ ...formData, currentStock: Number(val) })} />
+                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">{t("form.fields.stock")}</Label>
+                  <NumericInput variant="quantity" autoFocus={step === 3} placeholder={t("form.placeholders.stock")} value={formData.currentStock} onChange={(val) => setFormData({ ...formData, currentStock: Number(val) })} />
                 </div>
               )}
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">Description / Notes</Label>
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">{t("form.fields.desc")}</Label>
                 <TextArea
                   autoFocus={step === 3 && formData.itemType === "Service"}
-                  placeholder="Add details..."
+                  placeholder={t("form.placeholders.desc")}
                   value={formData.description}
                   onChange={(val) => setFormData({ ...formData, description: val })}
                   rows={3}
@@ -290,7 +295,7 @@ export default function ItemFormModal({
               className="text-[10px] font-semibold uppercase tracking-widest px-6"
               onClick={step === 1 ? onClose : handleBack}
             >
-              {step === 1 ? "Cancel" : "Back"}
+              {step === 1 ? t("form.actions.cancel") : t("form.actions.back")}
             </Button>
 
             <Button
@@ -299,11 +304,11 @@ export default function ItemFormModal({
               className="text-[10px] font-semibold uppercase tracking-widest px-8 flex items-center gap-2"
             >
               {step < 3 ? (
-                <>Next Step <HiArrowRight /></>
+                <>{t("form.actions.next")} <HiArrowRight /></>
               ) : loading ? (
-                "Processing..."
+                t("form.actions.processing")
               ) : (
-                <>{isEdit ? "Update Item" : "Create Item"} <HiCheck className="text-lg" /></>
+                <>{isEdit ? t("form.actions.update") : t("form.actions.create")} <HiCheck className="text-lg" /></>
               )}
             </Button>
           </div>

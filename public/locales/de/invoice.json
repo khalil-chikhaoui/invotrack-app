@@ -1,0 +1,159 @@
+{
+  "list": {
+    "title": "Rechnungen",
+    "meta_desc": "Geschäftliche Abrechnungen und Rechnungen verwalten",
+    "breadcrumb": "Abrechnung & Rechnungen",
+    "syncing": "Hauptbuch wird synchronisiert...",
+    "new_invoice": "Neue Rechnung",
+    "empty": {
+      "title": "Keine Datensätze gefunden",
+      "desc": "Versuchen Sie, Ihre Filter anzupassen oder eine neue Rechnung zu erstellen."
+    },
+    "columns": {
+      "details": "Rechnungsdetails",
+      "client": "Kundeninfo",
+      "amount": "Betrag",
+      "payment": "Zahlung",
+      "logistics": "Logistik"
+    }
+  },
+  "filters": {
+    "search_label": "Suche",
+    "search_placeholder": "Rechnungsnr. oder Kunde...",
+    "date_range_label": "Zeitraum",
+    "status_label": "Zahlung",
+    "logistics_label": "Logistik",
+    "sort_label": "Sortieren nach",
+    "modal_title": "Register verfeinern",
+    "modal_desc": "Nach Datum, Status oder Tracking filtern",
+    "select_dates": "Daten auswählen",
+    "pick_range": "Zeitraum wählen",
+    "apply": "Filter anwenden",
+    "reset": "Alles zurücksetzen",
+    "date_ranges": {
+      "all": "Gesamter Zeitraum",
+      "today": "Heute",
+      "lastweek": "Letzte Woche",
+      "lastmonth": "Letzter Monat",
+      "custom": "Benutzerdefinierter Bereich"
+    },
+    "status": {
+      "all": "Alle Status",
+      "unpaid": "Unbezahlt",
+      "paid": "Bezahlt",
+      "cancelled": "Storniert"
+    },
+    "logistics": {
+      "all": "Alle Sendungsverfolgungen"
+    },
+    "sort": {
+      "created_new": "Erstellt: Neueste",
+      "created_old": "Erstellt: Älteste",
+      "issued_new": "Ausgestellt: Neueste",
+      "issued_old": "Ausgestellt: Älteste",
+      "number_asc": "Rechnungsnr. (0-9)",
+      "number_desc": "Rechnungsnr. (9-0)",
+      "amount_high": "Betrag (Hoch-Tief)",
+      "amount_low": "Betrag (Tief-Hoch)"
+    }
+  },
+  "status_modal": {
+    "title_payment": "Zahlungsstatus",
+    "title_delivery": "Logistik-Tracker",
+    "actions": {
+      "cancel": "Abbrechen",
+      "update": "Aktualisieren",
+      "confirm_void": "Stornierung bestätigen"
+    },
+    "options": {
+      "open": "Offen",
+      "paid": "Bezahlt",
+      "cancelled": "Storniert"
+    }
+  },
+  "errors": {
+    "BUSINESS_NOT_FOUND": "Unternehmensprofil nicht gefunden.",
+    "INVOICE_NOT_FOUND": "Rechnung konnte nicht gefunden werden.",
+    "CLIENT_ARCHIVED": "Der ausgewählte Kunde wurde archiviert.",
+    "ITEMS_ARCHIVED": "Einer oder mehrere ausgewählte Artikel wurden archiviert.",
+    "CANNOT_UPDATE_VOIDED": "Eine stornierte oder ungültige Rechnung kann nicht geändert werden.",
+    "INVOICE_ALREADY_ACTIVE": "Diese Rechnung ist bereits aktiv.",
+    "INVOICE_ALREADY_VOIDED": "Diese Rechnung wurde bereits storniert.",
+    "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
+    "SYNC_ERROR": "Synchronisationsfehler",
+    "UPDATE_FAILED": "Aktualisierung fehlgeschlagen",
+    "ACCESS_RESTRICTED": "Zugriff eingeschränkt",
+    "ACCESS_RESTRICTED_DESC": "Keine Berechtigung zur Ansicht von Rechnungen."
+  },
+  "messages": {
+    "INVOICE_CREATED": "Rechnung erfolgreich erstellt.",
+    "INVOICE_UPDATED": "Rechnung erfolgreich aktualisiert.",
+    "INVOICE_RESTORED": "Rechnung wieder auf aktiv gesetzt.",
+    "INVOICE_VOIDED": "Rechnung storniert und Lagerbestand zurückgebucht.",
+    "STATUS_SYNCED": "Hauptbuchstatus synchronisiert."
+  },
+  "create": {
+    "title": "Neue Rechnung",
+    "meta_desc": "Neue Finanzdokumente entwerfen und versenden.",
+    "breadcrumb": "Neue Rechnung",
+    "loading": "Rechnungserstellung wird initialisiert...",
+    "sections": {
+      "bill_to": "Rechnung an",
+      "new_client": "Neuer Kunde",
+      "items": "Nomenklatur",
+      "quick_item": "Schnellartikel",
+      "dates": "Daten",
+      "issue_date": "Rechnungsdatum",
+      "due_date": "Fälligkeitsdatum",
+      "tax_discount": "Steuer & Rabatt",
+      "amount": "Betrag",
+      "mode": "Modus",
+      "tax_rate": "Steuersatz (%)",
+      "summary": "Bewertungsübersicht",
+      "notes": "Rechnungsnotizen & Bedingungen"
+    },
+    "placeholders": {
+      "client_search": "Kunde suchen...",
+      "item_search": "Produkte oder Dienstleistungen suchen...",
+      "select_date": "Datum wählen",
+      "select_due_date": "Fälligkeit wählen",
+      "notes": "Zahlungsanweisungen, Bankverbindung oder benutzerdefinierte Nachrichten..."
+    },
+    "summary": {
+      "subtotal": "Zwischensumme",
+      "adjustment": "Anpassung",
+      "taxation": "Besteuerung",
+      "total": "GESAMT"
+    },
+    "actions": {
+      "syncing": "Synchronisierung...",
+      "sync_update": "Rechnungs-Update synchronisieren",
+      "confirm": "Bestätigen & Versenden",
+      "back": "Zurück"
+    },
+    "item_manager": {
+      "empty_ledger": "Leeres Hauptbuch",
+      "no_products": "Keine Produkte gefunden",
+      "headers": {
+        "nomenclature": "Nomenklatur",
+        "qty": "Menge",
+        "rate": "Satz",
+        "total": "Gesamt",
+        "control": "Steuerung"
+      },
+      "modals": {
+        "remove_title": "Artikel entfernen?",
+        "remove_desc": "Diesen Artikel aus der aktuellen Rechnung löschen?",
+        "edit_title": "Position bearbeiten",
+        "edit_desc": "Details aktualisieren für",
+        "qty": "Menge",
+        "selling_price": "Verkaufspreis",
+        "internal_costing": "Interne Kosten",
+        "margin": "Voraussichtliche Marge",
+        "line_total": "Neuer Positionstotal",
+        "save": "Artikel aktualisieren",
+        "saving": "Speichern..."
+      }
+    }
+  }
+}

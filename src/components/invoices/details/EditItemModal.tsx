@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import {
@@ -8,7 +9,6 @@ import {
 } from "react-icons/hi2";
 import Label from "../../form/Label";
 import NumericInput from "../../form/input/NumericInput";
-// 1. Import formatMoney
 import { formatMoney } from "../../../hooks/formatMoney";
 import { CurrencyFormat } from "../../../apis/business";
 
@@ -20,7 +20,6 @@ interface EditItemModalProps {
     itemId: string,
     data: { quantity: number; price: number; costPrice: number },
   ) => Promise<void>;
-  // 2. Add these props so the modal knows how to format
   currency?: string;
   currencyFormat?: CurrencyFormat;
 }
@@ -30,9 +29,10 @@ export default function EditItemModal({
   onClose,
   item,
   onSave,
-  currency, // Destructure
-  currencyFormat, // Destructure
+  currency,
+  currencyFormat,
 }: EditItemModalProps) {
+  const { t } = useTranslation("invoice"); // <--- Load namespace
   const [formData, setFormData] = useState({
     quantity: "",
     price: "",
@@ -84,10 +84,10 @@ export default function EditItemModal({
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-              Edit Line Item
+              {t("create.item_manager.modals.edit_title")}
             </h3>
             <p className="text-xs text-gray-500">
-              Update details for{" "}
+              {t("create.item_manager.modals.edit_desc")}{" "}
               <span className="font-semibold">{item?.name}</span>
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function EditItemModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 mb-1.5">
-                Quantity
+                {t("create.item_manager.modals.qty")}
               </Label>
               <NumericInput
                 variant="quantity"
@@ -109,7 +109,7 @@ export default function EditItemModal({
             </div>
             <div>
               <Label className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 mb-1.5">
-                Selling Price
+                {t("create.item_manager.modals.selling_price")}
               </Label>
               <NumericInput
                 variant="currency"
@@ -127,7 +127,7 @@ export default function EditItemModal({
             <div className="flex items-center gap-2 mb-3">
               <HiOutlineLockClosed className="size-3 text-gray-500 dark:text-gray-300" />
               <Label className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 !mb-0 font-medium">
-                Internal Costing
+                {t("create.item_manager.modals.internal_costing")}
               </Label>
             </div>
             <div className="grid grid-cols-2 gap-4 items-center">
@@ -143,14 +143,13 @@ export default function EditItemModal({
               </div>
               <div className="text-right">
                 <p className="text-[10px] text-gray-500 dark:text-gray-300 uppercase font-semibold">
-                  Projected Margin
+                  {t("create.item_manager.modals.margin")}
                 </p>
                 <p
                   className={`text-sm font-semibold ${
                     margin >= 0 ? "text-success-500" : "text-error-500"
                   }`}
                 >
-                  {/* 3. Use formatMoney for Margin */}
                   {formatMoney(margin, currency, currencyFormat)}
                 </p>
               </div>
@@ -161,11 +160,10 @@ export default function EditItemModal({
             <div className="flex items-center gap-2">
               <HiOutlineCalculator className="text-brand-500 dark:text-brand-400 size-4" />
               <span className="text-[11px] uppercase font-semibold text-brand-500 dark:text-brand-400">
-                New Line Total
+                {t("create.item_manager.modals.line_total")}
               </span>
             </div>
             <div className="text-xl font-semibold text-gray-900 dark:text-white tracking-wide ">
-              {/* 4. Use formatMoney for Total */}
               {formatMoney(calculatedTotal, currency, currencyFormat)}
             </div>
           </div>
@@ -177,10 +175,10 @@ export default function EditItemModal({
               onClick={onClose}
               className="w-full"
             >
-              Cancel
+              {t("status_modal.actions.cancel")}
             </Button>
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Saving..." : "Update Item"}
+              {loading ? t("create.item_manager.modals.saving") : t("create.item_manager.modals.save")}
             </Button>
           </div>
         </form>

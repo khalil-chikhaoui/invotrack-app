@@ -1,9 +1,6 @@
-/**
- * @fileoverview BusinessTaxDiscount Component
- */
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { businessApi, BusinessData } from "../../apis/business";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
@@ -21,6 +18,7 @@ import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 
 export default function BusinessTaxDiscount() {
+  const { t } = useTranslation("business"); // <--- Load "business" namespace
   const { businessId } = useParams();
   const { canManageSettings } = usePermissions();
 
@@ -58,7 +56,6 @@ export default function BusinessTaxDiscount() {
    * Persists the fiscal configuration to the server.
    */
   const handleSave = async (e?: React.FormEvent) => {
-    // Prevent default form submission behavior
     if (e) e.preventDefault();
 
     setSaving(true);
@@ -73,15 +70,16 @@ export default function BusinessTaxDiscount() {
       });
       setAlert({
         type: "success",
-        title: "Rules Updated",
-        message: "Default tax and discount configurations saved successfully.",
+        title: t("messages.SETTINGS_SAVED"),
+        message: t("messages.BUSINESS_UPDATED"),
       });
       setTimeout(() => setAlert(null), 4000);
     } catch (error: any) {
+      const errorCode = error.message;
       setAlert({
         type: "error",
-        title: "Update Failed",
-        message: error.message || "Failed to persist fiscal rules.",
+        title: t("errors.UPDATE_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setSaving(false);
@@ -90,16 +88,16 @@ export default function BusinessTaxDiscount() {
 
   if (loading) {
     return (
-      <LoadingState message="Initialising Fiscal Rules..." minHeight="50vh" />
+      <LoadingState message={t("settings.tax_discount.loading")} minHeight="50vh" />
     );
   }
 
   if (!canManageSettings) {
     return (
       <PermissionDenied
-        title="Fiscal Access Denied"
-        description="Only Business Administrators are authorised to modify global tax and discount rules."
-        actionText="Return to Dashboard"
+        title={t("settings.tax_discount.locked_title")}
+        description={t("settings.tax_discount.locked_desc")}
+        actionText={t("create.nav.back")}
       />
     );
   }
@@ -112,21 +110,27 @@ export default function BusinessTaxDiscount() {
   const simulatedTax = (sampleSubtotal - simulatedDiscount) * (taxRate / 100);
   const simulatedTotal = sampleSubtotal - simulatedDiscount + simulatedTax;
 
+  const formattedSample = formatMoney(
+    sampleSubtotal,
+    business?.currency || "USD",
+    business?.currencyFormat,
+  );
+
   return (
     <>
       <PageMeta
-        description="Manage global tax and discount defaults."
-        title="Fiscal Rules"
+        description={t("settings.tax_discount.meta_desc")}
+        title={`${t("settings.tax_discount.title")} | Invotrack`}
       />
-      <PageBreadcrumb pageTitle="Tax & Discount Defaults" />
+      <PageBreadcrumb pageTitle={t("settings.tax_discount.breadcrumb")} />
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 text-start">
         <div className="xl:col-span-2 space-y-6">
           <ComponentCard
-            title="Invoicing Defaults"
-            desc="Automatically applied to all newly generated invoices."
+            title={t("settings.tax_discount.main_card_title")}
+            desc={t("settings.tax_discount.main_card_desc")}
           >
             {/* Wrap the fields in a form */}
             <form onSubmit={handleSave} className="space-y-8">
@@ -134,7 +138,7 @@ export default function BusinessTaxDiscount() {
               <div>
                 <Label className="flex items-center gap-2 mb-3">
                   <HiOutlineReceiptPercent className="text-brand-500 size-5" />
-                  Standard Tax Rate
+                  {t("settings.tax_discount.tax_label")}
                 </Label>
                 <div className="max-w-xs relative">
                   <NumericInput
@@ -148,8 +152,7 @@ export default function BusinessTaxDiscount() {
                   </span>
                 </div>
                 <p className="mt-2 text-xs text-gray-500 font-medium italic">
-                  Calculated against the subtotal after global discounts are
-                  applied.
+                  {t("settings.tax_discount.tax_help")}
                 </p>
               </div>
 
@@ -159,11 +162,11 @@ export default function BusinessTaxDiscount() {
               <div>
                 <Label className="flex items-center gap-2 mb-4">
                   <HiOutlineTicket className="text-brand-500 size-5" />
-                  Standard Discount Rule
+                  {t("settings.tax_discount.discount_label")}
                 </Label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <Label>Value</Label>
+                    <Label>{t("settings.tax_discount.value_label")}</Label>
                     <NumericInput
                       variant={
                         discountType === "percentage" ? "quantity" : "currency"
@@ -174,11 +177,11 @@ export default function BusinessTaxDiscount() {
                     />
                   </div>
                   <div>
-                    <Label>Calculation Mode</Label>
+                    <Label>{t("settings.tax_discount.mode_label")}</Label>
                     <Select
                       options={[
-                        { value: "percentage", label: "Percentage (%)" },
-                        { value: "fixed", label: "Fixed Currency Value" },
+                        { value: "percentage", label: t("settings.tax_discount.mode_percentage") },
+                        { value: "fixed", label: t("settings.tax_discount.mode_fixed") },
                       ]}
                       onChange={(val) => setDiscountType(val as any)}
                       defaultValue={discountType}
@@ -189,11 +192,11 @@ export default function BusinessTaxDiscount() {
 
               <div className="pt-6 flex justify-end border-t border-gray-100 dark:border-gray-800">
                 <Button
-                  type="submit" // Triggers handleSave
+                  type="submit" 
                   disabled={saving}
                   className="shadow-lg shadow-brand-500/20"
                 >
-                  {saving ? "Updating Rules..." : "Save Default Rules"}
+                  {saving ? t("settings.tax_discount.actions.updating") : t("settings.tax_discount.actions.save")}
                 </Button>
               </div>
             </form>
@@ -203,24 +206,17 @@ export default function BusinessTaxDiscount() {
         {/* Dynamic Calculation Sidebar */}
         <div className="xl:col-span-1">
           <div className="sticky top-24">
-            {/* Calculation Sidebar code remains the same... */}
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
               <h3 className="text-lg font-semibold dark:text-white mb-2 uppercase tracking-tight">
-                Calculation Sandbox
+                {t("settings.tax_discount.sandbox.title")}
               </h3>
               <p className="text-sm text-gray-500 mb-6 italic">
-                Simulating rules against a sample{" "}
-                {formatMoney(
-                  sampleSubtotal,
-                  business?.currency || "USD",
-                  business?.currencyFormat,
-                )}{" "}
-                subtotal.
+                {t("settings.tax_discount.sandbox.desc", { amount: formattedSample })}
               </p>
 
               <div className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500 font-medium">Subtotal</span>
+                  <span className="text-gray-500 font-medium">{t("settings.tax_discount.sandbox.subtotal")}</span>
                   <span className="font-semibold text-gray-800 dark:text-white">
                     {formatMoney(
                       sampleSubtotal,
@@ -231,10 +227,10 @@ export default function BusinessTaxDiscount() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500 font-medium">
-                    Discount (
+                    {t("settings.tax_discount.sandbox.discount")} (
                     {discountType === "percentage"
                       ? `${discountValue}%`
-                      : "Fixed"}
+                      : t("settings.tax_discount.sandbox.fixed")}
                     )
                   </span>
                   <span className="font-semibold text-error-500">
@@ -248,7 +244,7 @@ export default function BusinessTaxDiscount() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500 font-medium">
-                    Tax ({taxRate}%)
+                    {t("settings.tax_discount.sandbox.tax")} ({taxRate}%)
                   </span>
                   <span className="font-semibold text-gray-800 dark:text-white">
                     +
@@ -261,7 +257,7 @@ export default function BusinessTaxDiscount() {
                 </div>
                 <div className="pt-5 border-t border-gray-100 dark:border-gray-800 flex flex-col items-center">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
-                    Estimated Total
+                    {t("settings.tax_discount.sandbox.estimated_total")}
                   </span>
                   <div className="text-3xl font-black text-brand-500">
                     {formatMoney(

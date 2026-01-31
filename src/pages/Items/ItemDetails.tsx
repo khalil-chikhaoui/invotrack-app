@@ -1,11 +1,6 @@
-/**
- * @fileoverview ItemDetails Controller
- * Orchestrates product data fetching, analytics display, and transaction history.
- * Protected by RBAC.
- */
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { itemApi, ItemData } from "../../apis/items";
 import {
   invoiceApi,
@@ -21,7 +16,7 @@ import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
-
+ 
 // Sub-Modals
 import ItemFormModal from "../Items/ItemFormModal";
 import StockInjectModal from "../Items/StockInjectModal";
@@ -43,6 +38,7 @@ import {
 } from "react-icons/hi";
 
 export default function ItemDetails() {
+  const { t } = useTranslation("item_details"); // <--- Load namespace
   const { businessId, id: itemId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -119,10 +115,6 @@ export default function ItemDetails() {
     else navigate(`/business/${businessId}/items`);
   };
 
-  // ==========================================
-  // --- DATA FETCHING (SPLIT) ---
-  // ==========================================
-
   // 1. Fetch Item Profile (Critical)
   const fetchProfile = async () => {
     if (!itemId || !businessId || !canViewFinancials) return;
@@ -135,7 +127,7 @@ export default function ItemDetails() {
       setItem(itemData);
       setBusiness(bizData);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Profile Error", message: error.message });
+      setAlert({ type: "error", title: t("errors.PROFILE_LOAD"), message: error.message });
     } finally {
       setLoading(false);
     }
@@ -172,8 +164,8 @@ export default function ItemDetails() {
         console.error("Invoice history fetch failed:", error);
         setAlert({ 
           type: "error", 
-          title: "History Error", 
-          message: "Could not load transaction history." 
+          title: t("errors.HISTORY_LOAD"), 
+          message: t("errors.HISTORY_DESC") 
         });
       }
     };
@@ -193,10 +185,6 @@ export default function ItemDetails() {
     endDate
   ]);
 
-  // ==========================================
-  // --- HANDLERS ---
-  // ==========================================
-
   const handleLifecycleAction = () => {
     if (!canManage) return;
     lifecycleModal.openModal();
@@ -210,8 +198,8 @@ export default function ItemDetails() {
         await itemApi.restoreItem(item._id);
         setAlert({
           type: "success",
-          title: "Restored",
-          message: "Item is now active.",
+          title: t("messages.RESTORED"),
+          message: t("messages.RESTORED_DESC"),
         });
         fetchProfile();
         lifecycleModal.closeModal();
@@ -220,7 +208,7 @@ export default function ItemDetails() {
         if (res.action === "ARCHIVED") {
           setAlert({
             type: "warning",
-            title: "Archived",
+            title: t("messages.ARCHIVED"),
             message: res.message,
           });
           fetchProfile();
@@ -228,8 +216,8 @@ export default function ItemDetails() {
         } else {
           setAlert({
             type: "success",
-            title: "Deleted",
-            message: "Item permanently removed.",
+            title: t("messages.DELETED"),
+            message: t("messages.DELETED_DESC"),
           });
           navigate(`/business/${businessId}/items`);
         }
@@ -237,7 +225,7 @@ export default function ItemDetails() {
     } catch (error: any) {
       setAlert({
         type: "error",
-        title: "Action Failed",
+        title: t("errors.ACTION_FAILED"),
         message: error.message,
       });
       lifecycleModal.closeModal();
@@ -271,14 +259,14 @@ export default function ItemDetails() {
 
       setAlert({
         type: "success",
-        title: "Sync Successful",
-        message: "Transaction updated.",
+        title: t("messages.SYNC_SUCCESS"),
+        message: t("messages.SYNC_DESC"),
       });
       setRefreshKey((prev) => prev + 1);
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Update Failed", message: e.message });
+      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: e.message });
     } finally {
       setUpdating(false);
     }
@@ -291,13 +279,13 @@ export default function ItemDetails() {
       await invoiceApi.deleteInvoice(selectedInvoice._id);
       setAlert({
         type: "success",
-        title: "Voided",
-        message: "Invoice record cancelled.",
+        title: t("messages.VOIDED"),
+        message: t("messages.VOIDED_DESC"),
       });
       setRefreshKey((prev) => prev + 1);
       invoiceDeleteModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Action Failed", message: e.message });
+      setAlert({ type: "error", title: t("errors.ACTION_FAILED"), message: e.message });
     } finally {
       setDeletingInvoice(false);
     }
@@ -307,17 +295,17 @@ export default function ItemDetails() {
   const TABS = [
     {
       id: "analytics",
-      label: "Analytics",
+      label: t("tabs.analytics"),
       icon: <HiOutlineChartPie className="size-5" />,
     },
     {
       id: "general",
-      label: "Item Details",
+      label: t("tabs.general"),
       icon: <HiOutlineCube className="size-5" />,
     },
     {
       id: "history",
-      label: "Invoices History",
+      label: t("tabs.history"),
       icon: <HiOutlineDocumentText className="size-5" />,
     },
   ];
@@ -338,15 +326,15 @@ export default function ItemDetails() {
 
   // --- Rendering Gates ---
   if (loading && !item) {
-    return <LoadingState message="Fetching Item Dossier..." minHeight="60vh" />;
+    return <LoadingState message={t("loading")} minHeight="60vh" />;
   }
 
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Restricted Access"
-        description="You do not have permission to view inventory details."
-        actionText="Return"
+        title={t("errors.RESTRICTED_ACCESS")}
+        description={t("errors.RESTRICTED_DESC")}
+        actionText={t("actions.return")}
       />
     );
   }
@@ -354,9 +342,9 @@ export default function ItemDetails() {
   if (!item) {
     return (
       <RecordNotFound
-        title="Item Not Found"
-        description="This inventory item does not exist or has been permanently deleted."
-        actionText="Back"
+        title={t("errors.NOT_FOUND_TITLE")}
+        description={t("errors.NOT_FOUND_DESC")}
+        actionText={t("actions.back")}
         onAction={handleSmartBack}
       />
     );
@@ -364,7 +352,7 @@ export default function ItemDetails() {
 
   return (
     <>
-      <PageMeta title={`${item.name} | Inventory`} description="Item Details" />
+      <PageMeta title={t("meta_title", { name: item.name })} description={t("meta_desc")} />
 
       <ItemHeader
         handleSmartBack={handleSmartBack}
@@ -497,14 +485,14 @@ export default function ItemDetails() {
         isOpen={lifecycleModal.isOpen}
         onClose={lifecycleModal.closeModal}
         onConfirm={confirmLifecycleChange}
-        title={item.isArchived ? "Restore Item?" : "Delete or Archive Item?"}
+        title={item.isArchived ? t("modals.lifecycle.restore_title") : t("modals.lifecycle.archive_title")}
         description={
           item.isArchived
-            ? "This will make the item available for new invoices and stock adjustments."
-            : "If this item has existing transactions, it will be Archived to preserve history. Otherwise, it will be permanently deleted."
+            ? t("modals.lifecycle.restore_desc")
+            : t("modals.lifecycle.archive_desc")
         }
         variant={item.isArchived ? "warning" : "danger"}
-        confirmText={item.isArchived ? "Confirm Restore" : "Proceed"}
+        confirmText={item.isArchived ? t("modals.lifecycle.confirm_restore") : t("modals.lifecycle.confirm_proceed")}
         isLoading={processingLifecycle}
       />
     </>

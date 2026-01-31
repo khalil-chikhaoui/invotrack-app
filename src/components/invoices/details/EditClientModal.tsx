@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../ui/modal";
 import Input from "../../form/input/InputField";
 import CountryInput from "../../form/input/CountryInput";
@@ -21,12 +22,13 @@ export default function EditClientModal({
   invoice,
   onSave,
 }: EditClientModalProps) {
+  const { t } = useTranslation("invoice_details");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: { country: "US", number: "" },
     street: "",
-    city: "",
+    city: "", 
     state: "",
     zipCode: "",
     country: "",
@@ -86,19 +88,19 @@ export default function EditClientModal({
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
-              Edit Recipient
+              {t("modals.client.title")}
             </h3>
             <p className="text-xs text-gray-500">
-              Modify the client details for this specific invoice record.
+              {t("modals.client.subtitle")}
             </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label>Client Name</Label>
+            <Label>{t("modals.client.fields.name")}</Label>
             <Input
-              placeholder="Client Name"
+              placeholder=""
               value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
@@ -109,9 +111,9 @@ export default function EditClientModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label>Email Address</Label>
+              <Label>{t("modals.client.fields.email")}</Label>
               <Input
-                placeholder="Email Address"
+                placeholder=""
                 type="email"
                 value={formData.email}
                 onChange={(e) =>
@@ -120,22 +122,22 @@ export default function EditClientModal({
               />
             </div>
             <div>
-              <Label>Phone Number</Label>
+              <Label>{t("modals.client.fields.phone")}</Label>
               <PhoneInput
                 country={formData.phone.country}
                 value={formData.phone.number}
                 onChange={(data) => setFormData({ ...formData, phone: data })}
-                placeholder="+1 (555) 000-0000"
+                placeholder=""
               />
             </div>
           </div>
 
           <div>
-            <Label className="mb-2">Billing Address</Label>
+            <Label className="mb-2">{t("modals.client.fields.billing")}</Label>
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <Input
-                  placeholder="Street Address"
+                  placeholder={t("modals.client.fields.street")}
                   value={formData.street}
                   onChange={(e) =>
                     setFormData({ ...formData, street: e.target.value })
@@ -143,28 +145,28 @@ export default function EditClientModal({
                 />
               </div>
               <Input
-                placeholder="City"
+                placeholder={t("modals.client.fields.city")}
                 value={formData.city}
                 onChange={(e) =>
                   setFormData({ ...formData, city: e.target.value })
                 }
               />
               <Input
-                placeholder="State / Province"
+                placeholder={t("modals.client.fields.state")}
                 value={formData.state}
                 onChange={(e) =>
                   setFormData({ ...formData, state: e.target.value })
                 }
               />
               <Input
-                placeholder="Postal Code"
+                placeholder={t("modals.client.fields.zip")}
                 value={formData.zipCode}
                 onChange={(e) =>
                   setFormData({ ...formData, zipCode: e.target.value })
                 }
               />
               <CountryInput
-                placeholder="Country"
+                placeholder={t("modals.client.fields.country")}
                 value={formData.country}
                 onChange={(val) => setFormData({ ...formData, country: val })}
               />
@@ -178,10 +180,10 @@ export default function EditClientModal({
               onClick={onClose}
               className="w-full"
             >
-              Cancel
+              {t("modals.client.actions.cancel")}
             </Button>
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Saving..." : "Save Changes"}
+              {loading ? t("modals.client.actions.saving") : t("modals.client.actions.save")}
             </Button>
           </div>
         </form>

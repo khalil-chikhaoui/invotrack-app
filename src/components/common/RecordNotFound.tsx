@@ -35,7 +35,7 @@ export default function RecordNotFound({
       {/* Icon Container */}
       <div
         className="w-20 h-20 bg-gray-50 dark:bg-white/[0.03] rounded-3xl flex items-center justify-center mb-6 border 
-      border-gray-100 dark:border-white/[0.05] shadow-sm"
+      border-gray-100 dark:border-white/[0.05]"
       >
         <HiOutlineDocumentSearch className="size-10 text-gray-600 dark:text-gray-400" />
       </div>

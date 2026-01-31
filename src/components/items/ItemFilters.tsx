@@ -8,6 +8,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { useState } from "react";
 import { Modal } from "../ui/modal";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 
 interface ItemFiltersProps {
   searchTerm: string;
@@ -55,6 +56,7 @@ export default function ItemFilters({
   onAdd,
   onRefresh,
 }: ItemFiltersProps) {
+  const { t } = useTranslation("item"); // <--- Load namespace
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const defaults = {
@@ -81,7 +83,7 @@ export default function ItemFilters({
       {/* Status */}
       <div className="w-full xl:w-36">
         <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          Status {isStatusChanged && <PulseDot />}
+          {t("filters.status_label")} {isStatusChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
@@ -92,8 +94,8 @@ export default function ItemFilters({
               setPage(1);
             }}
           >
-            <option value="active">Active</option>
-            <option value="archived">Archived</option>
+            <option value="active">{t("filters.status.active")}</option>
+            <option value="archived">{t("filters.status.archived")}</option>
           </select>
           <CustomChevron />
         </div>
@@ -102,7 +104,7 @@ export default function ItemFilters({
       {/* Category/Type */}
       <div className="w-full xl:w-40">
         <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          Category {isTypeChanged && <PulseDot />}
+          {t("filters.type_label")} {isTypeChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
@@ -113,9 +115,9 @@ export default function ItemFilters({
               setPage(1);
             }}
           >
-            <option value="all">All Types</option>
-            <option value="Product">Products</option>
-            <option value="Service">Services</option>
+            <option value="all">{t("filters.type.all")}</option>
+            <option value="Product">{t("filters.type.product")}</option>
+            <option value="Service">{t("filters.type.service")}</option>
           </select>
           <CustomChevron />
         </div>
@@ -124,7 +126,7 @@ export default function ItemFilters({
       {/* Sorting */}
       <div className="w-full xl:w-48">
         <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          Sort By {isSortChanged && <PulseDot />}
+          {t("filters.sort_label")} {isSortChanged && <PulseDot />}
         </label>
         <div className="relative">
           <select
@@ -132,11 +134,10 @@ export default function ItemFilters({
             value={sortConfig}
             onChange={(e) => setSortConfig(e.target.value)}
           >
-            <option value="name:asc">Name (A-Z)</option>
-            <option value="name:desc">Name (Z-A)</option>
-            <option value="price:asc">Price (Low)</option>
-            <option value="price:desc">Price (High)</option>
-            <option value="createdAt:desc">Newest First</option>
+            <option value="name:asc">{t("filters.sort.name_asc")}</option>
+            <option value="name:desc">{t("filters.sort.name_desc")}</option>
+            <option value="price:asc">{t("filters.sort.price_asc")}</option>
+            <option value="price:desc">{t("filters.sort.price_desc")}</option>
           </select>
           <CustomChevron />
         </div>
@@ -145,7 +146,6 @@ export default function ItemFilters({
   );
 
   return (
-    // DESIGN CHANGE: Removed border/rounded. Added border-b.
     <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col xl:flex-row gap-4 xl:items-end">
         
@@ -153,16 +153,16 @@ export default function ItemFilters({
         <div className="flex flex-1 items-end gap-2">
           <div className="flex-1">
             <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
-              Search Catalog
+              {t("filters.search_label")}
             </label>
             <Input
-              placeholder="Search product name, SKU..."
+              placeholder={t("filters.search_placeholder")}
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
-              className="h-10" // Matched height
+              className="h-10" 
             />
           </div>
           
@@ -215,7 +215,7 @@ export default function ItemFilters({
               onClick={onAdd}
               className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm shadow-brand-500/20"
             >
-              <PlusIcon className="size-5 fill-current" /> Add Item
+              <PlusIcon className="size-5 fill-current" /> {t("list.add_button")}
             </Button>
           )}
         </div>
@@ -228,7 +228,7 @@ export default function ItemFilters({
               onClick={onAdd}
               className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
             >
-              <PlusIcon className="size-4 fill-current" /> Add Item
+              <PlusIcon className="size-4 fill-current" /> {t("list.add_button")}
             </Button>
         </div>
       )}
@@ -250,10 +250,10 @@ export default function ItemFilters({
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight leading-none">
-                      Refine Catalog
+                      {t("filters.modal_title")}
                     </h3>
                     <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mt-1">
-                      Filter by type, status or sort
+                      {t("filters.modal_desc")}
                     </p>
                   </div>
                 </div>
@@ -289,13 +289,13 @@ export default function ItemFilters({
                     }
                   `}
                 >
-                  Reset
+                  {t("filters.reset")}
                 </button>
                 <Button
                   className="w-full sm:flex-1 h-11 text-xs font-bold uppercase tracking-widest shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30"
                   onClick={() => setIsFilterModalOpen(false)}
                 >
-                  Apply Filters
+                  {t("filters.apply")}
                 </Button>
               </div>
             </div>

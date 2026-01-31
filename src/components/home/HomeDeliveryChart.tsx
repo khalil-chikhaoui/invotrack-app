@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { dashboardApi, DeliveryStatsResponse } from "../../apis/dashboard";
 import { DashboardDateRange } from "./HomeHeader";
 import { BusinessData } from "../../apis/business";
@@ -6,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { formatDate } from "date-fns";
 import DeliveryAnalyticsCard from "../../components/charts/DeliveryAnalyticsCard";
 import ChartSkeleton from "./ChartSkeleton";
+import { useDateLocale } from "../../hooks/useDateLocale"; // <--- Import Date Locale Hook
 
 interface HomeDeliveryChartProps {
   business: BusinessData | null;
@@ -14,13 +16,16 @@ interface HomeDeliveryChartProps {
 }
  
 export default function HomeDeliveryChart({ 
-  business, 
+  business,  
   dateRange, 
   loadingBusiness 
 }: HomeDeliveryChartProps) {
+  const { t } = useTranslation("home"); // <--- Load namespace
   const { user } = useAuth();
-  const businessId = business?._id || user?.memberships[0]?.businessId._id;
+  const dateLocale = useDateLocale(); // <--- Get current date locale
 
+  const businessId = business?._id || user?.memberships[0]?.businessId._id;
+ 
   const [stats, setStats] = useState<DeliveryStatsResponse | null>(null);
   const [internalLoading, setInternalLoading] = useState(true);
 
@@ -45,22 +50,21 @@ export default function HomeDeliveryChart({
     fetchData();
   }, [businessId, dateRange]);
 
-  const rangeLabel = `${formatDate(dateRange.start, "MMM d")} - ${formatDate(dateRange.end, "MMM d")}`;
-
+  // Pass locale option to formatDate
+  const rangeLabel = `${formatDate(dateRange.start, "MMM d", { locale: dateLocale })} - ${formatDate(dateRange.end, "MMM d", { locale: dateLocale })}`;
 
    if (loadingBusiness || internalLoading) {
     return <ChartSkeleton />;
   }
-
   
   return (
     <DeliveryAnalyticsCard
       stats={stats}
-      loading={false} // Already handled loading above
-      title="Logistics"
-      subtitle={`Delivery Performance • ${rangeLabel}`}
-      emptyTitle="No Shipments"
-      emptyDescription="No delivery data found for this period."
+      loading={false}
+      title={t("charts.delivery.title")}
+      subtitle={t("charts.delivery.subtitle", { range: rangeLabel })}
+      emptyTitle={t("charts.delivery.empty_title")}
+      emptyDescription={t("charts.delivery.empty_desc")}
     />
   );
 }

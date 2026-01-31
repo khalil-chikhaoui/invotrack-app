@@ -1,0 +1,133 @@
+{
+  "list": {
+    "title": "Inventaire",
+    "meta_desc": "Gérez le catalogue.",
+    "breadcrumb": "Gestion de l'inventaire",
+    "add_button": "Ajouter un article",
+    "syncing": "Synchronisation de l'inventaire...",
+    "empty": {
+      "title": "Aucun article trouvé",
+      "desc": "Ajustez les filtres ou créez un nouvel article."
+    },
+    "columns": {
+      "details": "Détails de l'article",
+      "type": "Type",
+      "price": "Prix",
+      "stock": "Stock",
+      "actions": "Actions"
+    }
+  },
+  "filters": {
+    "search_label": "Rechercher",
+    "search_placeholder": "Rechercher dans l'inventaire...",
+    "status_label": "Statut",
+    "type_label": "Type",
+    "sort_label": "Trier par",
+    "modal_title": "Filtrer l'inventaire",
+    "modal_desc": "Affinez votre liste de produits",
+    "reset": "Réinitialiser",
+    "apply": "Afficher les résultats",
+    "status": {
+      "active": "Actif",
+      "archived": "Archivé"
+    },
+    "type": {
+      "all": "Tous les types",
+      "product": "Produit",
+      "service": "Service"
+    },
+    "sort": {
+      "name_asc": "Nom (A-Z)",
+      "name_desc": "Nom (Z-A)",
+      "price_asc": "Prix (Croissant)",
+      "price_desc": "Prix (Décroissant)"
+    }
+  },
+  "form": {
+    "title_new": "Nouvel article d'inventaire",
+    "title_edit": "Modifier les détails de l'article",
+    "subtitle_1": "Identité & Classification.",
+    "subtitle_2": "Coût & Prix de vente.",
+    "subtitle_3": "Niveaux de stock & Description.",
+    "steps": {
+      "general": "Général",
+      "pricing": "Tarification",
+      "details": "Détails"
+    },
+    "fields": {
+      "name": "Nom de l'article",
+      "sku": "SKU / Code",
+      "type": "Type d'article",
+      "price": "Prix de vente",
+      "cost": "Prix de revient ($)",
+      "stock": "Niveau de stock initial",
+      "desc": "Description / Notes"
+    },
+    "placeholders": {
+      "name": "Nom du produit ou service",
+      "sku": "Code SKU",
+      "stock": "0",
+      "desc": "Ajouter des détails..."
+    },
+    "options": {
+      "product": "Produit (Stocké)",
+      "service": "Service (Main-d'œuvre/Frais)"
+    },
+    "actions": {
+      "next": "Étape suivante",
+      "cancel": "Annuler",
+      "back": "Retour",
+      "create": "Créer l'article",
+      "update": "Mettre à jour l'article",
+      "processing": "Traitement..."
+    },
+    "errors": {
+      "name_required": "Le nom de l'article est obligatoire.",
+      "price_required": "Un prix de vente valide est requis."
+    }
+  },
+  "stock_modal": {
+    "title": "Ajuster le niveau de stock",
+    "subtitle": "Mettre à jour l'inventaire pour",
+    "label_quantity": "Quantité",
+    "current": "Actuel",
+    "new_total": "Nouveau total",
+    "inbound": "Entrant",
+    "outbound": "Sortant",
+    "actions": {
+      "confirm_restock": "Confirmer le réapprovisionnement",
+      "confirm_removal": "Confirmer le retrait",
+      "cancel": "Annuler",
+      "updating": "Mise à jour..."
+    }
+  },
+  "modals": {
+    "delete_title": "Supprimer l'article",
+    "delete_desc": "Supprimer {{name}} ?",
+    "confirm_delete": "Supprimer",
+    "confirm_archive": "Archiver"
+  },
+  "errors": {
+    "ITEM_NOT_FOUND": "L'article est introuvable.",
+    "ITEM_EXISTS": "Un article avec ce nom existe déjà.",
+    "UNAUTHORIZED_ACTION": "Seuls les administrateurs ou gestionnaires peuvent ajouter des articles.",
+    "UNAUTHORIZED_DELETE": "Non autorisé à supprimer des articles de l'inventaire.",
+    "CANNOT_STOCK_SERVICE": "Impossible d'ajuster le stock pour un service.",
+    "INVALID_QUANTITY": "Quantité fournie non valide.",
+    "UPLOAD_NO_FILE": "Veuillez télécharger un fichier image valide.",
+    "GENERIC_ERROR": "Une erreur inattendue est survenue.",
+    "SYNC_ERROR": "Erreur de synchronisation",
+    "FAILED": "Échec"
+  },
+  "messages": {
+    "ITEM_CREATED": "Article créé avec succès.",
+    "ITEM_RESTORED": "Article restauré avec succès.",
+    "ITEM_DELETED": "Article supprimé avec succès.",
+    "ITEM_UPDATED": "Article mis à jour.",
+    "ITEM_ARCHIVED_HISTORY": "Article archivé en raison de l'historique des transactions.",
+    "IMAGE_UPLOADED": "Image téléchargée avec succès.",
+    "IMAGE_REMOVED": "Image supprimée avec succès.",
+    "DELETED": "Supprimé",
+    "ARCHIVED": "Archivé"
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import PageMeta from "../../components/common/PageMeta";
 import { usePermissions } from "../../hooks/usePermissions";
 import PermissionDenied from "../../components/common/PermissionDenied";
@@ -17,13 +18,13 @@ import HomeClientProfitChart from "../../components/home/HomeClientProfitChart";
 const getDefaultRange = (): DashboardDateRange => {
   const now = new Date();
   return {
-    // Set weekStartsOn: 1 for Monday start, or 0 for Sunday
     start: startOfWeek(now, { weekStartsOn: 0 }),
     end: endOfWeek(now, { weekStartsOn: 0 }),
   };
 };
 
 export default function Home() {
+  const { t } = useTranslation("home"); // <--- Load namespace
   const { businessId } = useParams();
   const { canViewFinancials } = usePermissions();
 
@@ -53,9 +54,9 @@ export default function Home() {
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Dashboard Access Restricted"
-        description="You do not have the required permissions to view the financial performance dashboard."
-        actionText="Return to Dashboard"
+        title={t("errors.access_restricted")}
+        description={t("errors.access_desc")}
+        actionText={t("errors.return")}
       />
     );
   }
@@ -63,8 +64,8 @@ export default function Home() {
   return (
     <>
       <PageMeta
-        title="Dashboard | Invotrack"
-        description="Business Intelligence and Performance Overview"
+        title={`${t("meta_title")} | Invotrack`}
+        description={t("meta_desc")}
       />
 
       <div className="py-4 px-2 md:px-4">
@@ -99,7 +100,7 @@ export default function Home() {
               loadingBusiness={loadingBusiness}
             />
           </div>
-          {/* 4. Main Chart: Revenue (Left) */}
+          {/* 4. Logistics Chart */}
           <div className="col-span-12 lg:col-span-5 h-[400px] min-w-0">
             <HomeDeliveryChart
               business={business}

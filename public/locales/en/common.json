@@ -4,6 +4,12 @@
     "syncing_session": "Syncing session...",
     "verifying_access": "Verifying business access..."
   },
+  "languages": {
+    "label": "Language",
+    "en": "🇺🇸 English (US)",
+    "fr": "🇫🇷 Français",
+    "de": "🇩🇪 Deutsch"
+  },
   "sidebar": {
     "nav": {
       "dashboard": "Dashboard",
@@ -22,7 +28,7 @@
       "all_members": "All Members",
       "invite": "Invite Member"
     },
-    "workspace": {
+    "workspace": { 
       "label": "Workspace",
       "select": "Select Business"
     },
@@ -41,5 +47,36 @@
       "invoices": "Invoices"
     },
     "no_matches": "No matches found in records."
+  },
+  "currency_select": {
+    "placeholder": "Select Currency",
+    "search_placeholder": "Search...",
+    "no_results": "No currency found."
+  },
+  "charts": {
+    "loading": "Fetching Data...",
+    "no_data_title": "No Data Found",
+    "no_data_desc": "No financial data available for this period.",
+    "custom_date": "Custom",
+    "revenue": "Revenue",
+    "tabs": {
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "annually": "Annually"
+    }
+  },
+  "status": {
+    "open": "Open",
+    "paid": "Paid",
+    "cancelled": "Cancelled",
+    "pending": "Pending",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "returned": "Returned" 
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "back": "Back",
+    "return_dashboard": "Return to Dashboard"
   }
 }

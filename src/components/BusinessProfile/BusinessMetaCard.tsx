@@ -1,14 +1,9 @@
 /**
  * @fileoverview BusinessMetaCard Component
- * Manages core visual branding and high-level identity for the organization.
- * Features:
- * 1. Asset Management: Integrated business logo upload and deletion via multipart/form-data.
- * 2. Identity Sync: Updates organization metadata (Name, Legal Name, Description).
- * 3. Global Context Sync: Synchronizes updated logos with AuthContext to reflect changes in sidebars/navbars.
- * 4. Permission Guarding: Restricts editing and asset management strictly to Admin roles.
  */
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { BusinessData, businessApi } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
@@ -16,6 +11,7 @@ import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import TextArea from "../form/input/TextArea";
 import Label from "../form/Label";
+import LanguageInput from "../form/LanguageInput";
 import ConfirmModal from "../common/ConfirmModal";
 import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router";
@@ -31,7 +27,7 @@ export default function BusinessMetaCard({
   refresh: () => void;
   setAlert: (alert: any) => void;
 }) {
-  // --- Modal Logic ---
+  const { t } = useTranslation("business");
   const {
     isOpen: isEditOpen,
     openModal: openEditModal,
@@ -43,7 +39,6 @@ export default function BusinessMetaCard({
     closeModal: closeDeleteModal,
   } = useModal();
 
-  // --- UI States ---
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -51,22 +46,21 @@ export default function BusinessMetaCard({
 
   const { user, login, token } = useAuth();
   const { businessId } = useParams();
-
   const { isAdmin } = usePermissions();
 
-  // --- Form State Management ---
   const [formData, setFormData] = useState({
     name: business.name,
     legalName: business.legalName || "",
     description: business.description || "",
+    language: business.language || "en",
   });
 
-  // Keep form in sync with incoming prop changes (from refresh() calls)
   useEffect(() => {
     setFormData({
       name: business.name,
       legalName: business.legalName || "",
       description: business.description || "",
+      language: business.language || "en",
     });
   }, [business]);
 
@@ -94,19 +88,20 @@ export default function BusinessMetaCard({
       updateGlobalUserLogo(data.logo);
       setAlert({
         type: "success",
-        title: "Branding Updated",
-        message: "Business logo has been synchronized.",
+        title: t("messages.BRANDING_UPDATED"),
+        message: t("messages.LOGO_UPLOADED"),
       });
       refresh();
     } catch (error: any) {
+      const errorCode = error.message;
       setAlert({
         type: "error",
-        title: "Sync Failed",
-        message: error.message || "Failed to upload logo.",
+        title: t("errors.SYNC_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.LOGO_UPLOAD_FAILED")),
       });
     } finally {
       setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = ""; // Reset input
+      if (fileInputRef.current) fileInputRef.current.value = ""; 
     }
   };
 
@@ -118,16 +113,17 @@ export default function BusinessMetaCard({
       updateGlobalUserLogo("");
       setAlert({
         type: "info",
-        title: "Asset Purged",
-        message: "Business logo has been removed.",
+        title: t("messages.ASSET_PURGED"),
+        message: t("messages.LOGO_REMOVED"),
       });
       refresh();
       closeDeleteModal();
     } catch (error: any) {
+      const errorCode = error.message;
       setAlert({
         type: "error",
-        title: "Removal Failed",
-        message: error.message,
+        title: t("errors.REMOVAL_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setDeleting(false);
@@ -140,16 +136,17 @@ export default function BusinessMetaCard({
       await businessApi.updateBusiness(business._id, formData);
       setAlert({
         type: "success",
-        title: "Registry Updated",
-        message: "Core identity details saved.",
+        title: t("messages.SETTINGS_SAVED"),
+        message: t("messages.BUSINESS_UPDATED"),
       });
       refresh();
       closeEditModal();
     } catch (error: any) {
+      const errorCode = error.message;
       setAlert({
         type: "error",
-        title: "Update Failed",
-        message: error.message,
+        title: t("errors.UPDATE_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -159,43 +156,27 @@ export default function BusinessMetaCard({
   return (
     <div className="p-5 border border-gray-200 rounded-2xl bg-white dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 text-start">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
-        {/* --- Visual Identity Container --- */}
         <div
           onClick={() => isAdmin && !uploading && fileInputRef.current?.click()}
           className={`relative w-24 h-24 overflow-hidden border border-gray-200 rounded-xl dark:border-gray-800 flex items-center justify-center bg-gray-50 dark:bg-gray-800 flex-shrink-0 transition-all ${isAdmin ? "cursor-pointer group hover:ring-4 hover:ring-brand-500/10" : ""}`}
         >
           {business.logo ? (
-            <img
-              src={business.logo}
-              alt="Organization Logo"
-              className="object-cover w-full h-full"
-            />
+            <img src={business.logo} alt="Logo" className="object-cover w-full h-full" />
           ) : (
-            /* Monogram Fallback */
             <span className="text-3xl font-semibold text-gray-300 dark:text-gray-500 uppercase">
               {business.name?.charAt(0)}
             </span>
           )}
 
-          {/* Asset Interaction Overlay (Admin only) */}
           {isAdmin && (
-            <div
-              className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
-            >
+            <div className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
               {uploading || deleting ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <HiOutlineCamera className="w-5 h-5 text-white cursor-pointer hover:scale-110 transition-transform" />
                   {business.logo && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevents triggering file picker
-                        openDeleteModal();
-                      }}
-                      className="group/delete"
-                      type="button"
-                    >
+                    <button onClick={(e) => { e.stopPropagation(); openDeleteModal(); }} className="group/delete" type="button">
                       <HiOutlineTrash className="w-5 h-5 text-white transition-colors hover:scale-110" />
                     </button>
                   )}
@@ -203,119 +184,74 @@ export default function BusinessMetaCard({
               )}
             </div>
           )}
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="hidden"
-            accept="image/png, image/jpeg, image/jpg"
-          />
+          <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/jpg" />
         </div>
 
-        {/* --- Identity Information --- */}
         <div className="flex-grow">
           <div className="flex items-center gap-3 mb-1">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90">
-              {business.name}
-            </h3>
-            <span className="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-600 rounded-full dark:bg-green-500/10 uppercase tracking-widest">
-              {business.status}
-            </span>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90">{business.name}</h3>
+            <span className="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-600 rounded-full dark:bg-green-500/10 uppercase tracking-widest">{business.status}</span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-            {business.legalName || business.name}
-          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{business.legalName || business.name}</p>
           <div className="max-w-3xl border-l-4 border-brand-500 pl-4 py-1 italic text-gray-600 dark:text-gray-300">
-            "
-            {business.description ||
-              "No description set for this organization."}
-            "
+            "{business.description || t("create.form.desc_placeholder")}"
           </div>
         </div>
 
         {isAdmin && (
-          <button
-            onClick={openEditModal}
-            className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 uppercase font-semibold text-[10px] tracking-widest"
-          >
-            Edit Identity
+          <button onClick={openEditModal} className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 uppercase text-[10px] tracking-widest">
+            {t("settings.general.form.edit_identity")}
           </button>
         )}
       </div>
 
-      {/* --- CONFIRMATION MODALS --- */}
       <ConfirmModal
         isOpen={isDeleteOpen}
         onClose={closeDeleteModal}
         onConfirm={handleConfirmDeleteLogo}
-        title="Remove Business Logo?"
-        description="This action will permanently delete the custom branding asset and revert to a monogram."
-        confirmText="Remove Logo"
+        title={t("modals.remove_logo_title")}
+        description={t("modals.remove_logo_desc")}
+        confirmText={t("modals.confirm_remove")}
         variant="danger"
         isLoading={deleting}
       />
 
-      {/* --- EDIT MODAL --- */}
-      <Modal
-        isOpen={isEditOpen}
-        onClose={closeEditModal}
-        className="max-w-[700px] m-4"
-      >
+      <Modal isOpen={isEditOpen} onClose={closeEditModal} className="max-w-[700px] m-4">
         <div className="p-6 lg:p-11 bg-white dark:bg-gray-900 rounded-3xl text-start">
           <h4 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white/90 uppercase tracking-tight">
-            Edit Organizational Branding
+            {t("settings.general.cards.edit_identity_title")}
           </h4>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSave();
-            }}
-            className="space-y-4"
-          >
+          <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
             <div>
-              <Label>Business Name</Label>
-              <Input
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-              />
+              <Label>{t("settings.general.form.name_label")}</Label>
+              <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
             </div>
-            <div>
-              <Label>Legal Name</Label>
-              <Input
-                value={formData.legalName}
-                onChange={(e) =>
-                  setFormData({ ...formData, legalName: e.target.value })
-                }
-              />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>{t("settings.general.form.legal_name_label")}</Label>
+                <Input value={formData.legalName} onChange={(e) => setFormData({ ...formData, legalName: e.target.value })} />
+              </div>
+              <div>
+                <LanguageInput
+                  label={t("settings.general.form.language_label")}
+                  value={formData.language}
+                  onChange={(lang) => setFormData({ ...formData, language: lang })}
+                />
+              </div>
             </div>
+
             <div>
-              <Label>Description / Bio</Label>
-              <TextArea
-                value={formData.description}
-                onChange={(val) =>
-                  setFormData({ ...formData, description: val })
-                }
-                rows={4}
-              />
+              <Label>{t("settings.general.form.desc_label")}</Label>
+              <TextArea value={formData.description} onChange={(val) => setFormData({ ...formData, description: val })} rows={4} />
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={closeEditModal}
-                className="text-[10px] font-semibold uppercase tracking-widest"
-              >
-                Cancel
+              <Button type="button" variant="outline" onClick={closeEditModal} className="text-[10px] font-semibold uppercase tracking-widest">
+                {t("settings.general.form.cancel")}
               </Button>
-              <Button
-                type="submit"
-                disabled={loading}
-                className="text-[10px] font-semibold uppercase tracking-widest"
-              >
-                {loading ? "Synchronizing..." : "Save Changes"}
+              <Button type="submit" disabled={loading} className="text-[10px] font-semibold uppercase tracking-widest">
+                {loading ? t("settings.general.form.synchronizing") : t("settings.general.form.save")}
               </Button>
             </div>
           </form>

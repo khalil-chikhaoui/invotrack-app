@@ -1,0 +1,161 @@
+{
+  "meta_title": "{{number}} | Details",
+  "meta_desc": "Rechnungsregister-Details",
+  "tabs": {
+    "general": "Allgemeine Informationen",
+    "stats": "Leistungsstatistiken"
+  },
+  "header": {
+    "back": "Zurück",
+    "directory": "Rechnungsverzeichnis",
+    "export_pdf": "Standard-PDF",
+    "export_alt": "Alternativen Stil exportieren",
+    "loading_pdf": "Lädt...",
+    "styles": {
+      "classic": "Klassisch",
+      "classic_desc": "Traditionell & Professionell.",
+      "minimal": "Minimalistisch",
+      "minimal_desc": "Klare Linien, datenfokussiert.",
+      "modern": "Modern",
+      "modern_desc": "Auffälliges visuelles Design."
+    }
+  },
+  "identity_card": {
+    "edit_record": "Datensatz bearbeiten",
+    "issued": "Ausgestellt:",
+    "due": "Fällig:",
+    "edit": "Bearbeiten",
+    "created_on": "Rechnung erstellt am {{date}} von {{user}}",
+    "valuation": "Bewertung"
+  },
+  "parties": {
+    "recipient": "Empfängerregister",
+    "edit": "Bearbeiten"
+  },
+  "ledger": {
+    "title": "Hauptbuchpositionen",
+    "quick_item": "Schnellartikel",
+    "search_placeholder": "Produkte oder Dienste zum Hinzufügen suchen...",
+    "empty": "Leeres Hauptbuch",
+    "no_results": "Keine Produkte gefunden",
+    "headers": {
+      "nomenclature": "Nomenklatur",
+      "qty": "Menge",
+      "rate": "Satz",
+      "total": "Gesamt",
+      "control": "Steuerung"
+    },
+    "notes": {
+      "title": "Notizen & Anweisungen",
+      "edit": "Bearbeiten",
+      "placeholder": "Zahlungsbedingungen oder Notizen eingeben...",
+      "save": "Notizen speichern",
+      "saving": "Speichern...",
+      "empty": "Keine zusätzlichen Notizen vorhanden."
+    },
+    "totals": {
+      "adjust": "Steuer/Rabatt anpassen",
+      "subtotal": "Zwischensumme",
+      "discount": "Rabatt",
+      "tax": "Steuer",
+      "grand_total": "Gesamtsumme"
+    }
+  },
+  "sidebar": {
+    "lifecycle_title": "Lebenszyklus-Management",
+    "payment_state": "Zahlungsstatus",
+    "logistics": "Logistik",
+    "notes_title": "Interne Notizen",
+    "notes_placeholder": "Private Notizen hier hinzufügen..."
+  },
+  "stats": {
+    "profit": "Nettogewinn",
+    "profit_desc": "Umsatz minus Warenkosten",
+    "margin": "Gewinnspanne",
+    "margin_desc": "Prozentsatz des verbleibenden Umsatzes",
+    "cost": "Gesamtkosten (COGS)",
+    "cost_desc": "Gesamtausgaben für Artikel",
+    "velocity": "Zahlungsgeschwindigkeit",
+    "velocity_desc": "Zeit von Ausstellung bis zum Ausgleich",
+    "days": "Tage"
+  },
+  "modals": {
+    "payment": {
+      "title": "Zahlungsstatus",
+      "confirm_void": "Stornierung bestätigen",
+      "apply": "Sync anwenden"
+    },
+    "delivery": {
+      "title": "Logistik-Status",
+      "update": "Hauptbuch aktualisieren"
+    },
+    "client": {
+      "title": "Empfänger bearbeiten",
+      "subtitle": "Kundendetails für diesen spezifischen Datensatz ändern.",
+      "fields": {
+        "name": "Kundenname",
+        "email": "E-Mail-Adresse",
+        "phone": "Telefonnummer",
+        "billing": "Rechnungsadresse",
+        "street": "Straße & Hausnr.",
+        "city": "Stadt",
+        "state": "Bundesland",
+        "zip": "Postleitzahl",
+        "country": "Land"
+      },
+      "actions": {
+        "cancel": "Abbrechen",
+        "save": "Änderungen speichern",
+        "saving": "Speichern..."
+      }
+    },
+    "dates": {
+      "title": "Zeitplan aktualisieren",
+      "desc": "Ausstellungs- und Fälligkeitsdatum anpassen.",
+      "actions": {
+        "cancel": "Abbrechen",
+        "save": "Neue Daten speichern",
+        "saving": "Speichern..."
+      }
+    },
+    "financials": {
+      "title": "Finanzielle Anpassungen",
+      "desc": "Steuersätze und Rabattmodelle für diese Rechnung konfigurieren.",
+      "actions": {
+        "cancel": "Abbrechen",
+        "apply": "Anpassungen anwenden",
+        "calculating": "Berechnung läuft..."
+      }
+    },
+    "delete_item": {
+      "title": "Artikel entfernen?",
+      "desc": "Dies entfernt den Artikel aus dem Hauptbuch. Aktion kann nicht rückgängig gemacht werden.",
+      "confirm": "Entfernen"
+    }
+  },
+  "messages": {
+    "SYNC_ERROR": "Synchronisationsfehler",
+    "LEDGER_UPDATED": "Hauptbuch aktualisiert.",
+    "ITEM_REMOVED": "Artikel aus Hauptbuch entfernt.",
+    "NOTES_UPDATED": "Rechnungsnotizen aktualisiert.",
+    "FINANCIALS_UPDATED": "Steuer und Rabatt aktualisiert.",
+    "STATUS_SYNCED": "Transaktionsstatus aktualisiert.",
+    "DATES_UPDATED": "Daten erfolgreich aktualisiert.",
+    "EXPORT_SUCCESS": "Version {{style}} exportiert.",
+    "EXPORT_ERROR": "Stil konnte nicht generiert werden.",
+    "CLIENT_UPDATED": "Kundendetails aktualisiert."
+  },
+  "errors": {
+    "FAILED": "Fehlgeschlagen",
+    "UPDATE_FAILED": "Update fehlgeschlagen",
+    "RESTRICTED_ACCESS": "Geschütztes Dokument",
+    "RESTRICTED_DESC": "Keine Berechtigung zur Ansicht dieses Finanzdatensatzes.",
+    "NOT_FOUND_TITLE": "Rechnung nicht gefunden",
+    "NOT_FOUND_DESC": "Diese Rechnung existiert nicht oder wurde dauerhaft entfernt."
+  },
+  "loading": "Finanzdatensatz wird entschlüsselt...",
+  "actions": {
+    "return": "zurückkehren",
+    "back": "Zurück"
+  }
+}

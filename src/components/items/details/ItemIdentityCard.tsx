@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import {
   HiOutlineCube,
   HiOutlineHashtag,
@@ -27,11 +28,12 @@ interface ItemIdentityCardProps {
 export default function ItemIdentityCard({
   item,
   business,
-  canManage,
+  canManage, 
   onEdit,
   refresh,
   setAlert,
 }: ItemIdentityCardProps) {
+  const { t } = useTranslation("item_details");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -54,14 +56,14 @@ export default function ItemIdentityCard({
       await itemApi.uploadImage(item._id, fd);
       setAlert({
         type: "success",
-        title: "Image Updated",
-        message: "Item visuals synchronized.",
+        title: t("messages.IMAGE_UPDATED"),
+        message: t("messages.IMAGE_UPDATED_DESC"),
       });
       refresh();
     } catch (error: any) {
       setAlert({
         type: "error",
-        title: "Upload Failed",
+        title: t("errors.UPLOAD_FAILED"),
         message: error.message,
       });
     } finally {
@@ -77,15 +79,15 @@ export default function ItemIdentityCard({
       await itemApi.deleteImage(item._id);
       setAlert({
         type: "info",
-        title: "Asset Removed",
-        message: "Item image cleared.",
+        title: t("messages.ASSET_REMOVED"),
+        message: t("messages.ASSET_REMOVED_DESC"),
       });
       refresh();
       closeDeleteModal();
     } catch (error: any) {
       setAlert({
         type: "error",
-        title: "Removal Failed",
+        title: t("errors.REMOVAL_FAILED"),
         message: error.message,
       });
     } finally {
@@ -100,7 +102,6 @@ export default function ItemIdentityCard({
       </div>
 
       <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
-        {/* Logo/Avatar with Interaction Overlay */}
         <div
           onClick={() =>
             !item.isArchived &&
@@ -125,7 +126,6 @@ export default function ItemIdentityCard({
             <HiOutlineCube className="size-12 text-gray-400" />
           )}
 
-          {/* Interaction Overlay - Hidden if Locked */}
           {canManage && !item.isArchived && (
             <div
               className={`
@@ -166,17 +166,18 @@ export default function ItemIdentityCard({
         <div className="flex-1 w-full">
           <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
             <Badge
-              color={item.itemType === "Product" ? "info" : "light"}
+              color={item.itemType === "Product" ? "info" : "warning"}
               className="font-semibold text-[10px] tracking-widest px-3 uppercase"
             >
-              {item.itemType}
+              {/* Dynamic translation lookup based on type: "Product" -> "type_product" */}
+              {t(`identity_card.type_${item.itemType.toLowerCase()}` as any, item.itemType)}
             </Badge>
             {item.isArchived && (
               <Badge
                 color="warning"
                 className="font-semibold text-[9px] tracking-widest uppercase"
               >
-                Archived
+                {t("identity_card.archived")}
               </Badge>
             )}
           </div>
@@ -191,14 +192,14 @@ export default function ItemIdentityCard({
                 onClick={onEdit}
                 className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
               >
-                <HiOutlinePencilSquare className="size-4" /> Edit Details
+                <HiOutlinePencilSquare className="size-4" /> {t("identity_card.edit")}
               </Button>
             )}
           </div>
 
           <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
-              <HiOutlineHashtag className="size-4 text-brand-500" /> SKU:{" "}
+              <HiOutlineHashtag className="size-4 text-brand-500" /> {t("identity_card.sku")}:{" "}
               {item.sku || "N/A"}
             </div>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
@@ -217,9 +218,9 @@ export default function ItemIdentityCard({
         isOpen={isDeleteOpen}
         onClose={closeDeleteModal}
         onConfirm={handleConfirmDeleteImage}
-        title="Remove Item Image?"
-        description="Permanently delete the visual asset for this item."
-        confirmText="Remove Image"
+        title={t("identity_card.modals.remove_logo_title")}
+        description={t("identity_card.modals.remove_logo_desc")}
+        confirmText={t("identity_card.modals.confirm_remove")}
         variant="danger"
         isLoading={deleting}
       />

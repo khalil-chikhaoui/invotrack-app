@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import { itemApi, ItemData } from "../../apis/items";
@@ -19,14 +20,14 @@ interface Props {
 export default function StockInjectModal({
   isOpen,
   onClose,
-  item,
+  item, 
   refresh,
 }: Props) {
+  const { t } = useTranslation("item"); // <--- Load namespace
   const [amount, setAmount] = useState<string>("");
   const [mode, setMode] = useState<"add" | "remove">("add");
   const [loading, setLoading] = useState(false);
 
-  // Reset state on open
   useEffect(() => {
     if (isOpen) {
       setAmount("");
@@ -34,14 +35,9 @@ export default function StockInjectModal({
     }
   }, [isOpen]);
 
-  // Logic adapted directly from NumericInput reference
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
-    
-    // Replace comma with dot for international keyboards
     inputValue = inputValue.replace(/,/g, ".");
-
-    // Regex: Only allow numbers and one decimal point
     if (/^\d*(\.\d*)?$/.test(inputValue)) {
       setAmount(inputValue);
     }
@@ -71,7 +67,6 @@ export default function StockInjectModal({
   const newStock =
     mode === "add" ? currentStock + currentVal : currentStock - currentVal;
 
-  // Dynamic Theme Colors based on Mode
   const theme =
     mode === "add"
       ? {
@@ -101,23 +96,21 @@ export default function StockInjectModal({
         onSubmit={handleAdjust}
         className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden"
       >
-        {/* Header  */}
         <div className="pt-5 px-8 pb-6 text-center">
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 mb-4 border border-gray-100 dark:border-gray-700">
             <HiOutlineCube className="size-6 text-gray-400" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">
-            Adjust Stock Level
+            {t("stock_modal.title")}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 font-medium">
-            Update inventory for{" "}
+            {t("stock_modal.subtitle")}{" "}
             <span className="text-gray-900 dark:text-white font-semibold">
               {item?.name}
             </span>
           </p>
         </div>
 
-        {/* Mode Toggles  */}
         <div className="px-8 flex gap-3 mb-6">
           <button
             type="button"
@@ -128,7 +121,7 @@ export default function StockInjectModal({
                 : "border-transparent bg-gray-50 dark:bg-gray-800 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
             }`}
           >
-            Inbound
+            {t("stock_modal.inbound")}
           </button>
           <button
             type="button"
@@ -139,22 +132,20 @@ export default function StockInjectModal({
                 : "border-transparent bg-gray-50 dark:bg-gray-800 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
             }`}
           >
-            Outbound
+            {t("stock_modal.outbound")}
           </button>
         </div>
 
-        {/* Main Input Area  */}
         <div
           className={`mx-8 mb-6 p-6 rounded-3xl border-2 transition-colors duration-300 ${theme.bg} ${theme.border} flex flex-col items-center justify-center relative`}
         >
           <label
             className={`text-[10px] font-semibold uppercase tracking-widest mb-1 ${theme.text} opacity-70`}
           >
-            Quantity
+            {t("stock_modal.label_quantity")}
           </label>
 
           <div className="relative w-full flex items-center justify-center">
-            {/* Prefix Icon */}
             <ModeIcon
               className={`absolute left-0 size-6 ${theme.text} opacity-50`}
             />
@@ -176,7 +167,6 @@ export default function StockInjectModal({
             />
           </div>
 
-          {/* Quick Actions - Shadows Removed */}
           <div className="flex items-center gap-2 mt-4">
             {[1, 5, 10, 50].map((val) => (
               <button
@@ -197,12 +187,11 @@ export default function StockInjectModal({
           </div>
         </div>
 
-        {/* Projection Data  */}
         <div className="px-10 pb-8">
           <div className="flex items-center justify-between text-sm">
             <div className="flex flex-col">
               <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
-                Current
+                {t("stock_modal.current")}
               </span>
               <span className="font-semibold text-xl text-gray-900 dark:text-white tabular-nums">
                 {currentStock}{" "}
@@ -218,7 +207,7 @@ export default function StockInjectModal({
 
             <div className="flex flex-col text-right">
               <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
-                New Total
+                {t("stock_modal.new_total")}
               </span>
               <span className={`font-semibold text-xl tabular-nums ${theme.text}`}>
                 {newStock}{" "}
@@ -230,7 +219,6 @@ export default function StockInjectModal({
           </div>
         </div>
 
-        {/* Footer Actions  */}
         <div className="p-6 pt-0 flex flex-col sm:flex-row gap-3">
           <Button
             type="button"
@@ -238,7 +226,7 @@ export default function StockInjectModal({
             onClick={onClose}
             className="w-full sm:w-1/3 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest text-gray-500 hover:text-gray-700"
           >
-            Cancel
+            {t("stock_modal.actions.cancel")}
           </Button>
           <Button
             type="submit"
@@ -246,10 +234,10 @@ export default function StockInjectModal({
             className={`w-full sm:flex-1 py-4 rounded-xl text-xs font-semibold uppercase tracking-[0.2em] transition-all ${theme.btn}`}
           >
             {loading
-              ? "Updating..."
+              ? t("stock_modal.actions.updating")
               : mode === "add"
-                ? "Confirm Restock"
-                : "Confirm Removal"}
+                ? t("stock_modal.actions.confirm_restock")
+                : t("stock_modal.actions.confirm_removal")}
           </Button>
         </div>
       </form>

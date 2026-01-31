@@ -1,0 +1,159 @@
+{
+  "list": {
+    "title": "Factures",
+    "meta_desc": "Gérer la facturation et les factures de l'entreprise",
+    "breadcrumb": "Facturation & Factures",
+    "syncing": "Synchronisation du grand livre...",
+    "new_invoice": "Nouvelle facture",
+    "empty": {
+      "title": "Aucun enregistrement trouvé",
+      "desc": "Essayez d'ajuster vos filtres ou créez une nouvelle facture."
+    },
+    "columns": {
+      "details": "Détails de la facture",
+      "client": "Infos Client",
+      "amount": "Montant",
+      "payment": "Paiement",
+      "logistics": "Logistique"
+    }
+  },
+  "filters": {
+    "search_label": "Rechercher",
+    "search_placeholder": "N° de facture ou client...",
+    "date_range_label": "Période",
+    "status_label": "Paiement",
+    "logistics_label": "Logistique",
+    "sort_label": "Trier par",
+    "modal_title": "Affiner le registre",
+    "modal_desc": "Filtrer par date, statut ou suivi",
+    "select_dates": "Sélectionner les dates",
+    "pick_range": "Choisir une plage",
+    "apply": "Appliquer les filtres",
+    "reset": "Réinitialiser tout",
+    "date_ranges": {
+      "all": "Toute période",
+      "today": "Aujourd'hui",
+      "lastweek": "La semaine dernière",
+      "lastmonth": "Le mois dernier",
+      "custom": "Plage personnalisée"
+    },
+    "status": {
+      "all": "Tous les statuts",
+      "unpaid": "Non payé",
+      "paid": "Payé",
+      "cancelled": "Annulé"
+    },
+    "logistics": {
+      "all": "Tous les suivis"
+    },
+    "sort": {
+      "created_new": "Création : plus récent",
+      "created_old": "Création : plus ancien",
+      "issued_new": "Émission : plus récent",
+      "issued_old": "Émission : plus ancien",
+      "number_asc": "N° de facture (0-9)",
+      "number_desc": "N° de facture (9-0)",
+      "amount_high": "Montant (Élevé-Bas)",
+      "amount_low": "Montant (Bas-Élevé)"
+    }
+  },
+  "status_modal": {
+    "title_payment": "Statut du paiement",
+    "title_delivery": "Suivi logistique",
+    "actions": {
+      "cancel": "Annuler",
+      "update": "Mettre à jour",
+      "confirm_void": "Confirmer l'annulation"
+    },
+    "options": {
+      "open": "Ouvert",
+      "paid": "Payé",
+      "cancelled": "Annulé"
+    }
+  },
+  "errors": {
+    "BUSINESS_NOT_FOUND": "Profil d'entreprise introuvable.",
+    "INVOICE_NOT_FOUND": "La facture est introuvable.",
+    "CLIENT_ARCHIVED": "Le client sélectionné a été archivé.",
+    "ITEMS_ARCHIVED": "Un ou plusieurs articles sélectionnés ont été archivés.",
+    "CANNOT_UPDATE_VOIDED": "Impossible de modifier une facture annulée ou révoquée.",
+    "INVOICE_ALREADY_ACTIVE": "Cette facture est déjà active.",
+    "INVOICE_ALREADY_VOIDED": "Cette facture a déjà été annulée.",
+    "GENERIC_ERROR": "Une erreur inattendue est survenue.",
+    "SYNC_ERROR": "Erreur de synchronisation",
+    "UPDATE_FAILED": "Échec de la mise à jour",
+    "ACCESS_RESTRICTED": "Accès restreint",
+    "ACCESS_RESTRICTED_DESC": "Aucune autorisation pour consulter les factures."
+  },
+  "messages": {
+    "INVOICE_CREATED": "Facture créée avec succès.",
+    "INVOICE_UPDATED": "Facture mise à jour avec succès.",
+    "INVOICE_RESTORED": "Facture rétablie au statut actif.",
+    "INVOICE_VOIDED": "Facture annulée et stock retourné.",
+    "STATUS_SYNCED": "Statut du grand livre synchronisé."
+  },
+  "create": {
+    "title": "Nouvelle facture",
+    "meta_desc": "Rédiger et envoyer de nouveaux documents financiers.",
+    "breadcrumb": "Nouvelle facture",
+    "loading": "Initialisation du créateur de facture...",
+    "sections": {
+      "bill_to": "Facturer à",
+      "new_client": "Nouveau client",
+      "items": "Nomenclature",
+      "quick_item": "Article rapide",
+      "dates": "Dates",
+      "issue_date": "Date d'émission",
+      "due_date": "Date d'échéance du règlement",
+      "tax_discount": "Taxes & Remises",
+      "amount": "Montant",
+      "mode": "Mode",
+      "tax_rate": "Taux de taxe (%)",
+      "summary": "Résumé de l'évaluation",
+      "notes": "Notes & Conditions"
+    },
+    "placeholders": {
+      "client_search": "Rechercher un client...",
+      "item_search": "Rechercher des produits ou services...",
+      "select_date": "Choisir une date",
+      "select_due_date": "Choisir une date d'échéance",
+      "notes": "Instructions de paiement, coordonnées bancaires ou messages personnalisés..."
+    },
+    "summary": {
+      "subtotal": "Sous-total",
+      "adjustment": "Ajustement",
+      "taxation": "Taxation",
+      "total": "TOTAL"
+    },
+    "actions": {
+      "syncing": "Synchronisation...",
+      "sync_update": "Synchroniser la mise à jour",
+      "confirm": "Confirmer & Envoyer",
+      "back": "Retour"
+    },
+    "item_manager": {
+      "empty_ledger": "Registre vide",
+      "no_products": "Aucun produit trouvé",
+      "headers": {
+        "nomenclature": "Nomenclature",
+        "qty": "Qté",
+        "rate": "Taux",
+        "total": "Total",
+        "control": "Contrôle"
+      },
+      "modals": {
+        "remove_title": "Supprimer l'article ?",
+        "remove_desc": "Supprimer cet article de la facture actuelle ?",
+        "edit_title": "Modifier la ligne",
+        "edit_desc": "Mettre à jour les détails pour",
+        "qty": "Quantité",
+        "selling_price": "Prix de vente",
+        "internal_costing": "Coût interne",
+        "margin": "Marge projetée",
+        "line_total": "Nouveau total de ligne",
+        "save": "Mettre à jour l'article",
+        "saving": "Enregistrement..."
+      }
+    }
+  }
+}

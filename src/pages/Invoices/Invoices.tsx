@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router";
 import flatpickr from "flatpickr";
+import { useTranslation } from "react-i18next";
 import {
   invoiceApi,
   InvoiceData,
@@ -19,19 +20,18 @@ import { useAlert } from "../../hooks/useAlert";
 import InvoiceTable from "./InvoiceTable";
 import { usePermissions } from "../../hooks/usePermissions";
 import InvoiceFilters from "../../components/invoices/InvoiceFilters";
-import LoadingState from "../../components/common/LoadingState";
-// Import the new reusable component
 import StatusUpdateModal from "../../components/common/StatusUpdateModal";
 
+// KEEP THESE IN ENGLISH for Logic consistency with Backend
 const PAYMENT_STATES = ["Open", "Paid", "Cancelled"];
 
 export default function Invoices() {
+  const { t } = useTranslation("invoice");
   const { businessId } = useParams();
   const navigate = useNavigate();
   const { alert, setAlert } = useAlert();
   const { canManage, canViewFinancials } = usePermissions();
 
-  // Ref for the flatpickr input
   const datePickerRef = useRef<HTMLInputElement>(null);
 
   const [invoices, setInvoices] = useState<InvoiceData[]>([]);
@@ -66,7 +66,7 @@ export default function Invoices() {
 
       const fp = flatpickr(datePickerRef.current, {
         mode: "range",
-        static: true,
+        static: true, 
         monthSelectorType: "static",
         dateFormat: "M d, Y",
         defaultDate: startDate && endDate ? [startDate, endDate] : [sevenDaysAgo, today],
@@ -112,7 +112,12 @@ export default function Invoices() {
       setMeta(invRes.meta);
       setBusiness(bizRes);
     } catch (error: any) {
-      setAlert({ type: "error", title: "Sync Error", message: error.message });
+      const errorCode = error.message;
+      setAlert({ 
+        type: "error", 
+        title: t("errors.SYNC_ERROR"), 
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setLoading(false);
     }
@@ -145,12 +150,17 @@ export default function Invoices() {
         });
       }
 
-      setAlert({ type: "success", title: "Updated", message: "Ledger status synced." });
+      setAlert({ type: "success", title: "Updated", message: t("messages.STATUS_SYNCED") });
       fetchData();
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: "Update Failed", message: e.message });
+      const errorCode = e.message;
+      setAlert({ 
+        type: "error", 
+        title: t("errors.UPDATE_FAILED"), 
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setUpdating(false);
     }
@@ -159,23 +169,21 @@ export default function Invoices() {
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Access Restricted"
-        description="No permission to view invoices."
-        actionText="Go Back"
+        title={t("errors.ACCESS_RESTRICTED")}
+        description={t("errors.ACCESS_RESTRICTED_DESC")}
+        actionText={t("common:actions.back", { defaultValue: "Go Back" })}
       />
     );
   }
 
   return (
     <>
-      <PageMeta description="Manage business billing and invoices" title="Invoices | Invotrack" />
-      <PageBreadcrumb pageTitle="Billing & Invoices" />
+      <PageMeta description={t("list.meta_desc")} title={`${t("list.title")} | Invotrack`} />
+      <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      {/* THE MASTER CARD CONTAINER */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm  animate-in fade-in slide-in-from-bottom-2 duration-300">
         
-        {/* Section 1: The Filter Header */}
         <InvoiceFilters
           searchTerm={searchTerm} setSearchTerm={setSearchTerm}
           statusFilter={statusFilter} setStatusFilter={setStatusFilter}
@@ -187,16 +195,15 @@ export default function Invoices() {
           setPage={setPage} loading={loading} canManage={canManage}
           onAdd={() => navigate(`/business/${businessId}/invoices/create`)}
           onRefresh={fetchData}
-          placeholder="Invoice # or Client..."
+          placeholder={t("filters.search_placeholder")}
         />
 
-        {/* Section 2: The Data Table (Seamlessly attached) */}
-        <InvoiceTable
+        <InvoiceTable 
           invoices={invoices}
-          business={business}
+          business={business} 
           canManage={canManage}
           meta={meta}
-          loading={loading} // Pass loading here to handle empty states internally
+          loading={loading} 
           onPageChange={setPage}
           onOpenStatus={(inv) => {
             setSelectedInvoice(inv);
@@ -215,28 +222,28 @@ export default function Invoices() {
       <StatusUpdateModal
         isOpen={statusModal.isOpen}
         onClose={statusModal.closeModal}
-        title="Payment Status"
+        title={t("status_modal.title_payment")}
         type="payment"
-        options={PAYMENT_STATES}
+        options={PAYMENT_STATES} // Passed as English
         currentValue={targetStatus}
         onValueChange={setTargetStatus}
         onConfirm={() => handleUpdate("status")}
         isLoading={updating}
-        confirmLabel={targetStatus === "Cancelled" ? "Confirm Void" : "Update"}
+        confirmLabel={targetStatus === "Cancelled" ? t("status_modal.actions.confirm_void") : t("status_modal.actions.update")}
       />
 
       {/* 2. Logistics/Delivery Status */}
       <StatusUpdateModal
         isOpen={deliveryModal.isOpen}
         onClose={deliveryModal.closeModal}
-        title="Logistics Tracker"
+        title={t("status_modal.title_delivery")}
         type="delivery"
-        options={DELIVERY_STATUS_OPTIONS}
+        options={DELIVERY_STATUS_OPTIONS} // Passed as English
         currentValue={targetDelivery}
         onValueChange={(val) => setTargetDelivery(val)}
         onConfirm={() => handleUpdate("delivery")}
         isLoading={updating}
-        confirmLabel="Update"
+        confirmLabel={t("status_modal.actions.update")}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import {
   clientApi,
   ClientData,
@@ -15,14 +16,16 @@ import ClientsTable from "./ClientTable";
 import { usePermissions } from "../../hooks/usePermissions";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import ClientFilters from "../../components/clients/ClientFilters";
+import { scrollToTopAppLayout } from "../../layout/AppLayout"; // <--- Import Scroll
 
 export default function Clients() {
+  const { t } = useTranslation("client"); // <--- Load "client" namespace
   const { businessId } = useParams();
   const navigate = useNavigate();
 
   const { canManage, canViewFinancials } = usePermissions();
 
-  const [clients, setClients] = useState<ClientData[]>([]);
+  const [clients, setClients] = useState<ClientData[]>([]); 
   const [business, setBusiness] = useState<BusinessData | null>(null);
   const [meta, setMeta] = useState<ClientPaginationMeta | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +38,7 @@ export default function Clients() {
   const [statusFilter, setStatusFilter] = useState("active");
 
   const [alert, setAlert] = useState<{
-    type: "success" | "error" | "warning";
+    type: "success" | "error" | "warning" | "info";
     title: string;
     message: string;
   } | null>(null);
@@ -45,6 +48,14 @@ export default function Clients() {
     openModal: openFormModal,
     closeModal: closeFormModal,
   } = useModal();
+
+  /**
+   * WRAPPER FUNCTION for Alerts
+   */
+  const triggerAlert = (data: { type: "success" | "error" | "warning" | "info"; title: string; message: string }) => {
+    setAlert(data);
+    scrollToTopAppLayout();
+  };
 
   const fetchClients = async () => {
     if (!businessId || !canViewFinancials) return;
@@ -66,7 +77,12 @@ export default function Clients() {
       setMeta(clientsRes.meta);
       setBusiness(businessRes); 
     } catch (error: any) {
-      setAlert({ type: "error", title: "Error", message: error.message });
+      const errorCode = error.message;
+      triggerAlert({ 
+        type: "error", 
+        title: t("errors.GENERIC_ERROR"), // Fallback title
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      });
     } finally {
       setLoading(false);
     }
@@ -95,9 +111,9 @@ export default function Clients() {
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title="Restricted Access"
-        description="Your current role does not have permission to view the client directory."
-        actionText="Return to Dashboard"
+        title={t("errors.UNAUTHORIZED_ACCESS", { defaultValue: "Restricted Access" })}
+        description={t("errors.UNAUTHORIZED_ACCESS_DESC", { defaultValue: "Your current role does not have permission to view the client directory." })}
+        actionText={t("common:actions.return_dashboard", { defaultValue: "Return to Dashboard" })}
       />
     );
   }
@@ -105,10 +121,10 @@ export default function Clients() {
   return (
     <>
       <PageMeta
-        title="Clients | Invotrack"
-        description="Manage your customers."
+        title={`${t("list.title")} | Invotrack`}
+        description={t("list.meta_desc")}
       />
-      <PageBreadcrumb pageTitle="Client Directory" />
+      <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       {/* THE UNIFIED MASTER CARD */}
@@ -136,7 +152,7 @@ export default function Clients() {
           clients={clients}
           business={business}
           meta={meta}
-          loading={loading} // Pass loading state
+          loading={loading} 
           onPageChange={(p) => setPage(p)}
           onView={handleViewClient}
         />
@@ -146,7 +162,7 @@ export default function Clients() {
         isOpen={isFormOpen} 
         onClose={closeFormModal}
         businessId={businessId!}
-        setAlert={setAlert}
+        setAlert={triggerAlert}
       />
     </>
   ); 

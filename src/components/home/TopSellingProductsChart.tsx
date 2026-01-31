@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { dashboardApi } from "../../apis/dashboard";
 import { formatMoney } from "../../hooks/formatMoney";
@@ -10,16 +11,17 @@ import { formatDate } from "date-fns";
 import { useAuth } from "../../context/AuthContext";
 import { BusinessData } from "../../apis/business";
 import ChartSkeleton from "./ChartSkeleton";
+import { useDateLocale } from "../../hooks/useDateLocale"; // <--- Import Date Locale Hook
 
 interface TopSellingProductsChartProps {
   dateRange: DashboardDateRange;
   business: BusinessData | null;
   loadingBusiness?: boolean;
 }
-
+ 
 interface ProductStat {
   label: string;
-  value: number;
+  value: number; 
   quantity: number;
 }
 
@@ -28,9 +30,10 @@ export default function TopSellingProductsChart({
   business,
   loadingBusiness
 }: TopSellingProductsChartProps) {
-  // 1. All Hooks must be at the top level
+  const { t } = useTranslation("home"); // <--- Load namespace
   const { theme } = useTheme();
   const { user } = useAuth();
+  const dateLocale = useDateLocale(); // <--- Get current date locale
    
   const businessId = business?._id || user?.memberships[0]?.businessId._id;
   const isDark = theme === "dark";
@@ -66,7 +69,6 @@ export default function TopSellingProductsChart({
     fetchData();
   }, [dateRange, businessId]);
 
-  // 2. Call useMemo BEFORE any return statement
   const hasData = useMemo(() => productData.length > 0, [productData]);
   const series = useMemo(() => productData.map((p) => p.value), [productData]);
   const labels = useMemo(() => productData.map((p) => p.label), [productData]);
@@ -93,7 +95,7 @@ export default function TopSellingProductsChart({
             },
             total: {
               show: true,
-              label: "Total Sales",
+              label: t("charts.products.total_sales"),
               fontSize: "12px",
               fontWeight: 600,
               color: isDark ? "#D1D5DB" : "#6B7280",
@@ -121,22 +123,22 @@ export default function TopSellingProductsChart({
     },
   };
 
-  const formattedDateRange = `${formatDate(dateRange.start, "MMM dd")} - ${formatDate(dateRange.end, "MMM dd")}`;
+  // Pass locale option to formatDate
+  const formattedDateRange = `${formatDate(dateRange.start, "MMM dd", { locale: dateLocale })} - ${formatDate(dateRange.end, "MMM dd", { locale: dateLocale })}`;
 
-  // 3. NOW it is safe to return early
   if (loadingBusiness || internalLoading) {
     return <ChartSkeleton />;
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm flex flex-col h-full p-4 animate-in fade-in zoom-in-95 duration-500">
+    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] flex flex-col h-full p-4 animate-in fade-in zoom-in-95 duration-500">
       <div className="flex justify-between items-start mb-6">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
-            Top Selling Products
+            {t("charts.products.title")}
           </h3>
           <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-            Revenue • {formattedDateRange}
+            {t("charts.products.subtitle", { range: formattedDateRange })}
           </p>
         </div>
       </div>
@@ -148,10 +150,10 @@ export default function TopSellingProductsChart({
               <HiOutlineShoppingBag className="size-6 text-gray-600 dark:text-gray-400" />
             </div>
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-              No Data
+              {t("charts.products.no_data_title")}
             </h4>
             <p className="text-[12px] text-gray-600 dark:text-gray-400 mt-1">
-              No product sales found in this period.
+              {t("charts.products.no_data_desc")}
             </p>
           </div>
         ) : (

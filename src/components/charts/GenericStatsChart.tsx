@@ -3,7 +3,15 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-import { HiOutlineCalendar, HiOutlinePresentationChartLine } from "react-icons/hi2";
+// Import Flatpickr Locales
+import { French } from "flatpickr/dist/l10n/fr.js";
+import { German } from "flatpickr/dist/l10n/de.js";
+
+import {
+  HiOutlineCalendar,
+  HiOutlinePresentationChartLine,
+} from "react-icons/hi2";
+import { useTranslation } from "react-i18next"; // <--- Hook
 import { ClientStatPoint } from "../../apis/invoices";
 import { formatMoney } from "../../hooks/formatMoney";
 import LoadingState from "../common/LoadingState";
@@ -14,7 +22,11 @@ interface GenericStatsChartProps {
   /** The ID of the entity (Client or Item) */
   entityId: string;
   /** The API function to call. Must accept (id, mode, range) */
-  fetchData: (id: string, mode: string, range?: { start: Date; end: Date }) => Promise<ClientStatPoint[]>;
+  fetchData: (
+    id: string,
+    mode: string,
+    range?: { start: Date; end: Date },
+  ) => Promise<ClientStatPoint[]>;
   currency?: string;
   title?: string;
   subtitle?: string;
@@ -35,14 +47,20 @@ export default function GenericStatsChart({
   secondaryLabel = "Count",
   formatSecondaryAsCurrency = false,
 }: GenericStatsChartProps) {
+  const { t, i18n } = useTranslation("common"); // <--- Load "common" namespace
   const [data, setData] = useState<ClientStatPoint[]>([]);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<"monthly" | "quarterly" | "annually" | "custom">("monthly");
-  const [customRange, setCustomRange] = useState<{ start: Date; end: Date } | undefined>(undefined);
-  
+  const [mode, setMode] = useState<
+    "monthly" | "quarterly" | "annually" | "custom"
+  >("monthly");
+  const [customRange, setCustomRange] = useState<
+    { start: Date; end: Date } | undefined
+  >(undefined);
+
   const datePickerRef = useRef<HTMLInputElement>(null);
 
-  const {theme} = useTheme()
+  const { theme } = useTheme();
+
   // --- Data Fetching ---
   useEffect(() => {
     const loadStats = async () => {
@@ -63,11 +81,18 @@ export default function GenericStatsChart({
   // --- Date Picker Logic ---
   useEffect(() => {
     if (!datePickerRef.current) return;
+
+    // Determine Flatpickr Locale based on i18next language
+    let locale: any = "default"; 
+    if (i18n.language === "fr") locale = French;
+    if (i18n.language === "de") locale = German;
+
     const fp = flatpickr(datePickerRef.current, {
       mode: "range",
       static: true,
       monthSelectorType: "static",
       dateFormat: "M d, Y",
+      locale: locale, // <--- Apply Locale Here
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
           setCustomRange({ start: selectedDates[0], end: selectedDates[1] });
@@ -76,13 +101,16 @@ export default function GenericStatsChart({
       },
     });
     return () => fp.destroy();
-  }, []);
+  }, [i18n.language]); // <--- Re-initialize on language change
 
-  const hasData = useMemo(() => data.some((d) => d.revenue > 0 || d.count > 0), [data]);
+  const hasData = useMemo(
+    () => data.some((d) => d.revenue > 0 || d.count > 0),
+    [data],
+  );
 
   // --- Chart Configuration ---
- const series = [
-    { name: "Revenue", data: data.map((d) => d.revenue) },
+  const series = [
+    { name: t("charts.revenue"), data: data.map((d) => d.revenue) },
     { name: secondaryLabel, data: data.map((d) => d.count) },
   ];
 
@@ -118,7 +146,7 @@ export default function GenericStatsChart({
       axisTicks: { show: false },
       labels: { style: { fontSize: "10px", colors: "#9CA3AF" } },
     },
-  yaxis: [
+    yaxis: [
       {
         labels: {
           style: { colors: "#9CA3AF", fontSize: "10px" },
@@ -129,9 +157,9 @@ export default function GenericStatsChart({
         opposite: true,
         labels: {
           style: { colors: "#9CA3AF", fontSize: "10px" },
-          formatter: (val) => 
-            formatSecondaryAsCurrency 
-              ? formatMoney(val, currency, { digits: 0 }) 
+          formatter: (val) =>
+            formatSecondaryAsCurrency
+              ? formatMoney(val, currency, { digits: 0 })
               : val.toFixed(0),
         },
       },
@@ -142,28 +170,25 @@ export default function GenericStatsChart({
       strokeWidth: 2,
       hover: { size: 6 },
     },
-   tooltip: {
-      theme:  theme,
+    tooltip: {
+      theme: theme,
       x: { show: true },
       y: {
         formatter: (val, { seriesIndex }) => {
           // Primary Axis (Revenue)
           if (seriesIndex === 0) return formatMoney(val, currency);
-          
+
           // Secondary Axis (Profit or Count)
-          return formatSecondaryAsCurrency 
-            ? formatMoney(val, currency) 
+          return formatSecondaryAsCurrency
+            ? formatMoney(val, currency)
             : `${val} ${secondaryLabel}`;
         },
       },
     },
   };
 
-
- 
-
   return (
-    <div className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-5 px-0 dark:border-white/[0.05] dark:bg-white/[0.03] shadow-sm min-w-0">
+    <div className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-5 px-0 dark:border-white/[0.05] dark:bg-white/[0.03]  min-w-0">
       <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:justify-between items-start ">
         <div className="w-full pl-4">
           <h3 className="text-xl mt-1 font-semibold text-gray-800 dark:text-white tracking-tight">
@@ -183,44 +208,56 @@ export default function GenericStatsChart({
             }}
           />
           <div className="relative inline-flex items-center">
-            <HiOutlineCalendar className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 pointer-events-none z-10
-                ${mode === "custom"
-                  ? "  text-brand-600  dark:text-brand-400"
-                  : " text-gray-800 dark:text-gray-400 "
+            <HiOutlineCalendar
+              className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 pointer-events-none z-10
+                ${
+                  mode === "custom"
+                    ? "  text-brand-600  dark:text-brand-400"
+                    : " text-gray-800 dark:text-gray-400 "
                 }
-                `} />
+                `}
+            />
             <input
               ref={datePickerRef}
               className={`h-9 w-10 lg:w-auto pl-9 pr-3 py-1.5 rounded-lg border text-[10px] font-medium  tracking-widest outline-none transition-all cursor-pointer  
                 placeholder-gray-500 dark:placeholder-gray-300
-                ${mode === "custom"
-                  ? "border-brand-500 bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
-                  : "border-gray-200 bg-white text-gray-800 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:lg:text-gray-400"
+                ${
+                  mode === "custom"
+                    ? "border-brand-500 bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
+                    : "border-gray-200 bg-white text-gray-800 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:lg:text-gray-400"
                 }`}
-              placeholder="Custom"
+              placeholder={t("charts.custom_date")}
             />
           </div>
         </div>
       </div>
 
-      <div className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? 'flex items-center justify-center' : ''}`}>
+      <div
+        className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? "flex items-center justify-center" : ""}`}
+      >
         {loading ? (
-          <LoadingState message="Fetching Data..." minHeight="full" />
+          <LoadingState message={t("charts.loading")} minHeight="full" />
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center p-8 border border-dashed border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01]">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
               <HiOutlinePresentationChartLine className="size-6 text-gray-400 dark:text-gray-500" />
             </div>
             <h4 className="text-[10px] font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
-              No Data Found
+              {t("charts.no_data_title")}
             </h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-300 mt-1 max-w-[180px] leading-relaxed">
-              No financial data available for this period.
+              {t("charts.no_data_desc")}
             </p>
           </div>
         ) : (
           <div className="absolute inset-0 w-full h-full">
-            <Chart options={options} series={series} type="area" height="100%" width="100%" />
+            <Chart
+              options={options}
+              series={series}
+              type="area"
+              height="100%"
+              width="100%"
+            />
           </div>
         )}
       </div>

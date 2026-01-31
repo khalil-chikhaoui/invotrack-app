@@ -22,28 +22,28 @@
       "identity_sub": "Name & Beschreibung",
       "presence_title": "Präsenz",
       "presence_sub": "Standort & Kontakt",
-      "fiscal_title": "Fiskal",
+      "fiscal_title": "Fiskalisch",
       "fiscal_sub": "Währung & Steuern",
       "header_desc_1": "Identität der Organisation.",
       "header_desc_2": "Kontaktinformationen.",
-      "header_desc_3": "Finanz- und Regionaleinstellungen."
+      "header_desc_3": "Finanzielle & regionale Standardwerte."
     },
     "form": {
       "name_label": "Offizieller Unternehmensname",
-      "name_placeholder": "z. B. Acme Logistics GmbH",
+      "name_placeholder": "z.B. Acme Logistics GmbH",
       "desc_label": "Kurzbeschreibung",
-      "desc_placeholder": "Beschreiben Sie kurz die Tätigkeit Ihrer Organisation...",
+      "desc_placeholder": "Beschreiben Sie kurz, was Ihre Organisation tut...",
       "email_label": "Geschäftliche E-Mail",
-      "email_placeholder": "kontakt@acme.de",
-      "phone_label": "Direkte Telefonnummer",
+      "email_placeholder": "kontakt@acme.com",
+      "phone_label": "Direktwahl",
       "phone_placeholder": "Telefonnummer",
-      "address_label": "Hauptsitz (Adresse)",
-      "address_placeholder": "Beispielstraße 123",
+      "address_label": "Hauptsitz Adresse",
+      "address_placeholder": "Innovationsstr. 123",
       "city_label": "Stadt",
       "zip_label": "Postleitzahl",
-      "state_label": "Bundesland / Kanton",
+      "state_label": "Bundesland",
       "country_label": "Land",
-      "tax_label": "Steuernummer / USt-IdNr.",
+      "tax_label": "Steuernummer / USt-ID",
       "tax_placeholder": "Reg. 12345678",
       "tax_help": "Wird für die Rechnungserstellung verwendet.",
       "currency_label": "Basiswährung",
@@ -51,7 +51,7 @@
     },
     "actions": {
       "cancel": "Abbrechen",
-      "back": "Zurück",
+      "back": "Zurückgehen",
       "next": "Nächster Schritt",
       "submit": "Unternehmen gründen",
       "loading": "Wird erstellt..."
@@ -59,9 +59,187 @@
     "errors": {
       "name_required": "Unternehmensname ist erforderlich",
       "name_short": "Name muss mindestens 3 Zeichen lang sein",
-      "AUTH_NOT_AUTHENTICATED": "Sie müssen angemeldet sein, um ein Unternehmen zu erstellen.",
-      "AUTH_USER_NOT_FOUND": "Benutzerkonto wurde nicht gefunden.",
       "generic": "Unternehmen konnte nicht erstellt werden."
     }
+  },
+  "settings": {
+    "general": {
+      "title": "Allgemeine Einstellungen",
+      "description": "Aktualisieren Sie Ihre Unternehmensidentität und Kontaktdaten.",
+      "loading": "Unternehmensprofil wird synchronisiert...",
+      "not_found": "Registereintrag nicht gefunden",
+      "locked_title": "Konfiguration gesperrt",
+      "locked_desc": "Ihre aktuelle Rolle erlaubt keine administrativen Änderungen an diesem Register.",
+      "form": {
+        "name_label": "Unternehmensname",
+        "legal_name_label": "Rechtlicher Name",
+        "email_label": "Kontakt-E-Mail",
+        "phone_label": "Telefonnummer",
+        "desc_label": "Beschreibung / Bio",
+        "language_label": "Unternehmenssprache",
+        "website_label": "Website URL",
+        "social_facebook": "Facebook",
+        "social_twitter": "Twitter / X",
+        "social_linkedin": "LinkedIn",
+        "social_instagram": "Instagram",
+        "save": "Änderungen speichern",
+        "save_address": "Adresse speichern",
+        "save_contact": "Kontakt speichern",
+        "save_registry": "Register speichern",
+        "cancel": "Abbrechen",
+        "edit": "Bearbeiten",
+        "edit_identity": "Identität bearbeiten",
+        "saving": "Speichern...",
+        "synchronizing": "Synchronisieren...",
+        "apply_updates": "Updates anwenden"
+      },
+      "cards": {
+        "identity_title": "Unternehmens-Branding",
+        "edit_identity_title": "Branding bearbeiten",
+        "address_title": "Standort & Konnektivität",
+        "address_update_title": "Registerstandort aktualisieren",
+        "contact_update_title": "Registerkontakt aktualisieren",
+        "digital_update_title": "Digitale Konnektivität aktualisieren",
+        "legal_title": "Rechts- & Finanzregister",
+        "legal_update_title": "Register aktualisieren",
+        "legal_subtitle": "Offizielle Identifikations- und Kontaktdaten ändern",
+        "tax_label": "Steuernummer / USt-ID",
+        "reg_label": "Handelsregister-Nr.",
+        "billing_email_label": "Rechnungs-E-Mail",
+        "billing_help": "Rechnungen und Zahlungsbelege werden mit dieser Adresse synchronisiert.",
+        "unset": "NICHT FESTGELEGT",
+        "not_registered": "NICHT REGISTRIERT",
+        "no_phone": "Kein Telefon hinterlegt",
+        "no_website": "Keine Website konfiguriert",
+        "official_contact": "Offizieller Kontakt",
+        "online_presence": "Online-Präsenz"
+      }
+    },
+    "invoice_design": {
+      "title": "Rechnungsanpassung",
+      "description": "Passen Sie Ihr Rechnungsdesign an",
+      "breadcrumb": "Rechnungsvorlagen",
+      "style_title": "Stil",
+      "branding_title": "Branding",
+      "fields_title": "Felder",
+      "preview_label": "Vorschau (An Breite anpassen)",
+      "templates": {
+        "Classic": "Klassisch",
+        "Minimal": "Minimal",
+        "Modern": "Modern"
+      },
+      "colors": {
+        "primary": "Primärfarbe",
+        "accent": "Akzentfarbe"
+      },
+      "visibility": {
+        "Logo": "Logo",
+        "TaxId": "Steuernummer",
+        "DueDate": "Fälligkeitsdatum",
+        "Discount": "Rabatt",
+        "Notes": "Notizen",
+        "PaymentTerms": "Zahlungsbedingungen",
+        "Footer": "Fußzeile"
+      },
+      "actions": {
+        "reset": "Standard wiederherstellen",
+        "saving": "Speichern..."
+      },
+      "loading_pdf": "PDF wird erstellt...",
+      "preview_error": "Vorschau konnte nicht geladen werden",
+      "loading_config": "Konfiguration wird geladen...",
+      "preparing_config": "Konfiguration wird vorbereitet..."
+    },
+    "currency_settings": {
+      "title": "Währungseinstellungen",
+      "meta_desc": "Finanzformate verwalten",
+      "breadcrumb": "Währung & Formatierung",
+      "main_card_title": "Währungskonfiguration",
+      "primary_currency_label": "Hauptwährung",
+      "decimal_places_label": "Dezimalstellen",
+      "thousands_separator_label": "Tausendertrennzeichen",
+      "decimal_separator_label": "Dezimaltrennzeichen",
+      "symbol_mode_label": "Symbolmodus",
+      "symbol_position_label": "Symbolposition",
+      "symbol_text": "Symbol",
+      "code_text": "Code",
+      "left": "Links",
+      "right": "Rechts",
+      "live_preview_title": "Live-Vorschau",
+      "live_preview_desc": "So erscheinen Beträge auf Ihren Rechnungen.",
+      "total_amount_label": "Gesamtbetrag",
+      "actions": {
+        "saving": "Änderungen werden gespeichert...",
+        "update": "Konfiguration aktualisieren"
+      },
+      "options": {
+        "comma": "Komma",
+        "dot": "Punkt",
+        "space": "Leerzeichen",
+        "apostrophe": "Apostroph",
+        "precision": "Präzision"
+      },
+      "loading": "Währungsprofil wird abgerufen...",
+      "locked_title": "Finanzeinstellungen gesperrt",
+      "locked_desc": "Währungs- und Zahlenformate sind kritische Einstellungen, die Administratoren vorbehalten sind."
+    },
+    "tax_discount": {
+      "title": "Fiskalregeln",
+      "meta_desc": "Standardwerte für Steuern und Rabatte verwalten.",
+      "breadcrumb": "Steuer- & Rabatt-Standards",
+      "main_card_title": "Rechnungsstandards",
+      "main_card_desc": "Automatisch angewendet auf alle neu erstellten Rechnungen.",
+      "tax_label": "Standardsteuersatz",
+      "tax_help": "Berechnet auf die Zwischensumme nach Abzug globaler Rabatte.",
+      "discount_label": "Standard-Rabattregel",
+      "value_label": "Wert",
+      "mode_label": "Berechnungsmodus",
+      "mode_percentage": "Prozent (%)",
+      "mode_fixed": "Fester Währungswert",
+      "actions": {
+        "updating": "Regeln werden aktualisiert...",
+        "save": "Standardregeln speichern"
+      },
+      "loading": "Fiskalregeln werden initialisiert...",
+      "locked_title": "Fiskalischer Zugriff verweigert",
+      "locked_desc": "Nur Administratoren sind berechtigt, globale Steuer- und Rabattregeln zu ändern.",
+      "sandbox": {
+        "title": "Berechnungs-Sandbox",
+        "desc": "Simulation der Regeln für eine Zwischensumme von {{amount}}.",
+        "subtotal": "Zwischensumme",
+        "discount": "Rabatt",
+        "fixed": "Fix",
+        "tax": "Steuer",
+        "estimated_total": "Voraussichtlicher Gesamtbetrag"
+      }
+    }
+  },
+  "modals": {
+    "remove_logo_title": "Unternehmenslogo entfernen?",
+    "remove_logo_desc": "Dies wird das Logo dauerhaft löschen und zum Standard-Monogramm zurückkehren.",
+    "confirm_remove": "Logo entfernen"
+  },
+  "messages": {
+    "BUSINESS_UPDATED": "Unternehmenseinstellungen erfolgreich aktualisiert.",
+    "BUSINESS_DELETED": "Unternehmensprofil dauerhaft gelöscht.",
+    "LOGO_UPLOADED": "Branding-Logo erfolgreich aktualisiert.",
+    "LOGO_REMOVED": "Branding-Logo entfernt.",
+    "SETTINGS_SAVED": "Einstellungen erfolgreich gespeichert.",
+    "REGISTRY_UPDATED": "Registerdetails synchronisiert.",
+    "BRANDING_UPDATED": "Unternehmenslogo wurde synchronisiert.",
+    "ASSET_PURGED": "Unternehmenslogo wurde entfernt.",
+    "INVOICE_SETTINGS_UPDATED": "Rechnungsdesign-Einstellungen gespeichert."
+  },
+  "errors": {
+    "AUTH_NOT_AUTHENTICATED": "Sie müssen eingeloggt sein.",
+    "AUTH_USER_NOT_FOUND": "Benutzerkonto wurde nicht gefunden.",
+    "BUSINESS_NOT_FOUND": "Unternehmensprofil nicht gefunden.",
+    "UPLOAD_NO_FILE": "Bitte wählen Sie eine Bilddatei aus.",
+    "LOGO_UPLOAD_FAILED": "Logo-Upload fehlgeschlagen.",
+    "ACCESS_DENIED_ADMIN_ONLY": "Zugriff verweigert. Administratorrechte erforderlich.",
+    "UPDATE_FAILED": "Aktualisierung fehlgeschlagen.",
+    "SYNC_FAILED": "Synchronisation fehlgeschlagen",
+    "REMOVAL_FAILED": "Entfernen fehlgeschlagen",
+    "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten."
   }
 }

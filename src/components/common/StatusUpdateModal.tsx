@@ -1,4 +1,4 @@
-
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { HiOutlineCheckCircle, HiOutlineTruck } from "react-icons/hi2";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
@@ -7,7 +7,7 @@ interface StatusUpdateModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  type: "payment" | "delivery"; // Determines the icon
+  type: "payment" | "delivery"; 
   options: string[];
   currentValue: string;
   onValueChange: (val: any) => void;
@@ -22,14 +22,16 @@ export default function StatusUpdateModal({
   title,
   type,
   options,
-  currentValue,
+  currentValue, 
   onValueChange,
   onConfirm,
-  isLoading,
-  confirmLabel = "Update",
+  isLoading, 
+  confirmLabel,
 }: StatusUpdateModalProps) {
+  // Load "common" namespace for status translations
+  const { t } = useTranslation("common"); 
+  const { t: tInvoice } = useTranslation("invoice"); // Keep specific labels if needed
    
-  // Logic to determine if we are in a "Danger" state (specifically for Cancelled)
   const isDangerState = currentValue === "Cancelled";
 
   // Helper for dynamic styling of options
@@ -74,18 +76,19 @@ export default function StatusUpdateModal({
       {options.map((option) => (
         <label key={option} className={getOptionStyle(option)}>
           <span className="text-sm font-semibold tracking-widest">
-            {option}
+            {/* Translate the status using common.json keys (lowercase) */}
+            {t(`status.${option.toLowerCase()}`, { defaultValue: option })}
           </span>
           <input
             type="radio"
-            name="modal-option" // Added name for accessibility
+            name="modal-option"
             className="sr-only"
             checked={currentValue === option}
             onChange={() => onValueChange(option)}
           />
           {currentValue === option && (
             <div
-              className={`w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.2)] ${
+              className={`w-2.5 h-2.5 rounded-full  ${
                 option === "Cancelled" ? "bg-red-500" : "bg-brand-500"
               }`}
             ></div>
@@ -97,21 +100,21 @@ export default function StatusUpdateModal({
     {/* Action Buttons */}
     <div className="flex gap-3 mt-8">
       <Button
-        type="button" // Explicitly type button to prevent Enter triggering cancel
+        type="button"
         variant="outline"
         className="w-full text-[10px] font-semibold uppercase tracking-widest"
         onClick={onClose}
       >
-        Cancel
+        {t("actions.cancel")}
       </Button>
       <Button
-        type="submit" // Allows Enter to trigger onConfirm
+        type="submit" 
         className={`w-full text-[10px] font-semibold uppercase tracking-widest ${
           isDangerState ? "!bg-red-600 hover:!bg-red-700 !text-white" : ""
         }`}
         disabled={isLoading}
       >
-        {confirmLabel}
+        {confirmLabel || tInvoice("status_modal.actions.update")}
       </Button>
     </div>
   </form>
