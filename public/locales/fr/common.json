@@ -27,5 +27,19 @@
     "badges": {
       "pro": "Pro"
     }
+  },
+  "header": {
+    "search_placeholder": "Rechercher un article, un client ou une facture...",
+    "categories": {
+      "clients": "Clients",
+      "inventory": "Inventaire",
+      "invoices": "Factures"
+    },
+    "no_matches": "Aucune correspondance trouvée."
+  },
+  "auth_guards": {
+    "establishing_session": "Établissement de la session...",
+    "syncing_session": "Synchronisation de la session...",
+    "verifying_access": "Vérification de l'accès..."
   }
 }

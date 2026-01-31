@@ -1,11 +1,67 @@
 {
   "select": {
     "welcome": "Bon retour, <1>{{name}}</1>",
-    "subtitle": "Veuillez sélectionner un espace de travail",
+    "subtitle": "Veuillez sélectionner un espace de travail pour continuer",
     "active": "Actif",
     "default_title": "Chef de projet",
-    "create_new": "Créer un espace",
+    "create_new": "Créer un espace de travail",
     "authorized_user": "Utilisateur autorisé",
     "sign_out": "Déconnexion"
+  },
+  "create": {
+    "meta": {
+      "title": "Créer une Entreprise | Invotrack",
+      "description": "Lancez votre nouvelle organisation"
+    },
+    "nav": {
+      "back": "Retour",
+      "sign_out": "Déconnexion"
+    },
+    "steps": {
+      "identity_title": "Identité",
+      "identity_sub": "Nom & Description",
+      "presence_title": "Présence",
+      "presence_sub": "Localisation & Contact",
+      "fiscal_title": "Fiscalité",
+      "fiscal_sub": "Devise & Taxes",
+      "header_desc_1": "Identité de l'organisation.",
+      "header_desc_2": "Infos de contact.",
+      "header_desc_3": "Paramètres financiers et régionaux."
+    },
+    "form": {
+      "name_label": "Raison sociale",
+      "name_placeholder": "ex: Acme Logistics SAS",
+      "desc_label": "Courte description",
+      "desc_placeholder": "Décrivez brièvement l'activité de votre organisation...",
+      "email_label": "E-mail professionnel",
+      "email_placeholder": "contact@acme.com",
+      "phone_label": "Téléphone direct",
+      "phone_placeholder": "Numéro de téléphone",
+      "address_label": "Adresse du siège social",
+      "address_placeholder": "123 Rue de l'Innovation",
+      "city_label": "Ville",
+      "zip_label": "Code Postal",
+      "state_label": "État / Province",
+      "country_label": "Pays",
+      "tax_label": "Numéro de TVA / SIREN",
+      "tax_placeholder": "Réf. 12345678",
+      "tax_help": "Utilisé pour la génération de factures.",
+      "currency_label": "Devise de référence",
+      "language_label": "Langue par défaut"
+    },
+    "actions": {
+      "cancel": "Annuler",
+      "back": "Retour",
+      "next": "Étape suivante",
+      "submit": "Lancer l'entreprise",
+      "loading": "Construction..."
+    },
+    "errors": {
+      "name_required": "Le nom de l'entreprise est obligatoire",
+      "name_short": "Le nom doit comporter au moins 3 caractères",
+      "AUTH_NOT_AUTHENTICATED": "Vous devez être connecté pour créer une entreprise.",
+      "AUTH_USER_NOT_FOUND": "Compte utilisateur introuvable.",
+      "generic": "Échec de la création de l'entreprise."
+    }
   }
 }

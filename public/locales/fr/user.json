@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Mon Profil | Invotrack",
+    "description": "Gérez les paramètres de votre compte personnel."
+  },
+  "breadcrumb": "Mon Profil",
+  "info_card": {
+    "title": "Informations Personnelles",
+    "full_name": "Nom complet",
+    "email": "Adresse e-mail",
+    "edit_button": "Modifier",
+    "modal": {
+      "title": "Modifier les Informations Personnelles",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email_label": "Adresse e-mail",
+      "email_help": "Contactez le support pour modifier l'e-mail de votre compte.",
+      "close": "Fermer",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
+    }
+  },
+  "meta_card": {
+    "upload_tooltip": "Charger une photo",
+    "delete_tooltip": "Supprimer la photo",
+    "modal": {
+      "title": "Supprimer la photo de profil ?",
+      "description": "Cela supprimera définitivement votre avatar personnalisé et rétablira l'icône par défaut.",
+      "confirm_button": "Supprimer la photo"
+    }
+  },
+  "actions": {
+    "change_password": "Modifier le mot de passe",
+    "sending_link": "Envoi du lien...",
+    "sign_out": "Se déconnecter"
+  },
+  "preferences": {
+    "title": "Préférences Système",
+    "language_label": "Langue de l'interface"
+  },
+  "messages": {
+    "email_sent_title": "E-mail envoyé",
+    "email_sent_body": "Un lien de réinitialisation de mot de passe a été envoyé à {{email}}. Veuillez consulter votre boîte de réception.",
+    "details_saved_title": "Détails enregistrés",
+    "details_saved_body": "Vos informations personnelles ont été mises à jour avec succès.",
+    "photo_updated_title": "Photo mise à jour",
+    "photo_updated_body": "Votre photo de profil a été chargée avec succès.",
+    "photo_removed_title": "Photo supprimée",
+    "photo_removed_body": "La photo de profil a été supprimée.",
+    "language_updated_title": "Langue mise à jour",
+    "language_updated_body": "Votre préférence a été enregistrée."
+  },
+  "status": {
+    "error": "Erreur",
+    "success": "Succès"
+  },
+  "errors": {
+    "AUTH_USER_NOT_FOUND": "Compte utilisateur introuvable.",
+    "UPLOAD_NO_FILE": "Veuillez sélectionner une image à charger.",
+    "UPLOAD_INVALID_TYPE": "Type de fichier invalide. Veuillez sélectionner une image.",
+    "UPLOAD_FAILED": "Échec du chargement de l'image.",
+    "DELETE_FAILED": "Échec de la suppression de l'image.",
+    "UPDATE_FAILED": "Échec de la mise à jour du profil.",
+    "RESET_LINK_FAILED": "Impossible d'envoyer le lien de réinitialisation.",
+    "GENERIC_ERROR": "Une erreur inattendue est survenue."
+  }
+}

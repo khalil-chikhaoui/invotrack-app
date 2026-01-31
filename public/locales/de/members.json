@@ -1,0 +1,81 @@
+{
+  "list": {
+    "title": "Teammitglieder",
+    "subtitle": "Verwalten Sie Zugriffsrechte und Rollen für Ihre Organisation.",
+    "search_placeholder": "Suche nach Name oder E-Mail...",
+    "add_button": "Mitglied einladen",
+    "columns": {
+      "member": "Mitglied",
+      "role": "Rolle",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "active": "Aktiv",
+      "pending": "Ausstehend",
+      "refresh": "Aktualisieren", 
+      "loading": "Synchronisierung..." 
+    },
+    "empty": {
+      "title": "Keine Mitglieder gefunden",
+      "desc": "Versuchen Sie, Ihre Suche anzupassen oder laden Sie ein neues Mitglied ein."
+    }
+  },
+  "status": {
+    "active": "Aktiv",
+    "pending": "Ausstehend",
+    "expired": "Abgelaufen", 
+    "expires_today": "Läuft heute ab",
+    "days_left": "Noch {{count}} Tage",
+    "loading": "Synchronisierung...",
+    "refresh": "Aktualisieren"
+  },
+  "invite": {
+    "title": "Neues Mitglied einladen",
+    "subtitle": "Senden Sie eine E-Mail-Einladung an Ihr Team.",
+    "email_label": "E-Mail-Adresse",
+    "email_placeholder": "kollege@firma.de",
+    "name_label": "Name (Optional)",
+    "name_placeholder": "Max Mustermann",
+    "role_label": "Rolle",
+    "title_label": "Jobtitel (Optional)",
+    "title_placeholder": "z. B. Projektmanager",
+    "submit": "Einladung senden",
+    "sending": "Wird gesendet...",
+    "cancel": "Abbrechen"
+  },
+  "roles": {
+    "Admin": "Administrator",
+    "Manager": "Manager",
+    "Viewer": "Betrachter",
+    "Deliver": "Zusteller"
+  },
+  "modals": {
+    "remove_title": "Mitglied entfernen?",
+    "remove_desc": "Sind Sie sicher, dass Sie {{name}} aus dem Team entfernen möchten? Der Zugriff wird sofort entzogen.",
+    "cancel_invite_title": "Einladung stornieren?",
+    "cancel_invite_desc": "Dies macht den an {{email}} gesendeten Link ungültig.",
+    "confirm_remove": "Entfernen",
+    "confirm_cancel": "Einladung stornieren",
+    "leave_title": "Organisation verlassen?",
+    "leave_desc": "Sie verlieren sofort den Zugriff auf alle Finanzunterlagen und Bestände.",
+    "confirm_leave": "Verlassen bestätigen"
+  },
+  "messages": {
+    "invitation_sent": "Einladung erfolgreich an {{email}} gesendet",
+    "role_updated": "Rolle erfolgreich aktualisiert",
+    "member_removed": "Mitglied erfolgreich entfernt",
+    "invitation_cancelled": "Einladung erfolgreich storniert",
+    "left_business": "Sie haben das Unternehmen verlassen"
+  },
+  "errors": {
+    "BUSINESS_NOT_FOUND": "Unternehmenskontext nicht gefunden.",
+    "MEMBER_ALREADY_EXISTS": "Dieser Benutzer ist bereits ein Mitglied.",
+    "INVITATION_FAILED": "E-Mail-Einladung konnte nicht gesendet werden.",
+    "INVALID_ROLE": "Ungültige Rolle ausgewählt.",
+    "MEMBER_NOT_FOUND": "Mitglied oder Einladung nicht gefunden.",
+    "MEMBER_NOT_IN_BUSINESS": "Benutzer ist kein Mitglied dieses Unternehmens.",
+    "CANNOT_LEAVE_AS_LAST_ADMIN": "Sie können nicht als einziger Administrator gehen. Weisen Sie zuerst einen anderen Administrator zu.",
+    "GENERIC_ERROR": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  }
+}

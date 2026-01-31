@@ -34,5 +34,19 @@
   "errors": {
     "required": "This field is required",
     "generic": "An error occurred"
+  },
+  "header": {
+    "search_placeholder": "Artikel, Kunden oder Rechnung suchen...",
+    "categories": {
+      "clients": "Kunden",
+      "inventory": "Inventar",
+      "invoices": "Rechnungen"
+    },
+    "no_matches": "Keine Einträge gefunden."
+  },
+  "auth_guards": {
+    "establishing_session": "Sitzung wird aufgebaut...",
+    "syncing_session": "Sitzung wird synchronisiert...",
+    "verifying_access": "Zugriff wird überprüft..."
   }
 }

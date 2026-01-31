@@ -1,4 +1,9 @@
 {
+  "auth_guards": {
+    "establishing_session": "Establishing Session...",
+    "syncing_session": "Syncing session...",
+    "verifying_access": "Verifying business access..."
+  },
   "sidebar": {
     "nav": {
       "dashboard": "Dashboard",
@@ -27,5 +32,14 @@
     "badges": {
       "pro": "Pro"
     }
+  },
+  "header": {
+    "search_placeholder": "Search item, client or invoice...",
+    "categories": {
+      "clients": "Clients",
+      "inventory": "Inventory",
+      "invoices": "Invoices"
+    },
+    "no_matches": "No matches found in records."
   }
 }

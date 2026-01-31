@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { businessApi } from "../../apis/business";
 import { useAuth } from "../../context/AuthContext";
 import PageMeta from "../../components/common/PageMeta";
@@ -8,6 +9,7 @@ import Label from "../../components/form/Label";
 import Input from "../../components/form/input/InputField";
 import CountryInput from "../../components/form/input/CountryInput";
 import CurrencySelect from "../../components/form/CurrencySelect";
+import LanguageSelector from "../../components/common/LanguageSelector"; // <--- Import Language Selector
 import { CURRENCIES } from "../../hooks/currencies";
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
 import { ChevronLeftIcon } from "../../icons";
@@ -65,23 +67,8 @@ const IconFiscal = () => (
   </svg>
 );
 
-const STEPS = [
-  {
-    id: 1,
-    title: "Identity",
-    subtitle: "Name & Description",
-    icon: IconIdentity,
-  },
-  {
-    id: 2,
-    title: "Presence",
-    subtitle: "Location & Contact",
-    icon: IconPresence,
-  },
-  { id: 3, title: "Fiscal", subtitle: "Currency & Tax", icon: IconFiscal },
-];
-
 export default function CreateBusiness() {
+  const { t } = useTranslation("business"); // <--- Load "business" namespace
   const navigate = useNavigate();
   const { user, setUser, logout } = useAuth();
 
@@ -92,6 +79,28 @@ export default function CreateBusiness() {
 
   const canGoBack = user?.memberships && user.memberships.length > 0;
 
+  // Moved STEPS inside component to access 't'
+  const STEPS = [
+    {
+      id: 1,
+      title: t("create.steps.identity_title"),
+      subtitle: t("create.steps.identity_sub"),
+      icon: IconIdentity,
+    },
+    {
+      id: 2,
+      title: t("create.steps.presence_title"),
+      subtitle: t("create.steps.presence_sub"),
+      icon: IconPresence,
+    },
+    {
+      id: 3,
+      title: t("create.steps.fiscal_title"),
+      subtitle: t("create.steps.fiscal_sub"),
+      icon: IconFiscal,
+    },
+  ];
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -100,6 +109,7 @@ export default function CreateBusiness() {
     address: { street: "", city: "", state: "", zipCode: "", country: "" },
     taxId: "",
     currency: "USD",
+    language: "en", // <--- Added language field
     currencyFormat: {
       digits: 2,
       groupSep: ",",
@@ -159,20 +169,19 @@ export default function CreateBusiness() {
 
     if (step === 1) {
       if (!formData.name.trim()) {
-        errors.name = "Business Name is required";
+        errors.name = t("create.errors.name_required");
         isValid = false;
       } else if (formData.name.length < 3) {
-        errors.name = "Name must be at least 3 characters";
+        errors.name = t("create.errors.name_short");
         isValid = false;
       }
     }
-    // Step 2 and 3 can have optional or required validation here
     setFieldErrors(errors);
     return isValid;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevents page reload
+    e.preventDefault();
     setGeneralError("");
 
     if (!validateStep(currentStep)) return;
@@ -203,7 +212,12 @@ export default function CreateBusiness() {
         if (setUser) setUser(updatedUser);
         navigate(`/business/${newBusiness._id}`);
       } catch (err: any) {
-        setGeneralError(err.message || "Failed to create business.");
+        const errorCode = err.message;
+        const translatedError = t(
+          `create.errors.${errorCode}` as any,
+          t("create.errors.generic"),
+        );
+        setGeneralError(translatedError);
       } finally {
         setLoading(false);
       }
@@ -226,11 +240,12 @@ export default function CreateBusiness() {
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Label>
-                  Legal Business Name <span className="text-error-500">*</span>
+                  {t("create.form.name_label")}{" "}
+                  <span className="text-error-500">*</span>
                 </Label>
                 <Input
                   name="name"
-                  placeholder="e.g. Acme Logistics Ltd"
+                  placeholder={t("create.form.name_placeholder")}
                   value={formData.name}
                   onChange={handleChange}
                   className={getInputClass("name")}
@@ -243,11 +258,11 @@ export default function CreateBusiness() {
                 )}
               </div>
               <div className="sm:col-span-2">
-                <Label>Short Description</Label>
+                <Label>{t("create.form.desc_label")}</Label>
                 <textarea
                   name="description"
                   rows={4}
-                  placeholder="Briefly describe what your organization does..."
+                  placeholder={t("create.form.desc_placeholder")}
                   className="w-full px-4 py-3 text-sm text-gray-700 bg-transparent border border-gray-300 rounded-xl outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 resize-none"
                   value={formData.description}
                   onChange={handleChange}
@@ -261,36 +276,36 @@ export default function CreateBusiness() {
           <div className="space-y-6 animate-fadeIn">
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <Label>Business Email</Label>
+                <Label>{t("create.form.email_label")}</Label>
                 <Input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="contact@acme.com"
+                  placeholder={t("create.form.email_placeholder")}
                 />
               </div>
               <div>
-                <Label>Direct Phone</Label>
+                <Label>{t("create.form.phone_label")}</Label>
                 <PhoneInput
                   country={formData.phone.country}
                   value={formData.phone.number}
                   onChange={handlePhoneChange}
-                  placeholder="Phone number"
+                  placeholder={t("create.form.phone_placeholder")}
                 />
               </div>
               <div className="sm:col-span-2">
-                <Label>Headquarters Address</Label>
+                <Label>{t("create.form.address_label")}</Label>
                 <Input
                   name="street"
                   value={formData.address.street}
                   onChange={handleAddressChange}
-                  placeholder="123 Innovation Blvd"
+                  placeholder={t("create.form.address_placeholder")}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4 sm:col-span-2">
                 <div>
-                  <Label>City</Label>
+                  <Label>{t("create.form.city_label")}</Label>
                   <Input
                     name="city"
                     value={formData.address.city}
@@ -298,7 +313,7 @@ export default function CreateBusiness() {
                   />
                 </div>
                 <div>
-                  <Label>Zip Code</Label>
+                  <Label>{t("create.form.zip_label")}</Label>
                   <Input
                     name="zipCode"
                     value={formData.address.zipCode}
@@ -307,7 +322,7 @@ export default function CreateBusiness() {
                 </div>
               </div>
               <div>
-                <Label>State / Province</Label>
+                <Label>{t("create.form.state_label")}</Label>
                 <Input
                   name="state"
                   value={formData.address.state}
@@ -315,7 +330,7 @@ export default function CreateBusiness() {
                 />
               </div>
               <div>
-                <Label>Country</Label>
+                <Label>{t("create.form.country_label")}</Label>
                 <CountryInput
                   value={formData.address.country}
                   onChange={(val) =>
@@ -324,7 +339,7 @@ export default function CreateBusiness() {
                       address: { ...formData.address, country: val },
                     })
                   }
-                  placeholder="Search..."
+                  placeholder={t("create.form.country_label")}
                   className="h-11"
                 />
               </div>
@@ -336,23 +351,35 @@ export default function CreateBusiness() {
           <div className="space-y-6 animate-fadeIn">
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <Label>Tax / VAT ID</Label>
+                <Label>{t("create.form.tax_label")}</Label>
                 <Input
                   name="taxId"
-                  placeholder="Reg. 12345678"
+                  placeholder={t("create.form.tax_placeholder")}
                   value={formData.taxId}
                   onChange={handleChange}
                 />
                 <p className="mt-2 text-xs text-gray-400">
-                  Used for invoice generation.
+                  {t("create.form.tax_help")}
                 </p>
               </div>
+
               <div>
-                <Label>Base Currency</Label>
+                <Label>{t("create.form.currency_label")}</Label>
                 <CurrencySelect
                   value={formData.currency}
                   onChange={handleCurrencyChange}
                   className="dark:bg-gray-900"
+                />
+              </div>
+
+              {/* Added Language Selector for Step 3 */}
+              <div className="sm:col-span-2">
+                <LanguageSelector
+                  value={formData.language}
+                  onChange={(lang) =>
+                    setFormData((prev) => ({ ...prev, language: lang }))
+                  }
+                  label={t("create.form.language_label")}
                 />
               </div>
             </div>
@@ -366,8 +393,8 @@ export default function CreateBusiness() {
   return (
     <>
       <PageMeta
-        title="Create Business"
-        description="Launch your new organization"
+        title={t("create.meta.title")}
+        description={t("create.meta.description")}
       />
       <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } } .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }`}</style>
 
@@ -380,7 +407,8 @@ export default function CreateBusiness() {
                 onClick={() => navigate("/select-business")}
                 className="flex items-center text-sm font-medium text-gray-500 hover:text-brand-500"
               >
-                <ChevronLeftIcon className="size-5 mr-1" /> Back
+                <ChevronLeftIcon className="size-5 mr-1" />{" "}
+                {t("create.nav.back")}
               </button>
             )}
             <div className="font-black text-xl tracking-tighter text-gray-900 dark:text-white ml-4">
@@ -395,7 +423,7 @@ export default function CreateBusiness() {
             }}
             className="text-xs font-medium text-red-600 uppercase tracking-widest"
           >
-            Sign Out
+            {t("create.nav.sign_out")}
           </button>
         </div>
       </nav>
@@ -408,10 +436,10 @@ export default function CreateBusiness() {
             </h1>
             <p className="mt-2 text-base font-medium text-gray-500">
               {currentStep === 1
-                ? "Organization identity."
+                ? t("create.steps.header_desc_1")
                 : currentStep === 2
-                  ? "Contact info."
-                  : "Financial defaults."}
+                  ? t("create.steps.header_desc_2")
+                  : t("create.steps.header_desc_3")}
             </p>
           </div>
 
@@ -459,7 +487,9 @@ export default function CreateBusiness() {
                       }
                       className="w-full sm:w-auto px-6 py-3 text-sm font-medium text-gray-500"
                     >
-                      {currentStep === 1 ? "Cancel" : "Go Back"}
+                      {currentStep === 1
+                        ? t("create.actions.cancel")
+                        : t("create.actions.back")}
                     </button>
 
                     <Button
@@ -468,10 +498,10 @@ export default function CreateBusiness() {
                       className="w-full sm:w-auto px-8 h-12"
                     >
                       {currentStep < 3
-                        ? "Next Step"
+                        ? t("create.actions.next")
                         : loading
-                          ? "Constructing..."
-                          : "Launch Business"}
+                          ? t("create.actions.loading")
+                          : t("create.actions.submit")}
                     </Button>
                   </div>
                 </form>

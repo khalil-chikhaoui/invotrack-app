@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Mein Profil | Invotrack",
+    "description": "Verwalten Sie Ihre persönlichen Kontoeinstellungen."
+  },
+  "breadcrumb": "Mein Profil",
+  "info_card": {
+    "title": "Persönliche Informationen",
+    "full_name": "Vollständiger Name",
+    "email": "E-Mail-Adresse",
+    "edit_button": "Bearbeiten",
+    "modal": {
+      "title": "Persönliche Informationen bearbeiten",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "email_label": "E-Mail-Adresse",
+      "email_help": "Kontaktieren Sie den Support, um Ihre Konto-E-Mail zu ändern.",
+      "close": "Schließen",
+      "save": "Änderungen speichern",
+      "saving": "Wird gespeichert..."
+    }
+  },
+  "meta_card": {
+    "upload_tooltip": "Foto hochladen",
+    "delete_tooltip": "Foto entfernen",
+    "modal": {
+      "title": "Profilbild entfernen?",
+      "description": "Dies wird Ihren benutzerdefinierten Avatar dauerhaft löschen und auf das Standard-Icon zurücksetzen.",
+      "confirm_button": "Bild entfernen"
+    }
+  },
+  "actions": {
+    "change_password": "Passwort ändern",
+    "sending_link": "Link wird gesendet...",
+    "sign_out": "Abmelden"
+  },
+  "preferences": {
+    "title": "Systemeinstellungen",
+    "language_label": "Sprache der Benutzeroberfläche"
+  },
+  "messages": {
+    "email_sent_title": "E-Mail gesendet",
+    "email_sent_body": "Ein Link zum Zurücksetzen des Passworts wurde an {{email}} gesendet. Bitte prüfen Sie Ihren Posteingang.",
+    "details_saved_title": "Daten gespeichert",
+    "details_saved_body": "Ihre persönlichen Informationen wurden erfolgreich aktualisiert.",
+    "photo_updated_title": "Foto aktualisiert",
+    "photo_updated_body": "Ihr Profilbild wurde erfolgreich hochgeladen.",
+    "photo_removed_title": "Foto entfernt",
+    "photo_removed_body": "Das Profilbild wurde gelöscht.",
+    "language_updated_title": "Sprache aktualisiert",
+    "language_updated_body": "Ihre Einstellung wurde gespeichert."
+  },
+  "status": {
+    "error": "Fehler",
+    "success": "Erfolg"
+  },
+  "errors": {
+    "AUTH_USER_NOT_FOUND": "Benutzerkonto nicht gefunden.",
+    "UPLOAD_NO_FILE": "Bitte wählen Sie eine Bilddatei zum Hochladen aus.",
+    "UPLOAD_INVALID_TYPE": "Ungültiger Dateityp. Bitte wählen Sie ein Bild aus.",
+    "UPLOAD_FAILED": "Foto-Upload fehlgeschlagen.",
+    "DELETE_FAILED": "Löschen des Bildes fehlgeschlagen.",
+    "UPDATE_FAILED": "Profilaktualisierung fehlgeschlagen.",
+    "RESET_LINK_FAILED": "Link zum Zurücksetzen konnte nicht gesendet werden.",
+    "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten."
+  }
+}

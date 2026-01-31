@@ -7,5 +7,61 @@
     "create_new": "Create Workspace",
     "authorized_user": "Authorized User",
     "sign_out": "Sign out"
+  },
+  "create": {
+    "meta": {
+      "title": "Create Business | Invotrack",
+      "description": "Launch your new organization"
+    },
+    "nav": {
+      "back": "Back",
+      "sign_out": "Sign Out"
+    },
+    "steps": {
+      "identity_title": "Identity",
+      "identity_sub": "Name & Description",
+      "presence_title": "Presence",
+      "presence_sub": "Location & Contact",
+      "fiscal_title": "Fiscal",
+      "fiscal_sub": "Currency & Tax",
+      "header_desc_1": "Organization identity.",
+      "header_desc_2": "Contact info.",
+      "header_desc_3": "Financial & Regional defaults."
+    },
+    "form": {
+      "name_label": "Legal Business Name",
+      "name_placeholder": "e.g. Acme Logistics Ltd",
+      "desc_label": "Short Description",
+      "desc_placeholder": "Briefly describe what your organization does...",
+      "email_label": "Business Email",
+      "email_placeholder": "contact@acme.com",
+      "phone_label": "Direct Phone",
+      "phone_placeholder": "Phone number",
+      "address_label": "Headquarters Address",
+      "address_placeholder": "123 Innovation Blvd",
+      "city_label": "City",
+      "zip_label": "Zip Code",
+      "state_label": "State / Province",
+      "country_label": "Country",
+      "tax_label": "Tax / VAT ID",
+      "tax_placeholder": "Reg. 12345678",
+      "tax_help": "Used for invoice generation.",
+      "currency_label": "Base Currency",
+      "language_label": "Default Language"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "back": "Go Back",
+      "next": "Next Step",
+      "submit": "Launch Business",
+      "loading": "Constructing..."
+    },
+    "errors": {
+      "name_required": "Business Name is required",
+      "name_short": "Name must be at least 3 characters",
+      "AUTH_NOT_AUTHENTICATED": "You must be logged in to create a business.",
+      "AUTH_USER_NOT_FOUND": "User account could not be found.",
+      "generic": "Failed to create business."
+    }
   }
 }

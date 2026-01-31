@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "title": "My Profile | Invotrack",
+    "description": "Manage your personal account settings."
+  },
+  "breadcrumb": "My Profile",
+  "info_card": {
+    "title": "Personal Information",
+    "full_name": "Full Name",
+    "email": "Email address",
+    "edit_button": "Edit",
+    "modal": {
+      "title": "Edit Personal Information",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email_label": "Email Address",
+      "email_help": "Contact support to change your account email.",
+      "close": "Close",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    }
+  },
+  "meta_card": {
+    "upload_tooltip": "Upload Photo",
+    "delete_tooltip": "Remove Photo",
+    "modal": {
+      "title": "Remove Profile Picture?",
+      "description": "This will permanently delete your custom avatar and return it to the default icon.",
+      "confirm_button": "Remove Picture"
+    }
+  },
+  "actions": {
+    "change_password": "Change Password",
+    "sending_link": "Sending Link...",
+    "sign_out": "Sign Out"
+  },
+  "preferences": {
+    "title": "System Preferences",
+    "language_label": "Interface Language"
+  },
+  "messages": {
+    "email_sent_title": "Email Sent",
+    "email_sent_body": "A password reset link has been sent to {{email}}. Please check your inbox.",
+    "details_saved_title": "Details Saved",
+    "details_saved_body": "Your personal information was updated successfully.",
+    "photo_updated_title": "Photo Updated",
+    "photo_updated_body": "Your profile picture was uploaded successfully.",
+    "photo_removed_title": "Photo Removed",
+    "photo_removed_body": "Profile picture has been deleted.",
+    "language_updated_title": "Language Updated",
+    "language_updated_body": "Your preference has been saved."
+  },
+  "errors": {
+    "AUTH_USER_NOT_FOUND": "User account not found.",
+    "UPLOAD_NO_FILE": "Please select an image file to upload.",
+    "UPLOAD_INVALID_TYPE": "Invalid file type. Please select an image.",
+    "UPLOAD_FAILED": "Failed to upload image.",
+    "DELETE_FAILED": "Failed to remove image.",
+    "UPDATE_FAILED": "Failed to update profile info.",
+    "RESET_LINK_FAILED": "Unable to send reset link.",
+    "GENERIC_ERROR": "An unexpected error occurred."
+  }
+}

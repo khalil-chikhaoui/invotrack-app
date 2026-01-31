@@ -24,7 +24,7 @@ import ProtectedRoute from "./components/route/ProtectedRoute";
 
 // --- DASHBOARD & BUSINESS PAGES ---
 import Home from "./pages/Dashboard/Home";
-import UserProfiles from "./pages/UserProfiles";
+import UserProfiles from "./pages/Profile/UserProfiles";
 import AddMember from "./pages/Business/AddMember";
 import SelectBusiness from "./pages/AuthPages/SelectBusiness";
 import BusinessSettings from "./pages/Business/BusinessSettings";

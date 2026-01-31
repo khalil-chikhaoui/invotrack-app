@@ -1,11 +1,67 @@
 {
   "select": {
     "welcome": "Willkommen zurück, <1>{{name}}</1>",
-    "subtitle": "Bitte wählen Sie einen Workspace aus",
+    "subtitle": "Bitte wählen Sie einen Arbeitsbereich aus, um fortzufahren",
     "active": "Aktiv",
     "default_title": "Projektleiter",
-    "create_new": "Workspace erstellen",
+    "create_new": "Arbeitsbereich erstellen",
     "authorized_user": "Autorisierter Benutzer",
     "sign_out": "Abmelden"
+  },
+  "create": {
+    "meta": {
+      "title": "Unternehmen erstellen | Invotrack",
+      "description": "Gründen Sie Ihre neue Organisation"
+    },
+    "nav": {
+      "back": "Zurück",
+      "sign_out": "Abmelden"
+    },
+    "steps": {
+      "identity_title": "Identität",
+      "identity_sub": "Name & Beschreibung",
+      "presence_title": "Präsenz",
+      "presence_sub": "Standort & Kontakt",
+      "fiscal_title": "Fiskal",
+      "fiscal_sub": "Währung & Steuern",
+      "header_desc_1": "Identität der Organisation.",
+      "header_desc_2": "Kontaktinformationen.",
+      "header_desc_3": "Finanz- und Regionaleinstellungen."
+    },
+    "form": {
+      "name_label": "Offizieller Unternehmensname",
+      "name_placeholder": "z. B. Acme Logistics GmbH",
+      "desc_label": "Kurzbeschreibung",
+      "desc_placeholder": "Beschreiben Sie kurz die Tätigkeit Ihrer Organisation...",
+      "email_label": "Geschäftliche E-Mail",
+      "email_placeholder": "kontakt@acme.de",
+      "phone_label": "Direkte Telefonnummer",
+      "phone_placeholder": "Telefonnummer",
+      "address_label": "Hauptsitz (Adresse)",
+      "address_placeholder": "Beispielstraße 123",
+      "city_label": "Stadt",
+      "zip_label": "Postleitzahl",
+      "state_label": "Bundesland / Kanton",
+      "country_label": "Land",
+      "tax_label": "Steuernummer / USt-IdNr.",
+      "tax_placeholder": "Reg. 12345678",
+      "tax_help": "Wird für die Rechnungserstellung verwendet.",
+      "currency_label": "Basiswährung",
+      "language_label": "Standardsprache"
+    },
+    "actions": {
+      "cancel": "Abbrechen",
+      "back": "Zurück",
+      "next": "Nächster Schritt",
+      "submit": "Unternehmen gründen",
+      "loading": "Wird erstellt..."
+    },
+    "errors": {
+      "name_required": "Unternehmensname ist erforderlich",
+      "name_short": "Name muss mindestens 3 Zeichen lang sein",
+      "AUTH_NOT_AUTHENTICATED": "Sie müssen angemeldet sein, um ein Unternehmen zu erstellen.",
+      "AUTH_USER_NOT_FOUND": "Benutzerkonto wurde nicht gefunden.",
+      "generic": "Unternehmen konnte nicht erstellt werden."
+    }
   }
 }

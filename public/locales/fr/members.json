@@ -1,0 +1,81 @@
+{
+  "list": {
+    "title": "Membres de l'équipe",
+    "subtitle": "Gérez les accès et les rôles de votre organisation.",
+    "search_placeholder": "Rechercher par nom ou e-mail...",
+    "add_button": "Inviter un membre",
+    "columns": {
+      "member": "Membre",
+      "role": "Rôle",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Actif",
+      "pending": "En attente",
+      "refresh": "Actualiser", 
+      "loading": "Synchronisation..." 
+    },
+    "empty": {
+      "title": "Aucun membre trouvé",
+      "desc": "Essayez d'ajuster votre recherche ou invitez un nouveau membre."
+    }
+  },
+  "status": {
+    "active": "Actif",
+    "pending": "En attente",
+    "expired": "Expiré", 
+    "expires_today": "Expire aujourd'hui",
+    "days_left": "{{count}} jours restants",
+    "loading": "Synchronisation...",
+    "refresh": "Actualiser"
+  },
+  "invite": {
+    "title": "Inviter un nouveau membre",
+    "subtitle": "Envoyez une invitation par e-mail pour rejoindre votre équipe.",
+    "email_label": "Adresse e-mail",
+    "email_placeholder": "collegue@entreprise.fr",
+    "name_label": "Nom (Optionnel)",
+    "name_placeholder": "Jean Dupont",
+    "role_label": "Rôle",
+    "title_label": "Intitulé du poste (Optionnel)",
+    "title_placeholder": "ex: Chef de projet",
+    "submit": "Envoyer l'invitation",
+    "sending": "Envoi...",
+    "cancel": "Annuler"
+  },
+  "roles": {
+    "Admin": "Administrateur",
+    "Manager": "Manager",
+    "Viewer": "Lecteur",
+    "Deliver": "Livreur"
+  },
+  "modals": {
+    "remove_title": "Supprimer le membre ?",
+    "remove_desc": "Voulez-vous vraiment supprimer {{name}} de l'équipe ? Son accès sera révoqué immédiatement.",
+    "cancel_invite_title": "Annuler l'invitation ?",
+    "cancel_invite_desc": "Cela invalidera le lien envoyé à {{email}}.",
+    "confirm_remove": "Supprimer",
+    "confirm_cancel": "Annuler l'invitation",
+    "leave_title": "Quitter l'organisation ?",
+    "leave_desc": "Vous perdrez immédiatement l'accès à tous les dossiers financiers et inventaires.",
+    "confirm_leave": "Confirmer le départ"
+  },
+  "messages": {
+    "invitation_sent": "Invitation envoyée avec succès à {{email}}",
+    "role_updated": "Rôle mis à jour avec succès",
+    "member_removed": "Membre supprimé avec succès",
+    "invitation_cancelled": "Invitation annulée avec succès",
+    "left_business": "Vous avez quitté l'entreprise"
+  },
+  "errors": {
+    "BUSINESS_NOT_FOUND": "Contexte de l'entreprise introuvable.",
+    "MEMBER_ALREADY_EXISTS": "Cet utilisateur est déjà membre.",
+    "INVITATION_FAILED": "Échec de l'envoi de l'invitation par e-mail.",
+    "INVALID_ROLE": "Rôle sélectionné invalide.",
+    "MEMBER_NOT_FOUND": "Membre ou invitation introuvable.",
+    "MEMBER_NOT_IN_BUSINESS": "L'utilisateur n'est pas membre de cette entreprise.",
+    "CANNOT_LEAVE_AS_LAST_ADMIN": "Vous ne pouvez pas partir en tant que seul administrateur. Désignez un autre administrateur d'abord.",
+    "GENERIC_ERROR": "Une erreur est survenue. Veuillez réessayer."
+  }
+}

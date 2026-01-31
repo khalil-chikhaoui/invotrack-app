@@ -85,6 +85,7 @@ export interface BusinessData {
   address?: BusinessAddress;
   defaultTaxRate?: number;
   defaultDiscount?: DefaultDiscount;
+  language: string;
   currency: string;
   currencyFormat?: CurrencyFormat;
   invoiceSettings?: InvoiceSettings;

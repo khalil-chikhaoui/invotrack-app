@@ -1,19 +1,16 @@
 /**
  * @fileoverview AppHeader Component
- * Global header with cross-model search (Invoices, Clients, Items).
- * Features:
- * 1. Dual-spinner feedback (Input + Dropdown).
- * 2. ⌘+K focus shortcut.
- * 3. Search results grouped by category with clean transitions.
  */
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { useSidebar } from "../context/SidebarContext";
 import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
 import NotificationDropdown from "../components/header/NotificationDropdown";
 import { generalApi, SearchResults } from "../apis/general";
 
 const AppHeader: React.FC = () => {
+  const { t } = useTranslation("common"); // <--- Load "common" namespace
   const { businessId } = useParams();
   const navigate = useNavigate();
 
@@ -100,7 +97,6 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    // UPDATED: Added dot background classes here
     <header className="sticky top-0 z-40 flex w-full bg-white border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]">
       <div className="flex items-center justify-between w-full px-3 py-3 lg:px-6 lg:py-4">
         {/* --- Left Section: Toggle, Logo, Search --- */}
@@ -154,7 +150,8 @@ const AppHeader: React.FC = () => {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onFocus={() => query.length > 1 && setShowDropdown(true)}
-                  placeholder="Search item, client or invoice..."
+                  // 1. Translated Placeholder
+                  placeholder={t("header.search_placeholder")}
                   className="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm py-2.5 pl-4 pr-14 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
                 />
                 {/* --- Spinner / Shortcut Indicator --- */}
@@ -162,7 +159,7 @@ const AppHeader: React.FC = () => {
                   {loading ? (
                     <div className="w-4 h-4 border-2 border-brand-600 dark:border-brand-300 border-t-transparent dark:border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    <div className="inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-[10px] font-semibold -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
+                    <div className="inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-[10px] font-bold -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
                       <span> ⌘ </span>
                       <span> K </span>
                     </div>
@@ -185,8 +182,8 @@ const AppHeader: React.FC = () => {
                     {/* Category: Clients */}
                     {results.clients.length > 0 && (
                       <div className="mb-2">
-                        <p className="px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
-                          Clients
+                        <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
+                          {t("header.categories.clients")}
                         </p>
                         {results.clients.map((c) => (
                           <button
@@ -212,8 +209,8 @@ const AppHeader: React.FC = () => {
                     {/* Category: Items */}
                     {results.items.length > 0 && (
                       <div className="mb-2">
-                        <p className="px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
-                          Inventory
+                        <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
+                          {t("header.categories.inventory")}
                         </p>
                         {results.items.map((i) => (
                           <button
@@ -239,8 +236,8 @@ const AppHeader: React.FC = () => {
                     {/* Category: Invoices */}
                     {results.invoices.length > 0 && (
                       <div>
-                        <p className="px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
-                          Invoices
+                        <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
+                          {t("header.categories.invoices")}
                         </p>
                         {results.invoices.map((inv) => (
                           <button
@@ -268,7 +265,7 @@ const AppHeader: React.FC = () => {
                       !results.items.length &&
                       !results.invoices.length && (
                         <div className="p-4 text-center text-xs text-gray-400 font-medium italic">
-                          No matches found in records.
+                          {t("header.no_matches")}
                         </div>
                       )}
                   </>

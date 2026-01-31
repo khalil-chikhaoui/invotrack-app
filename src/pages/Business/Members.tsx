@@ -1,15 +1,10 @@
 /**
  * @fileoverview Members Management Page
- * Handles the administration of the business personnel registry.
- * Features:
- * 1. Role-Based Access Control (RBAC): Admin-only invitation and role management.
- * 2. Invitation Lifecycle: Visual tracking of 'Pending' vs 'Accepted' status with 7-day expiration logic.
- * 3. Safe Deletion/Exit: Guards against the "Last Admin" leaving the organization.
- * 4. Personnel Search: Real-time debounced filtering of the member list.
  */
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { businessApi } from "../../apis/business";
 import { useAuth } from "../../context/AuthContext";
 import PageMeta from "../../components/common/PageMeta";
@@ -54,6 +49,7 @@ interface Member {
 }
 
 export default function Members() {
+  const { t } = useTranslation("members"); // <--- Load "members" namespace
   const { businessId } = useParams();
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
@@ -95,15 +91,14 @@ export default function Members() {
   const [updatingRole, setUpdatingRole] = useState(false);
 
   /**
-   * Data Fetching:
-   * Retrieves the filtered member list from the Business API.
+   * Data Fetching
    */
   const fetchData = async () => {
     if (!businessId) return;
     setLoading(true);
     try {
-     const data = await businessApi.getMembers(businessId, searchTerm);
-     if (Array.isArray(data)) setMembers(data);
+      const data = await businessApi.getMembers(businessId, searchTerm);
+      if (Array.isArray(data)) setMembers(data);
     } catch (error) {
       console.error("Fetch members failed", error);
     } finally {
@@ -112,8 +107,7 @@ export default function Members() {
   };
 
   /**
-   * Debounced Search Effect:
-   * Prevents API spam during active typing (400ms delay).
+   * Debounced Search
    */
   useEffect(() => {
     const delay = setTimeout(() => fetchData(), 400);
@@ -138,7 +132,8 @@ export default function Members() {
       );
       closeRoleModal();
     } catch (error: any) {
-      console.error(error.message);
+      const errorCode = error.message;
+      alert(t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")));
     } finally {
       setUpdatingRole(false);
     }
@@ -153,7 +148,8 @@ export default function Members() {
       setMemberToDelete(null);
       closeDeleteModal();
     } catch (error: any) {
-      alert(error.message);
+      const errorCode = error.message;
+      alert(t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")));
     } finally {
       setDeleting(false);
     }
@@ -167,20 +163,20 @@ export default function Members() {
       if (setUser) setUser(response.user);
       navigate("/select-business");
     } catch (error: any) {
-      alert(error.message);
+      const errorCode = error.message;
+      alert(t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")));
     } finally {
       setLeaving(false);
     }
   };
 
   /**
-   * Expiration Logic:
-   * Calculates the 7-day window for pending invitations.
+   * Expiration Logic
    */
   const getDaysRemaining = (createdAt?: string) => {
     if (!createdAt) return null;
     const created = new Date(createdAt);
-    if (isNaN(created.getTime())) return null; // Invalid date check
+    if (isNaN(created.getTime())) return null;
 
     const expires = new Date(created.getTime() + 7 * 24 * 60 * 60 * 1000);
     const now = new Date();
@@ -188,9 +184,13 @@ export default function Members() {
     const diffTime = expires.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays <= 0) return "Expired";
-    if (diffDays === 1) return "Expires today";
-    return `${diffDays} days left`;
+    if (diffDays <= 0) return t("status.expired", { defaultValue: "Expired" });
+    if (diffDays === 1)
+      return t("status.expires_today", { defaultValue: "Expires today" });
+    return t("status.days_left", {
+      count: diffDays,
+      defaultValue: "{{count}} days left",
+    });
   };
 
   const getRoleColor = (role: string) => {
@@ -206,13 +206,18 @@ export default function Members() {
     }
   };
 
+  // Helper to translate roles safely
+  const translateRole = (role: string) => {
+    return t(`roles.${role}` as any, role);
+  };
+
   return (
     <>
       <PageMeta
-        title="Team Members | Invotrack"
-        description="Manage team roles and access."
+        title={t("list.title") + " | Invotrack"}
+        description={t("list.subtitle")}
       />
-      <PageBreadcrumb pageTitle="Team Members" />
+      <PageBreadcrumb pageTitle={t("list.title")} />
 
       <div className="w-full space-y-8">
         <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -221,10 +226,10 @@ export default function Members() {
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end text-start">
               <div className="flex-1 text-start">
                 <label className="text-theme-xs font-semibold text-gray-500 mb-1.5 block uppercase tracking-wider">
-                  Search Team
+                  {t("list.search_placeholder")}
                 </label>
                 <Input
-                  placeholder="Find by name or email..."
+                  placeholder={t("list.search_placeholder")}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -238,7 +243,8 @@ export default function Members() {
                     }
                     className="h-11 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-6"
                   >
-                    <PlusIcon className="fill-current size-5" /> Invite Member
+                    <PlusIcon className="fill-current size-5" />{" "}
+                    {t("list.add_button")}
                   </Button>
                 )}
 
@@ -251,7 +257,7 @@ export default function Members() {
                   <HiOutlineArrowPath
                     className={`size-5 ${loading ? "animate-spin" : ""}`}
                   />
-                  Refresh
+                  {t("status.refresh", { defaultValue: "Refresh" })}
                 </Button>
               </div>
             </div>
@@ -266,7 +272,7 @@ export default function Members() {
                     isHeader
                     className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
                   >
-                    Member Identity
+                    {t("list.columns.member")}
                   </TableCell>
                   <TableCell
                     isHeader
@@ -278,36 +284,41 @@ export default function Members() {
                     isHeader
                     className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
                   >
-                    Access Status
+                    {t("list.columns.status")}
                   </TableCell>
                   <TableCell
                     isHeader
                     className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
                   >
-                    Permissions
+                    {t("list.columns.role")}
                   </TableCell>
                   <TableCell
                     isHeader
                     className="px-5 py-4 text-end font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
                   >
-                    Control
+                    {t("list.columns.actions")}
                   </TableCell>
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                 {loading && members.length === 0 ? (
                   <TableRow>
-                   <TableCell colSpan={5} className="p-0">
-                      <LoadingState message="Syncing Personnel Registry..." minHeight="300px" />
+                    <TableCell colSpan={5} className="p-0">
+                      <LoadingState
+                        message={t("status.loading", {
+                          defaultValue: "Syncing...",
+                        })}
+                        minHeight="300px"
+                      />
                     </TableCell>
                   </TableRow>
                 ) : members.length === 0 ? (
                   <TableRow>
                     <td
                       colSpan={5}
-                      className="p-10 text-center text-gray-500 text-theme-sm dark:text-gray-300  font-medium"
+                      className="p-10 text-center text-gray-500 text-theme-sm dark:text-gray-300 font-medium"
                     >
-                      No members found matching criteria.
+                      {t("list.empty.title")}
                     </td>
                   </TableRow>
                 ) : (
@@ -384,7 +395,10 @@ export default function Members() {
                                     <span className="relative rounded-full h-1.5 w-1.5 bg-warning-500"></span>
                                   </span>
                                 )}
-                                {member.invitationStatus}
+                                {t(
+                                  `status.${member.invitationStatus.toLowerCase()}` as any,
+                                  member.invitationStatus,
+                                )}
                               </div>
                             </Badge>
                             {member.invitationStatus === "Pending" &&
@@ -424,7 +438,7 @@ export default function Members() {
                               className="font-semibold text-[9px] uppercase tracking-widest px-3"
                             >
                               <div className="flex items-center gap-1.5">
-                                {member.role}{" "}
+                                {translateRole(member.role)}
                                 {canManageSettings &&
                                   !isLastAdmin &&
                                   member.invitationStatus === "Accepted" && (
@@ -444,8 +458,10 @@ export default function Members() {
                                 className="text-gray-400 hover:text-error-500 flex items-center gap-1 transition-colors"
                               >
                                 <span className="text-[10px] font-semibold uppercase tracking-widest">
-                                  Leave Team
-                                </span>{" "}
+                                  {t("modals.confirm_leave", {
+                                    defaultValue: "Leave",
+                                  })}
+                                </span>
                                 <HiOutlineLogout className="size-5" />
                               </button>
                             )}
@@ -487,7 +503,7 @@ export default function Members() {
             <HiOutlineShieldCheck className="size-6 text-brand-500" />
           </div>
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight mb-1">
-            Update Member Role
+            {t("list.columns.role")} {/* Reusing "Role" label */}
           </h4>
           <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-widest mb-6">
             {memberToUpdate?.name}
@@ -503,16 +519,17 @@ export default function Members() {
                   <span
                     className={`text-sm font-semibold uppercase tracking-wide ${selectedRole === role ? "text-brand-600 dark:text-brand-400" : "text-gray-700 dark:text-gray-300"}`}
                   >
-                    {role}
+                    {translateRole(role)}
                   </span>
                   <span className="text-[10px] text-gray-400 font-medium leading-tight">
+                    {/* Role Descriptions - Consider adding these to translation file later if needed */}
                     {role === "Admin"
-                      ? "Full system control and user management."
+                      ? "Full system control."
                       : role === "Manager"
-                        ? "Can manage items and financial records."
+                        ? "Manage items/billing."
                         : role === "Deliver"
-                          ? "Access to routes and order logistics."
-                          : "Read-only access to records."}
+                          ? "Routes & logistics."
+                          : "Read-only access."}
                   </span>
                 </div>
                 <div
@@ -534,14 +551,14 @@ export default function Members() {
               className="w-full text-[10px] font-semibold uppercase tracking-widest"
               onClick={closeRoleModal}
             >
-              Cancel
+              {t("invite.cancel")}
             </Button>
             <Button
               className="w-full text-[10px] font-semibold uppercase tracking-widest shadow-lg shadow-brand-500/20"
               onClick={handleConfirmRoleChange}
               disabled={updatingRole}
             >
-              Update Access
+              Update
             </Button>
           </div>
         </div>
@@ -554,18 +571,19 @@ export default function Members() {
         onConfirm={handleConfirmDelete}
         title={
           memberToDelete?.status === "Pending"
-            ? "Cancel Invitation?"
-            : "Revoke Access?"
+            ? t("modals.cancel_invite_title")
+            : t("modals.remove_title")
         }
-        description={
+        description={t(
           memberToDelete?.status === "Pending"
-            ? `Are you sure you want to cancel the invite for ${memberToDelete?.name}?`
-            : `This will immediately remove ${memberToDelete?.name} from the business.`
-        }
+            ? "modals.cancel_invite_desc"
+            : "modals.remove_desc",
+          { name: memberToDelete?.name, email: memberToDelete?.name },
+        )}
         confirmText={
           memberToDelete?.status === "Pending"
-            ? "Cancel Invite"
-            : "Revoke Access"
+            ? t("modals.confirm_cancel")
+            : t("modals.confirm_remove")
         }
         variant="danger"
         isLoading={deleting}
@@ -575,9 +593,13 @@ export default function Members() {
         isOpen={isLeaveOpen}
         onClose={closeLeaveModal}
         onConfirm={handleConfirmLeave}
-        title="Leave Organization?"
-        description="You will lose access to all financial records and inventory immediately. A new invitation will be required to return."
-        confirmText="Confirm Leave"
+        title={t("modals.leave_title", { defaultValue: "Leave Organization?" })}
+        description={t("modals.leave_desc", {
+          defaultValue: "You will lose access immediately.",
+        })}
+        confirmText={t("modals.confirm_leave", {
+          defaultValue: "Confirm Leave",
+        })}
         variant="danger"
         isLoading={leaving}
       />

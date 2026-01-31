@@ -1,11 +1,10 @@
 /**
  * @fileoverview AddMember Component
- * Handles the logic for inviting new team members to a business entity.
- * Includes Permission Guard UI for unauthorized users.
  */
 
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import Label from "../../components/form/Label";
@@ -17,8 +16,10 @@ import { PaperPlaneIcon, ChevronLeftIcon } from "../../icons";
 import { businessApi } from "../../apis/business";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
+import { scrollToTopAppLayout } from "../../layout/AppLayout"; // <--- Import Scroll
 
 export default function AddMember() {
+  const { t } = useTranslation("members"); // <--- Load "members" namespace
   const { businessId } = useParams();
   const navigate = useNavigate();
   const { canManageSettings } = usePermissions();
@@ -36,8 +37,17 @@ export default function AddMember() {
   });
 
   /**
-   * Submission Handler
+   * WRAPPER FUNCTION for Alerts
    */
+  const triggerAlert = (data: {
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+    message: string;
+  }) => {
+    setAlert(data);
+    scrollToTopAppLayout();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!businessId) return;
@@ -48,21 +58,26 @@ export default function AddMember() {
     try {
       await businessApi.inviteMember(businessId, formData);
 
-      setAlert({
+      triggerAlert({
         type: "success",
-        title: "Invitation Sent",
-        message: `A secure invitation has been dispatched to ${formData.email}.`,
+        title: "Invitation Sent", // Consider adding to translation file if strict
+        message: t("messages.invitation_sent", { email: formData.email }),
       });
 
       setTimeout(() => {
         navigate(`/business/${businessId}/members`);
       }, 1800);
     } catch (error: any) {
-      setAlert({
+      const errorCode = error.message;
+      const translatedError = t(
+        `errors.${errorCode}` as any,
+        t("errors.INVITATION_FAILED"),
+      );
+
+      triggerAlert({
         type: "error",
-        title: "Invitation Failed",
-        message:
-          error.message || "We encountered a problem sending the invite.",
+        title: "Error",
+        message: translatedError,
       });
     } finally {
       setLoading(false);
@@ -73,7 +88,7 @@ export default function AddMember() {
     return (
       <PermissionDenied
         title="Restricted Area"
-        description="Only Administrators can invite new members to this organization. Please contact your team lead for assistance."
+        description="Only Administrators can invite new members."
         actionText="Back"
       />
     );
@@ -82,10 +97,10 @@ export default function AddMember() {
   return (
     <>
       <PageMeta
-        title="Invite New Member | Invotrack"
-        description="Expand your team by inviting a new member."
+        title={t("invite.title") + " | Invotrack"}
+        description={t("invite.subtitle")}
       />
-      <PageBreadcrumb pageTitle="Add New Member" />
+      <PageBreadcrumb pageTitle={t("invite.title")} />
 
       <div className="w-full">
         {/* Navigation Control */}
@@ -103,11 +118,10 @@ export default function AddMember() {
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-6">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90 uppercase tracking-tight">
-              Invite Team Member
+              {t("invite.title")}
             </h3>
             <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-              New members will receive an activation link to set their password
-              and join your organization.
+              {t("invite.subtitle")}
             </p>
           </div>
 
@@ -116,11 +130,12 @@ export default function AddMember() {
               {/* Full Name */}
               <div className="sm:col-span-1">
                 <Label>
-                  Full Name <span className="text-error-500 dark:text-error-400">*</span>
+                  {t("invite.name_label")}{" "}
+                  <span className="text-error-500 dark:text-error-400">*</span>
                 </Label>
                 <Input
                   type="text"
-                  placeholder="e.g. John Doe"
+                  placeholder={t("invite.name_placeholder")}
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
@@ -132,11 +147,12 @@ export default function AddMember() {
               {/* Email Address */}
               <div className="sm:col-span-1">
                 <Label>
-                  Email Address <span className="text-error-500 dark:text-error-400">*</span>
+                  {t("invite.email_label")}{" "}
+                  <span className="text-error-500 dark:text-error-400">*</span>
                 </Label>
                 <Input
                   type="email"
-                  placeholder="name@company.com"
+                  placeholder={t("invite.email_placeholder")}
                   value={formData.email}
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
@@ -147,10 +163,10 @@ export default function AddMember() {
 
               {/* Work Title */}
               <div className="sm:col-span-1">
-                <Label>Professional Title</Label>
+                <Label>{t("invite.title_label")}</Label>
                 <Input
                   type="text"
-                  placeholder="e.g. Sales Director"
+                  placeholder={t("invite.title_placeholder")}
                   value={formData.title}
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
@@ -161,7 +177,8 @@ export default function AddMember() {
               {/* Role Selection */}
               <div className="sm:col-span-1">
                 <Label>
-                  Access Level <span className="text-error-500 dark:text-error-400">*</span>
+                  {t("invite.role_label")}{" "}
+                  <span className="text-error-500 dark:text-error-400">*</span>
                 </Label>
                 <div className="relative">
                   <select
@@ -171,12 +188,10 @@ export default function AddMember() {
                     }
                     className="h-11 w-full appearance-none rounded-lg border border-gray-200 bg-transparent px-4 py-2.5 text-sm font-medium text-gray-800 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10"
                   >
-                    <option value="Viewer">Viewer (Read Only)</option>
-                    <option value="Deliver">
-                      Deliver (Logistics & Delivery)
-                    </option>
-                    <option value="Manager">Manager (Billing & CRM)</option>
-                    <option value="Admin">Administrator (Full Control)</option>
+                    <option value="Viewer">{t("roles.Viewer")}</option>
+                    <option value="Deliver">{t("roles.Deliver")}</option>
+                    <option value="Manager">{t("roles.Manager")}</option>
+                    <option value="Admin">{t("roles.Admin")}</option>
                   </select>
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                     <svg
@@ -195,18 +210,19 @@ export default function AddMember() {
             {/* Form Actions */}
             <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-100 dark:border-gray-800">
               <Button
-              type="button"
+                type="button"
                 variant="outline"
                 className="text-[10px] uppercase font-semibold tracking-widest px-6"
                 onClick={() => navigate(-1)}
               >
-                Cancel
+                {t("invite.cancel")}
               </Button>
-              <Button type="submit"
+              <Button
+                type="submit"
                 disabled={loading}
                 className="flex items-center gap-2 shadow-lg shadow-brand-500/20 text-[10px] uppercase font-semibold tracking-widest px-6"
               >
-                {loading ? "Transmitting..." : "Send Invitation"}
+                {loading ? t("invite.sending") : t("invite.submit")}
                 <PaperPlaneIcon className="fill-current size-4" />
               </Button>
             </div>

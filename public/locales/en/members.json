@@ -1,0 +1,81 @@
+{
+  "list": {
+    "title": "Team Members",
+    "subtitle": "Manage access and roles for your organization.",
+    "search_placeholder": "Search by name or email...",
+    "add_button": "Invite Member",
+    "columns": {
+      "member": "Member",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "refresh": "Refresh", 
+      "loading": "Syncing..." 
+    },
+    "empty": {
+      "title": "No members found",
+      "desc": "Try adjusting your search or invite a new member."
+    }
+  },
+  "status": {
+    "active": "Active",
+    "pending": "Pending",
+    "expired": "Expired", 
+    "expires_today": "Expires today",
+    "days_left": "{{count}} days left",
+    "loading": "Syncing...",
+    "refresh": "Refresh"
+  },
+  "invite": {
+    "title": "Invite New Member",
+    "subtitle": "Send an email invitation to join your team.",
+    "email_label": "Email Address",
+    "email_placeholder": "colleague@company.com",
+    "name_label": "Name (Optional)",
+    "name_placeholder": "John Doe",
+    "role_label": "Role",
+    "title_label": "Job Title (Optional)",
+    "title_placeholder": "e.g. Project Manager",
+    "submit": "Send Invitation",
+    "sending": "Sending...",
+    "cancel": "Cancel"
+  },
+  "roles": {
+    "Admin": "Admin",
+    "Manager": "Manager",
+    "Viewer": "Viewer",
+    "Deliver": "Deliver"
+  },
+  "modals": {
+    "remove_title": "Remove Member?",
+    "remove_desc": "Are you sure you want to remove {{name}} from the team? They will lose access immediately.",
+    "cancel_invite_title": "Cancel Invitation?",
+    "cancel_invite_desc": "This will invalidate the link sent to {{email}}.",
+    "confirm_remove": "Remove",
+    "confirm_cancel": "Cancel Invite",
+    "leave_title": "Leave Organization?",
+    "leave_desc": "You will lose access to all financial records and inventory immediately.",
+    "confirm_leave": "Confirm Leave"
+  },
+  "messages": {
+    "invitation_sent": "Invitation sent successfully to {{email}}",
+    "role_updated": "Role updated successfully",
+    "member_removed": "Member removed successfully",
+    "invitation_cancelled": "Invitation cancelled successfully",
+    "left_business": "You have left the business"
+  },
+  "errors": {
+    "BUSINESS_NOT_FOUND": "Business context not found.",
+    "MEMBER_ALREADY_EXISTS": "This user is already a member.",
+    "INVITATION_FAILED": "Failed to send invitation email.",
+    "INVALID_ROLE": "Invalid role selected.",
+    "MEMBER_NOT_FOUND": "Member or invitation not found.",
+    "MEMBER_NOT_IN_BUSINESS": "User is not a member of this business.",
+    "CANNOT_LEAVE_AS_LAST_ADMIN": "You cannot leave as the sole Admin. Assign another Admin first.",
+    "GENERIC_ERROR": "An error occurred. Please try again."
+  }
+}
