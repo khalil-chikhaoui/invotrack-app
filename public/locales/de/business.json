@@ -1,0 +1,11 @@
+{
+  "select": {
+    "welcome": "Willkommen zurück, <1>{{name}}</1>",
+    "subtitle": "Bitte wählen Sie einen Workspace aus",
+    "active": "Aktiv",
+    "default_title": "Projektleiter",
+    "create_new": "Workspace erstellen",
+    "authorized_user": "Autorisierter Benutzer",
+    "sign_out": "Abmelden"
+  }
+}

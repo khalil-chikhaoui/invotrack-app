@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -12,6 +13,9 @@ import { authApi } from "../../apis/auth";
 import LanguageSelector from "../../components/common/LanguageSelector";
 
 export default function SignUpForm() {
+  const { t } = useTranslation("auth"); // <--- Use "auth" namespace
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -19,25 +23,22 @@ export default function SignUpForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // Defaulting to "en", but component will auto-detect on mount
-  const [language, setLanguage] = useState("en"); 
+  const [language, setLanguage] = useState("en");
 
-  const navigate = useNavigate();
-
-const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
     try {
-      // 1. Call API (returns { message, email })
-      // Now sending language
       await authApi.signUp({ name, email, password, language });
-      
-      // 2. Redirect to Verify Page with email in state
       navigate("/verify-email", { state: { email } });
-      
     } catch (err: any) {
-      setError(err.message || "An error occurred while creating your account.");
+      const errorCode = err.message;
+      const translatedError = t(
+        `errors.${errorCode}` as any,
+        t("errors.GENERIC_ERROR"),
+      );
+      setError(translatedError);
     } finally {
       setIsLoading(false);
     }
@@ -50,10 +51,10 @@ const handleSubmit = async (e: React.FormEvent) => {
           {/* --- Header --- */}
           <div className="mb-6 sm:mb-8 mt-2">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
-              Create Account
+              {t("signup.title")}
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-              Join Invotrack to streamline your business management.
+              {t("signup.subtitle")}
             </p>
           </div>
 
@@ -65,13 +66,15 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </div>
               )}
 
+              {/* Full Name */}
               <div>
                 <Label>
-                  Full Name <span className="text-error-500">*</span>
+                  {t("signup.full_name_label")}{" "}
+                  <span className="text-error-500">*</span>
                 </Label>
                 <Input
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder={t("signup.full_name_placeholder")}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -79,13 +82,15 @@ const handleSubmit = async (e: React.FormEvent) => {
                 />
               </div>
 
+              {/* Email */}
               <div>
                 <Label>
-                  Work Email <span className="text-error-500">*</span>
+                  {t("signup.email_label")}{" "}
+                  <span className="text-error-500">*</span>
                 </Label>
                 <Input
                   type="email"
-                  placeholder="name@company.com"
+                  placeholder={t("signup.email_placeholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -93,22 +98,24 @@ const handleSubmit = async (e: React.FormEvent) => {
                 />
               </div>
 
-              {/* --- NEW LANGUAGE SELECTOR --- */}
+              {/* Language Selector */}
               <div>
-                <LanguageSelector 
+                <LanguageSelector
                   value={language}
                   onChange={setLanguage}
-                  label="Preferred Language"
+                  label={t("signup.language_label")}
                 />
               </div>
 
+              {/* Password */}
               <div>
                 <Label>
-                  Password <span className="text-error-500">*</span>
+                  {t("signup.password_label")}{" "}
+                  <span className="text-error-500">*</span>
                 </Label>
                 <div className="relative">
                   <Input
-                    placeholder="Min. 6 characters"
+                    placeholder={t("signup.password_placeholder")}
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -130,20 +137,21 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               <div className="pt-2">
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Synchronizing..." : "Sign Up"}
+                  {isLoading ? t("signup.loading") : t("signup.submit_button")}
                 </Button>
               </div>
             </div>
           </form>
 
+          {/* Footer Links */}
           <div className="mt-6 pb-8 lg:pb-0">
             <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-              Already part of the team?{" "}
+              {t("signup.already_member")}{" "}
               <Link
                 to="/signin"
                 className="font-semibold text-brand-500 hover:text-brand-600 dark:text-brand-400 transition-colors"
               >
-                Sign In
+                {t("signup.signin_link")}
               </Link>
             </p>
           </div>

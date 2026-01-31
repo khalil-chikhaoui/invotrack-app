@@ -26,7 +26,7 @@ type NavItem = {
 
 const AppSidebar: React.FC = () => {
   // <--- 2. Initialize Translation Hook
-  const { t } = useTranslation("sidebar");
+  const { t } = useTranslation("common"); 
   
   const { isExpanded, isMobileOpen, isHovered, setIsHovered, setIsMobileOpen } =
     useSidebar();
@@ -44,45 +44,45 @@ const AppSidebar: React.FC = () => {
   const navItems: NavItem[] = [
     {
       icon: <HiOutlineSquares2X2 className="size-6" />,
-      name: t("nav.dashboard"), 
+      name: t("sidebar.nav.dashboard"), 
       path: "/",
     },
     {
       icon: <HiOutlineUsers className="size-6" />,
-      name: t("nav.clients"),
+      name: t("sidebar.nav.clients"),
       path: "/clients",
     },
     {
       icon: <HiOutlineCube className="size-6" />,
-      name: t("nav.items"),
+      name: t("sidebar.nav.items"),
       path: "/items",
     },
     {
       icon: <HiOutlineDocumentText className="size-6" />,
-      name: t("nav.invoices"),
+      name: t("sidebar.nav.invoices"),
       path: "/invoices",
     },
     {
       icon: <HiCalendar className="size-6" />,
-      name: t("nav.calendar"),
+      name: t("sidebar.nav.calendar"),
       path: "/calendar",
     },
     {
       icon: <HiOutlineBuildingOffice className="size-6" />,
-      name: t("nav.business_settings"),
+      name: t("sidebar.nav.business_settings"),
       subItems: [
-        { name: t("sub.general"), path: "/settings" },
-        { name: t("sub.design"), path: "/templates" },
-        { name: t("sub.currency"), path: "/currency" },
-        { name: t("sub.tax"), path: "/taxes" },
+        { name: t("sidebar.sub.general"), path: "/settings" },
+        { name: t("sidebar.sub.design"), path: "/templates" },
+        { name: t("sidebar.sub.currency"), path: "/currency" },
+        { name: t("sidebar.sub.tax"), path: "/taxes" },
       ],
     },
     {
       icon: <HiOutlineUserGroup className="size-6" />,
-      name: t("nav.team_members"),
+      name: t("sidebar.nav.team_members"),
       subItems: [
-        { name: t("sub.all_members"), path: "/members" },
-        { name: t("sub.invite"), path: "/add-member" },
+        { name: t("sidebar.sub.all_members"), path: "/members" },
+        { name: t("sidebar.sub.invite"), path: "/add-member" },
       ],
     },
   ];
@@ -220,11 +220,11 @@ const AppSidebar: React.FC = () => {
               <div className="flex-1 text-left overflow-hidden">
                 {/* 4. TRANSLATED WORKSPACE LABEL */}
                 <p className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">
-                  {t("workspace.label")}
+                  {t("sidebar.workspace.label")}
                 </p>
                 <p className="text-sm font-semibold truncate text-gray-800 dark:text-gray-100 group-hover:text-brand-600 dark:group-hover:text-brand-400">
                   {/* 5. TRANSLATED SELECT BUSINESS FALLBACK */}
-                  {currentBusiness?.name || t("workspace.select")}
+                  {currentBusiness?.name || t("sidebar.workspace.select")}
                 </p>
               </div>
             )}
@@ -309,7 +309,7 @@ const AppSidebar: React.FC = () => {
                                     {subItem.pro && (
                                       // 6. TRANSLATED PRO BADGE
                                       <span className="text-[9px] bg-brand-100 text-brand-700 px-1.5 py-0.5 rounded font-semibold uppercase">
-                                        {t("badges.pro")}
+                                        {t("sidebar.badges.pro")}
                                       </span>
                                     )}
                                   </div>
@@ -386,7 +386,7 @@ const AppSidebar: React.FC = () => {
             onClick={handleSignOut}
             className="text-gray-400 hover:text-error-500 transition-colors p-2 rounded-lg hover:bg-error-50 dark:hover:bg-error-500/10"
             // 7. TRANSLATED SIGN OUT TOOLTIP
-            title={t("actions.sign_out")}
+            title={t("sidebar.actions.sign_out")}
           >
             <HiOutlineArrowRightOnRectangle className="size-5" />
           </button>

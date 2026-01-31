@@ -1,14 +1,31 @@
 {
-  "actions": {
-    "save": "Save Changes",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "create": "Create New"
-  },
-  "status": {
-    "loading": "Loading...",
-    "success": "Success",
-    "error": "Error"
+  "sidebar": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "clients": "Clients",
+      "items": "Articles",
+      "invoices": "Factures",
+      "calendar": "Calendrier",
+      "business_settings": "Paramètres",
+      "team_members": "Équipe"
+    },
+    "sub": {
+      "general": "Général",
+      "design": "Design des factures",
+      "currency": "Devise",
+      "tax": "Taxes & Remises",
+      "all_members": "Tous les membres",
+      "invite": "Inviter un membre"
+    },
+    "workspace": {
+      "label": "Espace de travail",
+      "select": "Choisir l'entreprise"
+    },
+    "actions": {
+      "sign_out": "Déconnexion"
+    },
+    "badges": {
+      "pro": "Pro"
+    }
   }
 }

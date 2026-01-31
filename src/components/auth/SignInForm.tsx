@@ -32,7 +32,7 @@ export default function SignInForm() {
     } catch (err: any) {
       // The backend now sends a code like "AUTH_INVALID_CREDENTIALS"
       const errorCode = err.message;
-
+ 
       // --- 1. HANDLE VERIFICATION REDIRECT ---
       // This logic is now rock-solid because it checks a specific code
       if (errorCode === "AUTH_NOT_VERIFIED") {

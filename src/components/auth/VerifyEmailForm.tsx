@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router";
+import { useTranslation, Trans } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { authApi } from "../../apis/auth";
 import Button from "../ui/button/Button";
@@ -12,6 +13,7 @@ interface LocationState {
 }
 
 export default function VerifyEmailForm() {
+  const { t } = useTranslation("auth"); 
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
@@ -46,7 +48,13 @@ export default function VerifyEmailForm() {
         navigate("/select-business");
       }
     } catch (err: any) {
-      setError(err.message || "Invalid code. Please try again.");
+      // PRO ERROR HANDLING
+      const errorCode = err.message;
+      const translatedError = t(
+        `errors.${errorCode}` as any, 
+        t("errors.AUTH_INVALID_CODE") // Default fallback for this form
+      );
+      setError(translatedError);
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +62,7 @@ export default function VerifyEmailForm() {
 
   const handleResend = async () => {
     if (!email) {
-      setError("Email is missing.");
+      setError(t("errors.AUTH_MISSING_FIELDS"));
       return;
     }
     setError("");
@@ -62,9 +70,14 @@ export default function VerifyEmailForm() {
     setIsResending(true);
     try {
       await authApi.resendVerification(email);
-      setSuccessMsg("A new code has been sent to your email.");
+      setSuccessMsg(t("verify_email.success_resend"));
     } catch (err: any) {
-      setError(err.message || "Failed to resend code.");
+       const errorCode = err.message;
+       const translatedError = t(
+         `errors.${errorCode}` as any, 
+         t("errors.GENERIC_ERROR")
+       );
+       setError(translatedError);
     } finally {
       setIsResending(false);
     }
@@ -79,18 +92,28 @@ export default function VerifyEmailForm() {
           className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
         >
           <ChevronLeftIcon className="size-5 mr-1" />
-          Back to Sign In
+          {t("verify_email.back_to_signin")}
         </Link>
       </div>
 
       <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
         <div className="mb-6 sm:mb-8">
           <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
-            Verify Your Email
+            {t("verify_email.title")}
           </h1>
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
-            We sent a 6-digit code to <span className="font-semibold text-gray-800 dark:text-gray-200">{email || "your email"}</span>. 
-            Enter it below to confirm your account.
+            {/* PRO TIP: Using <Trans> allows us to inject the email 
+              into the translation string where {{email}} is, 
+              and wrap it in a span (<1>) for styling.
+            */}
+            <Trans 
+              i18nKey="verify_email.subtitle"
+              t={t}
+              values={{ email: email || "your email" }}
+              components={{ 
+                1: <span className="font-semibold text-gray-800 dark:text-gray-200" /> 
+              }}
+            />
           </p>
         </div>
 
@@ -109,22 +132,22 @@ export default function VerifyEmailForm() {
           {/* Fallback: Allow user to type email if it wasn't passed via state */}
           {!state?.email && (
              <div>
-                <Label>Email Address</Label>
+                <Label>{t("verify_email.fallback_email_label")}</Label>
                 <Input 
                    type="email" 
                    value={email} 
                    onChange={(e) => setEmail(e.target.value)} 
                    required 
-                   placeholder="Enter your email"
+                   placeholder={t("verify_email.fallback_email_placeholder")}
                 />
              </div>
           )}
 
           <div>
-            <Label>Verification Code</Label>
+            <Label>{t("verify_email.code_label")}</Label>
             <Input
               type="text"
-              placeholder="☀☀☀☀☀☀"
+              placeholder={t("verify_email.code_placeholder")}
               value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
               className="tracking-[0.3em] text-center text-lg md:text-xl"
@@ -135,7 +158,7 @@ export default function VerifyEmailForm() {
 
           <div className="pt-2">
             <Button type="submit" className="w-full" disabled={isLoading || code.length < 6}>
-              {isLoading ? "Verifying..." : "Verify & Continue"}
+              {isLoading ? t("verify_email.loading") : t("verify_email.submit_button")}
             </Button>
           </div>
 
@@ -146,7 +169,7 @@ export default function VerifyEmailForm() {
               disabled={isResending}
               className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-brand-400 disabled:opacity-50 transition-colors"
             >
-              {isResending ? "Sending..." : "Didn't receive code? Resend"}
+              {isResending ? t("verify_email.resending") : t("verify_email.resend_button")}
             </button>
           </div>
         </form>

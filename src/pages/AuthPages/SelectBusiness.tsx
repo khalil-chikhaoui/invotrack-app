@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useTranslation, Trans } from "react-i18next"; 
 import { useAuth } from "../../context/AuthContext";
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
 import {
@@ -22,6 +23,9 @@ interface Membership {
 }
 
 export default function SelectBusiness() {
+  // 1. Use "business" namespace
+  const { t } = useTranslation("business"); 
+  
   const { user, logout, refreshUser } = useAuth();
   const { businessId: currentUrlId } = useParams<{ businessId: string }>();
   const navigate = useNavigate();
@@ -57,11 +61,16 @@ export default function SelectBusiness() {
             <HiOutlineOfficeBuilding className="text-white size-8" />
           </div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight sm:text-4xl">
-            Welcome back,{" "}
-            <span className="text-brand-500">{user.name?.split(" ")[0]}</span>
+            {/* 2. Dynamic Welcome Message */}
+            <Trans
+              i18nKey="select.welcome"
+              t={t}
+              values={{ name: user.name?.split(" ")[0] }}
+              components={{ 1: <span className="text-brand-500" /> }}
+            />
           </h1>
           <p className="mt-2 text-slate-500 dark:text-slate-400 font-medium">
-            Please select a workspace to continue
+            {t("select.subtitle")}
           </p>
         </div>
 
@@ -100,7 +109,7 @@ export default function SelectBusiness() {
                   {isActive ? (
                     <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 text-[10px] font-semibold uppercase tracking-wider">
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
-                      Active
+                      {t("select.active")}
                     </span>
                   ) : (
                     <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-900 group-hover:bg-brand-500 text-slate-500 group-hover:text-white transition-colors duration-300">
@@ -119,7 +128,7 @@ export default function SelectBusiness() {
                     </span>
                     <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
                     <span className="text-xs font-medium text-slate-400">
-                      {membership.title || "Project Lead"}
+                      {membership.title || t("select.default_title")}
                     </span>
                   </div>
                 </div>
@@ -136,7 +145,7 @@ export default function SelectBusiness() {
               <HiPlus className="size-6" />
             </div>
             <span className="font-semibold text-sm text-slate-500 dark:text-slate-400 group-hover:text-brand-600 uppercase tracking-widest">
-              Create Workspace
+              {t("select.create_new")}
             </span>
           </button>
         </div>
@@ -152,7 +161,7 @@ export default function SelectBusiness() {
                 {user.email}
               </p>
               <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
-                Authorized User
+                {t("select.authorized_user")}
               </p>
             </div>
           </div>
@@ -162,12 +171,11 @@ export default function SelectBusiness() {
             className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-red-500 dark:text-slate-300 dark:hover:text-red-300 uppercase tracking-widest transition-all"
           >
             <HiOutlineLogout className="size-4" />
-            Sign out
+            {t("select.sign_out")}
           </button>
         </div>
       </div>
 
-      {/* --- FIXED THEME TOGGLE (Bottom-Right) --- */}
       <div className="fixed bottom-6 right-6 z-50">
         <ThemeTogglerTwo />
       </div>

@@ -1,10 +1,10 @@
 /**
  * @fileoverview NewPasswordForm Component
- *
  */
 
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router";
+import { useTranslation } from "react-i18next"; // <--- Import Hook
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -13,6 +13,8 @@ import { authApi } from "../../apis/auth";
 import { useAuth } from "../../context/AuthContext";
 
 export default function NewPasswordForm() {
+  const { t } = useTranslation("auth"); // <--- Load "auth" namespace
+  
   // --- Context & Route Hooks ---
   const { token } = useParams();
   const navigate = useNavigate();
@@ -36,10 +38,11 @@ export default function NewPasswordForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Client-side validation using translations
     if (password !== confirmPassword)
-      return setError("Passwords do not match.");
+      return setError(t("errors.PASSWORDS_DO_NOT_MATCH"));
     if (password.length < 6)
-      return setError("Security policy: Min. 6 characters required.");
+      return setError(t("errors.PASSWORD_TOO_SHORT"));
 
     setError("");
     setIsLoading(true);
@@ -49,9 +52,13 @@ export default function NewPasswordForm() {
       login(data.token, data.user);
       navigate("/select-business");
     } catch (err: any) {
-      setError(
-        err.message || "Credential update failed. The token may be expired.",
+      // PRO ERROR HANDLING
+      const errorCode = err.message;
+      const translatedError = t(
+        `errors.${errorCode}` as any, 
+        t("errors.AUTH_TOKEN_INVALID") // Fallback for this specific page
       );
+      setError(translatedError);
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +73,7 @@ export default function NewPasswordForm() {
           className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
         >
           <ChevronLeftIcon className="size-5 mr-1" />
-          Back to Sign In
+          {t("new_password.back_to_signin")}
         </Link>
       </div>
 
@@ -74,11 +81,10 @@ export default function NewPasswordForm() {
         {/* --- Header --- */}
         <div className="mb-6 sm:mb-8">
           <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
-            Finalize Reset
+            {t("new_password.title")}
           </h1>
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
-            Identity verified. Please select a sophisticated new password to
-            restore your account access.
+            {t("new_password.subtitle")}
           </p>
         </div>
 
@@ -93,12 +99,12 @@ export default function NewPasswordForm() {
           {/* Primary Password Input */}
           <div>
             <Label>
-              New Password <span className="text-error-500">*</span>
+              {t("new_password.password_label")} <span className="text-error-500">*</span>
             </Label>
             <div className="relative">
               <Input
                 type={showPassword ? "text" : "password"}
-                placeholder="Minimum 6 characters"
+                placeholder={t("new_password.password_placeholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -121,12 +127,12 @@ export default function NewPasswordForm() {
           {/* Confirmation Input */}
           <div>
             <Label>
-              Confirm New Password <span className="text-error-500">*</span>
+              {t("new_password.confirm_password_label")} <span className="text-error-500">*</span>
             </Label>
             <div className="relative">
               <Input
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Verify password"
+                placeholder={t("new_password.confirm_password_placeholder")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -153,7 +159,7 @@ export default function NewPasswordForm() {
           {/* Submit Action */}
           <div className="pt-2 pb-20 lg:pb-0">
             <Button type="submit"  className="w-full" disabled={isLoading}>
-              {isLoading ? "Synchronizing..." : "Update Credentials"}
+              {isLoading ? t("new_password.loading") : t("new_password.submit_button")}
             </Button>
           </div>
         </form>
