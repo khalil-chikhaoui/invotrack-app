@@ -8,8 +8,8 @@ import { useTranslation } from "react-i18next";
 import { HiOutlineArrowRightOnRectangle, HiOutlineKey } from "react-icons/hi2";
 
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import UserMetaCard from "../../components/userProfile/UserMetaCard";
-import UserInfoCard from "../../components/userProfile/UserInfoCard";
+import UserMetaCard from "../../components/UserProfile/UserMetaCard";
+import UserInfoCard from "../../components/UserProfile/UserInfoCard";
 import LanguageSelector from "../../components/common/LanguageSelector";
 import PageMeta from "../../components/common/PageMeta";
 import CustomAlert from "../../components/common/CustomAlert";
