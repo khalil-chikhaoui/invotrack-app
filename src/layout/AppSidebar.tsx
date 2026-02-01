@@ -159,14 +159,13 @@ const AppSidebar: React.FC = () => {
   return (
     <aside
       className={`fixed top-0 left-0 h-[100dvh] bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 border-r border-gray-200 transition-all duration-300 ease-in-out z-50 flex flex-col 
-      bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]
       ${showFullSidebar ? "w-[290px]" : "w-[90px]"}
       ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* --- TOP: LOGO & BUSINESS SWITCHER --- */}
-      <div className="shrink-0 flex flex-col border-b border-gray-100 dark:border-white/5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-10 transition-all duration-300 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]">
+      <div className="shrink-0 flex flex-col border-b border-gray-100 dark:border-white/5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-10 transition-all duration-300">
         <div
           className={`h-16 flex items-center transition-all duration-300 ${
             !showFullSidebar ? "justify-center px-0" : "px-6"
@@ -353,8 +352,10 @@ const AppSidebar: React.FC = () => {
             !showFullSidebar ? "justify-center flex-col gap-4 pb-3" : "pb-3"
           }`}
         >
+          {/* ADDED onClick={handleLinkClick} HERE */}
           <Link
             to={getScopedPath("/profile")}
+            onClick={handleLinkClick} 
             className={`flex items-center gap-3 flex-1 min-w-0 cursor-pointer group ${
               !showFullSidebar ? "justify-center w-full" : ""
             }`}

@@ -33,11 +33,6 @@ const LayoutContent: React.FC = () => {
         className={`flex-1 h-full overflow-y-auto transition-all duration-300 ease-in-out 
           ${isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"} 
           ${isMobileOpen ? "ml-0" : ""}
-          
-          /* Aesthetic Grid Pattern */
-          bg-[radial-gradient(#d1d5db_1px,transparent_1px)] 
-          dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] 
-          [background-size:16px_16px]
         `}
       >
         {/* Persistent Header */}

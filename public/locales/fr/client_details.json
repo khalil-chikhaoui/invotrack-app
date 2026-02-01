@@ -18,7 +18,7 @@
     "modals": {
       "remove_logo_title": "Supprimer l'image du client ?",
       "remove_logo_desc": "Cela supprimera définitivement le logo actuel pour ce client.",
-      "confirm_remove": "Supprimer l'image"
+      "confirm_remove": "Supprimer"
     }
   },
   "profile_tab": {
@@ -59,7 +59,7 @@
       },
       "actions": {
         "cancel": "Annuler",
-        "save": "Enregistrer l'identité",
+        "save": "Enregistrer",
         "saving": "Enregistrement..."
       }
     },
@@ -74,7 +74,7 @@
       },
       "actions": {
         "cancel": "Annuler",
-        "save": "Enregistrer l'adresse",
+        "save": "Enregistrer",
         "saving": "Enregistrement..."
       }
     },

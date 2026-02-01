@@ -16,6 +16,7 @@ import { formatMoney } from "../../hooks/formatMoney";
 import { HiOutlineReceiptPercent, HiOutlineTicket } from "react-icons/hi2";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function BusinessTaxDiscount() {
   const { t } = useTranslation("business");
@@ -83,6 +84,7 @@ export default function BusinessTaxDiscount() {
       });
     } finally {
       setSaving(false);
+      scrollToTopAppLayout()
     }
   };
 

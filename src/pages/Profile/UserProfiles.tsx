@@ -112,18 +112,15 @@ export default function UserProfiles() {
           <UserInfoCard setAlert={triggerAlert} />
 
           {/* --- Language Preferences --- */}
-          <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 bg-white dark:bg-white/[0.03] mt-3">
+          <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6  mt-3">
             <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">
-              {/* TRANSLATED HEADER */}
               {t("preferences.title")}
             </h4>
             <div className="max-w-xs">
               <LanguageSelector
                 value={i18n.language ? i18n.language.split("-")[0] : "en"}
                 onChange={handleLanguageChange}
-                // TRANSLATED LABEL
                 label={t("preferences.language_label")}
-                className="shadow-sm"
               />
             </div>
           </div>

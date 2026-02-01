@@ -1,14 +1,15 @@
-import { PlusIcon } from "../../icons";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineAdjustmentsHorizontal,
   HiOutlineArrowPath,
   HiOutlineXMark,
 } from "react-icons/hi2";
+import { PlusIcon } from "../../icons";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
-import { useState } from "react";
 import { Modal } from "../ui/modal";
-import { useTranslation } from "react-i18next";
+import SelectField from "../../components/form/SelectField"; 
 
 interface ClientFiltersProps {
   searchTerm: string;
@@ -25,31 +26,6 @@ interface ClientFiltersProps {
   onAdd: () => void;
   onRefresh: () => void;
 }
-
-const CustomChevron = () => (
-  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg
-      className="size-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M19 9l-7 7-7-7"
-      />
-    </svg>
-  </div>
-);
-
-const PulseDot = () => (
-  <span className="relative flex h-2 w-2 ml-1.5">
-    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
-    <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
-  </span>
-);
 
 export default function ClientFilters({
   searchTerm,
@@ -69,6 +45,7 @@ export default function ClientFilters({
   const { t } = useTranslation("client");
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
+  // --- Filter Defaults & Logic ---
   const defaults = {
     status: "active",
     type: "all",
@@ -88,70 +65,60 @@ export default function ClientFilters({
     setIsFilterModalOpen(false);
   };
 
+  // --- Options Arrays ---
+  const statusOptions = [
+    { value: "active", label: t("filters.status.active") },
+    { value: "archived", label: t("filters.status.archived") },
+  ];
+
+  const typeOptions = [
+    { value: "all", label: t("filters.type.all") },
+    { value: "Business", label: t("filters.type.business") },
+    { value: "Individual", label: t("filters.type.individual") },
+  ];
+
+  const sortOptions = [
+    { value: "name:asc", label: t("filters.sort.name_asc") },
+    { value: "name:desc", label: t("filters.sort.name_desc") },
+    { value: "createdAt:desc", label: t("filters.sort.newest") },
+    { value: "createdAt:asc", label: t("filters.sort.oldest") },
+  ];
+
+  // --- Component Block ---
   const FilterFields = () => (
     <>
-      {/* Status Filter */}
-      <div className="w-full xl:w-36">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.status_label")} {isStatusChanged && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="active">{t("filters.status.active")}</option>
-            <option value="archived">{t("filters.status.archived")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.status_label")}
+        value={statusFilter}
+        onChange={(val) => {
+          setStatusFilter(val);
+          setPage(1);
+        }}
+        options={statusOptions}
+        isActive={isStatusChanged}
+        className="w-full xl:w-36"
+      />
 
-      {/* Type Filter */}
-      <div className="w-full xl:w-40">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.type_label")} {isTypeChanged && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
-            value={typeFilter}
-            onChange={(e) => {
-              setTypeFilter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="all">{t("filters.type.all")}</option>
-            <option value="Business">{t("filters.type.business")}</option>
-            <option value="Individual">{t("filters.type.individual")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.type_label")}
+        value={typeFilter}
+        onChange={(val) => {
+          setTypeFilter(val);
+          setPage(1);
+        }}
+        options={typeOptions}
+        isActive={isTypeChanged}
+        className="w-full xl:w-40"
+      />
 
-      {/* Sort Filter */}
-      <div className="w-full xl:w-48">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.sort_label")} {isSortChanged && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
-            value={sortConfig}
-            onChange={(e) => setSortConfig(e.target.value)}
-          >
-            <option value="name:asc">{t("filters.sort.name_asc")}</option>
-            <option value="name:desc">{t("filters.sort.name_desc")}</option>
-            <option value="createdAt:desc">{t("filters.sort.newest")}</option>
-            <option value="createdAt:asc">{t("filters.sort.oldest")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.sort_label")}
+        value={sortConfig}
+        onChange={(val) => setSortConfig(val)}
+        options={sortOptions}
+        isActive={isSortChanged}
+        className="w-full xl:w-48"
+      />
     </>
   );
 
@@ -171,7 +138,7 @@ export default function ClientFilters({
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
-              className="h-10"
+              className="h-11 !bg-transparent"
             />
           </div>
 
@@ -181,7 +148,7 @@ export default function ClientFilters({
               <Button
                 variant="outline"
                 onClick={() => setIsFilterModalOpen(true)}
-                className="h-10 px-3 border-gray-200 dark:border-white/10"
+                className="h-11 px-3 border-gray-200 dark:border-white/10"
               >
                 <HiOutlineAdjustmentsHorizontal className="size-5" />
               </Button>
@@ -199,7 +166,7 @@ export default function ClientFilters({
               variant="outline"
               onClick={onRefresh}
               disabled={loading}
-              className="h-10 px-3 border-gray-200 dark:border-white/10"
+              className="h-11 px-3 border-gray-200 dark:border-white/10"
             >
               <HiOutlineArrowPath
                 className={`size-5 ${loading ? "animate-spin" : ""}`}
@@ -219,7 +186,7 @@ export default function ClientFilters({
             variant="outline"
             onClick={onRefresh}
             disabled={loading}
-            className="h-10 px-4 bg-white dark:bg-transparent"
+            className="h-11 px-4 bg-white dark:bg-transparent"
           >
             <HiOutlineArrowPath
               className={`size-5 ${loading ? "animate-spin" : ""}`}
@@ -229,7 +196,7 @@ export default function ClientFilters({
           {canManage && (
             <Button
               onClick={onAdd}
-              className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 "
+              className="h-11 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 "
             >
               <PlusIcon className="size-5 fill-current" />
               <span>{t("list.add_button")}</span>
@@ -243,7 +210,7 @@ export default function ClientFilters({
         <div className="mt-4 xl:hidden">
           <Button
             onClick={onAdd}
-            className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
+            className="w-full h-11 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
           >
             <PlusIcon className="size-4 fill-current" />
             <span>{t("list.add_button")}</span>

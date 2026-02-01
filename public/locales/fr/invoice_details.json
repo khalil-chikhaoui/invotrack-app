@@ -49,7 +49,7 @@
       "title": "Notes & Instructions",
       "edit": "Modifier",
       "placeholder": "Entrez les conditions de paiement ou des notes...",
-      "save": "Enregistrer les notes",
+      "save": "Enregistrer",
       "saving": "Enregistrement...",
       "empty": "Aucune note additionnelle fournie."
     },
@@ -83,7 +83,7 @@
     "payment": {
       "title": "Statut du paiement",
       "confirm_void": "Confirmer l'annulation",
-      "apply": "Appliquer la synchro"
+      "apply": "Appliquer"
     },
     "delivery": {
       "title": "État logistique",
@@ -105,7 +105,7 @@
       },
       "actions": {
         "cancel": "Annuler",
-        "save": "Enregistrer les modifications",
+        "save": "Enregistrer",
         "saving": "Enregistrement..."
       }
     },
@@ -114,7 +114,7 @@
       "desc": "Ajuster les dates d'émission et d'échéance de ce registre.",
       "actions": {
         "cancel": "Annuler",
-        "save": "Enregistrer les dates",
+        "save": "Enregistrer",
         "saving": "Enregistrement..."
       }
     },
@@ -123,7 +123,7 @@
       "desc": "Configurer les taux de taxe et modèles de remise pour cette facture.",
       "actions": {
         "cancel": "Annuler",
-        "apply": "Appliquer les ajustements",
+        "apply": "Appliquer",
         "calculating": "Calcul en cours..."
       }
     },

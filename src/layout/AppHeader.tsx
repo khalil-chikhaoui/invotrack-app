@@ -96,7 +96,7 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex w-full bg-white border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:16px_16px]">
+    <header className="sticky top-0 z-40 flex w-full bg-white border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900 ]">
       <div className="flex items-center justify-between w-full px-3 py-3 lg:px-6 lg:py-4">
         {/* --- Left Section: Toggle, Logo, Search --- */}
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-8">

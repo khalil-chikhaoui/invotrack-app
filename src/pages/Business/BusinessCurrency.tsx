@@ -16,6 +16,7 @@ import { CURRENCIES } from "../../hooks/currencies";
 import { formatMoney } from "../../hooks/formatMoney";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function BusinessCurrency() {
   const { t } = useTranslation("business");
@@ -60,6 +61,7 @@ export default function BusinessCurrency() {
       console.error("Critical: Failed to load business data", error);
     } finally {
       setLoading(false);
+      scrollToTopAppLayout()
     }
   };
 
@@ -258,7 +260,7 @@ export default function BusinessCurrency() {
                         }
                         className="sr-only peer"
                       />
-                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
+                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-900 dark:peer-checked:border-brand-900 dark:border-gray-700 transition-all">
                         {t("settings.currency_settings.symbol_text")} (
                         {currentSymbol})
                       </div>
@@ -273,7 +275,7 @@ export default function BusinessCurrency() {
                         }
                         className="sr-only peer"
                       />
-                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
+                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-900 dark:peer-checked:border-brand-900 dark:border-gray-700 transition-all">
                         {t("settings.currency_settings.code_text")} (
                         {currencyCode})
                       </div>
@@ -295,7 +297,7 @@ export default function BusinessCurrency() {
                         }
                         className="sr-only peer"
                       />
-                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
+                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-900 dark:peer-checked:border-brand-900 dark:border-gray-700 transition-all">
                         {t("settings.currency_settings.left")} ($100)
                       </div>
                     </label>
@@ -309,7 +311,7 @@ export default function BusinessCurrency() {
                         }
                         className="sr-only peer"
                       />
-                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
+                      <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-900 dark:peer-checked:border-brand-900 dark:border-gray-700 transition-all">
                         {t("settings.currency_settings.right")} (100$)
                       </div>
                     </label>

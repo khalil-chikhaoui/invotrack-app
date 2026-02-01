@@ -82,16 +82,16 @@
         "social_twitter": "Twitter / X",
         "social_linkedin": "LinkedIn",
         "social_instagram": "Instagram",
-        "save": "Enregistrer les modifications",
-        "save_address": "Enregistrer l'adresse",
-        "save_contact": "Enregistrer le contact",
-        "save_registry": "Enregistrer le registre",
+        "save": "Enregistrer",
+        "save_address": "Enregistrer",
+        "save_contact": "Enregistrer",
+        "save_registry": "Enregistrer",
         "cancel": "Annuler",
         "edit": "Modifier",
         "edit_identity": "Modifier l'identité",
         "saving": "Enregistrement...",
         "synchronizing": "Synchronisation...",
-        "apply_updates": "Appliquer les mises à jour"
+        "apply_updates": "Appliquer"
       },
       "cards": {
         "identity_title": "Image de marque",
@@ -198,7 +198,7 @@
       "mode_fixed": "Valeur fixe",
       "actions": {
         "updating": "Mise à jour des règles...",
-        "save": "Enregistrer les règles"
+        "save": "Enregistrer"
       },
       "loading": "Initialisation des règles fiscales...",
       "locked_title": "Accès fiscal refusé",
@@ -217,7 +217,7 @@
   "modals": {
     "remove_logo_title": "Supprimer le logo ?",
     "remove_logo_desc": "Cette action supprimera définitivement le logo et reviendra au monogramme par défaut.",
-    "confirm_remove": "Supprimer le logo"
+    "confirm_remove": "Supprimer"
   },
   "messages": {
     "BUSINESS_UPDATED": "Paramètres mis à jour avec succès.",

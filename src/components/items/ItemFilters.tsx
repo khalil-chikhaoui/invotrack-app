@@ -1,14 +1,15 @@
-import { PlusIcon } from "../../icons";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineAdjustmentsHorizontal,
   HiOutlineArrowPath,
   HiOutlineXMark,
 } from "react-icons/hi2";
+import { PlusIcon } from "../../icons";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
-import { useState } from "react";
 import { Modal } from "../ui/modal";
-import { useTranslation } from "react-i18next";
+import SelectField from "../../components/form/SelectField"; // <--- Import Helper
 
 interface ItemFiltersProps {
   searchTerm: string;
@@ -25,31 +26,6 @@ interface ItemFiltersProps {
   onAdd: () => void;
   onRefresh: () => void;
 }
-
-const CustomChevron = () => (
-  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg
-      className="size-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M19 9l-7 7-7-7"
-      />
-    </svg>
-  </div>
-);
-
-const PulseDot = () => (
-  <span className="relative flex h-2 w-2 ml-1.5">
-    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
-    <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
-  </span>
-);
 
 export default function ItemFilters({
   searchTerm,
@@ -69,6 +45,7 @@ export default function ItemFilters({
   const { t } = useTranslation("item");
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
+  // --- Defaults & Logic ---
   const defaults = {
     status: "active",
     type: "all",
@@ -88,70 +65,60 @@ export default function ItemFilters({
     setIsFilterModalOpen(false);
   };
 
+  // --- Options Arrays ---
+  const statusOptions = [
+    { value: "active", label: t("filters.status.active") },
+    { value: "archived", label: t("filters.status.archived") },
+  ];
+
+  const typeOptions = [
+    { value: "all", label: t("filters.type.all") },
+    { value: "Product", label: t("filters.type.product") },
+    { value: "Service", label: t("filters.type.service") },
+  ];
+
+  const sortOptions = [
+    { value: "name:asc", label: t("filters.sort.name_asc") },
+    { value: "name:desc", label: t("filters.sort.name_desc") },
+    { value: "price:asc", label: t("filters.sort.price_asc") },
+    { value: "price:desc", label: t("filters.sort.price_desc") },
+  ];
+
+  // --- Component Block ---
   const FilterFields = () => (
     <>
-      {/* Status */}
-      <div className="w-full xl:w-36">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.status_label")} {isStatusChanged && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="active">{t("filters.status.active")}</option>
-            <option value="archived">{t("filters.status.archived")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.status_label")}
+        value={statusFilter}
+        onChange={(val) => {
+          setStatusFilter(val);
+          setPage(1);
+        }}
+        options={statusOptions}
+        isActive={isStatusChanged}
+        className="w-full xl:w-36"
+      />
 
-      {/* Category/Type */}
-      <div className="w-full xl:w-40">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.type_label")} {isTypeChanged && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
-            value={typeFilter}
-            onChange={(e) => {
-              setTypeFilter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="all">{t("filters.type.all")}</option>
-            <option value="Product">{t("filters.type.product")}</option>
-            <option value="Service">{t("filters.type.service")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.type_label")}
+        value={typeFilter}
+        onChange={(val) => {
+          setTypeFilter(val);
+          setPage(1);
+        }}
+        options={typeOptions}
+        isActive={isTypeChanged}
+        className="w-full xl:w-40"
+      />
 
-      {/* Sorting */}
-      <div className="w-full xl:w-48">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.sort_label")} {isSortChanged && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 text-sm font-medium transition-colors"
-            value={sortConfig}
-            onChange={(e) => setSortConfig(e.target.value)}
-          >
-            <option value="name:asc">{t("filters.sort.name_asc")}</option>
-            <option value="name:desc">{t("filters.sort.name_desc")}</option>
-            <option value="price:asc">{t("filters.sort.price_asc")}</option>
-            <option value="price:desc">{t("filters.sort.price_desc")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.sort_label")}
+        value={sortConfig}
+        onChange={(val) => setSortConfig(val)}
+        options={sortOptions}
+        isActive={isSortChanged}
+        className="w-full xl:w-48"
+      />
     </>
   );
 
@@ -171,32 +138,34 @@ export default function ItemFilters({
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
-              className="h-10"
+              className="h-11 !bg-transparent"
             />
           </div>
 
           <div className="relative flex xl:hidden gap-2">
             {/* Mobile Filter Trigger */}
-            <Button
-              variant="outline"
-              onClick={() => setIsFilterModalOpen(true)}
-              className="h-10 px-3 relative border-gray-200 dark:border-white/10"
-            >
-              <HiOutlineAdjustmentsHorizontal className="size-5" />
+            <div className="relative">
+              <Button
+                variant="outline"
+                onClick={() => setIsFilterModalOpen(true)}
+                className="h-11 px-3 relative border-gray-200 dark:border-white/10"
+              >
+                <HiOutlineAdjustmentsHorizontal className="size-5" />
+              </Button>
               {hasActiveFilters && (
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-500 border-2 border-white dark:border-gray-900"></span>
                 </span>
               )}
-            </Button>
+            </div>
 
             {/* Mobile Refresh */}
             <Button
               variant="outline"
               onClick={onRefresh}
               disabled={loading}
-              className="h-10 px-3 border-gray-200 dark:border-white/10"
+              className="h-11 px-3 border-gray-200 dark:border-white/10"
             >
               <HiOutlineArrowPath
                 className={`size-5 ${loading ? "animate-spin" : ""}`}
@@ -216,7 +185,7 @@ export default function ItemFilters({
             variant="outline"
             onClick={onRefresh}
             disabled={loading}
-            className="h-10 px-4 bg-white dark:bg-transparent"
+            className="h-11 px-4 bg-white dark:bg-transparent"
           >
             <HiOutlineArrowPath
               className={`size-5 ${loading ? "animate-spin" : ""}`}
@@ -226,7 +195,7 @@ export default function ItemFilters({
           {canManage && (
             <Button
               onClick={onAdd}
-              className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm shadow-brand-500/20"
+              className="h-11 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm shadow-brand-500/20"
             >
               <PlusIcon className="size-5 fill-current" />{" "}
               {t("list.add_button")}
@@ -240,7 +209,7 @@ export default function ItemFilters({
         <div className="mt-4 xl:hidden">
           <Button
             onClick={onAdd}
-            className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
+            className="w-full h-11 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
           >
             <PlusIcon className="size-4 fill-current" /> {t("list.add_button")}
           </Button>
@@ -287,7 +256,7 @@ export default function ItemFilters({
                 <FilterFields />
               </div>
             </div>
-
+ 
             {/* Sticky Footer */}
             <div className="flex-none px-6 py-5 bg-gray-50/80 dark:bg-white/[0.02] border-t border-gray-100 dark:border-white/5 backdrop-blur-sm rounded-b-2xl">
               <div className="flex flex-col-reverse sm:flex-row items-center gap-3">

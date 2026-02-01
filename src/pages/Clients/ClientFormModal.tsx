@@ -6,6 +6,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import CountryInput from "../../components/form/input/CountryInput";
 import Label from "../../components/form/Label";
+import SelectField from "../../components/form/SelectField"; 
 import { clientApi, ClientData } from "../../apis/clients";
 import {
   HiOutlineUser,
@@ -14,7 +15,7 @@ import {
   HiChevronLeft,
   HiOutlineEnvelope,
   HiMapPin,
-  HiChevronDown,
+  // HiChevronDown removed as it's handled by SelectField
 } from "react-icons/hi2";
 import PhoneInput from "../../components/form/group-input/PhoneInput";
 
@@ -58,6 +59,12 @@ export default function ClientFormModal({
   const [errors, setErrors] = useState<{ name?: string }>({});
 
   const [formData, setFormData] = useState(INITIAL_STATE);
+
+  // Define Options for SelectField
+  const clientTypeOptions = [
+    { value: "Individual", label: t("form.options.individual") },
+    { value: "Business", label: t("form.options.business") },
+  ];
 
   // Reset form and step when modal opens
   useEffect(() => {
@@ -276,31 +283,15 @@ export default function ClientFormModal({
               </div>
 
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  {t("form.fields.classification")}
-                </Label>
-                <div className="relative">
-                  <select
-                    className="appearance-none w-full h-11 rounded-xl border border-gray-300 bg-white pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all text-sm font-normal shadow-theme-xs"
-                    value={formData.clientType}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        clientType: e.target.value as any,
-                      })
-                    }
-                  >
-                    <option value="Individual">
-                      {t("form.options.individual")}
-                    </option>
-                    <option value="Business">
-                      {t("form.options.business")}
-                    </option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-600 dark:text-gray-300">
-                    <HiChevronDown className="size-4" />
-                  </div>
-                </div>
+                {/* Replaced native Select with SelectField */}
+                <SelectField
+                  label={t("form.fields.classification")}
+                  value={formData.clientType}
+                  onChange={(val) =>
+                    setFormData({ ...formData, clientType: val as any })
+                  }
+                  options={clientTypeOptions}
+                />
               </div>
 
               <div>

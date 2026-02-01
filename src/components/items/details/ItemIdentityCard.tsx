@@ -44,6 +44,12 @@ export default function ItemIdentityCard({
     closeModal: closeDeleteModal,
   } = useModal();
 
+  const handleUploadClick = () => {
+    if (!uploading && !deleting && canManage && !item.isArchived) {
+      fileInputRef.current?.click();
+    }
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !item?._id) return;
@@ -97,79 +103,39 @@ export default function ItemIdentityCard({
 
   return (
     <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 shadow-sm relative overflow-hidden text-start">
-      <div className="absolute top-0 right-0 p-8 opacity-5">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
         <HiOutlineCube className="size-32 text-gray-400" />
       </div>
 
-      <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
-        <div
-          onClick={() =>
-            !item.isArchived &&
-            !uploading &&
-            !deleting &&
-            canManage &&
-            fileInputRef.current?.click()
-          }
-          className={`
-            relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 
-            overflow-hidden shadow-inner flex-shrink-0 group transition-all
-            ${canManage && !item.isArchived && !uploading && !deleting ? "cursor-pointer hover:ring-4 hover:ring-brand-500/10" : ""}
-          `}
-        >
-          {item.image ? (
-            <img
-              src={item.image}
-              className="w-full h-full object-cover"
-              alt={item.name}
-            />
-          ) : (
-            <HiOutlineCube className="size-12 text-gray-400" />
-          )}
-
-          {canManage && !item.isArchived && (
-            <div
-              className={`
-              absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px]
-              ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
-            `}
-            >
-              {uploading || deleting ? (
-                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <>
-                  <HiOutlineCamera className="w-6 h-6 text-white hover:scale-110 transition-transform" />
-                  {item.image && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openDeleteModal();
-                      }}
-                      type="button"
-                      className="hover:scale-110 transition-transform"
-                    >
-                      <HiOutlineTrash className="w-6 h-6 text-white" />
-                    </button>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="hidden"
-            accept="image/*"
-          />
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
+        
+        {/* --- LEFT: IMAGE (Static, Clean) --- */}
+        <div className="flex-shrink-0">
+          <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden shadow-inner">
+            {uploading ? (
+              <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+            ) : item.image ? (
+              <img
+                src={item.image}
+                className="w-full h-full object-cover"
+                alt={item.name}
+              />
+            ) : (
+              <HiOutlineCube className="size-12 text-gray-400" />
+            )}
+          </div>
         </div>
 
-        <div className="flex-1 w-full">
-          <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+        {/* --- RIGHT: INFO & ACTIONS --- */}
+        <div className="flex-1 w-full pt-1 text-center md:text-start">
+          
+          {/* Badges Row */}
+          <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
             <Badge
               color={item.itemType === "Product" ? "info" : "warning"}
               className="font-semibold text-[10px] tracking-widest px-3 uppercase"
             >
-              {/* Dynamic translation lookup based on type: "Product" -> "type_product" */}
               {t(
                 `identity_card.type_${item.itemType.toLowerCase()}` as any,
                 item.itemType,
@@ -185,23 +151,26 @@ export default function ItemIdentityCard({
             )}
           </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 mb-2">
-            <h2 className="text-3xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight leading-none">
+          {/* Name + Main Edit Button */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-tight leading-none">
               {item.name}
             </h2>
             {canManage && !item.isArchived && (
               <Button
                 size="sm"
+                variant="primary"
                 onClick={onEdit}
-                className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
+                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 shadow-lg shadow-brand-500/20"
               >
-                <HiOutlinePencilSquare className="size-4" />{" "}
+                <HiOutlinePencilSquare className="size-4" />
                 {t("identity_card.edit")}
               </Button>
             )}
           </div>
 
-          <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
+          {/* Details Grid */}
+          <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-white/5 pt-2">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
               <HiOutlineHashtag className="size-4 text-brand-500" />{" "}
               {t("identity_card.sku")}: {item.sku || "N/A"}
@@ -215,6 +184,43 @@ export default function ItemIdentityCard({
               )}
             </div>
           </div>
+
+          {/* --- IMAGE ACTIONS ROW (Consistent Inline Layout) --- */}
+          {canManage && !item.isArchived && (
+            <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept="image/*"
+              />
+              
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2 h-8 text-[10px] font-bold uppercase tracking-widest"
+                onClick={handleUploadClick}
+                disabled={uploading || deleting}
+              >
+                <HiOutlineCamera className="size-3.5" />
+                {t("identity_card.change_image", { defaultValue: "Change Image" })}
+              </Button>
+
+              {item.image && (
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 h-8 text-[10px] font-bold uppercase tracking-widest text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-700 dark:hover:text-red-300"
+                  onClick={openDeleteModal}
+                  disabled={uploading || deleting}
+                >
+                  <HiOutlineTrash className="size-3.5" />
+                  {t("identity_card.remove_image", { defaultValue: "Remove" })}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

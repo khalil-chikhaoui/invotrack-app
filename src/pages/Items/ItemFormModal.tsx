@@ -7,9 +7,9 @@ import Input from "../../components/form/input/InputField";
 import NumericInput from "../../components/form/input/NumericInput";
 import TextArea from "../../components/form/input/TextArea";
 import Label from "../../components/form/Label";
+import SelectField from "../../components/form/SelectField"; // <--- Import Helper
 import { itemApi, ItemData } from "../../apis/items";
 import {
-  HiChevronDown,
   HiOutlineCube,
   HiArrowRight,
   HiCheck,
@@ -51,6 +51,12 @@ export default function ItemFormModal({
     cost: 0,
     currentStock: 0,
   });
+
+  // --- Select Options ---
+  const itemTypeOptions = [
+    { value: "Product", label: t("form.options.product") },
+    { value: "Service", label: t("form.options.service") },
+  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -263,31 +269,15 @@ export default function ItemFormModal({
               </div>
               {!isEdit && (
                 <div>
-                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                    {t("form.fields.type")}
-                  </Label>
-                  <div className="relative">
-                    <select
-                      className="appearance-none w-full h-11 rounded-xl border border-gray-300 bg-white pl-4 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all text-sm font-normal"
-                      value={formData.itemType}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          itemType: e.target.value as any,
-                        })
-                      }
-                    >
-                      <option value="Product">
-                        {t("form.options.product")}
-                      </option>
-                      <option value="Service">
-                        {t("form.options.service")}
-                      </option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-600 dark:text-gray-300">
-                      <HiChevronDown className="size-4" />
-                    </div>
-                  </div>
+                  {/* Replaced native Select with SelectField */}
+                  <SelectField
+                    label={t("form.fields.type")}
+                    value={formData.itemType}
+                    onChange={(val) =>
+                      setFormData({ ...formData, itemType: val as any })
+                    }
+                    options={itemTypeOptions}
+                  />
                 </div>
               )}
             </div>

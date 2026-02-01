@@ -28,7 +28,7 @@
     "modal_desc": "Filtrer par date, statut ou suivi",
     "select_dates": "Sélectionner les dates",
     "pick_range": "Choisir une plage",
-    "apply": "Appliquer les filtres",
+    "apply": "Appliquer",
     "reset": "Tout réinitialiser",
     "date_ranges": {
       "all": "Tout le temps",

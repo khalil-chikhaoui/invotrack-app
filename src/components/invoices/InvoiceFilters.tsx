@@ -15,6 +15,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { Modal } from "../ui/modal";
 import { DELIVERY_STATUS_OPTIONS } from "../../apis/invoices";
+import SelectField from "../../components/form/SelectField"; // <--- Imported Helper
 
 interface InvoiceFiltersProps {
   searchTerm: string;
@@ -38,31 +39,6 @@ interface InvoiceFiltersProps {
   onRefresh: () => void;
   placeholder: string;
 }
-
-const CustomChevron = () => (
-  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg
-      className="size-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M19 9l-7 7-7-7"
-      />
-    </svg>
-  </div>
-);
-
-const PulseDot = () => (
-  <span className="relative flex h-2 w-2 ml-1.5">
-    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
-    <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
-  </span>
-);
 
 export default function InvoiceFilters({
   searchTerm,
@@ -105,8 +81,43 @@ export default function InvoiceFilters({
     setPage(1);
   };
 
+  // --- Options Definitions ---
+  const dateRangeOptions = [
+    { value: "all", label: t("filters.date_ranges.all") },
+    { value: "today", label: t("filters.date_ranges.today") },
+    { value: "lastweek", label: t("filters.date_ranges.lastweek") },
+    { value: "lastmonth", label: t("filters.date_ranges.lastmonth") },
+    { value: "custom", label: t("filters.date_ranges.custom") },
+  ];
+
+  const statusOptions = [
+    { value: "", label: t("filters.status.all") },
+    { value: "Unpaid", label: tCommon("status.open") },
+    { value: "Paid", label: tCommon("status.paid") },
+    { value: "Cancelled", label: tCommon("status.cancelled") },
+  ];
+
+  const deliveryOptions = [
+    { value: "", label: t("filters.logistics.all") },
+    ...DELIVERY_STATUS_OPTIONS.map((opt) => ({
+      value: opt,
+      label: tCommon(`status.${opt.toLowerCase()}`, { defaultValue: opt }),
+    })),
+  ];
+
+  const sortOptions = [
+    { value: "createdAt:desc", label: t("filters.sort.created_new") },
+    { value: "createdAt:asc", label: t("filters.sort.created_old") },
+    { value: "issueDate:desc", label: t("filters.sort.issued_new") },
+    { value: "issueDate:asc", label: t("filters.sort.issued_old") },
+    { value: "invoiceNumber:asc", label: t("filters.sort.number_asc") },
+    { value: "invoiceNumber:desc", label: t("filters.sort.number_desc") },
+    { value: "price:desc", label: t("filters.sort.amount_high") },
+    { value: "price:asc", label: t("filters.sort.amount_low") },
+  ];
+
+  // --- Logic for Date Picker (Flatpickr) ---
   useEffect(() => {
-    // Collect all active refs (Desktop and Mobile/Modal)
     const activeRefs = [desktopPickerRef.current, mobilePickerRef.current];
     const instances: flatpickr.Instance[] = [];
 
@@ -136,8 +147,6 @@ export default function InvoiceFilters({
         }
       });
     }
-
-    // Cleanup all instances
     return () => {
       instances.forEach((fp) => fp.destroy());
     };
@@ -145,123 +154,55 @@ export default function InvoiceFilters({
 
   const FilterFields = () => (
     <>
-      {/* Date Range Dropdown */}
-      <div className="w-full xl:w-44">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.date_range_label")} {dateRange !== "all" && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
-            value={dateRange}
-            onChange={(e) => setDateRange(e.target.value)}
-          >
-            <option value="all">{t("filters.date_ranges.all")}</option>
-            <option value="today">{t("filters.date_ranges.today")}</option>
-            <option value="lastweek">
-              {t("filters.date_ranges.lastweek")}
-            </option>
-            <option value="lastmonth">
-              {t("filters.date_ranges.lastmonth")}
-            </option>
-            <option value="custom">{t("filters.date_ranges.custom")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.date_range_label")}
+        value={dateRange}
+        onChange={(val) => setDateRange(val)}
+        options={dateRangeOptions}
+        isActive={dateRange !== "all"}
+        className="w-full xl:w-44"
+      />
 
-      {/* Invoice Status */}
-      <div className="w-full xl:w-40">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.status_label")} {statusFilter !== "" && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">{t("filters.status.all")}</option>
-            <option value="Unpaid">{tCommon("status.open")}</option>
-            <option value="Paid">{tCommon("status.paid")}</option>
-            <option value="Cancelled">{tCommon("status.cancelled")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.status_label")}
+        value={statusFilter}
+        onChange={(val) => {
+          setStatusFilter(val);
+          setPage(1);
+        }}
+        options={statusOptions}
+        isActive={statusFilter !== ""}
+        className="w-full xl:w-40"
+      />
 
-      {/* Logistics */}
-      <div className="w-full xl:w-40">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
-          {t("filters.logistics_label")} {deliveryFilter !== "" && <PulseDot />}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
-            value={deliveryFilter}
-            onChange={(e) => {
-              setDeliveryFilter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">{t("filters.logistics.all")}</option>
-            {DELIVERY_STATUS_OPTIONS.map((opt) => (
-              <option key={opt} value={opt}>
-                {tCommon(`status.${opt.toLowerCase()}`, { defaultValue: opt })}
-              </option>
-            ))}
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.logistics_label")}
+        value={deliveryFilter}
+        onChange={(val) => {
+          setDeliveryFilter(val);
+          setPage(1);
+        }}
+        options={deliveryOptions}
+        isActive={deliveryFilter !== ""}
+        className="w-full xl:w-40"
+      />
 
-      {/* Sorting */}
-      <div className="w-full xl:w-44">
-        <label className="text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
-          {t("filters.sort_label")}
-        </label>
-        <div className="relative">
-          <select
-            className="appearance-none w-full h-10 rounded-lg border border-gray-300 bg-transparent pl-3 pr-10 dark:border-gray-700 dark:bg-gray-900 dark:text-white text-sm outline-none focus:border-brand-500 transition-colors"
-            value={sortConfig}
-            onChange={(e) => setSortConfig(e.target.value)}
-          >
-            <option value="createdAt:desc">
-              {t("filters.sort.created_new")}
-            </option>
-            <option value="createdAt:asc">
-              {t("filters.sort.created_old")}
-            </option>
-            <option value="issueDate:desc">
-              {t("filters.sort.issued_new")}
-            </option>
-            <option value="issueDate:asc">
-              {t("filters.sort.issued_old")}
-            </option>
-            <option value="invoiceNumber:asc">
-              {t("filters.sort.number_asc")}
-            </option>
-            <option value="invoiceNumber:desc">
-              {t("filters.sort.number_desc")}
-            </option>
-            <option value="price:desc">{t("filters.sort.amount_high")}</option>
-            <option value="price:asc">{t("filters.sort.amount_low")}</option>
-          </select>
-          <CustomChevron />
-        </div>
-      </div>
+      <SelectField
+        label={t("filters.sort_label")}
+        value={sortConfig}
+        onChange={(val) => setSortConfig(val)}
+        options={sortOptions}
+        // Always sorting by something, so typically no 'active' dot needed unless deviating from default
+        isActive={sortConfig !== "issueDate:desc"}
+        className="w-full xl:w-44"
+      />
     </>
   );
 
   return (
     <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col gap-4">
-        {/* ========================================================
-            ROW 1: Search (Full Width) + Action Buttons 
-           ======================================================== */}
+        {/* ROW 1: Search (Full Width) + Action Buttons */}
         <div className="flex flex-col xl:flex-row gap-4 xl:items-end justify-between">
           {/* SEARCH (Expanded Width) */}
           <div className="flex-1 flex gap-2 items-end w-full">
@@ -276,17 +217,17 @@ export default function InvoiceFilters({
                   setSearchTerm(e.target.value);
                   setPage(1);
                 }}
-                className="h-10 w-full bg-white dark:bg-gray-900"
+                className="h-11 w-full !bg-transparent"
               />
             </div>
 
-            {/* Mobile Buttons (Visible only on Mobile) */}
+            {/* Mobile Buttons */}
             <div className="flex xl:hidden gap-2">
               <Button
                 variant="outline"
                 onClick={onRefresh}
                 disabled={loading}
-                className="h-10 px-1 border-gray-200 dark:border-white/10"
+                className="h-11 px-1 border-gray-200 dark:border-white/10"
               >
                 <HiOutlineArrowPath
                   className={`size-4.5 ${loading ? "animate-spin" : ""}`}
@@ -296,7 +237,7 @@ export default function InvoiceFilters({
               <Button
                 variant="outline"
                 onClick={() => setIsModalOpen(true)}
-                className="h-10 px-1 relative border-gray-200 dark:border-white/10"
+                className="h-11 px-1 relative border-gray-200 dark:border-white/10"
               >
                 <HiOutlineAdjustmentsHorizontal className="size-4.5" />
                 {hasActiveFilters && (
@@ -306,13 +247,13 @@ export default function InvoiceFilters({
             </div>
           </div>
 
-          {/* Desktop Actions (Refresh + New Invoice) */}
+          {/* Desktop Actions */}
           <div className="hidden xl:flex items-center gap-2">
             <Button
               variant="outline"
               onClick={onRefresh}
               disabled={loading}
-              className="h-10 px-3 bg-white dark:bg-transparent"
+              className="h-11 px-3 bg-white dark:bg-transparent"
             >
               <HiOutlineArrowPath
                 className={`size-5 ${loading ? "animate-spin" : ""}`}
@@ -322,7 +263,7 @@ export default function InvoiceFilters({
             {canManage && (
               <Button
                 onClick={onAdd}
-                className="h-10 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-5 "
+                className="h-11 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-5 "
               >
                 <PlusIcon className="size-5 fill-current" />
                 <span>{t("list.new_invoice")}</span>
@@ -331,9 +272,7 @@ export default function InvoiceFilters({
           </div>
         </div>
 
-        {/* ========================================================
-            ROW 2: Filters (Left) + Custom Date Input (Right)
-           ======================================================== */}
+        {/* ROW 2: Filters (Left) + Custom Date Input (Right) */}
         <div className="hidden xl:flex items-end justify-between gap-4 mt-1 relative">
           {/* Left Side: Standard Filters */}
           <div className="flex items-end gap-3 z-0">
@@ -341,7 +280,6 @@ export default function InvoiceFilters({
           </div>
 
           {/* Right Side: Custom Date Input (Float Right) */}
-          {/* IMPORTANT: Uses desktopPickerRef so logic works correctly */}
           {dateRange === "custom" && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300 z-50">
               <div className="relative w-64">
@@ -352,7 +290,7 @@ export default function InvoiceFilters({
                   <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 z-10" />
                   <input
                     ref={desktopPickerRef}
-                    className="h-10 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-900 text-xs text-gray-700 dark:text-white font-medium dark:border-gray-700 outline-none focus:border-brand-500 transition-all cursor-pointer "
+                    className="h-11 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-900 text-xs text-gray-700 dark:text-white font-medium dark:border-gray-700 outline-none focus:border-brand-500 transition-all cursor-pointer "
                     placeholder={t("filters.pick_range")}
                   />
                 </div>
@@ -366,7 +304,7 @@ export default function InvoiceFilters({
           <div className="xl:hidden">
             <Button
               onClick={onAdd}
-              className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest"
+              className="w-full h-11 flex items-center justify-center gap-2 text-[10px] font-semibold uppercase tracking-widest"
             >
               <PlusIcon className="size-4 fill-current" />
               <span>{t("list.new_invoice")}</span>
@@ -374,15 +312,14 @@ export default function InvoiceFilters({
           </div>
         )}
 
-        {/* Mobile Date Range Fallback (Hidden on Desktop) */}
-        {/* IMPORTANT: Uses mobilePickerRef */}
+        {/* Mobile Date Range Fallback */}
         {dateRange === "custom" && (
           <div className="xl:hidden flex pt-2 border-t border-gray-100 dark:border-white/5">
             <div className="relative w-full">
               <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 z-10" />
               <input
                 ref={mobilePickerRef}
-                className="h-10 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 text-xs text-gray-700 dark:text-white font-medium dark:border-gray-700 outline-none focus:border-brand-500 transition-all cursor-pointer"
+                className="h-11 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 text-xs text-gray-700 dark:text-white font-medium dark:border-gray-700 outline-none focus:border-brand-500 transition-all cursor-pointer"
                 placeholder={t("filters.pick_range")}
               />
             </div>
@@ -443,4 +380,4 @@ export default function InvoiceFilters({
       )}
     </div>
   );
-}
+} 

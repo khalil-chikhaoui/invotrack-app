@@ -427,7 +427,7 @@ export default function CreateBusiness() {
         </div>
       </nav>
 
-      <div className="flex flex-col items-center min-h-screen p-6 pt-28 bg-gray-50 dark:bg-gray-900 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:24px_24px]">
+      <div className="flex flex-col items-center min-h-screen p-6 pt-28 bg-gray-50 dark:bg-gray-900">
         <div className="w-full max-w-7xl">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight sm:text-4xl">
