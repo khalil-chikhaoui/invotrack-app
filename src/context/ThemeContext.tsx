@@ -70,7 +70,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-/**
+/** 
  * Custom hook for theme consumption.
  * @throws {Error} If used outside of a ThemeProvider.
  */

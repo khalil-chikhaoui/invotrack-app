@@ -13,7 +13,7 @@ import { HiOutlineCamera, HiOutlineTrash } from "react-icons/hi2";
 
 export default function UserMetaCard({
   setAlert,
-}: { 
+}: {
   setAlert: (alert: any) => void;
 }) {
   const { t } = useTranslation("user");
@@ -64,8 +64,11 @@ export default function UserMetaCard({
       });
     } catch (error: any) {
       const errorCode = error.message;
-      const translatedError = t(`errors.${errorCode}` as any, t("errors.UPLOAD_FAILED"));
-      
+      const translatedError = t(
+        `errors.${errorCode}` as any,
+        t("errors.UPLOAD_FAILED"),
+      );
+
       setAlert({
         type: "error",
         title: t("status.error", { defaultValue: "Error" }),
@@ -82,7 +85,7 @@ export default function UserMetaCard({
     try {
       const data = await authApi.deleteAvatar();
       login(token!, data.user);
-      
+
       setAlert({
         type: "info",
         title: t("messages.photo_removed_title"),
@@ -91,7 +94,10 @@ export default function UserMetaCard({
       closeDeleteModal();
     } catch (error: any) {
       const errorCode = error.message;
-      const translatedError = t(`errors.${errorCode}` as any, t("errors.DELETE_FAILED"));
+      const translatedError = t(
+        `errors.${errorCode}` as any,
+        t("errors.DELETE_FAILED"),
+      );
 
       setAlert({
         type: "error",
@@ -128,23 +134,33 @@ export default function UserMetaCard({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <svg className="fill-gray-400 dark:fill-gray-500" width="40" height="40" viewBox="0 0 24 24">
+                <svg
+                  className="fill-gray-400 dark:fill-gray-500"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               )}
 
               {/* Overlay */}
-              <div className={`absolute inset-0 flex items-center justify-center gap-3 transition-opacity bg-black/50 ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+              <div
+                className={`absolute inset-0 flex items-center justify-center gap-3 transition-opacity bg-black/50 ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+              >
                 {uploading || deleting ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 ) : (
                   <>
                     <div title={t("meta_card.upload_tooltip")}>
-                       <HiOutlineCamera className="w-5 h-5 text-white cursor-pointer hover:scale-110 transition-transform" />
+                      <HiOutlineCamera className="w-5 h-5 text-white cursor-pointer hover:scale-110 transition-transform" />
                     </div>
                     {user.profileImage && (
                       <button
-                        onClick={(e) => { e.stopPropagation(); openDeleteModal(); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDeleteModal();
+                        }}
                         className="group/delete"
                         type="button"
                         title={t("meta_card.delete_tooltip")}
@@ -156,7 +172,13 @@ export default function UserMetaCard({
                 )}
               </div>
 
-              <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/jpg" />
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept="image/png, image/jpeg, image/jpg"
+              />
             </div>
 
             {/* --- TEXT --- */}

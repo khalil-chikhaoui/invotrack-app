@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import InvoiceDates from "../create/InvoiceDates";
@@ -24,7 +24,7 @@ export default function EditDatesModal({
   const [dueDate, setDueDate] = useState("");
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (invoice) {
       const fmt = (d: string | Date) => new Date(d).toISOString().split("T")[0];
       setIssueDate(invoice.issueDate ? fmt(invoice.issueDate) : "");
@@ -32,7 +32,6 @@ export default function EditDatesModal({
     }
   }, [invoice, isOpen]);
 
-  // Updated to handle form event
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setSaving(true);
@@ -48,12 +47,10 @@ export default function EditDatesModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-xl">
-      {/* Wrapped the inner content in a form */}
-      <form 
+      <form
         onSubmit={handleSubmit}
         className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden"
       >
-        
         {/* Header Section */}
         <div className="px-8 pt-8 pb-4 text-center">
           <div className="w-14 h-14 mx-auto bg-brand-50 dark:bg-brand-500/10 rounded-2xl flex items-center justify-center mb-4 border border-brand-100 dark:border-brand-500/20">
@@ -70,32 +67,34 @@ export default function EditDatesModal({
         {/* Content Section */}
         <div className="px-8 pb-6">
           <div className="[&>div]:!border-0 [&>div]:!shadow-none [&>div]:!p-0 [&>div]:!bg-transparent">
-             <InvoiceDates
-                issueDate={issueDate}
-                setIssueDate={setIssueDate}
-                dueDate={dueDate}
-                setDueDate={setDueDate}
-             />
+            <InvoiceDates
+              issueDate={issueDate}
+              setIssueDate={setIssueDate}
+              dueDate={dueDate}
+              setDueDate={setDueDate}
+            />
           </div>
         </div>
 
         {/* Footer Actions */}
         <div className="px-8 py-5 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-white/[0.05] flex justify-end gap-3">
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={onClose} 
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
             disabled={saving}
             className="h-10 text-xs uppercase tracking-wider font-semibold"
           >
             {t("modals.dates.actions.cancel")}
           </Button>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             disabled={saving}
             className="h-10 px-6 text-xs uppercase tracking-wider font-semibold shadow-lg shadow-brand-500/20"
           >
-            {saving ? t("modals.dates.actions.saving") : t("modals.dates.actions.save")}
+            {saving
+              ? t("modals.dates.actions.saving")
+              : t("modals.dates.actions.save")}
           </Button>
         </div>
       </form>

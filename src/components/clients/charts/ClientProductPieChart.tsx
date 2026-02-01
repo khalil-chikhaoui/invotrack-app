@@ -1,25 +1,25 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
 import { HiChevronDown, HiOutlineShoppingBag } from "react-icons/hi2";
 import { invoiceApi, ProductStat } from "../../../apis/invoices";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { useTheme } from "../../../context/ThemeContext";
-import LoadingState from "../../common/LoadingState"; 
+import LoadingState from "../../common/LoadingState";
 
 interface ClientProductPieChartProps {
   clientId: string;
   currency?: string;
 }
 
-export default function ClientProductPieChart({ 
+export default function ClientProductPieChart({
   clientId,
   currency = "USD",
 }: ClientProductPieChartProps) {
-  const { t } = useTranslation("client_details"); // <--- Load namespace
+  const { t } = useTranslation("client_details");
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -140,9 +140,7 @@ export default function ClientProductPieChart({
   };
 
   return (
-    <div
-      className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]  flex flex-col h-full p-6"
-    >
+    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]  flex flex-col h-full p-6">
       <div className="flex justify-between items-start mb-6">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
@@ -204,7 +202,10 @@ export default function ClientProductPieChart({
 
       <div className="relative flex-1 flex items-center justify-center flex-col min-h-[280px]">
         {loading ? (
-          <LoadingState message={t("analytics.products.loading")} minHeight="full" />
+          <LoadingState
+            message={t("analytics.products.loading")}
+            minHeight="full"
+          />
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">

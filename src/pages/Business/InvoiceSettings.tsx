@@ -55,11 +55,41 @@ const PREVIEW_INVOICE: InvoiceData = {
     },
   },
   items: [
-    { itemId: "1", name: "Strategic Consulting", quantity: 10, price: 150, total: 1500 },
-    { itemId: "2", name: "UI/UX Design Phase", quantity: 1, price: 2500, total: 2500 },
-    { itemId: "3", name: "Server Maintenance", quantity: 5, price: 100, total: 500 },
-    { itemId: "4", name: "Product Design", quantity: 2, price: 250, total: 500 },
-    { itemId: "5", name: "Web Development", quantity: 6, price: 200, total: 1200 },
+    {
+      itemId: "1",
+      name: "Strategic Consulting",
+      quantity: 10,
+      price: 150,
+      total: 1500,
+    },
+    {
+      itemId: "2",
+      name: "UI/UX Design Phase",
+      quantity: 1,
+      price: 2500,
+      total: 2500,
+    },
+    {
+      itemId: "3",
+      name: "Server Maintenance",
+      quantity: 5,
+      price: 100,
+      total: 500,
+    },
+    {
+      itemId: "4",
+      name: "Product Design",
+      quantity: 2,
+      price: 250,
+      total: 500,
+    },
+    {
+      itemId: "5",
+      name: "Web Development",
+      quantity: 6,
+      price: 200,
+      total: 1200,
+    },
   ],
   subTotal: 6200,
   discountType: "percentage",
@@ -76,10 +106,17 @@ const PREVIEW_INVOICE: InvoiceData = {
   issueDate: new Date(Date.now()).toISOString(),
   createdBy: { _id: "user", name: "Admin" },
   updatedAt: new Date().toISOString(),
-  notes: "Thank you for your business! We appreciate the opportunity to work with you.",
+  notes:
+    "Thank you for your business! We appreciate the opportunity to work with you.",
 };
 
-const ResetButton = ({ onClick, label }: { onClick: () => void; label: string }) => (
+const ResetButton = ({
+  onClick,
+  label,
+}: {
+  onClick: () => void;
+  label: string;
+}) => (
   <button
     onClick={onClick}
     className="group flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-brand-500 transition-colors cursor-pointer"
@@ -91,7 +128,17 @@ const ResetButton = ({ onClick, label }: { onClick: () => void; label: string })
 );
 
 const MemoizedPDFPreview = memo(
-  ({ business, invoice, loadingText, errorText }: { business: any; invoice: any; loadingText: string; errorText: string }) => {
+  ({
+    business,
+    invoice,
+    loadingText,
+    errorText,
+  }: {
+    business: any;
+    invoice: any;
+    loadingText: string;
+    errorText: string;
+  }) => {
     return (
       <BlobProvider
         document={<InvoicePDF invoice={invoice} business={business} />}
@@ -133,8 +180,10 @@ export default function InvoiceSettings() {
   const [initialLoading, setInitialLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { alert, setAlert } = useAlert();
-  const [realBusinessData, setRealBusinessData] = useState<BusinessData | null>(null);
-  
+  const [realBusinessData, setRealBusinessData] = useState<BusinessData | null>(
+    null,
+  );
+
   const [settings, setSettings] = useState<IInvoiceSettings>({
     template: "Classic",
     color: DEFAULT_COLORS,
@@ -163,14 +212,14 @@ export default function InvoiceSettings() {
       })
       .catch((err) => {
         const errorCode = err.message;
-        setAlert({ 
-          type: "error", 
-          title: t("errors.GENERIC_ERROR"), // Or specific error title
-          message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+        setAlert({
+          type: "error",
+          title: t("errors.GENERIC_ERROR"),
+          message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
         });
       })
       .finally(() => setInitialLoading(false));
-  }, [businessId, canManageSettings, t, setAlert]); // Added dependencies
+  }, [businessId, canManageSettings, t, setAlert]);
 
   if (!canManageSettings)
     return (
@@ -195,10 +244,10 @@ export default function InvoiceSettings() {
       setTimeout(() => setAlert(null), 1500);
     } catch (error: any) {
       const errorCode = error.message;
-      setAlert({ 
-        type: "error", 
-        title: t("errors.UPDATE_FAILED"), 
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setSaving(false);
@@ -207,13 +256,16 @@ export default function InvoiceSettings() {
 
   const handleTemplateChange = (template: any) =>
     saveSettings({ ...settings, template });
-  
-  const handleColorChange = (key: "primary" | "secondary" | "accent", value: string) => {
+
+  const handleColorChange = (
+    key: "primary" | "secondary" | "accent",
+    value: string,
+  ) => {
     setSettings({ ...settings, color: { ...settings.color, [key]: value } });
   };
-  
+
   const saveColorFinal = () => saveSettings(settings);
- 
+
   const toggleVisibility = (field: keyof IInvoiceSettings["visibility"]) => {
     const newVisibility = {
       ...settings.visibility,
@@ -229,7 +281,7 @@ export default function InvoiceSettings() {
       logoSize: DEFAULT_LOGO_SIZE as "Medium",
     });
   };
-  
+
   const resetVisibility = () =>
     saveSettings({ ...settings, visibility: DEFAULT_VISIBILITY });
 
@@ -243,7 +295,12 @@ export default function InvoiceSettings() {
   }, [realBusinessData, settings]);
 
   if (initialLoading) {
-    return <LoadingState message={t("settings.invoice_design.loading_config")} minHeight="50vh" />;
+    return (
+      <LoadingState
+        message={t("settings.invoice_design.loading_config")}
+        minHeight="50vh"
+      />
+    );
   }
 
   // Helper to translate visibility keys safely
@@ -256,7 +313,7 @@ export default function InvoiceSettings() {
     <>
       <PageMeta
         title={t("settings.invoice_design.title") + " | Invotrack"}
-        description={t("settings.invoice_design.description")} // Using title as description fallback
+        description={t("settings.invoice_design.description")}
       />
       <PageBreadcrumb pageTitle={t("settings.invoice_design.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
@@ -285,7 +342,10 @@ export default function InvoiceSettings() {
                   <span
                     className={`text-sm font-semibold ${settings.template === templateName ? "text-brand-600 dark:text-brand-400" : "text-gray-600 dark:text-gray-300"}`}
                   >
-                    {t(`settings.invoice_design.templates.${templateName}` as any, templateName)}
+                    {t(
+                      `settings.invoice_design.templates.${templateName}` as any,
+                      templateName,
+                    )}
                   </span>
                   {settings.template === templateName && (
                     <HiOutlineCheckCircle className="size-5 text-brand-500" />
@@ -301,7 +361,10 @@ export default function InvoiceSettings() {
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
                 {t("settings.invoice_design.branding_title")}
               </h3>
-              <ResetButton onClick={resetBranding} label={t("settings.invoice_design.actions.reset")} />
+              <ResetButton
+                onClick={resetBranding}
+                label={t("settings.invoice_design.actions.reset")}
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -310,7 +373,9 @@ export default function InvoiceSettings() {
                   <input
                     type="color"
                     value={settings.color.primary}
-                    onChange={(e) => handleColorChange("primary", e.target.value)}
+                    onChange={(e) =>
+                      handleColorChange("primary", e.target.value)
+                    }
                     onBlur={saveColorFinal}
                     className="h-6 w-6 p-0 border-0 rounded cursor-pointer bg-transparent"
                   />
@@ -324,13 +389,15 @@ export default function InvoiceSettings() {
                 <div className="flex items-center gap-3 h-11 px-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent">
                   <input
                     type="color"
-                    value={settings.color.accent || "#bc1010"}
-                    onChange={(e) => handleColorChange("accent", e.target.value)}
+                    value={settings.color.accent}
+                    onChange={(e) =>
+                      handleColorChange("accent", e.target.value)
+                    }
                     onBlur={saveColorFinal}
                     className="h-6 w-6 p-0 border-0 rounded cursor-pointer bg-transparent"
                   />
                   <span className="text-xs font-medium uppercase text-gray-900 dark:text-white">
-                    {settings.color.accent || "#bc1010"}
+                    {settings.color.accent}
                   </span>
                 </div>
               </div>
@@ -343,7 +410,10 @@ export default function InvoiceSettings() {
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
                 {t("settings.invoice_design.fields_title")}
               </h3>
-              <ResetButton onClick={resetVisibility} label={t("settings.invoice_design.actions.reset")} />
+              <ResetButton
+                onClick={resetVisibility}
+                label={t("settings.invoice_design.actions.reset")}
+              />
             </div>
             <div className="space-y-2">
               {Object.keys(settings.visibility)
@@ -360,7 +430,9 @@ export default function InvoiceSettings() {
                       onClick={() => toggleVisibility(key as any)}
                       className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
                     >
-                      {settings.visibility[key as keyof typeof settings.visibility] ? (
+                      {settings.visibility[
+                        key as keyof typeof settings.visibility
+                      ] ? (
                         <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
                       ) : (
                         <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />

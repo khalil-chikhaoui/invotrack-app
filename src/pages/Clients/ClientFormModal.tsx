@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
@@ -40,14 +40,14 @@ const INITIAL_STATE = {
   address: { street: "", city: "", state: "", zipCode: "", country: "" },
 };
 
-export default function ClientFormModal({ 
+export default function ClientFormModal({
   isOpen,
   onClose,
   businessId,
   setAlert,
   onSuccess,
 }: ClientFormModalProps) {
-  const { t } = useTranslation("client"); // <--- Load "client" namespace
+  const { t } = useTranslation("client");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -74,8 +74,12 @@ export default function ClientFormModal({
     // --- STEP 1 VALIDATION: Identity ---
     if (step === 1) {
       if (!formData.name.trim()) {
-        setErrors({ name: t("form.errors.name_required", { defaultValue: "Client Name is required." }) });
-        return; 
+        setErrors({
+          name: t("form.errors.name_required", {
+            defaultValue: "Client Name is required.",
+          }),
+        });
+        return;
       }
       setStep(2);
     }
@@ -107,11 +111,10 @@ export default function ClientFormModal({
       setAlert({
         type: "success",
         title: t("messages.CLIENT_CREATED", { defaultValue: "Success" }),
-        message: t("messages.CLIENT_CREATED_DESC", { defaultValue: "Client registry established successfully." }),
+        message: t("messages.CLIENT_CREATED_DESC", {
+          defaultValue: "Client registry established successfully.",
+        }),
       });
-
-      // Close modal ONLY on success
-      onClose();
 
       if (onSuccess) {
         onSuccess(result);
@@ -120,13 +123,14 @@ export default function ClientFormModal({
       }
     } catch (error: any) {
       const errorCode = error.message;
-      setAlert({ 
-        type: "error", 
-        title: t("errors.GENERIC_ERROR"), 
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      setAlert({
+        type: "error",
+        title: t("errors.GENERIC_ERROR"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
+      onClose();
     }
   };
 
@@ -246,14 +250,15 @@ export default function ClientFormModal({
         <form
           onSubmit={handleSubmit}
           className="flex-1 flex flex-col relative z-10"
-          noValidate={true} 
+          noValidate={true}
         >
           {/* Step 1: Identity */}
           <div className={step === 1 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
-                  {t("form.fields.name")} <span className="text-red-500 dark:text-red-400">*</span>
+                  {t("form.fields.name")}{" "}
+                  <span className="text-red-500 dark:text-red-400">*</span>
                 </Label>
 
                 <Input
@@ -285,8 +290,12 @@ export default function ClientFormModal({
                       })
                     }
                   >
-                    <option value="Individual">{t("form.options.individual")}</option>
-                    <option value="Business">{t("form.options.business")}</option>
+                    <option value="Individual">
+                      {t("form.options.individual")}
+                    </option>
+                    <option value="Business">
+                      {t("form.options.business")}
+                    </option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-600 dark:text-gray-300">
                     <HiChevronDown className="size-4" />
@@ -442,7 +451,7 @@ export default function ClientFormModal({
           <div className="mt-auto pt-6 flex justify-end gap-4 items-center">
             {step === 1 ? (
               <Button
-                type="button" 
+                type="button"
                 variant="outline"
                 className="text-[10px] font-semibold uppercase tracking-widest px-6"
                 onClick={onClose}
@@ -451,7 +460,7 @@ export default function ClientFormModal({
               </Button>
             ) : (
               <Button
-                type="button" 
+                type="button"
                 variant="outline"
                 className="text-[10px] font-semibold uppercase tracking-widest px-6 flex items-center gap-2 group"
                 onClick={handleBack}
@@ -463,15 +472,16 @@ export default function ClientFormModal({
 
             {step < 3 ? (
               <Button
-                type="submit" 
+                type="submit"
                 onClick={handleNext}
                 className="text-[10px] font-semibold uppercase tracking-widest px-8 flex items-center gap-2 group"
               >
-                {t("form.actions.next")} <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                {t("form.actions.next")}{" "}
+                <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Button>
             ) : (
               <Button
-                type="submit" 
+                type="submit"
                 disabled={loading}
                 className="text-[10px] font-semibold uppercase tracking-widest px-8 flex items-center gap-2"
               >

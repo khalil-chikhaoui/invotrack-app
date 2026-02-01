@@ -2,7 +2,7 @@
  * @fileoverview BusinessSettings Component
  */
 
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
@@ -27,7 +27,11 @@ export default function BusinessSettings() {
   const [loading, setLoading] = useState(true);
   const { alert, setAlert } = useAlert();
 
-  const triggerAlert = (data: { type: "success" | "error" | "warning" | "info"; title: string; message: string }) => {
+  const triggerAlert = (data: {
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+    message: string;
+  }) => {
     setAlert(data);
     scrollToTopAppLayout();
   };
@@ -54,10 +58,7 @@ export default function BusinessSettings() {
 
   if (loading) {
     return (
-      <LoadingState 
-        message={t("settings.general.loading")} 
-        minHeight="50vh" 
-      />
+      <LoadingState message={t("settings.general.loading")} minHeight="50vh" />
     );
   }
 
@@ -66,7 +67,7 @@ export default function BusinessSettings() {
       <PermissionDenied
         title={t("settings.general.locked_title")}
         description={t("settings.general.locked_desc")}
-        actionText={t("create.nav.back")} // Or a specific dashboard link text
+        actionText={t("create.nav.back")}
       />
     );
   }

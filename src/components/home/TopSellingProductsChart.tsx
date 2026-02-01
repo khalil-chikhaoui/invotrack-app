@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { dashboardApi } from "../../apis/dashboard";
 import { formatMoney } from "../../hooks/formatMoney";
@@ -11,30 +11,30 @@ import { formatDate } from "date-fns";
 import { useAuth } from "../../context/AuthContext";
 import { BusinessData } from "../../apis/business";
 import ChartSkeleton from "./ChartSkeleton";
-import { useDateLocale } from "../../hooks/useDateLocale"; // <--- Import Date Locale Hook
+import { useDateLocale } from "../../hooks/useDateLocale";
 
 interface TopSellingProductsChartProps {
   dateRange: DashboardDateRange;
   business: BusinessData | null;
   loadingBusiness?: boolean;
 }
- 
+
 interface ProductStat {
   label: string;
-  value: number; 
+  value: number;
   quantity: number;
 }
 
 export default function TopSellingProductsChart({
   dateRange,
   business,
-  loadingBusiness
+  loadingBusiness,
 }: TopSellingProductsChartProps) {
-  const { t } = useTranslation("home"); // <--- Load namespace
+  const { t } = useTranslation("home");
   const { theme } = useTheme();
   const { user } = useAuth();
-  const dateLocale = useDateLocale(); // <--- Get current date locale
-   
+  const dateLocale = useDateLocale();
+
   const businessId = business?._id || user?.memberships[0]?.businessId._id;
   const isDark = theme === "dark";
   const currency = business?.currency || "USD";
@@ -49,13 +49,13 @@ export default function TopSellingProductsChart({
   useEffect(() => {
     const fetchData = async () => {
       if (!businessId) return;
-      
+
       setInternalLoading(true);
       try {
         const data = await dashboardApi.getTopSellingItems(
           businessId,
           dateRange.start,
-          dateRange.end
+          dateRange.end,
         );
         setProductData(data.stats);
       } catch (error) {
@@ -76,7 +76,11 @@ export default function TopSellingProductsChart({
   const options: ApexOptions = {
     labels: labels,
     colors: isDark ? DARK_COLORS : LIGHT_COLORS,
-    chart: { type: "donut", fontFamily: "Outfit, sans-serif", background: "transparent" },
+    chart: {
+      type: "donut",
+      fontFamily: "Outfit, sans-serif",
+      background: "transparent",
+    },
     theme: { mode: isDark ? "dark" : "light" },
     plotOptions: {
       pie: {
@@ -84,14 +88,19 @@ export default function TopSellingProductsChart({
           size: "65%",
           labels: {
             show: true,
-            name: { show: true, fontSize: "12px", color: isDark ? "#9CA3AF" : "#6B7280" },
+            name: {
+              show: true,
+              fontSize: "12px",
+              color: isDark ? "#9CA3AF" : "#6B7280",
+            },
             value: {
               show: true,
               fontSize: "18px",
               fontWeight: 700,
               color: isDark ? "#FFFFFF" : "#111827",
               offsetY: 2,
-              formatter: (val) => formatMoney(Number(val), currency, { digits: 0 }),
+              formatter: (val) =>
+                formatMoney(Number(val), currency, { digits: 0 }),
             },
             total: {
               show: true,
@@ -100,7 +109,10 @@ export default function TopSellingProductsChart({
               fontWeight: 600,
               color: isDark ? "#D1D5DB" : "#6B7280",
               formatter: function (w) {
-                const total = w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0);
+                const total = w.globals.seriesTotals.reduce(
+                  (a: number, b: number) => a + b,
+                  0,
+                );
                 return formatMoney(total, currency, { digits: 0 });
               },
             },
@@ -116,7 +128,11 @@ export default function TopSellingProductsChart({
       itemMargin: { horizontal: 10, vertical: 5 },
       labels: { colors: isDark ? "#D1D5DB" : "#374151" },
     },
-    stroke: { show: true, colors: isDark ? ["#1F2937"] : ["#ffffff"], width: 2 },
+    stroke: {
+      show: true,
+      colors: isDark ? ["#1F2937"] : ["#ffffff"],
+      width: 2,
+    },
     tooltip: {
       theme: isDark ? "dark" : "light",
       y: { formatter: (val) => formatMoney(val, currency) },
@@ -158,7 +174,13 @@ export default function TopSellingProductsChart({
           </div>
         ) : (
           <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-            <Chart options={options} series={series} type="donut" height="100%" width="100%" />
+            <Chart
+              options={options}
+              series={series}
+              type="donut"
+              height="100%"
+              width="100%"
+            />
           </div>
         )}
       </div>

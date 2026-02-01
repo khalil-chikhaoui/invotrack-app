@@ -1,14 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
 import { HiChevronDown, HiOutlineUsers } from "react-icons/hi2";
 import { invoiceApi, TopBuyerStat } from "../../../apis/invoices";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { useTheme } from "../../../context/ThemeContext";
-import LoadingState from "../../common/LoadingState"; 
+import LoadingState from "../../common/LoadingState";
 
 interface ItemTopBuyersChartProps {
   itemId: string;
@@ -17,7 +17,7 @@ interface ItemTopBuyersChartProps {
 
 export default function ItemTopBuyersChart({
   itemId,
-  currency = "USD", 
+  currency = "USD",
 }: ItemTopBuyersChartProps) {
   const { t } = useTranslation("item_details");
   const { theme } = useTheme();
@@ -34,7 +34,9 @@ export default function ItemTopBuyersChart({
   const [isYearOpen, setIsYearOpen] = useState(false);
   const [isMonthOpen, setIsMonthOpen] = useState(false);
 
-  const MONTH_NAMES = t("analytics.buyers.months_full", { returnObjects: true }) as string[];
+  const MONTH_NAMES = t("analytics.buyers.months_full", {
+    returnObjects: true,
+  }) as string[];
 
   const yearOptions = useMemo(() => {
     return availableYears.length > 0 ? availableYears : [currentYear];
@@ -67,7 +69,12 @@ export default function ItemTopBuyersChart({
     [buyersData],
   );
 
-  const series = [{ name: t("analytics.buyers.series_name"), data: buyersData.map((d) => d.value) }];
+  const series = [
+    {
+      name: t("analytics.buyers.series_name"),
+      data: buyersData.map((d) => d.value),
+    },
+  ];
 
   const options: ApexOptions = {
     colors: ["#465FFF"],
@@ -128,8 +135,8 @@ export default function ItemTopBuyersChart({
             {t("analytics.buyers.title")}
           </h3>
           <p className="text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-            {selectedYear === -1 
-              ? t("analytics.buyers.subtitle_all") 
+            {selectedYear === -1
+              ? t("analytics.buyers.subtitle_all")
               : t("analytics.buyers.subtitle_year", { year: selectedYear })}
           </p>
         </div>
@@ -190,7 +197,9 @@ export default function ItemTopBuyersChart({
               onClick={() => setIsYearOpen(!isYearOpen)}
               className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
             >
-              {selectedYear === -1 ? t("analytics.buyers.all_time") : selectedYear}
+              {selectedYear === -1
+                ? t("analytics.buyers.all_time")
+                : selectedYear}
               <HiChevronDown
                 className={`size-3 transition-transform ${isYearOpen ? "rotate-180" : ""}`}
               />
@@ -236,7 +245,10 @@ export default function ItemTopBuyersChart({
         className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? "flex items-center justify-center" : ""}`}
       >
         {loading ? (
-          <LoadingState message={t("analytics.buyers.loading")} minHeight="full" />
+          <LoadingState
+            message={t("analytics.buyers.loading")}
+            minHeight="full"
+          />
         ) : !hasData ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-xl bg-gray-50/50 dark:bg-white/[0.01]">
             <HiOutlineUsers className="size-10 text-gray-400 mb-3" />

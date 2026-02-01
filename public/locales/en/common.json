@@ -28,7 +28,7 @@
       "all_members": "All Members",
       "invite": "Invite Member"
     },
-    "workspace": { 
+    "workspace": {
       "label": "Workspace",
       "select": "Select Business"
     },
@@ -72,11 +72,20 @@
     "pending": "Pending",
     "shipped": "Shipped",
     "delivered": "Delivered",
-    "returned": "Returned" 
+    "returned": "Returned"
   },
   "actions": {
     "cancel": "Cancel",
     "back": "Back",
     "return_dashboard": "Return to Dashboard"
+  },
+  "processing": "processing",
+  "not_found": {
+    "meta_title": "404 - Page Not Found | Invotrack",
+    "meta_desc": "The page you are looking for does not exist or has been moved.",
+    "title": "ERROR",
+    "alt": "404 Error",
+    "message": "We can’t seem to find the page you are looking for!",
+    "back": "Back"
   }
 }

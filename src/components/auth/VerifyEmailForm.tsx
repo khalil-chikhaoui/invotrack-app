@@ -13,7 +13,7 @@ interface LocationState {
 }
 
 export default function VerifyEmailForm() {
-  const { t } = useTranslation("auth"); 
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
@@ -24,7 +24,7 @@ export default function VerifyEmailForm() {
   // Initialize email from navigation state if available
   const [email, setEmail] = useState(state?.email || "");
   const [code, setCode] = useState("");
-  
+
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -37,10 +37,10 @@ export default function VerifyEmailForm() {
 
     try {
       const data = await authApi.verifyEmail({ email, code });
-      
+
       // Verification successful -> Login and update context
       login(data.token, data.user);
-      
+
       // Determine redirection based on membership status
       if (data.user.memberships.length === 0) {
         navigate("/create-business");
@@ -48,11 +48,10 @@ export default function VerifyEmailForm() {
         navigate("/select-business");
       }
     } catch (err: any) {
-      // PRO ERROR HANDLING
       const errorCode = err.message;
       const translatedError = t(
-        `errors.${errorCode}` as any, 
-        t("errors.AUTH_INVALID_CODE") // Default fallback for this form
+        `errors.${errorCode}` as any,
+        t("errors.AUTH_INVALID_CODE"),
       );
       setError(translatedError);
     } finally {
@@ -72,12 +71,12 @@ export default function VerifyEmailForm() {
       await authApi.resendVerification(email);
       setSuccessMsg(t("verify_email.success_resend"));
     } catch (err: any) {
-       const errorCode = err.message;
-       const translatedError = t(
-         `errors.${errorCode}` as any, 
-         t("errors.GENERIC_ERROR")
-       );
-       setError(translatedError);
+      const errorCode = err.message;
+      const translatedError = t(
+        `errors.${errorCode}` as any,
+        t("errors.GENERIC_ERROR"),
+      );
+      setError(translatedError);
     } finally {
       setIsResending(false);
     }
@@ -102,16 +101,14 @@ export default function VerifyEmailForm() {
             {t("verify_email.title")}
           </h1>
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
-            {/* PRO TIP: Using <Trans> allows us to inject the email 
-              into the translation string where {{email}} is, 
-              and wrap it in a span (<1>) for styling.
-            */}
-            <Trans 
+            <Trans
               i18nKey="verify_email.subtitle"
               t={t}
-              values={{ email: email || "your email" }}
-              components={{ 
-                1: <span className="font-semibold text-gray-800 dark:text-gray-200" /> 
+              values={{ email }}
+              components={{
+                1: (
+                  <span className="font-semibold text-gray-800 dark:text-gray-200" />
+                ),
               }}
             />
           </p>
@@ -131,16 +128,16 @@ export default function VerifyEmailForm() {
 
           {/* Fallback: Allow user to type email if it wasn't passed via state */}
           {!state?.email && (
-             <div>
-                <Label>{t("verify_email.fallback_email_label")}</Label>
-                <Input 
-                   type="email" 
-                   value={email} 
-                   onChange={(e) => setEmail(e.target.value)} 
-                   required 
-                   placeholder={t("verify_email.fallback_email_placeholder")}
-                />
-             </div>
+            <div>
+              <Label>{t("verify_email.fallback_email_label")}</Label>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder={t("verify_email.fallback_email_placeholder")}
+              />
+            </div>
           )}
 
           <div>
@@ -149,7 +146,7 @@ export default function VerifyEmailForm() {
               type="text"
               placeholder={t("verify_email.code_placeholder")}
               value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
               className="tracking-[0.3em] text-center text-lg md:text-xl"
               required
               maxLength={6}
@@ -157,8 +154,14 @@ export default function VerifyEmailForm() {
           </div>
 
           <div className="pt-2">
-            <Button type="submit" className="w-full" disabled={isLoading || code.length < 6}>
-              {isLoading ? t("verify_email.loading") : t("verify_email.submit_button")}
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading || code.length < 6}
+            >
+              {isLoading
+                ? t("verify_email.loading")
+                : t("verify_email.submit_button")}
             </Button>
           </div>
 
@@ -169,7 +172,9 @@ export default function VerifyEmailForm() {
               disabled={isResending}
               className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-brand-400 disabled:opacity-50 transition-colors"
             >
-              {isResending ? t("verify_email.resending") : t("verify_email.resend_button")}
+              {isResending
+                ? t("verify_email.resending")
+                : t("verify_email.resend_button")}
             </button>
           </div>
         </form>

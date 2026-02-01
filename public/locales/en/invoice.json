@@ -154,6 +154,9 @@
         "save": "Update Item",
         "saving": "Saving..."
       }
-    }
+    },
+    "no_email": "No email",
+    "no_results": "No results found",
+    "change": "Change"
   }
 }

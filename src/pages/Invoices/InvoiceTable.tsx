@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import { formatDate } from "date-fns";
 import {
   InvoiceData,
   InvoicePaginationMeta,
   getInvoiceDisplayStatus,
-  STATUS_COLORS, 
+  STATUS_COLORS,
 } from "../../apis/invoices";
 import { BusinessData } from "../../apis/business";
 import { PencilIcon } from "../../icons";
@@ -19,9 +19,8 @@ import {
   TableCell,
   TableHeader,
 } from "../../components/ui/table";
-import Pagination from "../../components/common/Pagination"; 
+import Pagination from "../../components/common/Pagination";
 import LoadingState from "../../components/common/LoadingState";
-// Import the new hook
 import { useDateLocale } from "../../hooks/useDateLocale";
 
 interface InvoiceTableProps {
@@ -33,7 +32,7 @@ interface InvoiceTableProps {
   onPageChange?: (page: number) => void;
   onOpenStatus: (inv: InvoiceData) => void;
   onOpenDelivery: (inv: InvoiceData) => void;
-  showClient?: boolean; 
+  showClient?: boolean;
 }
 
 export default function InvoiceTable({
@@ -47,12 +46,11 @@ export default function InvoiceTable({
   onOpenDelivery,
   showClient = true,
 }: InvoiceTableProps) {
-  const { t } = useTranslation("invoice"); 
-  const { t: tCommon } = useTranslation("common"); 
-  
- 
+  const { t } = useTranslation("invoice");
+  const { t: tCommon } = useTranslation("common");
+
   const dateLocale = useDateLocale();
-  
+
   const navigate = useNavigate();
   const { businessId } = useParams();
 
@@ -108,19 +106,26 @@ export default function InvoiceTable({
               <TableRow>
                 <td colSpan={baseColSpan} className="p-0 border-none">
                   <div className="min-h-[300px] flex items-center justify-center">
-                     <LoadingState message={t("list.syncing")} minHeight="200px" />
+                    <LoadingState
+                      message={t("list.syncing")}
+                      minHeight="200px"
+                    />
                   </div>
                 </td>
               </TableRow>
             ) : invoices.length === 0 ? (
-               <TableRow>
+              <TableRow>
                 <td colSpan={baseColSpan} className="p-0 border-none">
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <div className="p-4 rounded-full bg-gray-50 dark:bg-white/5 mb-3">
-                       <HiOutlineInbox className="size-8 text-gray-300 dark:text-gray-600" />
+                      <HiOutlineInbox className="size-8 text-gray-300 dark:text-gray-600" />
                     </div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{t("list.empty.title")}</p>
-                    <p className="text-xs text-gray-500 mt-1">{t("list.empty.desc")}</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {t("list.empty.title")}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {t("list.empty.desc")}
+                    </p>
                   </div>
                 </td>
               </TableRow>
@@ -146,7 +151,11 @@ export default function InvoiceTable({
                           </span>
                           <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">
                             {/* Use the dateLocale from the hook */}
-                            {formatDate(new Date(inv.issueDate), "MMM do, yyyy", { locale: dateLocale })}
+                            {formatDate(
+                              new Date(inv.issueDate),
+                              "MMM do, yyyy",
+                              { locale: dateLocale },
+                            )}
                           </span>
                         </div>
                       </div>
@@ -170,7 +179,7 @@ export default function InvoiceTable({
                         {formatMoney(
                           inv.grandTotal,
                           business?.currency,
-                          business?.currencyFormat
+                          business?.currencyFormat,
                         )}
                       </span>
                     </TableCell>
@@ -189,7 +198,9 @@ export default function InvoiceTable({
                       >
                         <Badge size="sm" color={statusColor}>
                           <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                            {tCommon(`status.${displayStatus.toLowerCase()}`, { defaultValue: displayStatus })}
+                            {tCommon(`status.${displayStatus.toLowerCase()}`, {
+                              defaultValue: displayStatus,
+                            })}
                             {canManage && (
                               <PencilIcon className="size-2.5 opacity-50" />
                             )}
@@ -217,12 +228,15 @@ export default function InvoiceTable({
                             inv.deliveryStatus === "Delivered"
                               ? "success"
                               : inv.deliveryStatus === "Shipped"
-                              ? "info"
-                              : "light"
+                                ? "info"
+                                : "light"
                           }
                         >
                           <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                            {tCommon(`status.${inv.deliveryStatus.toLowerCase()}`, { defaultValue: inv.deliveryStatus })}
+                            {tCommon(
+                              `status.${inv.deliveryStatus.toLowerCase()}`,
+                              { defaultValue: inv.deliveryStatus },
+                            )}
                             {canManage && (
                               <PencilIcon className="size-2.5 opacity-50" />
                             )}

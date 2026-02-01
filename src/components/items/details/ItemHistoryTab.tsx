@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineInformationCircle,
   HiOutlineDocumentText,
@@ -19,14 +19,14 @@ interface ItemHistoryTabProps {
   onOpenDelivery: (inv: InvoiceData) => void;
   filterProps: any;
 }
- 
+
 export default function ItemHistoryTab({
   invoices,
   business,
   loading,
   canManage,
   meta,
-  setPage, 
+  setPage,
   onOpenStatus,
   onOpenDelivery,
   filterProps,
@@ -37,7 +37,6 @@ export default function ItemHistoryTab({
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-4">
-      
       {/* 1. Header */}
       <div className="px-1">
         <h3 className="font-semibold text-gray-800 dark:text-white tracking-widest text-sm md:text-md uppercase flex items-center gap-2">
@@ -47,11 +46,8 @@ export default function ItemHistoryTab({
 
       {/* 2. THE MASTER CARD */}
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
-        
-        {/* A. Filters */}
         <InvoiceFilters placeholder="Invoice # ..." {...filterProps} />
 
-        {/* B. Content Area */}
         {showTable ? (
           <InvoiceTable
             invoices={invoices}
@@ -64,13 +60,13 @@ export default function ItemHistoryTab({
             onOpenDelivery={onOpenDelivery}
           />
         ) : (
-          /* C. Custom Empty State (Preserved Logic) */
+          /* Empty State  */
           <div className="flex flex-col items-center justify-center py-20 bg-gray-50/30 dark:bg-white/[0.01]">
             <div className="p-4 rounded-full bg-gray-100 dark:bg-white/5 mb-3">
               <HiOutlineInformationCircle className="size-8 text-gray-300 dark:text-gray-600" />
             </div>
             <p className="text-xs font-semibold text-center text-gray-400 uppercase tracking-widest">
-              {filterProps.statusFilter 
+              {filterProps.statusFilter
                 ? t("history_tab.empty_filter")
                 : t("history_tab.empty_item")}
             </p>

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-// Import Flatpickr Locales
 import { French } from "flatpickr/dist/l10n/fr.js";
 import { German } from "flatpickr/dist/l10n/de.js";
 
@@ -122,7 +121,6 @@ export default function InvoiceFilters({
             mode: "range",
             dateFormat: "M d, Y",
             locale: locale,
-            // Removed 'static: true' so it floats correctly as a popup
             defaultDate:
               startDate && endDate
                 ? [startDate, endDate]
@@ -261,12 +259,10 @@ export default function InvoiceFilters({
   return (
     <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col gap-4">
-        
         {/* ========================================================
             ROW 1: Search (Full Width) + Action Buttons 
            ======================================================== */}
         <div className="flex flex-col xl:flex-row gap-4 xl:items-end justify-between">
-          
           {/* SEARCH (Expanded Width) */}
           <div className="flex-1 flex gap-2 items-end w-full">
             <div className="flex-1 w-full">
@@ -339,7 +335,6 @@ export default function InvoiceFilters({
             ROW 2: Filters (Left) + Custom Date Input (Right)
            ======================================================== */}
         <div className="hidden xl:flex items-end justify-between gap-4 mt-1 relative">
-          
           {/* Left Side: Standard Filters */}
           <div className="flex items-end gap-3 z-0">
             <FilterFields />
@@ -349,7 +344,7 @@ export default function InvoiceFilters({
           {/* IMPORTANT: Uses desktopPickerRef so logic works correctly */}
           {dateRange === "custom" && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300 z-50">
-               <div className="relative w-64">
+              <div className="relative w-64">
                 <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
                   {t("filters.select_dates")}
                 </label>

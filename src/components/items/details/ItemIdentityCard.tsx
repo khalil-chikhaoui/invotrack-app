@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineCube,
   HiOutlineHashtag,
@@ -28,7 +28,7 @@ interface ItemIdentityCardProps {
 export default function ItemIdentityCard({
   item,
   business,
-  canManage, 
+  canManage,
   onEdit,
   refresh,
   setAlert,
@@ -170,7 +170,10 @@ export default function ItemIdentityCard({
               className="font-semibold text-[10px] tracking-widest px-3 uppercase"
             >
               {/* Dynamic translation lookup based on type: "Product" -> "type_product" */}
-              {t(`identity_card.type_${item.itemType.toLowerCase()}` as any, item.itemType)}
+              {t(
+                `identity_card.type_${item.itemType.toLowerCase()}` as any,
+                item.itemType,
+              )}
             </Badge>
             {item.isArchived && (
               <Badge
@@ -192,15 +195,16 @@ export default function ItemIdentityCard({
                 onClick={onEdit}
                 className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
               >
-                <HiOutlinePencilSquare className="size-4" /> {t("identity_card.edit")}
+                <HiOutlinePencilSquare className="size-4" />{" "}
+                {t("identity_card.edit")}
               </Button>
             )}
           </div>
 
           <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
-              <HiOutlineHashtag className="size-4 text-brand-500" /> {t("identity_card.sku")}:{" "}
-              {item.sku || "N/A"}
+              <HiOutlineHashtag className="size-4 text-brand-500" />{" "}
+              {t("identity_card.sku")}: {item.sku || "N/A"}
             </div>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
               <HiOutlineTag className="size-4 text-brand-500" />{" "}

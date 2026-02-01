@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import {
@@ -32,7 +32,7 @@ export default function EditItemModal({
   currency,
   currencyFormat,
 }: EditItemModalProps) {
-  const { t } = useTranslation("invoice"); // <--- Load namespace
+  const { t } = useTranslation("invoice");
   const [formData, setFormData] = useState({
     quantity: "",
     price: "",
@@ -126,7 +126,7 @@ export default function EditItemModal({
           <div className="p-4 rounded-xl border border-gray-100 dark:border-white/5 ">
             <div className="flex items-center gap-2 mb-3">
               <HiOutlineLockClosed className="size-3 text-gray-500 dark:text-gray-300" />
-              <Label className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 !mb-0 font-medium">
+              <Label className="text-[10px] uppercase  text-gray-500 dark:text-gray-300 !mb-0 font-medium">
                 {t("create.item_manager.modals.internal_costing")}
               </Label>
             </div>
@@ -178,7 +178,9 @@ export default function EditItemModal({
               {t("status_modal.actions.cancel")}
             </Button>
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? t("create.item_manager.modals.saving") : t("create.item_manager.modals.save")}
+              {loading
+                ? t("create.item_manager.modals.saving")
+                : t("create.item_manager.modals.save")}
             </Button>
           </div>
         </form>

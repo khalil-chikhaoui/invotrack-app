@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import { InvoiceData } from "../../../apis/invoices";

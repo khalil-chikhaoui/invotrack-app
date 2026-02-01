@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import {
   HiOutlineInformationCircle,
   HiOutlineArchiveBoxXMark,

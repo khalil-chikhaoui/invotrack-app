@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next"; 
 import { businessApi, BusinessData } from "../../apis/business";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
@@ -18,7 +18,7 @@ import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 
 export default function BusinessTaxDiscount() {
-  const { t } = useTranslation("business"); // <--- Load "business" namespace
+  const { t } = useTranslation("business");
   const { businessId } = useParams();
   const { canManageSettings } = usePermissions();
 
@@ -88,7 +88,10 @@ export default function BusinessTaxDiscount() {
 
   if (loading) {
     return (
-      <LoadingState message={t("settings.tax_discount.loading")} minHeight="50vh" />
+      <LoadingState
+        message={t("settings.tax_discount.loading")}
+        minHeight="50vh"
+      />
     );
   }
 
@@ -180,8 +183,14 @@ export default function BusinessTaxDiscount() {
                     <Label>{t("settings.tax_discount.mode_label")}</Label>
                     <Select
                       options={[
-                        { value: "percentage", label: t("settings.tax_discount.mode_percentage") },
-                        { value: "fixed", label: t("settings.tax_discount.mode_fixed") },
+                        {
+                          value: "percentage",
+                          label: t("settings.tax_discount.mode_percentage"),
+                        },
+                        {
+                          value: "fixed",
+                          label: t("settings.tax_discount.mode_fixed"),
+                        },
                       ]}
                       onChange={(val) => setDiscountType(val as any)}
                       defaultValue={discountType}
@@ -192,11 +201,13 @@ export default function BusinessTaxDiscount() {
 
               <div className="pt-6 flex justify-end border-t border-gray-100 dark:border-gray-800">
                 <Button
-                  type="submit" 
+                  type="submit"
                   disabled={saving}
                   className="shadow-lg shadow-brand-500/20"
                 >
-                  {saving ? t("settings.tax_discount.actions.updating") : t("settings.tax_discount.actions.save")}
+                  {saving
+                    ? t("settings.tax_discount.actions.updating")
+                    : t("settings.tax_discount.actions.save")}
                 </Button>
               </div>
             </form>
@@ -211,12 +222,16 @@ export default function BusinessTaxDiscount() {
                 {t("settings.tax_discount.sandbox.title")}
               </h3>
               <p className="text-sm text-gray-500 mb-6 italic">
-                {t("settings.tax_discount.sandbox.desc", { amount: formattedSample })}
+                {t("settings.tax_discount.sandbox.desc", {
+                  amount: formattedSample,
+                })}
               </p>
 
               <div className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500 font-medium">{t("settings.tax_discount.sandbox.subtotal")}</span>
+                  <span className="text-gray-500 font-medium">
+                    {t("settings.tax_discount.sandbox.subtotal")}
+                  </span>
                   <span className="font-semibold text-gray-800 dark:text-white">
                     {formatMoney(
                       sampleSubtotal,

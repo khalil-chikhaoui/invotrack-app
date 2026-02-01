@@ -8,9 +8,9 @@ export default function SignUp() {
 
   return (
     <>
-      <PageMeta 
-        title={t("signup.meta.title")} 
-        description={t("signup.meta.description")} 
+      <PageMeta
+        title={t("signup.meta.title")}
+        description={t("signup.meta.description")}
       />
       <AuthLayout>
         <SignUpForm />

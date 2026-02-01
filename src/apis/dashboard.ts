@@ -4,7 +4,8 @@
  * and chart visualizations for the main dashboard.
  */
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 const BASE_URL = `${API_ROOT}/dashboard-stats`;
 
@@ -31,7 +32,7 @@ export interface DashboardStatsResponse {
   invoices: DashboardMetric;
   clients: DashboardMetric;
   meta: {
-    compareStart: string; 
+    compareStart: string;
     compareEnd: string;
   };
 }
@@ -59,11 +60,11 @@ export interface TopItemsResponse {
 /**
  * Data structure for Delivery Stats.
  */
-export interface DeliveryStatsResponse { 
-  Pending: number; 
-  Shipped: number; 
-  Delivered: number; 
-  Returned: number; 
+export interface DeliveryStatsResponse {
+  Pending: number;
+  Shipped: number;
+  Delivered: number;
+  Returned: number;
 }
 
 export interface ProfitStat {
@@ -102,9 +103,9 @@ export const dashboardApi = {
    * Fetches the 4 Key Cards (Revenue, Profit, Invoices, Clients).
    */
   getStats: async (
-    businessId: string, 
-    startDate: Date, 
-    endDate: Date
+    businessId: string,
+    startDate: Date,
+    endDate: Date,
   ): Promise<DashboardStatsResponse> => {
     const url = new URL(`${BASE_URL}/stats`);
     url.searchParams.append("businessId", businessId);
@@ -117,7 +118,8 @@ export const dashboardApi = {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch dashboard stats");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch dashboard stats");
     return data;
   },
 
@@ -125,9 +127,9 @@ export const dashboardApi = {
    * Fetches the Revenue vs Profit Chart Data.
    */
   getChartData: async (
-    businessId: string, 
-    startDate: Date, 
-    endDate: Date
+    businessId: string,
+    startDate: Date,
+    endDate: Date,
   ): Promise<DashboardChartPoint[]> => {
     const url = new URL(`${BASE_URL}/chart`);
     url.searchParams.append("businessId", businessId);
@@ -140,7 +142,8 @@ export const dashboardApi = {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch chart data");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch chart data");
     return data;
   },
 
@@ -150,7 +153,7 @@ export const dashboardApi = {
   getTopSellingItems: async (
     businessId: string,
     startDate: Date,
-    endDate: Date
+    endDate: Date,
   ): Promise<TopItemsResponse> => {
     const url = new URL(`${BASE_URL}/top-items`);
     url.searchParams.append("businessId", businessId);
@@ -163,17 +166,16 @@ export const dashboardApi = {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch top items");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch top items");
     return data;
   },
 
-
   getDeliveryStats: async (
-    businessId: string, 
-    startDate: Date, 
-    endDate: Date
+    businessId: string,
+    startDate: Date,
+    endDate: Date,
   ): Promise<DeliveryStatsResponse> => {
-    
     const url = new URL(`${BASE_URL}/delivery`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());
@@ -185,16 +187,16 @@ export const dashboardApi = {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch delivery stats");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch delivery stats");
     return data;
   },
 
   getClientProfitability: async (
-    businessId: string, 
-    startDate: Date, 
-    endDate: Date
+    businessId: string,
+    startDate: Date,
+    endDate: Date,
   ): Promise<ClientProfitResponse> => {
-    
     const url = new URL(`${BASE_URL}/client-profitability`);
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("startDate", startDate.toISOString());
@@ -206,7 +208,8 @@ export const dashboardApi = {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch profit stats");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch profit stats");
     return data;
   },
 };

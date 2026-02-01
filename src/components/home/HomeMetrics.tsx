@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import {
   HiOutlineBanknotes,
   HiOutlineUserGroup,
@@ -14,7 +14,7 @@ import { DashboardDateRange } from "./HomeHeader";
 import { dashboardApi, DashboardStatsResponse } from "../../apis/dashboard";
 import { formatMoney } from "../../hooks/formatMoney";
 import { BusinessData } from "../../apis/business";
- 
+
 function MetricSkeleton() {
   return (
     <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white px-5 py-8 md:p-5  dark:border-white/[0.05] dark:bg-gray-900 animate-pulse h-full">
@@ -45,7 +45,7 @@ export default function HomeMetrics({
   business,
   loadingBusiness,
 }: HomeMetricsProps) {
-  const { t } = useTranslation("home"); // <--- Load namespace
+  const { t } = useTranslation("home"); 
   const { businessId } = useParams();
 
   const [stats, setStats] = useState<DashboardStatsResponse | null>(null);
@@ -60,7 +60,7 @@ export default function HomeMetrics({
         const data = await dashboardApi.getStats(
           businessId,
           dateRange.start,
-          dateRange.end
+          dateRange.end,
         );
         setStats(data);
       } catch (error) {
@@ -80,11 +80,11 @@ export default function HomeMetrics({
     const currentYear = new Date().getFullYear();
     const formatStr =
       start.getFullYear() === currentYear ? "MMM dd" : "dd.MM.yy";
-      
+
     // Translated comparison string
-    return t("metrics.comparison", { 
-      start: formatDate(start, formatStr), 
-      end: formatDate(end, formatStr) 
+    return t("metrics.comparison", {
+      start: formatDate(start, formatStr),
+      end: formatDate(end, formatStr),
     });
   };
 
@@ -95,7 +95,7 @@ export default function HomeMetrics({
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-[180px]"> 
+          <div key={i} className="h-[180px]">
             <MetricSkeleton />
           </div>
         ))}
@@ -112,7 +112,7 @@ export default function HomeMetrics({
       value: formatMoney(
         stats.revenue.value,
         business.currency,
-        business.currencyFormat
+        business.currencyFormat,
       ),
       metric: stats.revenue,
       icon: HiOutlineBanknotes,
@@ -126,7 +126,7 @@ export default function HomeMetrics({
       value: formatMoney(
         stats.profit.value,
         business.currency,
-        business.currencyFormat
+        business.currencyFormat,
       ),
       metric: stats.profit,
       icon: HiOutlineTrendingUp,
@@ -181,7 +181,7 @@ export default function HomeMetrics({
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-2 flex-wrap" >
+          <div className="flex items-center justify-between gap-2 flex-wrap">
             <div
               className={`inline-flex items-center gap-0.5 rounded-full px-2 py-1 text-xs font-semibold ${
                 item.metric.isPositive

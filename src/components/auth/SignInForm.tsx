@@ -30,23 +30,14 @@ export default function SignInForm() {
       login(data.token, data.user);
       navigate("/select-business");
     } catch (err: any) {
-      // The backend now sends a code like "AUTH_INVALID_CREDENTIALS"
       const errorCode = err.message;
- 
+
       // --- 1. HANDLE VERIFICATION REDIRECT ---
-      // This logic is now rock-solid because it checks a specific code
       if (errorCode === "AUTH_NOT_VERIFIED") {
         navigate("/verify-email", { state: { email } });
-        return; 
+        return;
       }
-
-      // --- 2. TRANSLATE ERROR ---
-      // We look for the code in our translation file.
-      // If the code isn't found (e.g. server crash), fallback to generic error.
-      const translatedError = t(
-        `errors.${errorCode}` as any, 
-       
-      );      
+      const translatedError = t(`errors.${errorCode}` as any);
       setError(translatedError);
     } finally {
       setIsLoading(false);
@@ -79,7 +70,8 @@ export default function SignInForm() {
               {/* Email Input */}
               <div>
                 <Label>
-                  {t("signin.email_label")} <span className="text-error-500">*</span>
+                  {t("signin.email_label")}{" "}
+                  <span className="text-error-500">*</span>
                 </Label>
                 <Input
                   type="email"
@@ -94,7 +86,8 @@ export default function SignInForm() {
               {/* Password Input */}
               <div>
                 <Label>
-                  {t("signin.password_label")} <span className="text-error-500">*</span>
+                  {t("signin.password_label")}{" "}
+                  <span className="text-error-500">*</span>
                 </Label>
                 <div className="relative">
                   <Input

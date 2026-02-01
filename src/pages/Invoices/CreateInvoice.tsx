@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { clientApi, ClientData } from "../../apis/clients";
 import { itemApi, ItemData } from "../../apis/items";
 import { invoiceApi } from "../../apis/invoices";
@@ -20,13 +20,13 @@ import InvoiceNotes from "../../components/invoices/create/InvoiceNotes";
 import InvoiceDates from "../../components/invoices/create/InvoiceDates";
 import InvoiceTaxDiscount from "../../components/invoices/create/InvoiceTaxDiscount";
 import InvoiceSummary from "../../components/invoices/create/InvoiceSummary";
-import EditItemModal from "../../components/invoices/details/EditItemModal"; 
+import EditItemModal from "../../components/invoices/details/EditItemModal";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { scrollToTopAppLayout } from "../../layout/AppLayout";
 import LoadingState from "../../components/common/LoadingState";
 
 export default function CreateInvoice() {
-  const { t } = useTranslation("invoice"); // <--- Load namespace
+  const { t } = useTranslation("invoice");
   const { businessId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,7 +59,7 @@ export default function CreateInvoice() {
 
   const [clientSearch, setClientSearch] = useState("");
 
-  const [selectedItem, setSelectedItem] = useState<any>(null); 
+  const [selectedItem, setSelectedItem] = useState<any>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const clientModal = useModal();
@@ -76,8 +76,8 @@ export default function CreateInvoice() {
       try {
         const [biz, cls, its] = await Promise.all([
           businessApi.getBusiness(businessId),
-          clientApi.getClients(businessId, { limit: 20 }), 
-          itemApi.getItems(businessId, { limit: 20 }),   
+          clientApi.getClients(businessId, { limit: 20 }),
+          itemApi.getItems(businessId, { limit: 20 }),
         ]);
 
         setBusiness(biz);
@@ -96,7 +96,11 @@ export default function CreateInvoice() {
           }
         }
       } catch (err) {
-        setAlert({ type: "error", title: t("errors.GENERIC_ERROR"), message: "Failed to load builder data." });
+        setAlert({
+          type: "error",
+          title: t("errors.GENERIC_ERROR"),
+          message: "Failed to load builder data.",
+        });
       } finally {
         setInitialLoading(false);
       }
@@ -110,7 +114,7 @@ export default function CreateInvoice() {
       <PermissionDenied
         title={t("errors.ACCESS_RESTRICTED")}
         description={t("errors.ACCESS_RESTRICTED_DESC")}
-        actionText={t("create.actions.back")} 
+        actionText={t("create.actions.back")}
       />
     );
   }
@@ -144,7 +148,7 @@ export default function CreateInvoice() {
         costPrice: item.cost,
         sku: item.sku,
       });
-      setEditingIndex(null); 
+      setEditingIndex(null);
     }
     editItemModal.openModal();
   };
@@ -163,7 +167,7 @@ export default function CreateInvoice() {
 
     if (editingIndex !== null) {
       setInvoiceItems((prev) => {
-        const newArr = [...prev]; 
+        const newArr = [...prev];
         newArr[editingIndex] = {
           ...newArr[editingIndex],
           quantity,
@@ -196,7 +200,7 @@ export default function CreateInvoice() {
     setClients((prev) => [newClient, ...prev]);
     setSelectedClient(newClient);
     setClientSearch("");
-  }; 
+  };
 
   const handleQuickItemSuccess = (newItem: ItemData) => {
     setAvailableItems((prev) => [newItem, ...prev]);
@@ -210,7 +214,7 @@ export default function CreateInvoice() {
         title: "Missing Data",
         message: "Please select a client and add at least one item.",
       });
-       scrollToTopAppLayout();
+      scrollToTopAppLayout();
       return;
     }
 
@@ -219,14 +223,14 @@ export default function CreateInvoice() {
       const clientId = selectedClient._id || (selectedClient as any).clientId;
       const payload = {
         businessId,
-       clientSnapshot: { 
+        clientSnapshot: {
           clientId: clientId,
           name: selectedClient.name,
           email: selectedClient.email,
           address: selectedClient.address,
-          phone: selectedClient.phone 
+          phone: selectedClient.phone,
         },
-        items: invoiceItems, 
+        items: invoiceItems,
         issueDate,
         dueDate,
         notes,
@@ -250,28 +254,23 @@ export default function CreateInvoice() {
   };
 
   if (initialLoading) {
-    return (
-      <LoadingState
-        message={t("create.loading")}
-        minHeight="60vh" 
-      />
-    );
+    return <LoadingState message={t("create.loading")} minHeight="60vh" />;
   }
- 
+
   return (
     <>
       <PageMeta
         description={t("create.meta_desc")}
         title={`${t("create.title")} | Invotrack`}
       />
-     <button
-        onClick={()=> navigate(-1)}
+      <button
+        onClick={() => navigate(-1)}
         className="flex items-center mt-2 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" /> {t("create.actions.back")}
       </button>
-      <div className="mt-4"/>
-      <PageBreadcrumb  pageTitle={t("create.breadcrumb")} />
+      <div className="mt-4" />
+      <PageBreadcrumb pageTitle={t("create.breadcrumb")} />
 
       <div className="px-2 sm:px-6 pb-20 space-y-4">
         <CustomAlert data={alert} onClose={() => setAlert(null)} />

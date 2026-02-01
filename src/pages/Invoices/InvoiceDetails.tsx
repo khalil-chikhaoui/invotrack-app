@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react"; 
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
 import { pdf } from "@react-pdf/renderer";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import {
   invoiceApi,
   InvoiceData,
@@ -33,38 +33,37 @@ import ItemFormModal from "../Items/ItemFormModal";
 import EditTaxDiscountModal from "../../components/invoices/details/EditTaxDiscountModal";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import LoadingState from "../../components/common/LoadingState";
-import { HiOutlineChartPie, HiOutlineDocumentText } from "react-icons/hi"; 
+import { HiOutlineChartPie, HiOutlineDocumentText } from "react-icons/hi";
 import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function InvoiceDetails() {
-  const { t } = useTranslation("invoice_details"); // <--- Load namespace
+  const { t } = useTranslation("invoice_details");
   const { businessId, id: invoiceId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { canManage, canViewFinancials } = usePermissions();
-  const { alert, setAlert } = useAlert(); 
+  const { alert, setAlert } = useAlert();
 
   const [invoice, setInvoice] = useState<InvoiceData | null>(null);
   const [business, setBusiness] = useState<BusinessData | null>(null);
   const [availableItems, setAvailableItems] = useState<ItemData[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [activeTab, setActiveTab] = useState<"general" | "stats">("general");
 
- const TABS = [
-    { 
-      id: "general", 
+  const TABS = [
+    {
+      id: "general",
       label: t("tabs.general"),
-      icon: <HiOutlineDocumentText  className="size-5" />
+      icon: <HiOutlineDocumentText className="size-5" />,
     },
-    { 
-      id: "stats", 
+    {
+      id: "stats",
       label: t("tabs.stats"),
-      icon: <HiOutlineChartPie className="size-5" />
+      icon: <HiOutlineChartPie className="size-5" />,
     },
   ];
-
 
   const statusModal = useModal();
   const deliveryModal = useModal();
@@ -102,7 +101,11 @@ export default function InvoiceDetails() {
       setTempStatus(getInvoiceDisplayStatus(invData));
       setTempDelivery(invData.deliveryStatus);
     } catch (error: any) {
-      setAlert({ type: "error", title: t("messages.SYNC_ERROR"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("messages.SYNC_ERROR"),
+        message: error.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -120,14 +123,12 @@ export default function InvoiceDetails() {
     }
   };
 
-  // --- SMART SCROLL EFFECT ---
   // Whenever 'alert' changes and is not null, scroll to top
   useEffect(() => {
     if (alert) {
       scrollToTopAppLayout();
     }
   }, [alert]);
-
 
   const areIdsEqual = (id1: any, id2: any) => String(id1) === String(id2);
 
@@ -205,10 +206,18 @@ export default function InvoiceDetails() {
 
       await invoiceApi.updateInvoice(invoice._id, { items: currentItems });
 
-      setAlert({ type: "success", title: "Saved", message: t("messages.LEDGER_UPDATED") });
+      setAlert({
+        type: "success",
+        title: "Saved",
+        message: t("messages.LEDGER_UPDATED"),
+      });
       fetchData();
     } catch (e: any) {
-      setAlert({ type: "error", title: t("errors.FAILED"), message: e.message });
+      setAlert({
+        type: "error",
+        title: t("errors.FAILED"),
+        message: e.message,
+      });
     }
   };
   const handleDeleteItem = (targetItemId: string) => {
@@ -234,7 +243,11 @@ export default function InvoiceDetails() {
       setIsConfirmDeleteOpen(false);
       setItemToDelete(null);
     } catch (error: any) {
-      setAlert({ type: "error", title: t("errors.FAILED"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("errors.FAILED"),
+        message: error.message,
+      });
     } finally {
       setIsDeletingItem(false);
     }
@@ -256,7 +269,11 @@ export default function InvoiceDetails() {
       });
       setInvoice({ ...invoice, notes: newNotes });
     } catch (e: any) {
-      setAlert({ type: "error", title: t("errors.FAILED"), message: e.message });
+      setAlert({
+        type: "error",
+        title: t("errors.FAILED"),
+        message: e.message,
+      });
     }
   };
 
@@ -313,7 +330,11 @@ export default function InvoiceDetails() {
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: e.message });
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: e.message,
+      });
     } finally {
       setUpdating(false);
     }
@@ -408,12 +429,7 @@ export default function InvoiceDetails() {
   }, [activeTab]);
 
   if (loading && !invoice) {
-    return (
-      <LoadingState
-        message={t("loading")} 
-        minHeight="60vh" 
-      />
-    );
+    return <LoadingState message={t("loading")} minHeight="60vh" />;
   }
 
   if (!canViewFinancials) {
@@ -458,7 +474,7 @@ export default function InvoiceDetails() {
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <InvoiceIdentityCard 
+      <InvoiceIdentityCard
         invoice={invoice}
         business={business}
         canManage={canManage}
@@ -480,7 +496,7 @@ export default function InvoiceDetails() {
                 : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
             }`}
           >
-             {tab.icon} {tab.label}
+            {tab.icon} {tab.label}
             {activeTab === tab.id && (
               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-500 dark:bg-brand-300 rounded-full" />
             )}
@@ -542,7 +558,11 @@ export default function InvoiceDetails() {
         invoice={invoice}
         onSave={async (d) => {
           await invoiceApi.updateClientSnapshot(invoice._id, d);
-          setAlert({ type: "success", title: "Success", message: t("messages.CLIENT_UPDATED") });
+          setAlert({
+            type: "success",
+            title: "Success",
+            message: t("messages.CLIENT_UPDATED"),
+          });
           fetchData();
         }}
       />
@@ -553,7 +573,7 @@ export default function InvoiceDetails() {
         onSave={handleItemModalSave}
         currency={business?.currency}
         currencyFormat={business?.currencyFormat}
-      /> 
+      />
       <EditDatesModal
         isOpen={dateEditModal.isOpen}
         onClose={dateEditModal.closeModal}
@@ -568,7 +588,7 @@ export default function InvoiceDetails() {
         refresh={() => {}}
         setAlert={setAlert}
         item={null}
-      /> 
+      />
       <EditTaxDiscountModal
         isOpen={taxModal.isOpen}
         onClose={taxModal.closeModal}

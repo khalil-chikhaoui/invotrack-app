@@ -73,7 +73,6 @@ export default function Pagination({
 
         {/* Right: Controls */}
         <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2">
-          
           {/* Mobile Previous Button (Larger touch target) */}
           <button
             type="button"
@@ -134,8 +133,8 @@ export default function Pagination({
                     typeof pageNum !== "number"
                       ? "cursor-default text-gray-400 dark:text-gray-600"
                       : currentPage === pageNum
-                      ? "bg-brand-500 text-white shadow-md shadow-brand-500/25 scale-105"
-                      : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white hover:scale-110 active:scale-95"
+                        ? "bg-brand-500 text-white shadow-md shadow-brand-500/25 scale-105"
+                        : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white hover:scale-110 active:scale-95"
                   }
                 `}
               >

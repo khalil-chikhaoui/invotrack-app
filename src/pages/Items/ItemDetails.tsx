@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { itemApi, ItemData } from "../../apis/items";
 import {
   invoiceApi,
@@ -16,7 +16,7 @@ import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
- 
+
 // Sub-Modals
 import ItemFormModal from "../Items/ItemFormModal";
 import StockInjectModal from "../Items/StockInjectModal";
@@ -38,7 +38,7 @@ import {
 } from "react-icons/hi";
 
 export default function ItemDetails() {
-  const { t } = useTranslation("item_details"); // <--- Load namespace
+  const { t } = useTranslation("item_details");
   const { businessId, id: itemId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,10 +115,10 @@ export default function ItemDetails() {
     else navigate(`/business/${businessId}/items`);
   };
 
-  // 1. Fetch Item Profile (Critical)
+  // 1. Fetch Item Profile
   const fetchProfile = async () => {
     if (!itemId || !businessId || !canViewFinancials) return;
-    
+
     try {
       const [itemData, bizData] = await Promise.all([
         itemApi.getItemById(itemId),
@@ -127,7 +127,11 @@ export default function ItemDetails() {
       setItem(itemData);
       setBusiness(bizData);
     } catch (error: any) {
-      setAlert({ type: "error", title: t("errors.PROFILE_LOAD"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("errors.PROFILE_LOAD"),
+        message: error.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -137,7 +141,7 @@ export default function ItemDetails() {
     fetchProfile();
   }, [itemId, businessId, canViewFinancials]);
 
-  // 2. Fetch Invoices with Filters (Non-Critical)
+  // 2. Fetch Invoices with Filters
   useEffect(() => {
     if (!itemId || !canViewFinancials) return;
 
@@ -156,16 +160,16 @@ export default function ItemDetails() {
         };
 
         const invRes = await invoiceApi.getItemInvoices(itemId, filterParams);
-        
+
         setItemInvoices(invRes.invoices);
         setItemStats(invRes.stats);
         setMeta(invRes.meta);
       } catch (error: any) {
         console.error("Invoice history fetch failed:", error);
-        setAlert({ 
-          type: "error", 
-          title: t("errors.HISTORY_LOAD"), 
-          message: t("errors.HISTORY_DESC") 
+        setAlert({
+          type: "error",
+          title: t("errors.HISTORY_LOAD"),
+          message: t("errors.HISTORY_DESC"),
         });
       }
     };
@@ -182,7 +186,7 @@ export default function ItemDetails() {
     sortConfig,
     dateRange,
     startDate,
-    endDate
+    endDate,
   ]);
 
   const handleLifecycleAction = () => {
@@ -266,7 +270,11 @@ export default function ItemDetails() {
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: e.message });
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: e.message,
+      });
     } finally {
       setUpdating(false);
     }
@@ -285,7 +293,11 @@ export default function ItemDetails() {
       setRefreshKey((prev) => prev + 1);
       invoiceDeleteModal.closeModal();
     } catch (e: any) {
-      setAlert({ type: "error", title: t("errors.ACTION_FAILED"), message: e.message });
+      setAlert({
+        type: "error",
+        title: t("errors.ACTION_FAILED"),
+        message: e.message,
+      });
     } finally {
       setDeletingInvoice(false);
     }
@@ -352,7 +364,10 @@ export default function ItemDetails() {
 
   return (
     <>
-      <PageMeta title={t("meta_title", { name: item.name })} description={t("meta_desc")} />
+      <PageMeta
+        title={t("meta_title", { name: item.name })}
+        description={t("meta_desc")}
+      />
 
       <ItemHeader
         handleSmartBack={handleSmartBack}
@@ -394,7 +409,7 @@ export default function ItemDetails() {
             )}
           </button>
         ))}
-      </div> 
+      </div>
 
       {activeTab === "general" ? (
         <ItemGeneralTab
@@ -416,7 +431,7 @@ export default function ItemDetails() {
         <ItemHistoryTab
           invoices={itemInvoices}
           business={business}
-          loading={false} // Local loading
+          loading={false}
           canManage={canManage}
           meta={meta}
           setPage={setPage}
@@ -431,19 +446,26 @@ export default function ItemDetails() {
             deliveryModal.openModal();
           }}
           filterProps={{
-            searchTerm, setSearchTerm,
-            statusFilter, setStatusFilter,
-            deliveryFilter, setDeliveryFilter,
-            sortConfig, setSortConfig,
-            dateRange, setDateRange,
-            startDate, setStartDate,
-            endDate, setEndDate,
+            searchTerm,
+            setSearchTerm,
+            statusFilter,
+            setStatusFilter,
+            deliveryFilter,
+            setDeliveryFilter,
+            sortConfig,
+            setSortConfig,
+            dateRange,
+            setDateRange,
+            startDate,
+            setStartDate,
+            endDate,
+            setEndDate,
             setPage,
-            loading: false, 
+            loading: false,
             canManage: false,
-            onAdd: () => {}, 
-            onRefresh: () => setRefreshKey(k => k + 1)
-        }}
+            onAdd: () => {},
+            onRefresh: () => setRefreshKey((k) => k + 1),
+          }}
         />
       )}
 
@@ -485,14 +507,22 @@ export default function ItemDetails() {
         isOpen={lifecycleModal.isOpen}
         onClose={lifecycleModal.closeModal}
         onConfirm={confirmLifecycleChange}
-        title={item.isArchived ? t("modals.lifecycle.restore_title") : t("modals.lifecycle.archive_title")}
+        title={
+          item.isArchived
+            ? t("modals.lifecycle.restore_title")
+            : t("modals.lifecycle.archive_title")
+        }
         description={
           item.isArchived
             ? t("modals.lifecycle.restore_desc")
             : t("modals.lifecycle.archive_desc")
         }
         variant={item.isArchived ? "warning" : "danger"}
-        confirmText={item.isArchived ? t("modals.lifecycle.confirm_restore") : t("modals.lifecycle.confirm_proceed")}
+        confirmText={
+          item.isArchived
+            ? t("modals.lifecycle.confirm_restore")
+            : t("modals.lifecycle.confirm_proceed")
+        }
         isLoading={processingLifecycle}
       />
     </>

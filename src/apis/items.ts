@@ -6,7 +6,8 @@
 
 import { InvoiceData, InvoicePaginationMeta } from "./invoices";
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
  * Base endpoint for item and inventory management.
@@ -26,7 +27,7 @@ export interface ItemData {
   sku?: string;
   description?: string;
   image?: string;
-  isArchived: boolean; 
+  isArchived: boolean;
 
   // Pricing & Tax
   price: number;
@@ -105,7 +106,7 @@ export const itemApi = {
       type?: "Product" | "Service";
       stockStatus?: "low" | "all";
       sort?: string;
-      isArchived?: boolean; 
+      isArchived?: boolean;
     } = {},
   ): Promise<GetItemsResponse> => {
     const url = new URL(`${BASE_URL}/business/${businessId}`);
@@ -280,7 +281,10 @@ export const itemApi = {
   /**
    * Lean search for Invoice Item selection.
    */
-  pickerSearch: async (businessId: string, query: string): Promise<ItemData[]> => {
+  pickerSearch: async (
+    businessId: string,
+    query: string,
+  ): Promise<ItemData[]> => {
     const url = new URL(`${BASE_URL}/business/${businessId}/search`);
     url.searchParams.append("q", query);
 
@@ -291,6 +295,6 @@ export const itemApi = {
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Item search failed");
-    return data; 
+    return data;
   },
 };

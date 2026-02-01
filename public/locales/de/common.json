@@ -72,11 +72,20 @@
     "pending": "Ausstehend",
     "shipped": "Versandt",
     "delivered": "Geliefert",
-    "returned": "Retoure" 
+    "returned": "Retoure"
   },
   "actions": {
     "cancel": "Abbrechen",
     "back": "Zurück",
     "return_dashboard": "Zurück zum Dashboard"
+  },
+  "processing": "Verarbeitung",
+  "not_found": {
+    "meta_title": "404 - Seite nicht gefunden | Invotrack",
+    "meta_desc": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "title": "FEHLER",
+    "alt": "404 Fehler",
+    "message": "Wir können die Seite, die Sie suchen, leider nicht finden!",
+    "back": "Zurück"
   }
 }

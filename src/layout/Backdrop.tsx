@@ -32,7 +32,7 @@ const Backdrop: React.FC = () => {
        */
       onClick={toggleMobileSidebar}
     />
-  );
+  ); 
 };
 
 export default Backdrop;

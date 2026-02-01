@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineMagnifyingGlass,
   HiOutlineUser,
@@ -225,7 +225,7 @@ export default function ClientSelector({
                             </span>
                             <span className="text-[10px] text-gray-600 dark:text-gray-300 truncate font-medium">
                               <HighlightText
-                                text={c.email || "No email"}
+                                text={c.email || t("create.no_email")}
                                 highlight={search}
                               />
                             </span>
@@ -235,7 +235,7 @@ export default function ClientSelector({
                     ) : (
                       <div className="p-6 text-center">
                         <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
-                          No results found
+                          {t("create.no_results")}
                         </p>
                       </div>
                     )}
@@ -272,7 +272,7 @@ export default function ClientSelector({
                 className="flex items-center gap-1.5 text-[9px] font-semibold text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-300 uppercase tracking-widest transition-all hover:bg-red-50 dark:hover:bg-red-500/10 px-3 py-1.5 rounded-lg group"
               >
                 <HiOutlineXMark className="size-3.5" />
-                Change
+                {t("create.change")}
               </button>
             </div>
           )}

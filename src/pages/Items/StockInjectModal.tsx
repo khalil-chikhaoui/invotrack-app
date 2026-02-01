@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import { itemApi, ItemData } from "../../apis/items";
@@ -20,10 +20,10 @@ interface Props {
 export default function StockInjectModal({
   isOpen,
   onClose,
-  item, 
+  item,
   refresh,
 }: Props) {
-  const { t } = useTranslation("item"); // <--- Load namespace
+  const { t } = useTranslation("item");
   const [amount, setAmount] = useState<string>("");
   const [mode, setMode] = useState<"add" | "remove">("add");
   const [loading, setLoading] = useState(false);
@@ -45,7 +45,7 @@ export default function StockInjectModal({
 
   const handleAdjust = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    
+
     const numAmount = parseFloat(amount);
     if (!item || isNaN(numAmount) || numAmount === 0) return;
 
@@ -92,7 +92,7 @@ export default function StockInjectModal({
       onClose={onClose}
       className="max-w-[700px] overflow-visible"
     >
-      <form 
+      <form
         onSubmit={handleAdjust}
         className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden"
       >
@@ -151,7 +151,7 @@ export default function StockInjectModal({
             />
 
             <input
-              type="text" 
+              type="text"
               inputMode="decimal"
               pattern="[0-9.]*"
               autoComplete="off"
@@ -209,9 +209,13 @@ export default function StockInjectModal({
               <span className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 tracking-wider">
                 {t("stock_modal.new_total")}
               </span>
-              <span className={`font-semibold text-xl tabular-nums ${theme.text}`}>
+              <span
+                className={`font-semibold text-xl tabular-nums ${theme.text}`}
+              >
                 {newStock}{" "}
-                <span className={`text-xs font-normal text-gray-500 dark:text-gray-300`}>
+                <span
+                  className={`text-xs font-normal text-gray-500 dark:text-gray-300`}
+                >
                   {item?.unit}
                 </span>
               </span>

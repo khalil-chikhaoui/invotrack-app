@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
 import { HiChevronDown, HiOutlinePresentationChartLine } from "react-icons/hi2";
@@ -18,7 +18,7 @@ export default function MonthlySalesChart({
   clientId,
   currency,
 }: MonthlySalesChartProps) {
-  const { t } = useTranslation("client_details"); // <--- Load namespace
+  const { t } = useTranslation("client_details");
   const currentYear = new Date().getFullYear();
 
   const [selectedYear, setSelectedYear] = useState(currentYear);
@@ -32,7 +32,7 @@ export default function MonthlySalesChart({
       if (!clientId) return;
       setLoading(true);
       try {
-        const data = await invoiceApi.getMonthlySales(clientId, selectedYear); 
+        const data = await invoiceApi.getMonthlySales(clientId, selectedYear);
         setSalesData(data.sales);
         if (data.years && data.years.length > 0) {
           setAvailableYears(data.years);
@@ -49,9 +49,13 @@ export default function MonthlySalesChart({
 
   const hasData = useMemo(() => salesData.some((val) => val > 0), [salesData]);
 
-  const series = [{ name: t("analytics.monthly.series_name"), data: salesData }];
+  const series = [
+    { name: t("analytics.monthly.series_name"), data: salesData },
+  ];
 
-  const categories = t("analytics.monthly.months", { returnObjects: true }) as string[];
+  const categories = t("analytics.monthly.months", {
+    returnObjects: true,
+  }) as string[];
 
   const options: ApexOptions = {
     colors: ["#465fff"],
@@ -98,8 +102,10 @@ export default function MonthlySalesChart({
   };
 
   return (
-    <div className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-4 dark:border-white/[0.05]
-     dark:bg-white/[0.03]  min-w-0">
+    <div
+      className="flex flex-col h-full rounded-2xl border border-gray-200 bg-white p-4 dark:border-white/[0.05]
+     dark:bg-white/[0.03]  min-w-0"
+    >
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
@@ -157,9 +163,14 @@ export default function MonthlySalesChart({
         </div>
       </div>
 
-      <div className={`flex-1 min-h-[300px] w-full ${loading || !hasData ? 'flex items-center justify-center' : ''}`}>
+      <div
+        className={`flex-1 min-h-[300px] w-full ${loading || !hasData ? "flex items-center justify-center" : ""}`}
+      >
         {loading ? (
-          <LoadingState message={t("analytics.monthly.loading")} minHeight="full" />
+          <LoadingState
+            message={t("analytics.monthly.loading")}
+            minHeight="full"
+          />
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01]">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">

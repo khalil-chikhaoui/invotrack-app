@@ -49,9 +49,11 @@ export default function UserInfoCard({
       closeModal();
     } catch (error: any) {
       const errorCode = error.message;
-      // Looks for errors.AUTH_USER_NOT_FOUND, etc.
-      const translatedError = t(`errors.${errorCode}` as any, t("errors.UPDATE_FAILED"));
-      
+      const translatedError = t(
+        `errors.${errorCode}` as any,
+        t("errors.UPDATE_FAILED"),
+      );
+
       setAlert({
         type: "error",
         title: t("status.error", { defaultValue: "Error" }),
@@ -109,7 +111,9 @@ export default function UserInfoCard({
                 <Label>{t("info_card.modal.first_name")}</Label>
                 <Input
                   value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
                   placeholder="e.g. John"
                 />
               </div>
@@ -117,7 +121,9 @@ export default function UserInfoCard({
                 <Label>{t("info_card.modal.last_name")}</Label>
                 <Input
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
                   placeholder="e.g. Doe"
                 />
               </div>
@@ -140,7 +146,9 @@ export default function UserInfoCard({
                 {t("info_card.modal.close")}
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? t("info_card.modal.saving") : t("info_card.modal.save")}
+                {loading
+                  ? t("info_card.modal.saving")
+                  : t("info_card.modal.save")}
               </Button>
             </div>
           </form>

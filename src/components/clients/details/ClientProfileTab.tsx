@@ -1,9 +1,15 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import { HiOutlineMapPin, HiOutlinePencilSquare } from "react-icons/hi2";
 import Button from "../../ui/button/Button";
 import { ClientData } from "../../../apis/clients";
 
-function SectionEditButton({ onClick, label }: { onClick: () => void; label: string }) {
+function SectionEditButton({
+  onClick,
+  label,
+}: {
+  onClick: () => void;
+  label: string;
+}) {
   return (
     <div className="flex justify-center md:justify-end">
       <Button
@@ -30,7 +36,7 @@ export default function ClientProfileTab({
   canManage,
   isArchived,
   onEditAddress,
-  onLifecycleAction, 
+  onLifecycleAction,
 }: ClientProfileTabProps) {
   const { t } = useTranslation("client_details");
 
@@ -40,12 +46,15 @@ export default function ClientProfileTab({
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl px-8 pt-4 ">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-end gap-1.5 text-brand-500 dark:text-brand-400 uppercase font-semibold text-sm tracking-widest">
-            <HiOutlineMapPin className="size-5 stroke-[2.5]" /> 
+            <HiOutlineMapPin className="size-5 stroke-[2.5]" />
             {t("profile_tab.address_title")}
           </div>
 
           {canManage && !isArchived && (
-            <SectionEditButton onClick={onEditAddress} label={t("profile_tab.edit_address")} />
+            <SectionEditButton
+              onClick={onEditAddress}
+              label={t("profile_tab.edit_address")}
+            />
           )}
         </div>
 
@@ -127,7 +136,9 @@ export default function ClientProfileTab({
               }`}
               onClick={onLifecycleAction}
             >
-              {isArchived ? t("profile_tab.lifecycle.btn_restore") : t("profile_tab.lifecycle.btn_archive")}
+              {isArchived
+                ? t("profile_tab.lifecycle.btn_restore")
+                : t("profile_tab.lifecycle.btn_archive")}
             </Button>
           </div>
         </div>

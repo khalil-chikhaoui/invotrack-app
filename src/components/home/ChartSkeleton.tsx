@@ -8,11 +8,11 @@ export default function ChartSkeleton() {
           <div className="mt-2 h-3 w-48 rounded bg-gray-100 dark:bg-gray-800"></div>
         </div>
       </div>
-      
+
       {/* Chart Content Placeholder */}
       <div className="flex h-[280px] items-end gap-2">
-         {/* Simulate some bars or a graph area */}
-         <div className="h-full w-full rounded-xl bg-gray-100 dark:bg-gray-800/50"></div>
+        {/* Simulate some bars or a graph area */}
+        <div className="h-full w-full rounded-xl bg-gray-100 dark:bg-gray-800/50"></div>
       </div>
     </div>
   );

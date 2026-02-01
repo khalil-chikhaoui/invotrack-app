@@ -1,5 +1,8 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
-import { DeliveryStatus, DELIVERY_STATUS_OPTIONS } from "../../../apis/invoices";
+import { useTranslation } from "react-i18next";
+import {
+  DeliveryStatus,
+  DELIVERY_STATUS_OPTIONS,
+} from "../../../apis/invoices";
 import StatusUpdateModal from "../../common/StatusUpdateModal";
 
 interface InvoiceModalsProps {
@@ -17,7 +20,7 @@ interface InvoiceModalsProps {
   updating: boolean;
 }
 
-const PAYMENT_STATES = ["Paid", "Open", "Cancelled"]; 
+const PAYMENT_STATES = ["Paid", "Open", "Cancelled"];
 
 export default function InvoiceModals({
   isStatusOpen,
@@ -26,13 +29,13 @@ export default function InvoiceModals({
   setTempStatus,
   tempDelivery,
   setTempDelivery,
-  isDeliveryOpen, 
+  isDeliveryOpen,
   closeDeliveryModal,
   handleUpdate,
   updating,
 }: InvoiceModalsProps) {
   const { t } = useTranslation("invoice_details");
-  
+
   return (
     <>
       {/* Payment Modal */}
@@ -45,7 +48,7 @@ export default function InvoiceModals({
         currentValue={tempStatus}
         onValueChange={setTempStatus}
         onConfirm={() => handleUpdate({ status: tempStatus })}
-        isLoading={updating} 
+        isLoading={updating}
         confirmLabel={t("modals.payment.apply")}
       />
 

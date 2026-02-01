@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
@@ -28,7 +28,7 @@ export default function ClientAddressModal({
     street: "",
     city: "",
     state: "",
-    zipCode: "", 
+    zipCode: "",
     country: "",
   });
 
@@ -57,7 +57,11 @@ export default function ClientAddressModal({
       });
       refresh();
     } catch (error: any) {
-      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: error.message,
+      });
     } finally {
       onClose();
       setLoading(false);
@@ -78,7 +82,9 @@ export default function ClientAddressModal({
               <Input
                 placeholder=""
                 value={formData.street}
-                onChange={(e) => setFormData({ ...formData, street: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, street: e.target.value })
+                }
               />
             </div>
 
@@ -87,7 +93,9 @@ export default function ClientAddressModal({
               <Input
                 placeholder=""
                 value={formData.city}
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, city: e.target.value })
+                }
               />
             </div>
             <div>
@@ -95,7 +103,9 @@ export default function ClientAddressModal({
               <Input
                 placeholder=""
                 value={formData.state}
-                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, state: e.target.value })
+                }
               />
             </div>
             <div>
@@ -103,7 +113,9 @@ export default function ClientAddressModal({
               <Input
                 placeholder=""
                 value={formData.zipCode}
-                onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, zipCode: e.target.value })
+                }
               />
             </div>
 
@@ -131,7 +143,9 @@ export default function ClientAddressModal({
               disabled={loading}
               className="text-[10px] font-semibold uppercase tracking-widest"
             >
-              {loading ? t("modals.address.actions.saving") : t("modals.address.actions.save")}
+              {loading
+                ? t("modals.address.actions.saving")
+                : t("modals.address.actions.save")}
             </Button>
           </div>
         </form>

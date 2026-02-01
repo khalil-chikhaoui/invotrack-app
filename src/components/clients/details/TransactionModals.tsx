@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import ConfirmModal from "../../common/ConfirmModal";
 import {
   InvoiceData,
@@ -35,20 +35,20 @@ export default function TransactionModals({
   closeStatusModal,
   tempStatus,
   setTempStatus,
-  handleStatusUpdate, 
+  handleStatusUpdate,
   isDeliveryOpen,
   closeDeliveryModal,
-  tempDelivery, 
+  tempDelivery,
   setTempDelivery,
   isDeleteOpen,
   closeDeleteModal,
   confirmVoidInvoice,
   selectedInvoice,
-  updating, 
+  updating,
   deleting,
 }: TransactionModalsProps) {
   const { t } = useTranslation("client_details");
-  const { t: tInv } = useTranslation("invoice"); 
+  const { t: tInv } = useTranslation("invoice");
 
   return (
     <>
@@ -57,11 +57,13 @@ export default function TransactionModals({
         onClose={closeDeleteModal}
         onConfirm={confirmVoidInvoice}
         title={t("modals.void.title")}
-        description={t("modals.void.desc", { number: selectedInvoice?.invoiceNumber })}
+        description={t("modals.void.desc", {
+          number: selectedInvoice?.invoiceNumber,
+        })}
         variant="danger"
         isLoading={deleting}
       />
- 
+
       <StatusUpdateModal
         isOpen={isStatusOpen}
         onClose={closeStatusModal}
@@ -72,7 +74,11 @@ export default function TransactionModals({
         onValueChange={setTempStatus}
         onConfirm={() => handleStatusUpdate({ status: tempStatus })}
         isLoading={updating}
-        confirmLabel={tempStatus === "Cancelled" ? tInv("status_modal.actions.confirm_void") : tInv("status_modal.actions.update")}
+        confirmLabel={
+          tempStatus === "Cancelled"
+            ? tInv("status_modal.actions.confirm_void")
+            : tInv("status_modal.actions.update")
+        }
       />
 
       <StatusUpdateModal

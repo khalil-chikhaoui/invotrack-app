@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { formatMoney } from "../../../hooks/formatMoney";
 import Badge from "../../ui/badge/Badge";
 import {
@@ -32,8 +32,8 @@ export default function InvoiceIdentityCard({
   businessId,
   onEditDates,
 }: InvoiceIdentityCardProps) {
-  const { t } = useTranslation("invoice_details"); // <--- Load "invoice_details"
-  const { t: tCommon } = useTranslation("common"); // <--- Load "common" for status chips
+  const { t } = useTranslation("invoice_details");
+  const { t: tCommon } = useTranslation("common");
   const displayStatus = getInvoiceDisplayStatus(invoice);
 
   return (
@@ -53,7 +53,9 @@ export default function InvoiceIdentityCard({
                 color={STATUS_COLORS[displayStatus]}
                 className="font-semibold text-[10px] tracking-widest uppercase px-4 py-1"
               >
-                {tCommon(`status.${displayStatus.toLowerCase()}`, { defaultValue: displayStatus })}
+                {tCommon(`status.${displayStatus.toLowerCase()}`, {
+                  defaultValue: displayStatus,
+                })}
               </Badge>
 
               {/* Delivery Status Badge */}
@@ -62,7 +64,9 @@ export default function InvoiceIdentityCard({
                 variant="light"
                 className="font-semibold text-[10px] tracking-widest uppercase px-4 py-1"
               >
-                {tCommon(`status.${invoice.deliveryStatus.toLowerCase()}`, { defaultValue: invoice.deliveryStatus })}
+                {tCommon(`status.${invoice.deliveryStatus.toLowerCase()}`, {
+                  defaultValue: invoice.deliveryStatus,
+                })}
               </Badge>
             </div>
           </div>
@@ -72,7 +76,8 @@ export default function InvoiceIdentityCard({
               to={`/business/${businessId}/invoices/${invoice._id}/edit`}
               className="flex sm:hidden items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-brand-500 hover:text-brand-600 mb-3 border border-brand-200 bg-brand-50 rounded-lg px-3 py-1.5 w-fit"
             >
-              <HiOutlinePencilSquare className="size-4" /> {t("identity_card.edit_record")}
+              <HiOutlinePencilSquare className="size-4" />{" "}
+              {t("identity_card.edit_record")}
             </Link>
           )}
 
@@ -83,11 +88,14 @@ export default function InvoiceIdentityCard({
           <div className="flex flex-wrap items-center gap-4 text-gray-500 dark:text-gray-300">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
               <HiOutlineCalendarDays className="size-4 text-brand-500" />{" "}
-              {t("identity_card.issued")} {formatDate(new Date(invoice.issueDate), "MMMM dd, yyyy")}
+              {t("identity_card.issued")}{" "}
+              {formatDate(new Date(invoice.issueDate), "MMMM dd, yyyy")}
             </div>
             {invoice.dueDate && (
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
-                <HiOutlineCalendarDays className="size-4 text-brand-500" /> {t("identity_card.due")} {formatDate(new Date(invoice.dueDate), "MMMM dd, yyyy")}
+                <HiOutlineCalendarDays className="size-4 text-brand-500" />{" "}
+                {t("identity_card.due")}{" "}
+                {formatDate(new Date(invoice.dueDate), "MMMM dd, yyyy")}
               </div>
             )}
 
@@ -98,7 +106,8 @@ export default function InvoiceIdentityCard({
                 onClick={onEditDates}
                 className="group flex items-center bg-brand-500/7 hover:bg-brand-500/10 dark:bg-brand-50/10 dark:hover:bg-brand-50/20 py-1.5 px-3 rounded-md gap-1.5 text-[12px] font-medium tracking-wide text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors"
               >
-                <HiOutlinePencil className="size-3.5" /> {t("identity_card.edit")}
+                <HiOutlinePencil className="size-3.5" />{" "}
+                {t("identity_card.edit")}
               </button>
             )}
           </div>

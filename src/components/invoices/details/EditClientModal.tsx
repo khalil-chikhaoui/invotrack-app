@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../ui/modal";
 import Input from "../../form/input/InputField";
 import CountryInput from "../../form/input/CountryInput";
@@ -28,7 +28,7 @@ export default function EditClientModal({
     email: "",
     phone: { country: "US", number: "" },
     street: "",
-    city: "", 
+    city: "",
     state: "",
     zipCode: "",
     country: "",
@@ -183,7 +183,9 @@ export default function EditClientModal({
               {t("modals.client.actions.cancel")}
             </Button>
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? t("modals.client.actions.saving") : t("modals.client.actions.save")}
+              {loading
+                ? t("modals.client.actions.saving")
+                : t("modals.client.actions.save")}
             </Button>
           </div>
         </form>

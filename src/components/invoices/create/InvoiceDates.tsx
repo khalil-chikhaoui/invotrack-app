@@ -17,11 +17,11 @@ export default function InvoiceDates({
   setDueDate,
 }: InvoiceDatesProps) {
   const { t } = useTranslation("invoice");
-  
+
   useEffect(() => {
     if (issueDate && dueDate && new Date(issueDate) > new Date(dueDate)) {
       setDueDate(issueDate);
-    } 
+    }
   }, [issueDate, dueDate, setDueDate]);
 
   return (
@@ -31,7 +31,7 @@ export default function InvoiceDates({
         <h3 className="font-semibold text-gray-800 dark:text-white text-sm">
           {t("create.sections.dates")}
         </h3>
-      </div> 
+      </div>
       <div className="space-y-4">
         <div>
           <DatePicker

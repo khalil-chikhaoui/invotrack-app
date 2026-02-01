@@ -3,7 +3,6 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-// Import Flatpickr Locales
 import { French } from "flatpickr/dist/l10n/fr.js";
 import { German } from "flatpickr/dist/l10n/de.js";
 
@@ -11,17 +10,15 @@ import {
   HiOutlineCalendar,
   HiOutlinePresentationChartLine,
 } from "react-icons/hi2";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { ClientStatPoint } from "../../apis/invoices";
 import { formatMoney } from "../../hooks/formatMoney";
 import LoadingState from "../common/LoadingState";
-import ChartTab from "../common/MyChartTab";
+import ChartTab from "../common/ChartTab";
 import { useTheme } from "../../context/ThemeContext";
 
 interface GenericStatsChartProps {
-  /** The ID of the entity (Client or Item) */
   entityId: string;
-  /** The API function to call. Must accept (id, mode, range) */
   fetchData: (
     id: string,
     mode: string,
@@ -47,7 +44,7 @@ export default function GenericStatsChart({
   secondaryLabel = "Count",
   formatSecondaryAsCurrency = false,
 }: GenericStatsChartProps) {
-  const { t, i18n } = useTranslation("common"); // <--- Load "common" namespace
+  const { t, i18n } = useTranslation("common");
   const [data, setData] = useState<ClientStatPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<
@@ -83,7 +80,7 @@ export default function GenericStatsChart({
     if (!datePickerRef.current) return;
 
     // Determine Flatpickr Locale based on i18next language
-    let locale: any = "default"; 
+    let locale: any = "default";
     if (i18n.language === "fr") locale = French;
     if (i18n.language === "de") locale = German;
 
@@ -101,7 +98,7 @@ export default function GenericStatsChart({
       },
     });
     return () => fp.destroy();
-  }, [i18n.language]); // <--- Re-initialize on language change
+  }, [i18n.language]);
 
   const hasData = useMemo(
     () => data.some((d) => d.revenue > 0 || d.count > 0),

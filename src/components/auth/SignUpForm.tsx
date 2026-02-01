@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -13,7 +13,7 @@ import { authApi } from "../../apis/auth";
 import LanguageSelector from "../../components/common/LanguageSelector";
 
 export default function SignUpForm() {
-  const { t } = useTranslation("auth"); // <--- Use "auth" namespace
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);

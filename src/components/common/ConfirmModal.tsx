@@ -1,5 +1,6 @@
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
+import { useTranslation } from "react-i18next";
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export default function ConfirmModal({
         return "";
     }
   };
+  const { t } = useTranslation("common");
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-md m-4">
@@ -46,7 +48,7 @@ export default function ConfirmModal({
         </p>
         <div className="flex justify-end gap-3">
           <Button
-          type="button"
+            type="button"
             variant="outline"
             size="sm"
             onClick={onClose}
@@ -55,13 +57,13 @@ export default function ConfirmModal({
             {cancelText}
           </Button>
           <Button
-          type="submit"
+            type="submit"
             size="sm"
             onClick={onConfirm}
             disabled={isLoading}
             className={getButtonClass()}
           >
-            {isLoading ? "Processing..." : confirmText}
+            {isLoading ? t("processing") : confirmText}
           </Button>
         </div>
       </div>

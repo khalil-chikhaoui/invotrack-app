@@ -4,7 +4,8 @@
  * Clients, Items, and Invoices.
  */
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
  * Base endpoint for general/utility API calls.
@@ -66,7 +67,7 @@ export const generalApi = {
    */
   search: async (businessId: string, query: string): Promise<SearchResults> => {
     const url = new URL(`${BASE_URL}/search`);
-    
+
     url.searchParams.append("businessId", businessId);
     url.searchParams.append("q", query);
 

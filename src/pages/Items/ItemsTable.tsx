@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { ItemData, ItemPaginationMeta } from "../../apis/items";
 import { BusinessData } from "../../apis/business";
 import {
@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import { HiOutlineTrash, HiOutlinePencil, HiOutlineEye } from "react-icons/hi"; 
+import { HiOutlineTrash, HiOutlinePencil, HiOutlineEye } from "react-icons/hi";
 import { HiOutlineCube, HiOutlineArrowsRightLeft } from "react-icons/hi2";
 import { formatMoney } from "../../hooks/formatMoney";
 import Badge from "../../components/ui/badge/Badge";
@@ -39,7 +39,7 @@ export default function ItemsTable({
   onOpenEdit,
   onOpenDelete,
 }: ItemsTableProps) {
-  const { t } = useTranslation("item"); // <--- Load namespace
+  const { t } = useTranslation("item");
   const navigate = useNavigate();
   const { businessId } = useParams();
 
@@ -128,7 +128,10 @@ export default function ItemsTable({
             color={item.itemType === "Product" ? "success" : "warning"}
             className="uppercase font-bold text-[9px] tracking-wider"
           >
-            {t(`form.options.${item.itemType.toLowerCase()}` as any, item.itemType)}
+            {t(
+              `form.options.${item.itemType.toLowerCase()}` as any,
+              item.itemType,
+            )}
           </Badge>
         </TableCell>
 
@@ -136,7 +139,7 @@ export default function ItemsTable({
           {formatMoney(
             item.price,
             business?.currency,
-            business?.currencyFormat
+            business?.currencyFormat,
           )}
         </TableCell>
 
@@ -199,12 +202,12 @@ export default function ItemsTable({
                 )}
               </>
             )}
-            
+
             <button
-                onClick={() => handleViewItem(item._id)}
-                className="text-gray-400 hover:text-brand-500 transition-colors"
-                title={t("list.columns.details")}
-              >
+              onClick={() => handleViewItem(item._id)}
+              className="text-gray-400 hover:text-brand-500 transition-colors"
+              title={t("list.columns.details")}
+            >
               <HiOutlineEye className="size-4" />
             </button>
           </div>
@@ -219,19 +222,34 @@ export default function ItemsTable({
         <Table>
           <TableHeader className="bg-gray-50/50 dark:bg-white/[0.01] border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
-              <TableCell isHeader className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              <TableCell
+                isHeader
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+              >
                 {t("list.columns.details")}
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              <TableCell
+                isHeader
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+              >
                 {t("list.columns.type")}
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest min-w-[120px]">
+              <TableCell
+                isHeader
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest min-w-[120px]"
+              >
                 {t("list.columns.price")}
               </TableCell>
-              <TableCell isHeader className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              <TableCell
+                isHeader
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+              >
                 {t("list.columns.stock")}
               </TableCell>
-              <TableCell isHeader className="hidden sm:table-cell px-5 py-3 text-end text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              <TableCell
+                isHeader
+                className="hidden sm:table-cell px-5 py-3 text-end text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+              >
                 {t("list.columns.actions")}
               </TableCell>
             </TableRow>

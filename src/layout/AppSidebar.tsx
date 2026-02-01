@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- 1. Import Hook
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineSquares2X2,
   HiOutlineUsers,
@@ -25,9 +25,8 @@ type NavItem = {
 };
 
 const AppSidebar: React.FC = () => {
-  // <--- 2. Initialize Translation Hook
-  const { t } = useTranslation("common"); 
-  
+  const { t } = useTranslation("common");
+
   const { isExpanded, isMobileOpen, isHovered, setIsHovered, setIsMobileOpen } =
     useSidebar();
   const location = useLocation();
@@ -39,12 +38,10 @@ const AppSidebar: React.FC = () => {
     (m) => m.businessId?._id === businessId,
   )?.businessId;
 
-  // <--- 3. Update Nav Items to use t(...)
-  // Since this is inside the component, it re-renders when language changes.
   const navItems: NavItem[] = [
     {
       icon: <HiOutlineSquares2X2 className="size-6" />,
-      name: t("sidebar.nav.dashboard"), 
+      name: t("sidebar.nav.dashboard"),
       path: "/",
     },
     {
@@ -385,7 +382,6 @@ const AppSidebar: React.FC = () => {
           <button
             onClick={handleSignOut}
             className="text-gray-400 hover:text-error-500 transition-colors p-2 rounded-lg hover:bg-error-50 dark:hover:bg-error-500/10"
-            // 7. TRANSLATED SIGN OUT TOOLTIP
             title={t("sidebar.actions.sign_out")}
           >
             <HiOutlineArrowRightOnRectangle className="size-5" />

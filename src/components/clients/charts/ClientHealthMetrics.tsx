@@ -13,7 +13,7 @@ import {
 import { invoiceApi } from "../../../apis/invoices";
 import { BusinessData } from "../../../apis/business";
 import { formatMoney } from "../../../hooks/formatMoney";
-import Badge from "../../ui/badge/Badge"; 
+import Badge from "../../ui/badge/Badge";
 import LoadingState from "../../common/LoadingState";
 
 interface ClientHealthMetricsProps {
@@ -30,7 +30,7 @@ export default function ClientHealthMetrics({
   financialStats = { lifetimeValue: 0, openBalance: 0 },
   business,
 }: ClientHealthMetricsProps) {
-  const { t } = useTranslation("client_details"); // <--- Load namespace
+  const { t } = useTranslation("client_details");
   const [healthData, setHealthData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,7 +52,10 @@ export default function ClientHealthMetrics({
   if (loading) {
     return (
       <div className="mb-8">
-        <LoadingState message={t("analytics.health.loading")} minHeight="144px" />
+        <LoadingState
+          message={t("analytics.health.loading")}
+          minHeight="144px"
+        />
       </div>
     );
   }
@@ -80,7 +83,11 @@ export default function ClientHealthMetrics({
           text: t("analytics.health.risk.high"),
         };
       default:
-        return { color: "light" as const, icon: null, text: t("analytics.health.risk.new") };
+        return {
+          color: "light" as const,
+          icon: null,
+          text: t("analytics.health.risk.new"),
+        };
     }
   };
 
@@ -102,7 +109,11 @@ export default function ClientHealthMetrics({
             {t("analytics.health.lifetime_title")}
           </span>
           <h4 className="mt-1 text-2xl font-semibold text-gray-800 dark:text-white">
-            {formatMoney(safeLifetime, business?.currency, business?.currencyFormat)}
+            {formatMoney(
+              safeLifetime,
+              business?.currency,
+              business?.currencyFormat,
+            )}
           </h4>
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
             {t("analytics.health.lifetime_desc")}
@@ -116,14 +127,22 @@ export default function ClientHealthMetrics({
           <div className="flex items-center justify-center w-12 h-12 bg-orange-50 rounded-xl dark:bg-orange-500/10">
             <HiOutlineScale className="text-orange-500 size-6" />
           </div>
-          {safeOpenBalance > 0 && <Badge color="warning">{t("analytics.health.balance_due")}</Badge>}
+          {safeOpenBalance > 0 && (
+            <Badge color="warning">{t("analytics.health.balance_due")}</Badge>
+          )}
         </div>
         <div>
           <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
             {t("analytics.health.balance_title")}
           </span>
-          <h4 className={`mt-1 text-2xl font-semibold ${safeOpenBalance > 0 ? "text-error-500" : "text-gray-800 dark:text-white"}`}>
-            {formatMoney(safeOpenBalance, business?.currency, business?.currencyFormat)}
+          <h4
+            className={`mt-1 text-2xl font-semibold ${safeOpenBalance > 0 ? "text-error-500" : "text-gray-800 dark:text-white"}`}
+          >
+            {formatMoney(
+              safeOpenBalance,
+              business?.currency,
+              business?.currencyFormat,
+            )}
           </h4>
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
             {t("analytics.health.balance_desc")}
@@ -183,7 +202,9 @@ export default function ClientHealthMetrics({
           <p className="mt-2 text-[11px] leading-relaxed text-gray-400 dark:text-gray-500">
             {t("analytics.health.last_order")}{" "}
             <span className="text-gray-800 dark:text-gray-200 font-semibold">
-              {t("analytics.health.days_ago", { days: healthData.daysSinceLast })}
+              {t("analytics.health.days_ago", {
+                days: healthData.daysSinceLast,
+              })}
             </span>
           </p>
         </div>

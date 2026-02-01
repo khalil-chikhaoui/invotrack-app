@@ -4,24 +4,30 @@
  * and email dispatch for invoice documents.
  */
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
  * Base endpoint for invoice-related API calls.
  */
 const BASE_URL = `${API_ROOT}/invoices`;
- 
+
 // ==========================================
 // --- Helpers for UI Logic ---
 // ==========================================
 
-export const getInvoiceDisplayStatus = (invoice: InvoiceData): "Paid" | "Cancelled" | "Open" => {
+export const getInvoiceDisplayStatus = (
+  invoice: InvoiceData,
+): "Paid" | "Cancelled" | "Open" => {
   if (invoice.isDeleted) return "Cancelled";
   if (invoice.isPaid) return "Paid";
-  return "Open"; 
+  return "Open";
 };
 
-export const STATUS_COLORS: Record<string, "success" | "warning" | "error" | "info" | "light"> = {
+export const STATUS_COLORS: Record<
+  string,
+  "success" | "warning" | "error" | "info" | "light"
+> = {
   Paid: "success",
   Open: "warning",
   Cancelled: "error",
@@ -87,7 +93,7 @@ export interface InvoiceData {
   grandTotal: number;
   isPaid: boolean;
   paidAt?: string | null;
-  isDeleted: boolean; 
+  isDeleted: boolean;
   deliveryStatus: DeliveryStatus;
   dueDate?: string;
   issueDate: string;
@@ -134,70 +140,70 @@ export interface ItemInvoiceResponse {
   stats: {
     totalRevenue: number;
     totalSold: number;
-    currentStock: number;    
-    avgSalePrice: number;     
-    salesVelocity: number;   
+    currentStock: number;
+    avgSalePrice: number;
+    salesVelocity: number;
   };
   meta: InvoicePaginationMeta;
 }
 
 // --- Analytics Interfaces  ---
 
-export interface ClientStatPoint { 
-  label: string; 
-  revenue: number; 
-  count: number; 
+export interface ClientStatPoint {
+  label: string;
+  revenue: number;
+  count: number;
 }
 
-export interface MonthlySalesResponse { 
-  sales: number[]; 
-  years: number[]; 
+export interface MonthlySalesResponse {
+  sales: number[];
+  years: number[];
 }
 
-export interface DeliveryStatsResponse { 
-  Pending: number; 
-  Shipped: number; 
-  Delivered: number; 
-  Returned: number; 
+export interface DeliveryStatsResponse {
+  Pending: number;
+  Shipped: number;
+  Delivered: number;
+  Returned: number;
 }
 
 export interface TopBuyerStat {
-  label: string; 
-  value: number; 
+  label: string;
+  value: number;
   quantity: number;
 }
 
-export interface TopBuyersResponse { 
-  buyers: TopBuyerStat[]; 
-  years: number[]; 
+export interface TopBuyersResponse {
+  buyers: TopBuyerStat[];
+  years: number[];
 }
 
-export interface ProfitStat { 
-  label: string; 
-  revenue: number; 
-  cost: number; 
-  profit: number; 
+export interface ProfitStat {
+  label: string;
+  revenue: number;
+  cost: number;
+  profit: number;
 }
 
-export interface ProfitStatsResponse { 
-  stats: ProfitStat[]; 
-  years: number[]; 
+export interface ProfitStatsResponse {
+  stats: ProfitStat[];
+  years: number[];
 }
 
 export interface ProductStat {
-  label: string; 
+  label: string;
   value: number;
 }
 
-export interface ClientProductsResponse { 
-  products: ProductStat[]; 
-  years: number[]; 
+export interface ClientProductsResponse {
+  products: ProductStat[];
+  years: number[];
 }
 
-export interface InvoiceStatusStats { 
-  Open: number; 
-  Paid: number; 
-  Cancelled: number; 
+export interface InvoiceStatusStats {
+  Open: number;
+  Paid: number;
+  Cancelled: number;
 }
 
 // ==========================================
@@ -219,7 +225,7 @@ export const invoiceApi = {
       page?: number;
       limit?: number;
       search?: string;
-      status?: "Paid" | "Unpaid" | "Cancelled" | ""; 
+      status?: "Paid" | "Unpaid" | "Cancelled" | "";
       deliveryStatus?: DeliveryStatus;
       sort?: string;
       dateRange?: string;
@@ -233,30 +239,37 @@ export const invoiceApi = {
     if (params.limit) url.searchParams.append("limit", params.limit.toString());
     if (params.search) url.searchParams.append("search", params.search);
     if (params.status) url.searchParams.append("status", params.status);
-    if (params.deliveryStatus) url.searchParams.append("deliveryStatus", params.deliveryStatus);
+    if (params.deliveryStatus)
+      url.searchParams.append("deliveryStatus", params.deliveryStatus);
     if (params.sort) url.searchParams.append("sort", params.sort);
-    if (params.dateRange) url.searchParams.append("dateRange", params.dateRange);
-    if (params.startDate) url.searchParams.append("startDate", params.startDate);
+    if (params.dateRange)
+      url.searchParams.append("dateRange", params.dateRange);
+    if (params.startDate)
+      url.searchParams.append("startDate", params.startDate);
     if (params.endDate) url.searchParams.append("endDate", params.endDate);
-    
+
     const response = await fetch(url.toString(), {
       method: "GET",
       headers: getAuthHeaders(),
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch invoices");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch invoices");
     return data;
   },
 
-  createInvoice: async (payload: Partial<InvoiceData>): Promise<InvoiceData> => {
+  createInvoice: async (
+    payload: Partial<InvoiceData>,
+  ): Promise<InvoiceData> => {
     const response = await fetch(`${BASE_URL}`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to create invoice");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to create invoice");
     return data;
   },
 
@@ -276,7 +289,8 @@ export const invoiceApi = {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch invoice");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch invoice");
     return data;
   },
 
@@ -286,31 +300,39 @@ export const invoiceApi = {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to toggle payment status");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to toggle payment status");
     return data;
   },
 
-  updateInvoice: async (id: string, payload: Partial<InvoiceData>): Promise<InvoiceData> => {
+  updateInvoice: async (
+    id: string,
+    payload: Partial<InvoiceData>,
+  ): Promise<InvoiceData> => {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "PATCH",
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to update invoice");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to update invoice");
     return data;
   },
 
   getClientInvoices: async (
     clientId: string,
-    params: FilterParams = {}
+    params: FilterParams = {},
   ): Promise<ClientInvoiceResponse> => {
     const url = new URL(`${BASE_URL}/client/${clientId}`);
-    
-    Object.keys(params).forEach(key => {
-        if (params[key as keyof FilterParams]) {
-            url.searchParams.append(key, params[key as keyof FilterParams]!.toString());
-        }
+
+    Object.keys(params).forEach((key) => {
+      if (params[key as keyof FilterParams]) {
+        url.searchParams.append(
+          key,
+          params[key as keyof FilterParams]!.toString(),
+        );
+      }
     });
 
     const response = await fetch(url.toString(), {
@@ -318,20 +340,24 @@ export const invoiceApi = {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch client invoices");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch client invoices");
     return data;
   },
 
   getItemInvoices: async (
     itemId: string,
-    params: FilterParams = {}
+    params: FilterParams = {},
   ): Promise<ItemInvoiceResponse> => {
     const url = new URL(`${BASE_URL}/item/${itemId}`);
-    
-    Object.keys(params).forEach(key => {
-        if (params[key as keyof FilterParams]) {
-            url.searchParams.append(key, params[key as keyof FilterParams]!.toString());
-        }
+
+    Object.keys(params).forEach((key) => {
+      if (params[key as keyof FilterParams]) {
+        url.searchParams.append(
+          key,
+          params[key as keyof FilterParams]!.toString(),
+        );
+      }
     });
 
     const response = await fetch(url.toString(), {
@@ -339,10 +365,11 @@ export const invoiceApi = {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to fetch item invoices");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to fetch item invoices");
     return data;
   },
- 
+
   // --- Analytics Methods ---
 
   getClientStats: async (clientId: string, mode: string, customRange?: any) => {
@@ -352,89 +379,132 @@ export const invoiceApi = {
       url.searchParams.append("startDate", customRange.start.toISOString());
       url.searchParams.append("endDate", customRange.end.toISOString());
     }
-    const response = await fetch(url.toString(), { method: "GET", headers: getAuthHeaders() });
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: getAuthHeaders(),
+    });
     return response.json();
   },
-  
+
   updateClientSnapshot: async (id: string, data: any) => {
-    const response = await fetch(`${BASE_URL}/${id}/client`, { 
-      method: "PATCH", 
-      headers: getAuthHeaders(), 
-      body: JSON.stringify(data) 
+    const response = await fetch(`${BASE_URL}/${id}/client`, {
+      method: "PATCH",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data),
     });
     return response.json();
   },
 
-  getMonthlySales: async (clientId: string, year: number): Promise<MonthlySalesResponse> => {
-    const response = await fetch(`${API_ROOT}/client-stats/${clientId}/sales?year=${year}`, { 
-      headers: getAuthHeaders() 
-    });
+  getMonthlySales: async (
+    clientId: string,
+    year: number,
+  ): Promise<MonthlySalesResponse> => {
+    const response = await fetch(
+      `${API_ROOT}/client-stats/${clientId}/sales?year=${year}`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return response.json();
   },
 
-  getItemStats: async (itemId: string, mode: string, customRange?: any): Promise<ClientStatPoint[]> => {
+  getItemStats: async (
+    itemId: string,
+    mode: string,
+    customRange?: any,
+  ): Promise<ClientStatPoint[]> => {
     const url = new URL(`${API_ROOT}/item-stats/${itemId}`);
     url.searchParams.append("mode", mode);
     if (mode === "custom" && customRange) {
       url.searchParams.append("startDate", customRange.start.toISOString());
       url.searchParams.append("endDate", customRange.end.toISOString());
     }
-    const response = await fetch(url.toString(), { method: "GET", headers: getAuthHeaders() });
-    return response.json(); 
-  },
-
-  getItemMonthlySales: async (itemId: string, year: number): Promise<MonthlySalesResponse> => {
-    const response = await fetch(`${API_ROOT}/item-stats/${itemId}/sales?year=${year}`, { 
-      headers: getAuthHeaders() 
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: getAuthHeaders(),
     });
     return response.json();
   },
 
-  getItemDeliveryStats: async (itemId: string): Promise<DeliveryStatsResponse> => {
-    const response = await fetch(`${API_ROOT}/item-stats/${itemId}/delivery`, { 
-      headers: getAuthHeaders() 
+  getItemMonthlySales: async (
+    itemId: string,
+    year: number,
+  ): Promise<MonthlySalesResponse> => {
+    const response = await fetch(
+      `${API_ROOT}/item-stats/${itemId}/sales?year=${year}`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
+    return response.json();
+  },
+
+  getItemDeliveryStats: async (
+    itemId: string,
+  ): Promise<DeliveryStatsResponse> => {
+    const response = await fetch(`${API_ROOT}/item-stats/${itemId}/delivery`, {
+      headers: getAuthHeaders(),
     });
     return response.json();
   },
 
-  getItemTopBuyers: async (itemId: string, year: number, month?: number): Promise<TopBuyersResponse> => {
+  getItemTopBuyers: async (
+    itemId: string,
+    year: number,
+    month?: number,
+  ): Promise<TopBuyersResponse> => {
     let url = `${API_ROOT}/item-stats/${itemId}/top-buyers?year=${year}`;
     if (month !== undefined && month !== -1) url += `&month=${month}`;
     const response = await fetch(url, { headers: getAuthHeaders() });
     return response.json();
   },
 
-  getItemProfitStats: async (itemId: string, year: number, month?: number): Promise<ProfitStatsResponse> => {
+  getItemProfitStats: async (
+    itemId: string,
+    year: number,
+    month?: number,
+  ): Promise<ProfitStatsResponse> => {
     let url = `${API_ROOT}/item-stats/${itemId}/profit?year=${year}`;
     if (month !== undefined && month !== -1) url += `&month=${month}`;
     const response = await fetch(url, { headers: getAuthHeaders() });
     return response.json();
   },
 
-  getClientTopProducts: async (clientId: string, year: number): Promise<ClientProductsResponse> => {
-    const response = await fetch(`${API_ROOT}/client-stats/${clientId}/products?year=${year}`, { 
-      headers: getAuthHeaders() 
-    });
+  getClientTopProducts: async (
+    clientId: string,
+    year: number,
+  ): Promise<ClientProductsResponse> => {
+    const response = await fetch(
+      `${API_ROOT}/client-stats/${clientId}/products?year=${year}`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return response.json();
   },
 
-  getClientInvoiceStatus: async (clientId: string): Promise<InvoiceStatusStats> => {
-    const response = await fetch(`${API_ROOT}/client-stats/${clientId}/status`, { 
-      headers: getAuthHeaders() 
-    });
+  getClientInvoiceStatus: async (
+    clientId: string,
+  ): Promise<InvoiceStatusStats> => {
+    const response = await fetch(
+      `${API_ROOT}/client-stats/${clientId}/status`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return response.json();
   },
 
   getClientAOV: async (clientId: string) => {
-    const res = await fetch(`${API_ROOT}/client-stats/${clientId}/aov`, { 
-      headers: getAuthHeaders() 
+    const res = await fetch(`${API_ROOT}/client-stats/${clientId}/aov`, {
+      headers: getAuthHeaders(),
     });
     return res.json();
   },
 
   getClientHealth: async (clientId: string) => {
-    const res = await fetch(`${API_ROOT}/client-stats/${clientId}/health`, { 
-      headers: getAuthHeaders() 
+    const res = await fetch(`${API_ROOT}/client-stats/${clientId}/health`, {
+      headers: getAuthHeaders(),
     });
     return res.json();
   },
@@ -445,7 +515,8 @@ export const invoiceApi = {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "Failed to restore invoice");
+    if (!response.ok)
+      throw new Error(data.message || "Failed to restore invoice");
     return data.invoice;
   },
 };

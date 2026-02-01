@@ -12,7 +12,7 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import { usePermissions } from "../../hooks/usePermissions";
 
-export default function BusinessLegalCard({ 
+export default function BusinessLegalCard({
   business,
   refresh,
   setAlert,
@@ -86,7 +86,8 @@ export default function BusinessLegalCard({
             {t("settings.general.cards.reg_label")}
           </span>
           <span className="text-sm font-medium text-gray-800 dark:text-white">
-            {business.registrationNumber || t("settings.general.cards.not_registered")}
+            {business.registrationNumber ||
+              t("settings.general.cards.not_registered")}
           </span>
         </div>
 
@@ -109,31 +110,70 @@ export default function BusinessLegalCard({
             {t("settings.general.cards.legal_subtitle")}
           </p>
 
-          <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSave();
+            }}
+            className="space-y-4"
+          >
             <div>
               <Label>{t("settings.general.cards.tax_label")}</Label>
-              <Input placeholder={t("create.form.tax_placeholder")} value={formData.taxId} onChange={(e) => setFormData({ ...formData, taxId: e.target.value })} />
+              <Input
+                placeholder={t("create.form.tax_placeholder")}
+                value={formData.taxId}
+                onChange={(e) =>
+                  setFormData({ ...formData, taxId: e.target.value })
+                }
+              />
             </div>
 
             <div>
               <Label>{t("settings.general.cards.reg_label")}</Label>
-              <Input placeholder="Official business ID" value={formData.registrationNumber} onChange={(e) => setFormData({ ...formData, registrationNumber: e.target.value })} />
+              <Input
+                placeholder="Official business ID"
+                value={formData.registrationNumber}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    registrationNumber: e.target.value,
+                  })
+                }
+              />
             </div>
 
             <div>
               <Label>{t("settings.general.cards.billing_email_label")}</Label>
-              <Input type="email" placeholder={t("create.form.email_placeholder")} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              <Input
+                type="email"
+                placeholder={t("create.form.email_placeholder")}
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
               <p className="mt-2 text-[10px] text-gray-400 font-medium italic">
                 {t("settings.general.cards.billing_help")}
               </p>
             </div>
 
             <div className="flex justify-end gap-3 mt-10">
-              <Button type="button" variant="outline" onClick={closeModal} className="text-[10px] font-semibold uppercase tracking-widest">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={closeModal}
+                className="text-[10px] font-semibold uppercase tracking-widest"
+              >
                 {t("settings.general.form.cancel")}
               </Button>
-              <Button type="submit" disabled={loading} className="text-[10px] font-semibold uppercase tracking-widest">
-                {loading ? t("settings.general.form.synchronizing") : t("settings.general.form.apply_updates")}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="text-[10px] font-semibold uppercase tracking-widest"
+              >
+                {loading
+                  ? t("settings.general.form.synchronizing")
+                  : t("settings.general.form.apply_updates")}
               </Button>
             </div>
           </form>

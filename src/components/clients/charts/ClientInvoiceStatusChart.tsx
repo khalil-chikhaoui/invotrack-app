@@ -1,11 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { invoiceApi, InvoiceStatusStats } from "../../../apis/invoices";
 import { HiOutlineDocumentText } from "react-icons/hi2";
 import { useTheme } from "../../../context/ThemeContext";
-import LoadingState from "../../common/LoadingState"; 
+import LoadingState from "../../common/LoadingState";
 
 interface ClientInvoiceStatusChartProps {
   clientId: string;
@@ -14,13 +14,13 @@ interface ClientInvoiceStatusChartProps {
 export default function ClientInvoiceStatusChart({
   clientId,
 }: ClientInvoiceStatusChartProps) {
-  const { t } = useTranslation("client_details"); // <--- Load namespace
+  const { t } = useTranslation("client_details");
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [stats, setStats] = useState<InvoiceStatusStats | null>(null);
   const [loading, setLoading] = useState(true);
- 
+
   const LIGHT_COLORS = ["#10B981", "#6366F1", "#EF4444"];
   const DARK_COLORS = ["#34D399", "#818CF8", "#F87171"];
 
@@ -55,9 +55,9 @@ export default function ClientInvoiceStatusChart({
   }, [stats, total]);
 
   const labels = [
-    t("analytics.status.legend.paid"), 
-    t("analytics.status.legend.open"), 
-    t("analytics.status.legend.cancelled")
+    t("analytics.status.legend.paid"),
+    t("analytics.status.legend.open"),
+    t("analytics.status.legend.cancelled"),
   ];
 
   if (!loading && total === 0) {
@@ -154,7 +154,10 @@ export default function ClientInvoiceStatusChart({
 
       <div className="relative flex-1 flex items-center justify-center flex-col min-h-[280px]">
         {loading ? (
-          <LoadingState message={t("analytics.status.loading")} minHeight="full" />
+          <LoadingState
+            message={t("analytics.status.loading")}
+            minHeight="full"
+          />
         ) : (
           <div className="absolute inset-0 w-full h-full flex items-center justify-center">
             <Chart

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { itemApi, ItemData, ItemPaginationMeta } from "../../apis/items";
 import { businessApi, BusinessData } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
@@ -15,10 +15,10 @@ import PermissionDenied from "../../components/common/PermissionDenied";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import ItemFilters from "../../components/items/ItemFilters";
-import { scrollToTopAppLayout } from "../../layout/AppLayout"; // <--- Scroll helper
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function Items() {
-  const { t } = useTranslation("item"); // <--- Load namespace
+  const { t } = useTranslation("item");
   const { businessId } = useParams();
   const { canManage, canViewFinancials } = usePermissions();
   const { alert, setAlert } = useAlert();
@@ -43,7 +43,7 @@ export default function Items() {
     isOpen: isFormOpen,
     openModal: openFormModal,
     closeModal: closeFormModal,
-  } = useModal();  
+  } = useModal();
   const {
     isOpen: isDeleteOpen,
     openModal: openDeleteModal,
@@ -55,10 +55,11 @@ export default function Items() {
     closeModal: closeStockModal,
   } = useModal();
 
-  /**
-   * WRAPPER FUNCTION for Alerts
-   */
-  const triggerAlert = (data: { type: "success" | "error" | "warning" | "info"; title: string; message: string }) => {
+  const triggerAlert = (data: {
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+    message: string;
+  }) => {
     setAlert(data);
     scrollToTopAppLayout();
   };
@@ -82,7 +83,11 @@ export default function Items() {
       setItems(res.items);
       setMeta(res.meta);
     } catch (error: any) {
-      triggerAlert({ type: "error", title: t("errors.SYNC_ERROR"), message: error.message });
+      triggerAlert({
+        type: "error",
+        title: t("errors.SYNC_ERROR"),
+        message: error.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -106,12 +111,16 @@ export default function Items() {
     setDeleting(true);
     try {
       const res: any = await itemApi.deleteItem(selectedItem._id);
-      
+
       // Determine correct translation keys based on backend action
-      const titleKey = res.action === "ARCHIVED" ? "messages.ARCHIVED" : "messages.DELETED";
+      const titleKey =
+        res.action === "ARCHIVED" ? "messages.ARCHIVED" : "messages.DELETED";
       // We assume backend returns a message key like 'ITEM_DELETED' now, or fallback
       // For safety, let's map the backend code or use generic success
-      const msgKey = res.message === "ITEM_ARCHIVED_HISTORY" ? "messages.ITEM_ARCHIVED_HISTORY" : "messages.ITEM_DELETED";
+      const msgKey =
+        res.message === "ITEM_ARCHIVED_HISTORY"
+          ? "messages.ITEM_ARCHIVED_HISTORY"
+          : "messages.ITEM_DELETED";
 
       triggerAlert({
         type: res.action === "ARCHIVED" ? "warning" : "success",
@@ -122,10 +131,10 @@ export default function Items() {
       closeDeleteModal();
     } catch (error: any) {
       const errorCode = error.message;
-      triggerAlert({ 
-        type: "error", 
-        title: t("errors.FAILED"), 
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      triggerAlert({
+        type: "error",
+        title: t("errors.FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setDeleting(false);
@@ -144,20 +153,22 @@ export default function Items() {
 
   return (
     <>
-      <PageMeta description={t("list.meta_desc")} title={`${t("list.title")} | Invotrack`} />
+      <PageMeta
+        description={t("list.meta_desc")}
+        title={`${t("list.title")} | Invotrack`}
+      />
       <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       {/* --- MASTER UNIFIED CARD --- */}
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
-        
-        {/* 1. Filters Header */}
+        {/*  Filters Header */}
         <ItemFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
-          typeFilter={typeFilter} 
+          typeFilter={typeFilter}
           setTypeFilter={setTypeFilter}
           sortConfig={sortConfig}
           setSortConfig={setSortConfig}
@@ -171,13 +182,12 @@ export default function Items() {
           onRefresh={fetchData}
         />
 
-        {/* 2. Table Body (Handles Empty/Loading States Internally) */}
         <ItemsTable
           items={items}
           business={business}
           canManage={canManage}
           meta={meta}
-          loading={loading} // Pass loading state
+          loading={loading}
           onPageChange={setPage}
           onOpenStock={(item) => {
             setSelectedItem(item);

@@ -15,9 +15,9 @@ interface RecordNotFoundProps {
 }
 
 export default function RecordNotFound({
-  title = "Record Not Found",
-  description = "The requested resource could not be located. It may have been deleted or archived.",
-  actionText = "Return to Directory",
+  title,
+  description,
+  actionText,
   onAction,
 }: RecordNotFoundProps) {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function RecordNotFound({
     if (onAction) {
       onAction();
     } else {
-      navigate(-1); // Default: Go back
+      navigate(-1);
     }
   };
 

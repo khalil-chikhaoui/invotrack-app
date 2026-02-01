@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { Modal } from "../../components/ui/modal";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
@@ -31,7 +31,7 @@ export default function ClientIdentityModal({
     name: "",
     email: "",
     phone: { country: "US", number: "" },
-    clientType: "Individual", 
+    clientType: "Individual",
     taxId: "",
   });
 
@@ -44,7 +44,7 @@ export default function ClientIdentityModal({
         email: client.email || "",
         phone: {
           country: phoneData.country || "US",
-          number: phoneData.number || ""
+          number: phoneData.number || "",
         },
         clientType: client.clientType || "Individual",
         taxId: client.taxId || "",
@@ -68,7 +68,11 @@ export default function ClientIdentityModal({
       });
       refresh();
     } catch (error: any) {
-      setAlert({ type: "error", title: t("errors.UPDATE_FAILED"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: error.message,
+      });
     } finally {
       onClose();
       setLoading(false);
@@ -93,7 +97,9 @@ export default function ClientIdentityModal({
             <Input
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
           </div>
 
@@ -103,17 +109,25 @@ export default function ClientIdentityModal({
               <select
                 className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-brand-500 outline-none"
                 value={formData.clientType}
-                onChange={(e) => setFormData({ ...formData, clientType: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, clientType: e.target.value })
+                }
               >
-                <option value="Individual">{t("identity_card.type_individual")}</option>
-                <option value="Business">{t("identity_card.type_business")}</option>
+                <option value="Individual">
+                  {t("identity_card.type_individual")}
+                </option>
+                <option value="Business">
+                  {t("identity_card.type_business")}
+                </option>
               </select>
             </div>
             <div>
               <Label>{t("modals.identity.fields.tax_id")}</Label>
               <Input
                 value={formData.taxId}
-                onChange={(e) => setFormData({ ...formData, taxId: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, taxId: e.target.value })
+                }
               />
             </div>
           </div>
@@ -124,7 +138,9 @@ export default function ClientIdentityModal({
               <Input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
             <div>
@@ -152,7 +168,9 @@ export default function ClientIdentityModal({
               disabled={loading}
               className="text-[10px] font-semibold uppercase tracking-widest"
             >
-              {loading ? t("modals.identity.actions.saving") : t("modals.identity.actions.save")}
+              {loading
+                ? t("modals.identity.actions.saving")
+                : t("modals.identity.actions.save")}
             </Button>
           </div>
         </form>

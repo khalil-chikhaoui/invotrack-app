@@ -9,7 +9,7 @@ export default function InvoiceNotes({
   setNotes: (v: string) => void;
 }) {
   const { t } = useTranslation("invoice");
-  
+
   return (
     <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm ">
       <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-white/5 pb-3">

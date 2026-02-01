@@ -26,7 +26,6 @@ export default function PermissionDenied({
 }: PermissionDeniedProps) {
   const navigate = useNavigate();
 
-  // Default action is to go back in history
   const handleAction = () => {
     if (onAction) {
       onAction();
@@ -35,7 +34,6 @@ export default function PermissionDenied({
     }
   };
 
-  // catch the "Enter" key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter") {

@@ -3,12 +3,12 @@
  */
 
 import { Navigate, Outlet, useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
-import LoadingState from "../common/LoadingState";
+import LoadingState from "../../components/common/LoadingState";
 
 const BusinessGuard = () => {
-  const { t } = useTranslation("common"); // <--- Load namespace
+  const { t } = useTranslation("common");
   const { businessId } = useParams();
   const { user, loading } = useAuth();
 
@@ -16,11 +16,11 @@ const BusinessGuard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <LoadingState
-          message={t("auth_guards.verifying_access")} 
-          minHeight="100vh" 
+          message={t("auth_guards.verifying_access")}
+          minHeight="100vh"
         />
       </div>
-    ); 
+    );
   }
 
   const isMember = user?.memberships.some(

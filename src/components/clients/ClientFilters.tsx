@@ -8,7 +8,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { useState } from "react";
 import { Modal } from "../ui/modal";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 
 interface ClientFiltersProps {
   searchTerm: string;
@@ -66,7 +66,7 @@ export default function ClientFilters({
   onAdd,
   onRefresh,
 }: ClientFiltersProps) {
-  const { t } = useTranslation("client"); // <--- Load "client" namespace
+  const { t } = useTranslation("client");
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const defaults = {

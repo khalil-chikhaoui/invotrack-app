@@ -8,8 +8,8 @@ import { useTranslation } from "react-i18next";
 import { HiOutlineArrowRightOnRectangle, HiOutlineKey } from "react-icons/hi2";
 
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import UserMetaCard from "../../components/UserProfile/UserMetaCard";
-import UserInfoCard from "../../components/UserProfile/UserInfoCard";
+import UserMetaCard from "../../components/userProfile/UserMetaCard";
+import UserInfoCard from "../../components/userProfile/UserInfoCard";
 import LanguageSelector from "../../components/common/LanguageSelector";
 import PageMeta from "../../components/common/PageMeta";
 import CustomAlert from "../../components/common/CustomAlert";
@@ -25,7 +25,6 @@ export default function UserProfiles() {
   const { alert, setAlert } = useAlert();
   const [loadingReset, setLoadingReset] = useState(false);
 
-  // --- 1. THE WRAPPER FUNCTION ---
   const triggerAlert = (data: {
     type: "success" | "error" | "warning" | "info";
     title: string;
@@ -40,7 +39,6 @@ export default function UserProfiles() {
     navigate("/signin");
   };
 
-  // --- 2. LANGUAGE PERSISTENCE ---
   const handleLanguageChange = async (lang: string) => {
     // 1. Visual update
     i18n.changeLanguage(lang);

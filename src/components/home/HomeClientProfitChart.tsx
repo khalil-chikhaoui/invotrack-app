@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { dashboardApi, ProfitStat } from "../../apis/dashboard";
 import { DashboardDateRange } from "./HomeHeader";
 import { BusinessData } from "../../apis/business";
@@ -7,22 +7,22 @@ import { useAuth } from "../../context/AuthContext";
 import { formatDate } from "date-fns";
 import ProfitAnalyticsCard from "../../components/charts/ProfitAnalyticsCard";
 import ChartSkeleton from "./ChartSkeleton";
-import { useDateLocale } from "../../hooks/useDateLocale"; // <--- Import Date Locale Hook
+import { useDateLocale } from "../../hooks/useDateLocale";
 
 interface HomeClientProfitChartProps {
   business: BusinessData | null;
   dateRange: DashboardDateRange;
   loadingBusiness?: boolean;
 }
- 
+
 export default function HomeClientProfitChart({
   business,
   dateRange,
-  loadingBusiness
+  loadingBusiness,
 }: HomeClientProfitChartProps) {
-  const { t } = useTranslation("home"); // <--- Load namespace
+  const { t } = useTranslation("home");
   const { user } = useAuth();
-  const dateLocale = useDateLocale(); // <--- Get current date locale
+  const dateLocale = useDateLocale();
 
   const businessId = business?._id || user?.memberships[0]?.businessId._id;
   const currency = business?.currency || "USD";
@@ -39,7 +39,7 @@ export default function HomeClientProfitChart({
         const data = await dashboardApi.getClientProfitability(
           businessId,
           dateRange.start,
-          dateRange.end
+          dateRange.end,
         );
         setProfitData(data.stats);
       } catch (error) {

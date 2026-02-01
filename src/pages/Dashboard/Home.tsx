@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import PageMeta from "../../components/common/PageMeta";
 import { usePermissions } from "../../hooks/usePermissions";
 import PermissionDenied from "../../components/common/PermissionDenied";
@@ -24,7 +24,7 @@ const getDefaultRange = (): DashboardDateRange => {
 };
 
 export default function Home() {
-  const { t } = useTranslation("home"); // <--- Load namespace
+  const { t } = useTranslation("home");
   const { businessId } = useParams();
   const { canViewFinancials } = usePermissions();
 

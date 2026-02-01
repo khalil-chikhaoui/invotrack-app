@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { businessApi } from "../../apis/business";
 import { useAuth } from "../../context/AuthContext";
 import PageMeta from "../../components/common/PageMeta";
@@ -49,7 +49,7 @@ interface Member {
 }
 
 export default function Members() {
-  const { t } = useTranslation("members"); // <--- Load "members" namespace
+  const { t } = useTranslation("members");
   const { businessId } = useParams();
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
@@ -184,9 +184,8 @@ export default function Members() {
     const diffTime = expires.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays <= 0) return t("status.expired", { defaultValue: "Expired" });
-    if (diffDays === 1)
-      return t("status.expires_today", { defaultValue: "Expires today" });
+    if (diffDays <= 0) return t("status.expired");
+    if (diffDays === 1) return t("status.expires_today");
     return t("status.days_left", {
       count: diffDays,
       defaultValue: "{{count}} days left",

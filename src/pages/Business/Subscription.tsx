@@ -179,7 +179,7 @@ export default function Subscription() {
                 </div>
               </div>
             </div>
-            <Button
+            <Button 
               variant="outline"
               className="w-full text-[10px] font-semibold uppercase tracking-widest"
             >

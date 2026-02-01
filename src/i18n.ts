@@ -10,26 +10,16 @@ i18n
   .init({
     fallbackLng: "en",
     supportedLngs: ["en", "fr", "de"],
-    
-    // 1. Define your default namespace (loaded on every page)
-    defaultNS: "common",
-    
-    // 2. List available namespaces
-    ns: ["common", "auth"],
-
     interpolation: {
-      escapeValue: false, 
+      escapeValue: false,
     },
-    
     detection: {
       order: ["querystring", "localStorage", "navigator"],
       caches: ["localStorage"],
     },
-    
     backend: {
-      // 3. Load path for your namespaces
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
-    }
+      loadPath: "/locales/{{lng}}/{{ns}}.json",
+    },
   });
 
 export default i18n;

@@ -6,7 +6,7 @@ import { formatMoney } from "../../hooks/formatMoney";
 import { useTheme } from "../../context/ThemeContext";
 import LoadingState from "../common/LoadingState";
 
-export interface ProfitStat { 
+export interface ProfitStat {
   label: string;
   revenue?: number;
   cost: number;
@@ -21,7 +21,7 @@ interface ProfitAnalyticsCardProps {
   subtitle?: string;
   emptyTitle?: string;
   emptyDescription?: string;
-  rightAction?: React.ReactNode; 
+  rightAction?: React.ReactNode;
 }
 
 export default function ProfitAnalyticsCard({
@@ -32,17 +32,17 @@ export default function ProfitAnalyticsCard({
   subtitle = "Cost vs Profit analysis",
   emptyTitle = "Insufficient Data",
   emptyDescription = "Cost prices needed for analysis.",
-  rightAction, 
+  rightAction,
 }: ProfitAnalyticsCardProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const LIGHT_COLORS = ["#465FFF", "#10B981"]; 
-  const DARK_COLORS = ["#465FFF", "#34D399"]; 
+  const LIGHT_COLORS = ["#465FFF", "#10B981"];
+  const DARK_COLORS = ["#465FFF", "#34D399"];
 
   const hasData = useMemo(
     () => data.length > 0 && data.some((b) => b.profit > 0 || b.cost > 0),
-    [data]
+    [data],
   );
 
   const series = [
@@ -60,7 +60,9 @@ export default function ProfitAnalyticsCard({
       background: "transparent",
     },
     theme: { mode: isDark ? "dark" : "light" },
-    plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: "50%" } },
+    plotOptions: {
+      bar: { horizontal: true, borderRadius: 4, barHeight: "50%" },
+    },
     dataLabels: { enabled: false },
     stroke: { width: 1, colors: isDark ? ["#1F2937"] : ["#ffffff"] },
     xaxis: {
@@ -69,11 +71,15 @@ export default function ProfitAnalyticsCard({
       axisTicks: { show: false },
       labels: {
         style: { fontSize: "10px", colors: "#9CA3AF" },
-        formatter: (val: string | number) => formatMoney(val, currency, { digits: 0 }),
+        formatter: (val: string | number) =>
+          formatMoney(val, currency, { digits: 0 }),
       },
     },
     yaxis: {
-      labels: { style: { colors: "#9CA3AF", fontSize: "11px", fontWeight: 500 }, maxWidth: 100 },
+      labels: {
+        style: { colors: "#9CA3AF", fontSize: "11px", fontWeight: 500 },
+        maxWidth: 100,
+      },
     },
     grid: {
       borderColor: isDark ? "#374151" : "#E5E7EB",
@@ -107,11 +113,13 @@ export default function ProfitAnalyticsCard({
             {subtitle}
           </p>
         </div>
-       
+
         {rightAction && <div className="flex gap-2">{rightAction}</div>}
       </div>
 
-      <div className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? 'flex items-center justify-center' : ''}`}>
+      <div
+        className={`relative flex-1 min-h-[300px] w-full ${loading || !hasData ? "flex items-center justify-center" : ""}`}
+      >
         {loading ? (
           <LoadingState message="Calculating margins..." minHeight="full" />
         ) : !hasData ? (
@@ -120,13 +128,17 @@ export default function ProfitAnalyticsCard({
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
               {emptyTitle}
             </h4>
-            <p className="text-[10px] text-gray-500 mt-1">
-              {emptyDescription}
-            </p>
+            <p className="text-[10px] text-gray-500 mt-1">{emptyDescription}</p>
           </div>
         ) : (
           <div className="absolute inset-0 w-full h-full">
-            <Chart options={options} series={series} type="bar" height="100%" width="100%" />
+            <Chart
+              options={options}
+              series={series}
+              type="bar"
+              height="100%"
+              width="100%"
+            />
           </div>
         )}
       </div>

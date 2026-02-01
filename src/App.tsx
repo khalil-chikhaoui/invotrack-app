@@ -16,11 +16,11 @@ import ResetPassword from "./pages/AuthPages/ResetPassword";
 import NewPassword from "./pages/AuthPages/NewPassword";
 import NotFound from "./pages/OtherPage/NotFound";
 
-// --- LAYOUTS & GUARDS --- 
+// --- LAYOUTS & GUARDS ---
 import AppLayout from "./layout/AppLayout";
-import PublicRoute from "./components/route/PublicRoute";
-import BusinessGuard from "./components/route/BusinessGuard";
-import ProtectedRoute from "./components/route/ProtectedRoute";
+import PublicRoute from "./hooks/route/PublicRoute";
+import BusinessGuard from "./hooks/route/BusinessGuard";
+import ProtectedRoute from "./hooks/route/ProtectedRoute";
 
 // --- DASHBOARD & BUSINESS PAGES ---
 import Home from "./pages/Dashboard/Home";
@@ -45,11 +45,8 @@ import CreateInvoice from "./pages/Invoices/CreateInvoice";
 import InvoiceDetails from "./pages/Invoices/InvoiceDetails";
 
 // --- UI & UTILS ---
-import FormElements from "./pages/Forms/FormElements";
-import Calendar from "./pages/Calendar";
+import Calendar from "./pages/Calendar/Calendar";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
-
-
 
 export default function App() {
   return (
@@ -130,9 +127,6 @@ export default function App() {
               element={<Navigate to="/select-business" replace />}
             />
           </Route>
-
-          {/* Development / Utility Routes */}
-          <Route path="forms" element={<FormElements />} />
 
           {/* --- 4. 404 CATCH-ALL --- */}
           <Route path="*" element={<NotFound />} />

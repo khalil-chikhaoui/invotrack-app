@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
@@ -14,7 +14,7 @@ import { authApi } from "../../apis/auth";
 import { ChevronLeftIcon } from "../../icons";
 
 export default function ResetPasswordForm() {
-  const { t } = useTranslation("auth"); // <--- Load "auth" namespace
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -32,8 +32,8 @@ export default function ResetPasswordForm() {
     } catch (err: any) {
       const errorCode = err.message;
       const translatedError = t(
-        `errors.${errorCode}` as any, 
-        t("errors.GENERIC_ERROR")
+        `errors.${errorCode}` as any,
+        t("errors.GENERIC_ERROR"),
       );
       setError(translatedError);
     } finally {
@@ -76,9 +76,10 @@ export default function ResetPasswordForm() {
           {/* Email Input Field */}
           <div>
             <Label>
-              {t("reset_password.email_label")} <span className="text-error-500">*</span>
+              {t("reset_password.email_label")}{" "}
+              <span className="text-error-500">*</span>
             </Label>
-            <Input 
+            <Input
               type="email"
               placeholder="name@company.com"
               value={email}
@@ -89,10 +90,9 @@ export default function ResetPasswordForm() {
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading 
-              ? t("reset_password.loading") 
-              : t("reset_password.submit_button")
-            }
+            {isLoading
+              ? t("reset_password.loading")
+              : t("reset_password.submit_button")}
           </Button>
         </form>
       </div>
@@ -130,14 +130,16 @@ export default function ResetPasswordForm() {
 
           <div className="flex flex-col gap-4">
             <Link to="/signin" className="w-full">
-              <Button type="button"
+              <Button
+                type="button"
                 className="w-full py-3 text-xs font-medium  tracking-widest"
                 size="sm"
               >
                 {t("reset_password.modal.return_button")}
               </Button>
             </Link>
-            <button type="button"
+            <button
+              type="button"
               onClick={closeModal}
               className="text-xs font-MEDIUM text-gray-400 my-2 tracking-widest hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
             >

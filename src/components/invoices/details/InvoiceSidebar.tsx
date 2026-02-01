@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import Badge from "../../ui/badge/Badge";
 import { HiOutlineInformationCircle, HiOutlinePencil } from "react-icons/hi2";
 import {
@@ -18,8 +18,8 @@ export default function InvoiceSidebar({
   openStatusModal,
   openDeliveryModal,
 }: InvoiceSidebarProps) {
-  const { t } = useTranslation("invoice_details"); // <--- Load "invoice_details"
-  const { t: tCommon } = useTranslation("common"); // <--- Load "common" for status chips
+  const { t } = useTranslation("invoice_details");
+  const { t: tCommon } = useTranslation("common");
   const displayStatus = getInvoiceDisplayStatus(invoice);
 
   return (
@@ -44,7 +44,9 @@ export default function InvoiceSidebar({
               {/* Status Badge */}
               <Badge size="sm" color={STATUS_COLORS[displayStatus]}>
                 <div className="flex items-center gap-1.5 font-semibold text-[10px] tracking-wider uppercase">
-                  {tCommon(`status.${displayStatus.toLowerCase()}`, { defaultValue: displayStatus })}
+                  {tCommon(`status.${displayStatus.toLowerCase()}`, {
+                    defaultValue: displayStatus,
+                  })}
                   <HiOutlinePencil className="size-3 opacity-70" />
                 </div>
               </Badge>
@@ -66,7 +68,9 @@ export default function InvoiceSidebar({
                 color={STATUS_COLORS[invoice.deliveryStatus]}
               >
                 <div className="flex items-center gap-1.5 font-semibold text-[10px] tracking-wider uppercase">
-                  {tCommon(`status.${invoice.deliveryStatus.toLowerCase()}`, { defaultValue: invoice.deliveryStatus })}
+                  {tCommon(`status.${invoice.deliveryStatus.toLowerCase()}`, {
+                    defaultValue: invoice.deliveryStatus,
+                  })}
                   <HiOutlinePencil className="size-3 opacity-70" />
                 </div>
               </Badge>

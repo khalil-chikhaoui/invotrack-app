@@ -22,7 +22,6 @@ import { usePermissions } from "../../hooks/usePermissions";
 import InvoiceFilters from "../../components/invoices/InvoiceFilters";
 import StatusUpdateModal from "../../components/common/StatusUpdateModal";
 
-// KEEP THESE IN ENGLISH for Logic consistency with Backend
 const PAYMENT_STATES = ["Open", "Paid", "Cancelled"];
 
 export default function Invoices() {
@@ -41,7 +40,9 @@ export default function Invoices() {
 
   // --- Filter & Query States ---
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"Paid" | "Unpaid" | "Cancelled" | "">("");
+  const [statusFilter, setStatusFilter] = useState<
+    "Paid" | "Unpaid" | "Cancelled" | ""
+  >("");
   const [deliveryFilter, setDeliveryFilter] = useState<DeliveryStatus | "">("");
   const [sortConfig, setSortConfig] = useState("issueDate:desc");
   const [dateRange, setDateRange] = useState("all");
@@ -49,9 +50,12 @@ export default function Invoices() {
   const [endDate, setEndDate] = useState("");
   const [page, setPage] = useState(1);
 
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
+    null,
+  );
   const [targetStatus, setTargetStatus] = useState<string>("Open");
-  const [targetDelivery, setTargetDelivery] = useState<DeliveryStatus>("Pending");
+  const [targetDelivery, setTargetDelivery] =
+    useState<DeliveryStatus>("Pending");
   const [updating, setUpdating] = useState(false);
 
   const statusModal = useModal();
@@ -66,13 +70,16 @@ export default function Invoices() {
 
       const fp = flatpickr(datePickerRef.current, {
         mode: "range",
-        static: true, 
+        static: true,
         monthSelectorType: "static",
         dateFormat: "M d, Y",
-        defaultDate: startDate && endDate ? [startDate, endDate] : [sevenDaysAgo, today],
+        defaultDate:
+          startDate && endDate ? [startDate, endDate] : [sevenDaysAgo, today],
         clickOpens: true,
-        prevArrow: '<svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-        nextArrow: '<svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        prevArrow:
+          '<svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        nextArrow:
+          '<svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
         onClose: (selectedDates, _, instance) => {
           if (selectedDates.length === 2) {
             setStartDate(instance.formatDate(selectedDates[0], "Y-m-d"));
@@ -113,10 +120,10 @@ export default function Invoices() {
       setBusiness(bizRes);
     } catch (error: any) {
       const errorCode = error.message;
-      setAlert({ 
-        type: "error", 
-        title: t("errors.SYNC_ERROR"), 
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      setAlert({
+        type: "error",
+        title: t("errors.SYNC_ERROR"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -126,7 +133,18 @@ export default function Invoices() {
   useEffect(() => {
     const d = setTimeout(() => fetchData(), 400);
     return () => clearTimeout(d);
-  }, [searchTerm, statusFilter, deliveryFilter, page, businessId, sortConfig, dateRange, startDate, endDate, canViewFinancials]);
+  }, [
+    searchTerm,
+    statusFilter,
+    deliveryFilter,
+    page,
+    businessId,
+    sortConfig,
+    dateRange,
+    startDate,
+    endDate,
+    canViewFinancials,
+  ]);
 
   const handleUpdate = async (type: "status" | "delivery") => {
     if (!selectedInvoice) return;
@@ -136,7 +154,8 @@ export default function Invoices() {
         if (targetStatus === "Cancelled") {
           await invoiceApi.deleteInvoice(selectedInvoice._id);
         } else if (targetStatus === "Paid") {
-          if (!selectedInvoice.isPaid) await invoiceApi.togglePayment(selectedInvoice._id);
+          if (!selectedInvoice.isPaid)
+            await invoiceApi.togglePayment(selectedInvoice._id);
         } else if (targetStatus === "Open") {
           if (selectedInvoice.isDeleted) {
             await invoiceApi.restoreInvoice(selectedInvoice._id);
@@ -150,16 +169,20 @@ export default function Invoices() {
         });
       }
 
-      setAlert({ type: "success", title: "Updated", message: t("messages.STATUS_SYNCED") });
+      setAlert({
+        type: "success",
+        title: "Updated",
+        message: t("messages.STATUS_SYNCED"),
+      });
       fetchData();
       statusModal.closeModal();
       deliveryModal.closeModal();
     } catch (e: any) {
       const errorCode = e.message;
-      setAlert({ 
-        type: "error", 
-        title: t("errors.UPDATE_FAILED"), 
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setUpdating(false);
@@ -178,32 +201,43 @@ export default function Invoices() {
 
   return (
     <>
-      <PageMeta description={t("list.meta_desc")} title={`${t("list.title")} | Invotrack`} />
+      <PageMeta
+        description={t("list.meta_desc")}
+        title={`${t("list.title")} | Invotrack`}
+      />
       <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm  animate-in fade-in slide-in-from-bottom-2 duration-300">
-        
         <InvoiceFilters
-          searchTerm={searchTerm} setSearchTerm={setSearchTerm}
-          statusFilter={statusFilter} setStatusFilter={setStatusFilter}
-          deliveryFilter={deliveryFilter} setDeliveryFilter={setDeliveryFilter}
-          sortConfig={sortConfig} setSortConfig={setSortConfig}
-          dateRange={dateRange} setDateRange={setDateRange}
-          startDate={startDate} setStartDate={setStartDate}
-          endDate={endDate} setEndDate={setEndDate}
-          setPage={setPage} loading={loading} canManage={canManage}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          deliveryFilter={deliveryFilter}
+          setDeliveryFilter={setDeliveryFilter}
+          sortConfig={sortConfig}
+          setSortConfig={setSortConfig}
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          setPage={setPage}
+          loading={loading}
+          canManage={canManage}
           onAdd={() => navigate(`/business/${businessId}/invoices/create`)}
           onRefresh={fetchData}
           placeholder={t("filters.search_placeholder")}
         />
 
-        <InvoiceTable 
+        <InvoiceTable
           invoices={invoices}
-          business={business} 
+          business={business}
           canManage={canManage}
           meta={meta}
-          loading={loading} 
+          loading={loading}
           onPageChange={setPage}
           onOpenStatus={(inv) => {
             setSelectedInvoice(inv);
@@ -229,7 +263,11 @@ export default function Invoices() {
         onValueChange={setTargetStatus}
         onConfirm={() => handleUpdate("status")}
         isLoading={updating}
-        confirmLabel={targetStatus === "Cancelled" ? t("status_modal.actions.confirm_void") : t("status_modal.actions.update")}
+        confirmLabel={
+          targetStatus === "Cancelled"
+            ? t("status_modal.actions.confirm_void")
+            : t("status_modal.actions.update")
+        }
       />
 
       {/* 2. Logistics/Delivery Status */}

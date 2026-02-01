@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { invoiceApi } from "../../../apis/invoices";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { useTheme } from "../../../context/ThemeContext";
@@ -16,7 +16,7 @@ export default function ClientAOVChart({
   clientId,
   currency = "USD",
 }: ClientAOVChartProps) {
-  const { t } = useTranslation("client_details"); // <--- Load namespace
+  const { t } = useTranslation("client_details");
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [data, setData] = useState<any[]>([]);
@@ -31,15 +31,23 @@ export default function ClientAOVChart({
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchData();
   }, [clientId]);
 
   const series = [
-    { name: t("analytics.aov.series.revenue"), type: "column", data: data.map((d) => d.revenue) },
-    { name: t("analytics.aov.series.aov"), type: "line", data: data.map((d) => d.aov) },
+    {
+      name: t("analytics.aov.series.revenue"),
+      type: "column",
+      data: data.map((d) => d.revenue),
+    },
+    {
+      name: t("analytics.aov.series.aov"),
+      type: "line",
+      data: data.map((d) => d.aov),
+    },
   ];
 
   const options: ApexOptions = {

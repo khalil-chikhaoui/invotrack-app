@@ -8,7 +8,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { useState } from "react";
 import { Modal } from "../ui/modal";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 
 interface ItemFiltersProps {
   searchTerm: string;
@@ -28,8 +28,18 @@ interface ItemFiltersProps {
 
 const CustomChevron = () => (
   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+    <svg
+      className="size-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M19 9l-7 7-7-7"
+      />
     </svg>
   </div>
 );
@@ -56,7 +66,7 @@ export default function ItemFilters({
   onAdd,
   onRefresh,
 }: ItemFiltersProps) {
-  const { t } = useTranslation("item"); // <--- Load namespace
+  const { t } = useTranslation("item");
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const defaults = {
@@ -148,7 +158,6 @@ export default function ItemFilters({
   return (
     <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col xl:flex-row gap-4 xl:items-end">
-        
         {/* Search + Mobile Controls */}
         <div className="flex flex-1 items-end gap-2">
           <div className="flex-1">
@@ -162,12 +171,12 @@ export default function ItemFilters({
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
-              className="h-10" 
+              className="h-10"
             />
           </div>
-          
+
           <div className="relative flex xl:hidden gap-2">
-             {/* Mobile Filter Trigger */}
+            {/* Mobile Filter Trigger */}
             <Button
               variant="outline"
               onClick={() => setIsFilterModalOpen(true)}
@@ -181,15 +190,17 @@ export default function ItemFilters({
                 </span>
               )}
             </Button>
-            
-             {/* Mobile Refresh */}
-             <Button
-                variant="outline"
-                onClick={onRefresh}
-                disabled={loading}
-                className="h-10 px-3 border-gray-200 dark:border-white/10"
-              >
-                <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
+
+            {/* Mobile Refresh */}
+            <Button
+              variant="outline"
+              onClick={onRefresh}
+              disabled={loading}
+              className="h-10 px-3 border-gray-200 dark:border-white/10"
+            >
+              <HiOutlineArrowPath
+                className={`size-5 ${loading ? "animate-spin" : ""}`}
+              />
             </Button>
           </div>
         </div>
@@ -201,13 +212,15 @@ export default function ItemFilters({
 
         {/* Desktop Actions */}
         <div className="hidden xl:flex items-center gap-2">
-           <Button
+          <Button
             variant="outline"
             onClick={onRefresh}
             disabled={loading}
             className="h-10 px-4 bg-white dark:bg-transparent"
           >
-            <HiOutlineArrowPath className={`size-5 ${loading ? "animate-spin" : ""}`} />
+            <HiOutlineArrowPath
+              className={`size-5 ${loading ? "animate-spin" : ""}`}
+            />
           </Button>
 
           {canManage && (
@@ -215,21 +228,22 @@ export default function ItemFilters({
               onClick={onAdd}
               className="h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm shadow-brand-500/20"
             >
-              <PlusIcon className="size-5 fill-current" /> {t("list.add_button")}
+              <PlusIcon className="size-5 fill-current" />{" "}
+              {t("list.add_button")}
             </Button>
           )}
         </div>
       </div>
-      
+
       {/* Mobile Add Button Row */}
       {canManage && (
         <div className="mt-4 xl:hidden">
-           <Button
-              onClick={onAdd}
-              className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
-            >
-              <PlusIcon className="size-4 fill-current" /> {t("list.add_button")}
-            </Button>
+          <Button
+            onClick={onAdd}
+            className="w-full h-10 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
+          >
+            <PlusIcon className="size-4 fill-current" /> {t("list.add_button")}
+          </Button>
         </div>
       )}
 
@@ -281,7 +295,7 @@ export default function ItemFilters({
                   type="button"
                   disabled={!hasActiveFilters}
                   onClick={handleReset}
-                   className={`w-full sm:w-auto px-4 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all duration-200 border border-transparent
+                  className={`w-full sm:w-auto px-4 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all duration-200 border border-transparent
                     ${
                       hasActiveFilters
                         ? "text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer"

@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { HiOutlineDocumentText, HiPlus } from "react-icons/hi2";
 import Button from "../../ui/button/Button";
 import { InvoiceData, InvoicePaginationMeta } from "../../../apis/invoices";
@@ -28,7 +28,7 @@ export default function ClientHistoryTab({
   loading,
   canManage,
   meta,
-  isArchived, 
+  isArchived,
   businessId,
   clientId,
   setPage,
@@ -38,17 +38,17 @@ export default function ClientHistoryTab({
   filterProps,
 }: ClientHistoryTabProps) {
   const { t } = useTranslation("client_details");
-  
+
   const showTable = loading || clientInvoices.length > 0;
 
   return (
     <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-      
-      {/* 1. Header (Outside the card) */}
+      {/* 1. Header  */}
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between px-1">
           <h3 className="font-semibold text-gray-800 dark:text-white tracking-widest text-sm md:text-md uppercase flex items-center gap-2">
-            <HiOutlineDocumentText className="size-4" /> {t("history_tab.title")}
+            <HiOutlineDocumentText className="size-4" />{" "}
+            {t("history_tab.title")}
           </h3>
 
           {!isArchived && (
@@ -77,7 +77,6 @@ export default function ClientHistoryTab({
 
       {/* 2. THE MASTER CARD */}
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl  overflow-hidden">
-        
         <InvoiceFilters placeholder="Invoice # ..." {...filterProps} />
 
         {showTable ? (

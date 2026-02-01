@@ -13,24 +13,20 @@ export default function AuthLayout({
   children,
   showLanguageSelector = false,
 }: AuthLayoutProps) {
-  // Load the "auth" namespace
   const { t, i18n } = useTranslation("auth");
 
   return (
     <div className="relative min-h-screen bg-white z-1 dark:bg-gray-900">
       <div className="relative flex flex-col justify-start w-full min-h-screen lg:flex-row dark:bg-gray-900">
-        
         {/* Main Content Area */}
         <div className="relative flex flex-col flex-1 w-full px-4 py-8 sm:px-6 lg:px-8">
-          
           {/* Top Right Language Selector (Conditional) */}
           {showLanguageSelector && (
             <div className="absolute top-4 right-4 sm:top-6 sm:right-8 z-20 w-48">
-              <LanguageSelector 
-                value={i18n.language} 
-                onChange={(lang) => i18n.changeLanguage(lang)} 
-                label="" 
-               
+              <LanguageSelector
+                value={i18n.language}
+                onChange={(lang) => i18n.changeLanguage(lang)}
+                label=""
               />
             </div>
           )}
@@ -51,7 +47,6 @@ export default function AuthLayout({
                   alt="Logo"
                 />
               </Link>
-              {/* TRANSLATED TAGLINE */}
               <p className="text-center text-gray-400 dark:text-white/60">
                 {t("layout.tagline")}
               </p>

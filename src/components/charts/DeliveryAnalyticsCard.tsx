@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import { HiOutlineTruck } from "react-icons/hi2";
 import LoadingState from "../common/LoadingState";
 
@@ -30,7 +30,7 @@ export default function DeliveryAnalyticsCard({
   emptyTitle = "No Shipments",
   emptyDescription = "No delivery data found for this period.",
 }: DeliveryAnalyticsCardProps) {
-  const { t } = useTranslation("common"); // <--- Load "common" namespace
+  const { t } = useTranslation("common");
 
   // 1. Calculate Aggregates
   const total = useMemo(() => {

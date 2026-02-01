@@ -28,7 +28,7 @@ export default function InvoiceTaxDiscount({
         <HiOutlineCalculator className="text-brand-500 size-5" />
         <h3 className="font-semibold text-gray-800 dark:text-white text-sm">
           {t("create.sections.tax_discount")}
-        </h3> 
+        </h3>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -67,7 +67,7 @@ export default function InvoiceTaxDiscount({
           {t("create.sections.tax_rate")}
         </Label>
         <NumericInput
-          variant="quantity" 
+          variant="quantity"
           value={taxRate}
           onChange={(val: string) => setTaxRate(Number(val))}
           className="bg-gray-50 dark:bg-gray-800/50"

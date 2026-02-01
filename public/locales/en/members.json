@@ -13,8 +13,8 @@
     "status": {
       "active": "Active",
       "pending": "Pending",
-      "refresh": "Refresh", 
-      "loading": "Syncing..." 
+      "refresh": "Refresh",
+      "loading": "Syncing..."
     },
     "empty": {
       "title": "No members found",
@@ -24,7 +24,7 @@
   "status": {
     "active": "Active",
     "pending": "Pending",
-    "expired": "Expired", 
+    "expired": "Expired",
     "expires_today": "Expires today",
     "days_left": "{{count}} days left",
     "loading": "Syncing...",
@@ -62,11 +62,20 @@
     "confirm_leave": "Confirm Leave"
   },
   "messages": {
+    "success_title": "Invitation Sent",
+    "error_title": "Error",
     "invitation_sent": "Invitation sent successfully to {{email}}",
     "role_updated": "Role updated successfully",
     "member_removed": "Member removed successfully",
     "invitation_cancelled": "Invitation cancelled successfully",
     "left_business": "You have left the business"
+  },
+  "permissions": {
+    "restricted_title": "Restricted Area",
+    "restricted_desc": "Only Administrators can invite new members."
+  },
+  "actions": {
+    "back": "Back"
   },
   "errors": {
     "BUSINESS_NOT_FOUND": "Business context not found.",

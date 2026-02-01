@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useTranslation, Trans } from "react-i18next"; // <--- Import Hook & Trans
+import { useTranslation, Trans } from "react-i18next";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -18,7 +18,7 @@ import LoadingState from "../common/LoadingState";
 import LanguageSelector from "../../components/common/LanguageSelector";
 
 export default function AcceptInvitationForm() {
-  const { t } = useTranslation("auth"); // <--- Load "auth" namespace
+  const { t } = useTranslation("auth");
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -65,10 +65,10 @@ export default function AcceptInvitationForm() {
       .catch((err) => {
         if (isMounted) {
           // PRO ERROR HANDLING
-          const errorCode = err.message; 
+          const errorCode = err.message;
           const translatedError = t(
-            `errors.${errorCode}` as any, 
-            t("errors.INVITATION_INVALID")
+            `errors.${errorCode}` as any,
+            t("errors.INVITATION_INVALID"),
           );
           setError(translatedError);
           setIsLoading(false);
@@ -109,8 +109,8 @@ export default function AcceptInvitationForm() {
       // PRO ERROR HANDLING
       const errorCode = err.message;
       const translatedError = t(
-        `errors.${errorCode}` as any, 
-        t("errors.GENERIC_ERROR")
+        `errors.${errorCode}` as any,
+        t("errors.GENERIC_ERROR"),
       );
       setError(translatedError);
     } finally {
@@ -122,7 +122,10 @@ export default function AcceptInvitationForm() {
 
   if (isLoading) {
     return (
-      <LoadingState message={t("accept_invitation.loading_validating")} minHeight="50vh" />
+      <LoadingState
+        message={t("accept_invitation.loading_validating")}
+        minHeight="50vh"
+      />
     );
   }
 
@@ -178,7 +181,9 @@ export default function AcceptInvitationForm() {
               />
             )}
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md uppercase tracking-tight">
-              {t("accept_invitation.title", { businessName: inviteData?.business.name })}
+              {t("accept_invitation.title", {
+                businessName: inviteData?.business.name,
+              })}
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
               {/* Dynamic Subtitle using Trans for Bold text */}
@@ -190,8 +195,10 @@ export default function AcceptInvitationForm() {
                 }
                 t={t}
                 values={{ role: inviteData?.role }}
-                components={{ 
-                  1: <strong className="font-semibold text-gray-800 dark:text-gray-200" /> 
+                components={{
+                  1: (
+                    <strong className="font-semibold text-gray-800 dark:text-gray-200" />
+                  ),
                 }}
               />
             </p>
@@ -220,7 +227,8 @@ export default function AcceptInvitationForm() {
               <>
                 <div>
                   <Label>
-                    {t("accept_invitation.full_name_label")} <span className="text-error-500">*</span>
+                    {t("accept_invitation.full_name_label")}{" "}
+                    <span className="text-error-500">*</span>
                   </Label>
                   <Input
                     placeholder={t("accept_invitation.full_name_placeholder")}

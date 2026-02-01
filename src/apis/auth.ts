@@ -4,7 +4,8 @@
  * profile management, and security flows.
  */
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
  * Base endpoint for user-related authentication and profile actions.
@@ -39,7 +40,7 @@ export const authApi = {
       body: JSON.stringify(credentials),
     });
     const data = await response.json();
-    
+
     if (!response.ok) throw new Error(data.message || "Invalid credentials");
     return data;
   },
@@ -49,7 +50,12 @@ export const authApi = {
    * @param {object} credentials - { name, email, password, language }
    * @returns {Promise<any>} The newly created user data.
    */
-  signUp: async (credentials: { name: string; email: string; password: string; language: string }) => {
+  signUp: async (credentials: {
+    name: string;
+    email: string;
+    password: string;
+    language: string;
+  }) => {
     const response = await fetch(`${BASE_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -72,8 +78,7 @@ export const authApi = {
       body: JSON.stringify(payload),
     });
     const data = await response.json();
-    if (!response.ok) 
-      throw new Error(data.message || "Verification failed");
+    if (!response.ok) throw new Error(data.message || "Verification failed");
     return data;
   },
 
@@ -89,8 +94,7 @@ export const authApi = {
       body: JSON.stringify({ email }),
     });
     const data = await response.json();
-    if (!response.ok) 
-      throw new Error(data.message || "Failed to resend code");
+    if (!response.ok) throw new Error(data.message || "Failed to resend code");
     return data;
   },
 

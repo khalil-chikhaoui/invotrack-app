@@ -78,5 +78,14 @@
     "cancel": "Annuler",
     "back": "Retour",
     "return_dashboard": "Retour au tableau de bord"
-  }
+  },
+  "processing": "Traitement",
+  "not_found": {
+  "meta_title": "404 - Page non trouvée | Invotrack",
+  "meta_desc": "La page que vous recherchez n'existe pas ou a été déplacée.",
+  "title": "ERREUR",
+  "alt": "Erreur 404",
+  "message": "Nous ne parvenons pas à trouver la page que vous recherchez !",
+  "back": "Retour"
+}
 }

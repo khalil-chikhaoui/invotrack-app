@@ -9,8 +9,6 @@ import { Locale } from "date-fns";
 export const useDateLocale = (): Locale => {
   const { i18n } = useTranslation();
 
-  // If you store languages as 'en-US', 'fr-FR' etc, adjust the cases below.
-  // Assuming 'en', 'fr', 'de' based on your common.json structure.
   switch (i18n.language) {
     case "fr":
       return fr;

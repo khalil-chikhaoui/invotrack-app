@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import {
   HiOutlinePresentationChartBar,
   HiOutlineReceiptPercent,
@@ -41,6 +41,7 @@ export default function InvoiceStatsTab({
     return { totalCost, profit, margin, daysToPay };
   }, [invoice]);
 
+  
   const cards = [
     {
       label: t("stats.profit"),

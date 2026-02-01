@@ -4,7 +4,8 @@
  * sophisticated filtering/pagination, and asset management.
  */
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
  * Base endpoint for client management.
@@ -21,7 +22,7 @@ export interface ClientAddress {
   city?: string;
   state?: string;
   zipCode?: string;
-  country?: string; 
+  country?: string;
 }
 
 /**
@@ -33,7 +34,7 @@ export interface ClientData {
   clientType: "Individual" | "Business";
   name: string;
   email?: string;
-  
+
   phone?: {
     country: string;
     number: string;
@@ -97,7 +98,7 @@ export const clientApi = {
    * Retrieves a paginated list of clients for a specific business.
    */
   getClients: async (
-    businessId: string, 
+    businessId: string,
     params: {
       page?: number;
       limit?: number;
@@ -241,7 +242,10 @@ export const clientApi = {
   /**
    * Lean search for Invoice Creation picker.
    */
-  pickerSearch: async (businessId: string, query: string): Promise<ClientData[]> => {
+  pickerSearch: async (
+    businessId: string,
+    query: string,
+  ): Promise<ClientData[]> => {
     const url = new URL(`${BASE_URL}/business/${businessId}/search`);
     url.searchParams.append("q", query);
 
@@ -252,6 +256,6 @@ export const clientApi = {
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Picker search failed");
-    return data; 
+    return data;
   },
 };

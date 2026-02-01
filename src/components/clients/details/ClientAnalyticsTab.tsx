@@ -27,7 +27,7 @@ export default function ClientAnalyticsTab({
       <ClientHealthMetrics
         clientId={clientId}
         financialStats={stats}
-        business={business} 
+        business={business}
       />
 
       {/* 2. Product Pie & Invoice Status */}
@@ -76,7 +76,10 @@ export default function ClientAnalyticsTab({
         </div>
 
         {/* Placeholder for future metric or symmetry */}
-        <div className="hidden xl:block h-full min-h-[350px] rounded-2xl border border-dashed border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.01]"></div>
+        <div
+          className="hidden xl:block h-full min-h-[350px] rounded-2xl border border-dashed border-gray-200 
+        dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.01]"
+        ></div>
       </div>
     </div>
   );

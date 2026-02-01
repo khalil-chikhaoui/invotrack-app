@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { businessApi, BusinessData, CurrencyFormat } from "../../apis/business";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
@@ -11,14 +11,14 @@ import Select from "../../components/form/Select";
 import ComponentCard from "../../components/common/ComponentCard";
 import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
-import LoadingState from "../../components/common/LoadingState"; 
+import LoadingState from "../../components/common/LoadingState";
 import { CURRENCIES } from "../../hooks/currencies";
 import { formatMoney } from "../../hooks/formatMoney";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 
 export default function BusinessCurrency() {
-  const { t } = useTranslation("business"); // <--- Load "business" namespace
+  const { t } = useTranslation("business");
   const { businessId } = useParams();
   const { canManageSettings } = usePermissions();
 
@@ -95,7 +95,7 @@ export default function BusinessCurrency() {
         currency: currencyCode,
         currencyFormat: format,
       });
-      await fetchBusiness(); 
+      await fetchBusiness();
 
       setAlert({
         type: "success",
@@ -120,9 +120,9 @@ export default function BusinessCurrency() {
 
   if (loading) {
     return (
-      <LoadingState 
-        message={t("settings.currency_settings.loading")} 
-        minHeight="60vh" 
+      <LoadingState
+        message={t("settings.currency_settings.loading")}
+        minHeight="60vh"
       />
     );
   }
@@ -153,10 +153,14 @@ export default function BusinessCurrency() {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         {/* Main Configuration Card */}
         <div className="xl:col-span-2 space-y-6">
-          <ComponentCard title={t("settings.currency_settings.main_card_title")}>
+          <ComponentCard
+            title={t("settings.currency_settings.main_card_title")}
+          >
             <div className="space-y-6">
               <div>
-                <Label>{t("settings.currency_settings.primary_currency_label")}</Label>
+                <Label>
+                  {t("settings.currency_settings.primary_currency_label")}
+                </Label>
                 <CurrencySelect
                   value={currencyCode}
                   onChange={handleCurrencyChange}
@@ -169,13 +173,18 @@ export default function BusinessCurrency() {
               {/* Number Format Selection Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 <div>
-                  <Label>{t("settings.currency_settings.decimal_places_label")}</Label>
+                  <Label>
+                    {t("settings.currency_settings.decimal_places_label")}
+                  </Label>
                   <Select
                     options={[
                       { value: "0", label: "0 (e.g. 100)" },
                       { value: "2", label: "2 (e.g. 100.00)" },
                       { value: "3", label: "3 (e.g. 100.000)" },
-                      { value: "4", label: `4 (${t("settings.currency_settings.options.precision")})` },
+                      {
+                        value: "4",
+                        label: `4 (${t("settings.currency_settings.options.precision")})`,
+                      },
                     ]}
                     onChange={(val) =>
                       setFormat({ ...format, digits: parseInt(val) })
@@ -184,24 +193,46 @@ export default function BusinessCurrency() {
                   />
                 </div>
                 <div>
-                  <Label>{t("settings.currency_settings.thousands_separator_label")}</Label>
+                  <Label>
+                    {t("settings.currency_settings.thousands_separator_label")}
+                  </Label>
                   <Select
                     options={[
-                      { value: ",", label: `${t("settings.currency_settings.options.comma")} (1,000)` },
-                      { value: ".", label: `${t("settings.currency_settings.options.dot")} (1.000)` },
-                      { value: " ", label: `${t("settings.currency_settings.options.space")} (1 000)` },
-                      { value: "'", label: `${t("settings.currency_settings.options.apostrophe")} (1'000)` },
+                      {
+                        value: ",",
+                        label: `${t("settings.currency_settings.options.comma")} (1,000)`,
+                      },
+                      {
+                        value: ".",
+                        label: `${t("settings.currency_settings.options.dot")} (1.000)`,
+                      },
+                      {
+                        value: " ",
+                        label: `${t("settings.currency_settings.options.space")} (1 000)`,
+                      },
+                      {
+                        value: "'",
+                        label: `${t("settings.currency_settings.options.apostrophe")} (1'000)`,
+                      },
                     ]}
                     onChange={(val) => setFormat({ ...format, groupSep: val })}
                     defaultValue={format.groupSep}
                   />
                 </div>
                 <div>
-                  <Label>{t("settings.currency_settings.decimal_separator_label")}</Label>
+                  <Label>
+                    {t("settings.currency_settings.decimal_separator_label")}
+                  </Label>
                   <Select
                     options={[
-                      { value: ".", label: `${t("settings.currency_settings.options.dot")} (0.99)` },
-                      { value: ",", label: `${t("settings.currency_settings.options.comma")} (0,99)` },
+                      {
+                        value: ".",
+                        label: `${t("settings.currency_settings.options.dot")} (0.99)`,
+                      },
+                      {
+                        value: ",",
+                        label: `${t("settings.currency_settings.options.comma")} (0,99)`,
+                      },
                     ]}
                     onChange={(val) =>
                       setFormat({ ...format, decimalSep: val })
@@ -214,7 +245,9 @@ export default function BusinessCurrency() {
               {/* Symbol Styling & Positioning */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <Label>{t("settings.currency_settings.symbol_mode_label")}</Label>
+                  <Label>
+                    {t("settings.currency_settings.symbol_mode_label")}
+                  </Label>
                   <div className="flex gap-4 mt-3">
                     <label className="flex items-center cursor-pointer">
                       <input
@@ -226,7 +259,8 @@ export default function BusinessCurrency() {
                         className="sr-only peer"
                       />
                       <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
-                        {t("settings.currency_settings.symbol_text")} ({currentSymbol})
+                        {t("settings.currency_settings.symbol_text")} (
+                        {currentSymbol})
                       </div>
                     </label>
 
@@ -240,14 +274,17 @@ export default function BusinessCurrency() {
                         className="sr-only peer"
                       />
                       <div className="px-4 py-2 text-sm border rounded-lg text-gray-700 dark:text-white peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-600 dark:peer-checked:bg-brand-500/10 dark:border-gray-700 transition-all">
-                        {t("settings.currency_settings.code_text")} ({currencyCode})
+                        {t("settings.currency_settings.code_text")} (
+                        {currencyCode})
                       </div>
                     </label>
                   </div>
                 </div>
 
                 <div>
-                  <Label>{t("settings.currency_settings.symbol_position_label")}</Label>
+                  <Label>
+                    {t("settings.currency_settings.symbol_position_label")}
+                  </Label>
                   <div className="flex gap-4 mt-3">
                     <label className="flex items-center cursor-pointer">
                       <input
@@ -282,7 +319,9 @@ export default function BusinessCurrency() {
 
               <div className="pt-4 flex justify-end">
                 <Button onClick={handleSave} disabled={saving}>
-                  {saving ? t("settings.currency_settings.actions.saving") : t("settings.currency_settings.actions.update")}
+                  {saving
+                    ? t("settings.currency_settings.actions.saving")
+                    : t("settings.currency_settings.actions.update")}
                 </Button>
               </div>
             </div>

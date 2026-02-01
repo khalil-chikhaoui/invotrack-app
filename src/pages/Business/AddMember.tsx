@@ -1,10 +1,6 @@
-/**
- * @fileoverview AddMember Component
- */
-
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import Label from "../../components/form/Label";
@@ -16,10 +12,10 @@ import { PaperPlaneIcon, ChevronLeftIcon } from "../../icons";
 import { businessApi } from "../../apis/business";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
-import { scrollToTopAppLayout } from "../../layout/AppLayout"; // <--- Import Scroll
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function AddMember() {
-  const { t } = useTranslation("members"); // <--- Load "members" namespace
+  const { t } = useTranslation("members");
   const { businessId } = useParams();
   const navigate = useNavigate();
   const { canManageSettings } = usePermissions();
@@ -36,9 +32,6 @@ export default function AddMember() {
     title: "",
   });
 
-  /**
-   * WRAPPER FUNCTION for Alerts
-   */
   const triggerAlert = (data: {
     type: "success" | "error" | "warning" | "info";
     title: string;
@@ -60,7 +53,7 @@ export default function AddMember() {
 
       triggerAlert({
         type: "success",
-        title: "Invitation Sent", // Consider adding to translation file if strict
+        title: t("messages.success_title"),
         message: t("messages.invitation_sent", { email: formData.email }),
       });
 
@@ -76,7 +69,7 @@ export default function AddMember() {
 
       triggerAlert({
         type: "error",
-        title: "Error",
+        title: t("messages.error_title"), // <--- Translated
         message: translatedError,
       });
     } finally {
@@ -87,9 +80,9 @@ export default function AddMember() {
   if (!canManageSettings) {
     return (
       <PermissionDenied
-        title="Restricted Area"
-        description="Only Administrators can invite new members."
-        actionText="Back"
+        title={t("permissions.restricted_title")} // <--- Translated
+        description={t("permissions.restricted_desc")} // <--- Translated
+        actionText={t("actions.back")} // <--- Translated
       />
     );
   }
@@ -109,7 +102,7 @@ export default function AddMember() {
           className="flex items-center gap-2 mb-6 text-[10px] font-semibold text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400 transition-colors uppercase tracking-widest"
         >
           <ChevronLeftIcon className="size-4" />
-          Back
+          {t("actions.back")} 
         </button>
 
         {/* Global Feedback Alert */}

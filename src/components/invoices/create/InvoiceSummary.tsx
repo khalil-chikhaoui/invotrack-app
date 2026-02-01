@@ -14,7 +14,7 @@ interface Props {
     totalTax: number;
     grandTotal: number;
   };
-  taxRate: number; 
+  taxRate: number;
   currency?: string;
   currencyFormat?: CurrencyFormat;
   loading: boolean;
@@ -32,7 +32,7 @@ export default function InvoiceSummary({
   isEdit,
   onSubmit,
   hasDiscount,
-}: Props) { 
+}: Props) {
   const { t } = useTranslation("invoice");
 
   return (
@@ -71,7 +71,9 @@ export default function InvoiceSummary({
         <div className="flex justify-between items-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
           <span className="flex items-center gap-1">
             {t("create.summary.taxation")}
-            <span className="text-[10px] lowercase font-medium opacity-60">({taxRate}%)</span>
+            <span className="text-[10px] lowercase font-medium opacity-60">
+              ({taxRate}%)
+            </span>
           </span>
           <span className="text-sm text-gray-900 dark:text-white font-semibold">
             +{formatMoney(totals.totalTax, currency, currencyFormat)}

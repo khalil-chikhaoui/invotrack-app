@@ -97,11 +97,14 @@ export default function BusinessMetaCard({
       setAlert({
         type: "error",
         title: t("errors.SYNC_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.LOGO_UPLOAD_FAILED")),
+        message: t(
+          `errors.${errorCode}` as any,
+          t("errors.LOGO_UPLOAD_FAILED"),
+        ),
       });
     } finally {
       setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = ""; 
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -161,7 +164,11 @@ export default function BusinessMetaCard({
           className={`relative w-24 h-24 overflow-hidden border border-gray-200 rounded-xl dark:border-gray-800 flex items-center justify-center bg-gray-50 dark:bg-gray-800 flex-shrink-0 transition-all ${isAdmin ? "cursor-pointer group hover:ring-4 hover:ring-brand-500/10" : ""}`}
         >
           {business.logo ? (
-            <img src={business.logo} alt="Logo" className="object-cover w-full h-full" />
+            <img
+              src={business.logo}
+              alt="Logo"
+              className="object-cover w-full h-full"
+            />
           ) : (
             <span className="text-3xl font-semibold text-gray-300 dark:text-gray-500 uppercase">
               {business.name?.charAt(0)}
@@ -169,14 +176,23 @@ export default function BusinessMetaCard({
           )}
 
           {isAdmin && (
-            <div className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+            <div
+              className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+            >
               {uploading || deleting ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <HiOutlineCamera className="w-5 h-5 text-white cursor-pointer hover:scale-110 transition-transform" />
                   {business.logo && (
-                    <button onClick={(e) => { e.stopPropagation(); openDeleteModal(); }} className="group/delete" type="button">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDeleteModal();
+                      }}
+                      className="group/delete"
+                      type="button"
+                    >
                       <HiOutlineTrash className="w-5 h-5 text-white transition-colors hover:scale-110" />
                     </button>
                   )}
@@ -184,22 +200,37 @@ export default function BusinessMetaCard({
               )}
             </div>
           )}
-          <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/jpg" />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+            accept="image/png, image/jpeg, image/jpg"
+          />
         </div>
 
         <div className="flex-grow">
           <div className="flex items-center gap-3 mb-1">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90">{business.name}</h3>
-            <span className="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-600 rounded-full dark:bg-green-500/10 uppercase tracking-widest">{business.status}</span>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90">
+              {business.name}
+            </h3>
+            <span className="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-600 rounded-full dark:bg-green-500/10 uppercase tracking-widest">
+              {business.status}
+            </span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{business.legalName || business.name}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+            {business.legalName || business.name}
+          </p>
           <div className="max-w-3xl border-l-4 border-brand-500 pl-4 py-1 italic text-gray-600 dark:text-gray-300">
             "{business.description || t("create.form.desc_placeholder")}"
           </div>
         </div>
 
         {isAdmin && (
-          <button onClick={openEditModal} className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 uppercase text-[10px] tracking-widest">
+          <button
+            onClick={openEditModal}
+            className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 uppercase text-[10px] tracking-widest"
+          >
             {t("settings.general.form.edit_identity")}
           </button>
         )}
@@ -216,42 +247,81 @@ export default function BusinessMetaCard({
         isLoading={deleting}
       />
 
-      <Modal isOpen={isEditOpen} onClose={closeEditModal} className="max-w-[700px] m-4">
+      <Modal
+        isOpen={isEditOpen}
+        onClose={closeEditModal}
+        className="max-w-[700px] m-4"
+      >
         <div className="p-6 lg:p-11 bg-white dark:bg-gray-900 rounded-3xl text-start">
           <h4 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white/90 uppercase tracking-tight">
             {t("settings.general.cards.edit_identity_title")}
           </h4>
-          <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSave();
+            }}
+            className="space-y-4"
+          >
             <div>
               <Label>{t("settings.general.form.name_label")}</Label>
-              <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+              <Input
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label>{t("settings.general.form.legal_name_label")}</Label>
-                <Input value={formData.legalName} onChange={(e) => setFormData({ ...formData, legalName: e.target.value })} />
+                <Input
+                  value={formData.legalName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, legalName: e.target.value })
+                  }
+                />
               </div>
               <div>
                 <LanguageInput
                   label={t("settings.general.form.language_label")}
                   value={formData.language}
-                  onChange={(lang) => setFormData({ ...formData, language: lang })}
+                  onChange={(lang) =>
+                    setFormData({ ...formData, language: lang })
+                  }
                 />
               </div>
             </div>
 
             <div>
               <Label>{t("settings.general.form.desc_label")}</Label>
-              <TextArea value={formData.description} onChange={(val) => setFormData({ ...formData, description: val })} rows={4} />
+              <TextArea
+                value={formData.description}
+                onChange={(val) =>
+                  setFormData({ ...formData, description: val })
+                }
+                rows={4}
+              />
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
-              <Button type="button" variant="outline" onClick={closeEditModal} className="text-[10px] font-semibold uppercase tracking-widest">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={closeEditModal}
+                className="text-[10px] font-semibold uppercase tracking-widest"
+              >
                 {t("settings.general.form.cancel")}
               </Button>
-              <Button type="submit" disabled={loading} className="text-[10px] font-semibold uppercase tracking-widest">
-                {loading ? t("settings.general.form.synchronizing") : t("settings.general.form.save")}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="text-[10px] font-semibold uppercase tracking-widest"
+              >
+                {loading
+                  ? t("settings.general.form.synchronizing")
+                  : t("settings.general.form.save")}
               </Button>
             </div>
           </form>

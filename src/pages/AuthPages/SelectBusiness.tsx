@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useTranslation, Trans } from "react-i18next"; 
+import { useTranslation, Trans } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
 import {
@@ -24,8 +24,8 @@ interface Membership {
 
 export default function SelectBusiness() {
   // 1. Use "business" namespace
-  const { t } = useTranslation("business"); 
-  
+  const { t } = useTranslation("business");
+
   const { user, logout, refreshUser } = useAuth();
   const { businessId: currentUrlId } = useParams<{ businessId: string }>();
   const navigate = useNavigate();
@@ -82,7 +82,8 @@ export default function SelectBusiness() {
             const isActive = currentUrlId === business._id;
 
             return (
-              <button type="button"
+              <button
+                type="button"
                 key={business._id}
                 onClick={() => handleSelect(business._id)}
                 className={`group relative flex flex-col p-6 rounded-3xl transition-all duration-300 text-left overflow-hidden border ${
@@ -137,7 +138,8 @@ export default function SelectBusiness() {
           })}
 
           {/* Add New Business Card */}
-          <button type="button"
+          <button
+            type="button"
             onClick={() => navigate("/create-business")}
             className="flex flex-col items-center justify-center p-6 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-brand-500 hover:bg-brand-50/30 dark:hover:bg-brand-500/5 transition-all duration-300 group"
           >
@@ -166,7 +168,8 @@ export default function SelectBusiness() {
             </div>
           </div>
 
-          <button type="button"
+          <button
+            type="button"
             onClick={handleSignOut}
             className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-red-500 dark:text-slate-300 dark:hover:text-red-300 uppercase tracking-widest transition-all"
           >

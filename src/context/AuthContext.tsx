@@ -11,7 +11,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { useTranslation } from "react-i18next"; // <--- 1. IMPORT THIS
+import { useTranslation } from "react-i18next";
 import { authApi } from "../apis/auth";
 
 // --- Interfaces ---
@@ -36,8 +36,8 @@ export interface User {
   name: string;
   email: string;
   profileImage?: string;
-  isVerified: boolean; 
-  language: string; // <--- 2. ADD THIS FIELD (Backend guarantees a default)
+  isVerified: boolean;
+  language: string;
   memberships: Membership[];
 }
 
@@ -59,9 +59,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.getItem("accessToken"),
   );
   const [loading, setLoading] = useState(true);
-  
-  // <--- 3. HOOK INTO i18n
-  const { i18n } = useTranslation(); 
+
+  const { i18n } = useTranslation();
 
   const refreshUser = async () => {
     try {
@@ -85,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(storedToken);
       } catch (error) {
         console.error("Session restoration failed", error);
-        logout(); 
+        logout();
       } finally {
         setLoading(false);
       }
@@ -93,11 +92,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initAuth();
   }, []);
 
-  // <--- 4. THE MAGIC SYNC EFFECT
+  // SYNC EFFECT
   // Whenever 'user' changes (Login, Refresh, Init), check the language.
   useEffect(() => {
     if (user && user.language) {
-      // Only switch if it's actually different to avoid loops
+      // Only switch if it's actually different
       if (i18n.language !== user.language) {
         i18n.changeLanguage(user.language);
       }
@@ -114,8 +113,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("accessToken");
     setToken(null);
     setUser(null);
-    // Optional: Reset to browser default or 'en' on logout
-    // i18n.changeLanguage('en'); 
   };
 
   return (

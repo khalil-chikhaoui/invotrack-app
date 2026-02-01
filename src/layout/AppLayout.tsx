@@ -18,10 +18,9 @@ import AppSidebar from "./AppSidebar";
  */
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
- 
+
   return (
     <div className="h-[100dvh] w-full overflow-hidden xl:flex  bg-white dark:bg-gray-900">
-      
       {/* --- Sidebar & Mobile Overlay --- */}
       <div>
         <AppSidebar />
@@ -42,7 +41,7 @@ const LayoutContent: React.FC = () => {
         `}
       >
         {/* Persistent Header */}
-        <AppHeader /> 
+        <AppHeader />
 
         {/* Dynamic Page Content */}
         <div className="py-4 px-2 md:px-4 pb-24 md:pb-8 safe-area-bottom">
@@ -70,7 +69,7 @@ export const scrollToTopAppLayout = () => {
   if (mainContent) {
     mainContent.scrollTo({ top: 0, behavior: "smooth" });
   } else {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Fallback
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 

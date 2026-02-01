@@ -16,16 +16,16 @@ import ClientsTable from "./ClientTable";
 import { usePermissions } from "../../hooks/usePermissions";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import ClientFilters from "../../components/clients/ClientFilters";
-import { scrollToTopAppLayout } from "../../layout/AppLayout"; // <--- Import Scroll
+import { scrollToTopAppLayout } from "../../layout/AppLayout";
 
 export default function Clients() {
-  const { t } = useTranslation("client"); // <--- Load "client" namespace
+  const { t } = useTranslation("client");
   const { businessId } = useParams();
   const navigate = useNavigate();
 
   const { canManage, canViewFinancials } = usePermissions();
 
-  const [clients, setClients] = useState<ClientData[]>([]); 
+  const [clients, setClients] = useState<ClientData[]>([]);
   const [business, setBusiness] = useState<BusinessData | null>(null);
   const [meta, setMeta] = useState<ClientPaginationMeta | null>(null);
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,7 @@ export default function Clients() {
     title: string;
     message: string;
   } | null>(null);
- 
+
   const {
     isOpen: isFormOpen,
     openModal: openFormModal,
@@ -52,7 +52,11 @@ export default function Clients() {
   /**
    * WRAPPER FUNCTION for Alerts
    */
-  const triggerAlert = (data: { type: "success" | "error" | "warning" | "info"; title: string; message: string }) => {
+  const triggerAlert = (data: {
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+    message: string;
+  }) => {
     setAlert(data);
     scrollToTopAppLayout();
   };
@@ -75,13 +79,13 @@ export default function Clients() {
 
       setClients(clientsRes.clients);
       setMeta(clientsRes.meta);
-      setBusiness(businessRes); 
+      setBusiness(businessRes);
     } catch (error: any) {
       const errorCode = error.message;
-      triggerAlert({ 
-        type: "error", 
-        title: t("errors.GENERIC_ERROR"), // Fallback title
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")) 
+      triggerAlert({
+        type: "error",
+        title: t("errors.GENERIC_ERROR"),
+        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -103,7 +107,7 @@ export default function Clients() {
 
   const handleViewClient = (client: ClientData) =>
     navigate(`/business/${businessId}/clients/${client._id}`);
-  
+
   const handleAdd = () => {
     openFormModal();
   };
@@ -111,9 +115,16 @@ export default function Clients() {
   if (!canViewFinancials) {
     return (
       <PermissionDenied
-        title={t("errors.UNAUTHORIZED_ACCESS", { defaultValue: "Restricted Access" })}
-        description={t("errors.UNAUTHORIZED_ACCESS_DESC", { defaultValue: "Your current role does not have permission to view the client directory." })}
-        actionText={t("common:actions.return_dashboard", { defaultValue: "Return to Dashboard" })}
+        title={t("errors.UNAUTHORIZED_ACCESS", {
+          defaultValue: "Restricted Access",
+        })}
+        description={t("errors.UNAUTHORIZED_ACCESS_DESC", {
+          defaultValue:
+            "Your current role does not have permission to view the client directory.",
+        })}
+        actionText={t("common:actions.return_dashboard", {
+          defaultValue: "Return to Dashboard",
+        })}
       />
     );
   }
@@ -129,7 +140,6 @@ export default function Clients() {
 
       {/* THE UNIFIED MASTER CARD */}
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
-        
         {/* 1. Header Section */}
         <ClientFilters
           searchTerm={searchTerm}
@@ -140,7 +150,7 @@ export default function Clients() {
           setTypeFilter={setTypeFilter}
           sortConfig={sortConfig}
           setSortConfig={setSortConfig}
-          setPage={setPage} 
+          setPage={setPage}
           loading={loading}
           canManage={canManage}
           onAdd={handleAdd}
@@ -152,18 +162,18 @@ export default function Clients() {
           clients={clients}
           business={business}
           meta={meta}
-          loading={loading} 
+          loading={loading}
           onPageChange={(p) => setPage(p)}
           onView={handleViewClient}
         />
       </div>
 
       <ClientFormModal
-        isOpen={isFormOpen} 
+        isOpen={isFormOpen}
         onClose={closeFormModal}
         businessId={businessId!}
         setAlert={triggerAlert}
       />
     </>
-  ); 
+  );
 }

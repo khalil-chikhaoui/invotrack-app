@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import {
   HiOutlineBuildingOffice2,
   HiOutlineUser,
@@ -8,7 +8,7 @@ import {
   HiOutlineIdentification,
   HiOutlinePencilSquare,
   HiOutlineCamera,
-  HiOutlineTrash, 
+  HiOutlineTrash,
 } from "react-icons/hi2";
 import Badge from "../../ui/badge/Badge";
 import { ClientData, clientApi } from "../../../apis/clients";
@@ -61,7 +61,11 @@ export default function ClientIdentityCard({
       });
       refresh();
     } catch (error: any) {
-      setAlert({ type: "error", title: t("errors.UPLOAD_FAILED"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("errors.UPLOAD_FAILED"),
+        message: error.message,
+      });
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -81,7 +85,11 @@ export default function ClientIdentityCard({
       refresh();
       closeDeleteModal();
     } catch (error: any) {
-      setAlert({ type: "error", title: t("errors.REMOVAL_FAILED"), message: error.message });
+      setAlert({
+        type: "error",
+        title: t("errors.REMOVAL_FAILED"),
+        message: error.message,
+      });
     } finally {
       setDeleting(false);
     }
@@ -95,11 +103,21 @@ export default function ClientIdentityCard({
 
       <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
         <div
-          onClick={() => !isArchived && !uploading && !deleting && canManage && fileInputRef.current?.click()}
+          onClick={() =>
+            !isArchived &&
+            !uploading &&
+            !deleting &&
+            canManage &&
+            fileInputRef.current?.click()
+          }
           className={`relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden  flex-shrink-0 group transition-all ${canManage && !isArchived && !uploading && !deleting ? "cursor-pointer hover:ring-4 hover:ring-brand-500/10" : ""}`}
         >
           {client.logo ? (
-            <img src={client.logo} className="w-full h-full object-cover" alt="Client Logo" />
+            <img
+              src={client.logo}
+              className="w-full h-full object-cover"
+              alt="Client Logo"
+            />
           ) : client.clientType === "Business" ? (
             <HiOutlineBuildingOffice2 className="size-12 text-gray-400" />
           ) : (
@@ -107,14 +125,23 @@ export default function ClientIdentityCard({
           )}
 
           {canManage && !isArchived && (
-            <div className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+            <div
+              className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+            >
               {uploading || deleting ? (
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <HiOutlineCamera className="w-6 h-6 text-white cursor-pointer hover:scale-110 transition-transform" />
                   {client.logo && (
-                    <button onClick={(e) => { e.stopPropagation(); openDeleteModal(); }} type="button" className="hover:scale-110 transition-transform">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDeleteModal();
+                      }}
+                      type="button"
+                      className="hover:scale-110 transition-transform"
+                    >
                       <HiOutlineTrash className="w-6 h-6 text-white" />
                     </button>
                   )}
@@ -123,16 +150,30 @@ export default function ClientIdentityCard({
             </div>
           )}
 
-          <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/jpg" />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+            accept="image/png, image/jpeg, image/jpg"
+          />
         </div>
 
         <div className="text-center md:text-start flex-1 w-full">
           <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-            <Badge color={client.clientType === "Business" ? "info" : "light"} className="font-semibold text-[10px] tracking-widest px-3 uppercase">
-              {client.clientType === "Business" ? t("identity_card.type_business") : t("identity_card.type_individual")}
+            <Badge
+              color={client.clientType === "Business" ? "info" : "light"}
+              className="font-semibold text-[10px] tracking-widest px-3 uppercase"
+            >
+              {client.clientType === "Business"
+                ? t("identity_card.type_business")
+                : t("identity_card.type_individual")}
             </Badge>
             {isArchived && (
-              <Badge color="warning" className="font-semibold text-[9px] tracking-widest uppercase">
+              <Badge
+                color="warning"
+                className="font-semibold text-[9px] tracking-widest uppercase"
+              >
                 {t("identity_card.archived")}
               </Badge>
             )}
@@ -145,8 +186,13 @@ export default function ClientIdentityCard({
 
             {canManage && !isArchived && (
               <div className="flex justify-center md:justify-end">
-                <Button size="sm" className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap" onClick={onEdit}>
-                  <HiOutlinePencilSquare className="size-4" /> {t("identity_card.edit")}
+                <Button
+                  size="sm"
+                  className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
+                  onClick={onEdit}
+                >
+                  <HiOutlinePencilSquare className="size-4" />{" "}
+                  {t("identity_card.edit")}
                 </Button>
               </div>
             )}

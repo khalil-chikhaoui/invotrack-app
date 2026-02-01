@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
@@ -13,8 +13,8 @@ import { authApi } from "../../apis/auth";
 import { useAuth } from "../../context/AuthContext";
 
 export default function NewPasswordForm() {
-  const { t } = useTranslation("auth"); // <--- Load "auth" namespace
-  
+  const { t } = useTranslation("auth");
+
   // --- Context & Route Hooks ---
   const { token } = useParams();
   const navigate = useNavigate();
@@ -41,8 +41,7 @@ export default function NewPasswordForm() {
     // Client-side validation using translations
     if (password !== confirmPassword)
       return setError(t("errors.PASSWORDS_DO_NOT_MATCH"));
-    if (password.length < 6)
-      return setError(t("errors.PASSWORD_TOO_SHORT"));
+    if (password.length < 6) return setError(t("errors.PASSWORD_TOO_SHORT"));
 
     setError("");
     setIsLoading(true);
@@ -55,8 +54,8 @@ export default function NewPasswordForm() {
       // PRO ERROR HANDLING
       const errorCode = err.message;
       const translatedError = t(
-        `errors.${errorCode}` as any, 
-        t("errors.AUTH_TOKEN_INVALID") // Fallback for this specific page
+        `errors.${errorCode}` as any,
+        t("errors.AUTH_TOKEN_INVALID"),
       );
       setError(translatedError);
     } finally {
@@ -99,7 +98,8 @@ export default function NewPasswordForm() {
           {/* Primary Password Input */}
           <div>
             <Label>
-              {t("new_password.password_label")} <span className="text-error-500">*</span>
+              {t("new_password.password_label")}{" "}
+              <span className="text-error-500">*</span>
             </Label>
             <div className="relative">
               <Input
@@ -127,7 +127,8 @@ export default function NewPasswordForm() {
           {/* Confirmation Input */}
           <div>
             <Label>
-              {t("new_password.confirm_password_label")} <span className="text-error-500">*</span>
+              {t("new_password.confirm_password_label")}{" "}
+              <span className="text-error-500">*</span>
             </Label>
             <div className="relative">
               <Input
@@ -158,8 +159,10 @@ export default function NewPasswordForm() {
 
           {/* Submit Action */}
           <div className="pt-2 pb-20 lg:pb-0">
-            <Button type="submit"  className="w-full" disabled={isLoading}>
-              {isLoading ? t("new_password.loading") : t("new_password.submit_button")}
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading
+                ? t("new_password.loading")
+                : t("new_password.submit_button")}
             </Button>
           </div>
         </form>

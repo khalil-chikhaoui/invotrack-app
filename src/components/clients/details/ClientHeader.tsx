@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineArrowLeft,
   HiOutlineArrowPathRoundedSquare,
@@ -26,7 +26,8 @@ export default function ClientHeader({
     <div className="flex items-center justify-between mb-8">
       <button
         onClick={handleSmartBack}
-        className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
+        className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-600 
+        hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" />
         {canGoBack ? t("header.back") : t("header.directory")}
@@ -39,7 +40,8 @@ export default function ClientHeader({
           border-amber-200 text-amber-600 hover:bg-amber-50"
           onClick={onRestore}
         >
-          <HiOutlineArrowPathRoundedSquare className="size-4" /> {t("header.restore")}
+          <HiOutlineArrowPathRoundedSquare className="size-4" />{" "}
+          {t("header.restore")}
         </Button>
       )}
     </div>

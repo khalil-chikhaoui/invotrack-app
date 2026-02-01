@@ -4,7 +4,8 @@
  * Manages the transition from an invite token to a full user session.
  */
 
-const API_ROOT = import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+const API_ROOT =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
 /**
  * Base endpoint for invitation-related operations.
@@ -77,7 +78,7 @@ export const invitationsApi = {
     token: string;
     password: string;
     name: string;
-    language: string; // <--- ADDED THIS FIELD
+    language: string;
   }) => {
     const response = await fetch(`${BASE_URL}/accept-register`, {
       method: "POST",
