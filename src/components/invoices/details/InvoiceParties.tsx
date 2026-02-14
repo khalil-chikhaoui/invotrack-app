@@ -1,8 +1,8 @@
 import { Link } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import { HiOutlinePencil, HiOutlineUser } from "react-icons/hi2";
 import { InvoiceData } from "../../../apis/invoices";
-import Button from "../../ui/button/Button";
+
 
 interface InvoicePartiesProps {
   invoice: InvoiceData;

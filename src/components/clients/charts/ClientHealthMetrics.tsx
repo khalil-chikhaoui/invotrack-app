@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import {
   HiOutlineHeart,
   HiOutlineClock,

@@ -15,7 +15,8 @@ import {
   HiOutlineTrash, 
   HiOutlineUser 
 } from "react-icons/hi2";
-import Button from "../../components/ui/button/Button"; // Assuming you have this component
+import Button from "../ui/button/Button";
+
 
 export default function UserMetaCard({
   setAlert,

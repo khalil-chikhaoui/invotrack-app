@@ -22,7 +22,7 @@ export default function AuthLayout({
         <div className="relative flex flex-col flex-1 w-full px-4 py-8 sm:px-6 lg:px-8">
           {/* Top Right Language Selector (Conditional) */}
           {showLanguageSelector && (
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-8 z-20 w-48">
+            <div className="sm:top-6 z-20 w-48 ml-auto mb-4">
               <LanguageSelector
                 value={i18n.language}
                 onChange={(lang) => i18n.changeLanguage(lang)}

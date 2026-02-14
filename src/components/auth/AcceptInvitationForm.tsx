@@ -176,7 +176,7 @@ export default function AcceptInvitationForm() {
             {inviteData?.business.logo && (
               <img
                 src={inviteData.business.logo}
-                alt="Business Logo"
+                alt={t("accept_invitation.business_logo_alt")}
                 className="h-12 w-auto mb-6 rounded-xl object-contain border border-gray-100 dark:border-white/10 p-1"
               />
             )}

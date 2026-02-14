@@ -87,7 +87,7 @@
     },
     "delivery": {
       "title": "État logistique",
-      "update": "Mettre à jour le grand livre"
+      "update": "Mettre à jour"
     },
     "client": {
       "title": "Modifier le destinataire",

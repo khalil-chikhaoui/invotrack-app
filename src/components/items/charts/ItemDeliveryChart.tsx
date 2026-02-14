@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next"; // <--- Hook
+import { useTranslation } from "react-i18next"; 
 import { invoiceApi, DeliveryStatsResponse } from "../../../apis/invoices";
 import DeliveryAnalyticsCard from "../../charts/DeliveryAnalyticsCard";
 
