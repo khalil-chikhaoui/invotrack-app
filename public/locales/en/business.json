@@ -241,5 +241,10 @@
     "SYNC_FAILED": "Sync Failed",
     "REMOVAL_FAILED": "Removal Failed",
     "GENERIC_ERROR": "An unexpected error occurred."
+  },
+  "meta_card": {
+    "upload_btn": "Change Logo",
+    "edit_btn": "Edit Details",
+    "remove_btn": "Remove"
   }
 }

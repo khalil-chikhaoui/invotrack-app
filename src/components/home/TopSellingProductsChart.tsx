@@ -153,7 +153,7 @@ export default function TopSellingProductsChart({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {t("charts.products.title")}
           </h3>
-          <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+          <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider">
             {t("charts.products.subtitle", { range: formattedDateRange })}
           </p>
         </div>
@@ -165,7 +165,7 @@ export default function TopSellingProductsChart({
             <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3">
               <HiOutlineShoppingBag className="size-6 text-gray-600 dark:text-gray-400" />
             </div>
-            <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
+            <h4 className="text-xs font-semibold text-gray-800 dark:text-white  tracking-widest">
               {t("charts.products.no_data_title")}
             </h4>
             <p className="text-[12px] text-gray-600 dark:text-gray-400 mt-1">

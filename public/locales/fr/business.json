@@ -241,5 +241,10 @@
     "SYNC_FAILED": "Échec de la synchronisation",
     "REMOVAL_FAILED": "Échec de la suppression",
     "GENERIC_ERROR": "Une erreur inattendue est survenue."
+  },
+  "meta_card": {
+    "upload_btn": "Changer le logo",
+    "edit_btn": "Modifier les détails",
+    "remove_btn": "Supprimer"
   }
 }

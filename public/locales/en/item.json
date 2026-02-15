@@ -26,7 +26,7 @@
     "modal_title": "Filter Inventory",
     "modal_desc": "Refine your product list",
     "reset": "Reset",
-    "apply": "Show Results",
+    "apply": "Show Results", 
     "status": {
       "active": "Active",
       "archived": "Archived"
@@ -70,8 +70,8 @@
       "desc": "Add details..."
     },
     "options": {
-      "product": "Product (Stocked)",
-      "service": "Service (Labor/Fee)"
+      "product": "Product",
+      "service": "Service"
     },
     "actions": {
       "next": "Next Step",

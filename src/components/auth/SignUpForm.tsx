@@ -13,7 +13,8 @@ import { authApi } from "../../apis/auth";
 import LanguageSelector from "../../components/common/LanguageSelector";
 
 export default function SignUpForm() {
-  const { t } = useTranslation("auth");
+  // 1. Get i18n instance from the hook
+  const { t, i18n } = useTranslation("auth");
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +24,18 @@ export default function SignUpForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [language, setLanguage] = useState("en");
+  
+  // 2. Initialize state with the CURRENT app language
+  // We split by '-' to handle cases like 'en-US' -> 'en'
+  const [language, setLanguage] = useState(
+    i18n.language ? i18n.language.split("-")[0] : "en"
+  );
+
+  // 3. Handler to update BOTH local state and App UI
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);         // Updates the value sent to backend API
+    i18n.changeLanguage(lang); // Updates the App UI immediately
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,7 +114,7 @@ export default function SignUpForm() {
               <div>
                 <LanguageSelector
                   value={language}
-                  onChange={setLanguage}
+                  onChange={handleLanguageChange} 
                   label={t("signup.language_label")}
                 />
               </div>

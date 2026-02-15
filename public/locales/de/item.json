@@ -16,7 +16,7 @@
       "stock": "Bestand",
       "actions": "Aktionen"
     }
-  },
+  }, 
   "filters": {
     "search_label": "Suche",
     "search_placeholder": "Lagerbestand durchsuchen...",
@@ -70,8 +70,8 @@
       "desc": "Details hinzufügen..."
     },
     "options": {
-      "product": "Produkt (Lagerware)",
-      "service": "Dienstleistung (Arbeit/Gebühr)"
+      "product": "Produkt",
+      "service": "Dienstleistung"
     },
     "actions": {
       "next": "Nächster Schritt",

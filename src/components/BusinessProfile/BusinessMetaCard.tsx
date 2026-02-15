@@ -4,8 +4,18 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
+import { 
+  HiOutlineCamera, 
+  HiOutlineTrash, 
+  HiOutlinePencilSquare 
+} from "react-icons/hi2";
+
 import { BusinessData, businessApi } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
+import { useAuth } from "../../context/AuthContext";
+import { usePermissions } from "../../hooks/usePermissions";
+
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
@@ -13,10 +23,6 @@ import TextArea from "../form/input/TextArea";
 import Label from "../form/Label";
 import LanguageInput from "../form/LanguageInput";
 import ConfirmModal from "../common/ConfirmModal";
-import { useAuth } from "../../context/AuthContext";
-import { useParams } from "react-router";
-import { HiOutlineCamera, HiOutlineTrash } from "react-icons/hi2";
-import { usePermissions } from "../../hooks/usePermissions";
 
 export default function BusinessMetaCard({
   business,
@@ -28,26 +34,30 @@ export default function BusinessMetaCard({
   setAlert: (alert: any) => void;
 }) {
   const { t } = useTranslation("business");
+  const { businessId } = useParams();
+  const { user, login, token } = useAuth();
+  const { isAdmin } = usePermissions();
+
+  // --- Modals ---
   const {
     isOpen: isEditOpen,
     openModal: openEditModal,
     closeModal: closeEditModal,
   } = useModal();
+  
   const {
     isOpen: isDeleteOpen,
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
   } = useModal();
 
+  // --- State ---
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { user, login, token } = useAuth();
-  const { businessId } = useParams();
-  const { isAdmin } = usePermissions();
-
+  // --- Form Data ---
   const [formData, setFormData] = useState({
     name: business.name,
     legalName: business.legalName || "",
@@ -64,6 +74,7 @@ export default function BusinessMetaCard({
     });
   }, [business]);
 
+  // --- Helpers ---
   const updateGlobalUserLogo = (newLogo: string) => {
     if (!user) return;
     const updatedMemberships = user.memberships.map((m: any) => {
@@ -75,9 +86,23 @@ export default function BusinessMetaCard({
     login(token!, { ...user, memberships: updatedMemberships });
   };
 
+  // --- Handlers ---
+  const handleUploadClick = () => {
+    if (!uploading && !deleting && isAdmin) fileInputRef.current?.click();
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !businessId) return;
+
+    if (!file.type.startsWith("image/")) {
+      setAlert({
+        type: "error",
+        title: "Error",
+        message: t("errors.UPLOAD_INVALID_TYPE", { defaultValue: "Invalid file type" }),
+      });
+      return;
+    }
 
     setUploading(true);
     const fd = new FormData();
@@ -97,10 +122,7 @@ export default function BusinessMetaCard({
       setAlert({
         type: "error",
         title: t("errors.SYNC_FAILED"),
-        message: t(
-          `errors.${errorCode}` as any,
-          t("errors.LOGO_UPLOAD_FAILED"),
-        ),
+        message: t(`errors.${errorCode}` as any, t("errors.LOGO_UPLOAD_FAILED")),
       });
     } finally {
       setUploading(false);
@@ -133,7 +155,7 @@ export default function BusinessMetaCard({
     }
   };
 
-  const handleSave = async () => {
+  const handleSaveText = async () => {
     setLoading(true);
     try {
       await businessApi.updateBusiness(business._id, formData);
@@ -157,85 +179,108 @@ export default function BusinessMetaCard({
   };
 
   return (
-    <div className="p-5 border border-gray-200 rounded-2xl bg-white dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 text-start">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
-        <div
-          onClick={() => isAdmin && !uploading && fileInputRef.current?.click()}
-          className={`relative w-24 h-24 overflow-hidden border border-gray-200 rounded-xl dark:border-gray-800 flex items-center justify-center bg-gray-50 dark:bg-gray-800 flex-shrink-0 transition-all ${isAdmin ? "cursor-pointer group hover:ring-4 hover:ring-brand-500/10" : ""}`}
-        >
-          {business.logo ? (
-            <img
-              src={business.logo}
-              alt="Logo"
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <span className="text-3xl font-semibold text-gray-300 dark:text-gray-500 uppercase">
-              {business.name?.charAt(0)}
-            </span>
-          )}
-
-          {isAdmin && (
-            <div
-              className={`absolute inset-0 flex items-center justify-center gap-3 bg-black/30 transition-all duration-200 backdrop-blur-[1px] ${uploading || deleting ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
-            >
-              {uploading || deleting ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+    <>
+      <div className="p-5 border border-gray-200 rounded-2xl bg-white dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          
+          {/* --- LOGO DISPLAY --- */}
+          <div className="relative shrink-0">
+            <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-white dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-black/20 bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
+              {uploading ? (
+                 <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+              ) : business.logo ? (
+                <img
+                  src={business.logo}
+                  alt={business.name}
+                  className="w-full h-full object-cover"
+                />
               ) : (
-                <>
-                  <HiOutlineCamera className="w-5 h-5 text-white cursor-pointer hover:scale-110 transition-transform" />
-                  {business.logo && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openDeleteModal();
-                      }}
-                      className="group/delete"
-                      type="button"
-                    >
-                      <HiOutlineTrash className="w-5 h-5 text-white transition-colors hover:scale-110" />
-                    </button>
-                  )}
-                </>
+                <span className="text-3xl font-semibold text-gray-300 dark:text-gray-500 uppercase">
+                  {business.name?.charAt(0)}
+                </span>
               )}
             </div>
-          )}
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="hidden"
-            accept="image/png, image/jpeg, image/jpg"
-          />
-        </div>
-
-        <div className="flex-grow">
-          <div className="flex items-center gap-3 mb-1">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90">
-              {business.name}
-            </h3>
-            <span className="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-600 rounded-full dark:bg-green-500/10 uppercase tracking-widest">
-              {business.status}
-            </span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-            {business.legalName || business.name}
-          </p>
-          <div className="max-w-3xl border-l-4 border-brand-500 pl-4 py-1 italic text-gray-600 dark:text-gray-300">
-            "{business.description || t("create.form.desc_placeholder")}"
+
+          {/* --- INFO & ACTIONS --- */}
+          <div className="flex-1 w-full flex flex-col items-center sm:items-start text-center sm:text-left pt-1">
+            
+            {/* Business Info Header */}
+            <div className="flex items-center gap-2">
+                <h4 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
+                {business.name}
+                </h4>
+                <span className="px-2 py-0.5 text-[10px] font-bold bg-green-100 text-green-700 rounded dark:bg-green-500/20 dark:text-green-400 uppercase tracking-wide">
+                {business.status || "Active"}
+                </span>
+            </div>
+            
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
+               {business.legalName || business.name}
+            </p>
+
+            {/* --- ACTION BAR --- */}
+            {isAdmin && (
+                <div className="mt-3 flex flex-col w-full sm:flex-row sm:items-center sm:justify-between gap-4">
+                  
+                  {/* LEFT GROUP: Logo Actions */}
+                  <div className="flex items-center justify-center sm:justify-start gap-3 w-full sm:w-auto">
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept="image/png, image/jpeg, image/jpg"
+                    />
+
+                    {/* Change/Upload Logo */}
+                    <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={handleUploadClick}
+                        disabled={uploading || deleting}
+                        className="gap-2 h-9 flex-1 sm:flex-none"
+                    >
+                        <HiOutlineCamera className="size-4" />
+                        {t("meta_card.upload_btn")}
+                    </Button>
+
+                    {/* Delete Logo (Conditioned) */}
+                    {business.logo && (
+                        <Button 
+                        variant="outline"
+                        size="sm"
+                        onClick={openDeleteModal}
+                        disabled={uploading || deleting}
+                        className="gap-2 h-9 flex-1 sm:flex-none text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-500/10 border-red-200 dark:border-red-500/20"
+                        >
+                        <HiOutlineTrash className="size-4" />
+                        {t("meta_card.remove_btn")}
+                        </Button>
+                    )}
+                  </div>
+
+                  {/* RIGHT GROUP: Edit Details */}
+                  <div className="flex items-center justify-center sm:justify-end w-full sm:w-auto">
+                    <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={openEditModal}
+                        disabled={uploading || deleting}
+                        className="gap-2 h-9 w-full sm:w-auto bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-700"
+                    >
+                        <HiOutlinePencilSquare className="size-4" />
+                        {t("meta_card.edit_btn")}
+                    </Button>
+                  </div>
+
+                </div>
+            )}
           </div>
         </div>
-
-        {isAdmin && (
-          <button
-            onClick={openEditModal}
-            className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 uppercase text-[10px] tracking-widest"
-          >
-            {t("settings.general.form.edit_identity")}
-          </button>
-        )}
       </div>
 
+      {/* --- CONFIRM DELETE MODAL --- */}
       <ConfirmModal
         isOpen={isDeleteOpen}
         onClose={closeDeleteModal}
@@ -247,21 +292,22 @@ export default function BusinessMetaCard({
         isLoading={deleting}
       />
 
+      {/* --- EDIT DETAILS MODAL --- */}
       <Modal
         isOpen={isEditOpen}
         onClose={closeEditModal}
-        className="max-w-[700px] m-4"
+        className="max-w-[600px] m-4"
       >
-        <div className="p-6 lg:p-11 bg-white dark:bg-gray-900 rounded-3xl text-start">
-          <h4 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white/90 uppercase tracking-tight">
+        <div className="p-6 lg:p-8 bg-white dark:bg-gray-900 rounded-2xl text-start">
+          <h4 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">
             {t("settings.general.cards.edit_identity_title")}
           </h4>
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSave();
+              handleSaveText();
             }}
-            className="space-y-4"
+            className="space-y-5"
           >
             <div>
               <Label>{t("settings.general.form.name_label")}</Label>
@@ -305,19 +351,17 @@ export default function BusinessMetaCard({
               />
             </div>
 
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-gray-100 dark:border-gray-800">
               <Button
                 type="button"
                 variant="outline"
                 onClick={closeEditModal}
-                className="text-[10px] font-semibold uppercase tracking-widest"
               >
                 {t("settings.general.form.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
-                className="text-[10px] font-semibold uppercase tracking-widest"
               >
                 {loading
                   ? t("settings.general.form.synchronizing")
@@ -327,6 +371,6 @@ export default function BusinessMetaCard({
           </form>
         </div>
       </Modal>
-    </div>
+    </>
   );
 }

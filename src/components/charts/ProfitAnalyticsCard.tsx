@@ -109,7 +109,7 @@ export default function ProfitAnalyticsCard({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {title}
           </h3>
-          <p className="text-[11px] font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <p className="text-[11px] font-medium text-gray-600 dark:text-gray-300  tracking-wider">
             {subtitle}
           </p>
         </div>
@@ -125,10 +125,10 @@ export default function ProfitAnalyticsCard({
         ) : !hasData ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-xl bg-gray-50/50 dark:bg-white/[0.01]">
             <HiOutlineCurrencyDollar className="size-10 text-gray-400 mb-3" />
-            <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
+            <h4 className="text-xs font-semibold text-gray-800 dark:text-white  tracking-widest">
               {emptyTitle}
             </h4>
-            <p className="text-[10px] text-gray-500 mt-1">{emptyDescription}</p>
+            <p className="text-xs text-gray-500 mt-1">{emptyDescription}</p>
           </div>
         ) : (
           <div className="absolute inset-0 w-full h-full">

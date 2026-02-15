@@ -88,13 +88,13 @@ export default function InvoiceTable({
               </TableCell>
               <TableCell
                 isHeader
-                className="hidden sm:table-cell px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
+                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
               >
                 {t("list.columns.payment")}
               </TableCell>
               <TableCell
                 isHeader
-                className="hidden sm:table-cell px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
+                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
               >
                 {t("list.columns.logistics")}
               </TableCell>
@@ -184,7 +184,7 @@ export default function InvoiceTable({
                       </span>
                     </TableCell>
 
-                    <TableCell className="hidden sm:table-cell px-5 py-4 text-start">
+                    <TableCell className=" px-5 py-4 text-start">
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
@@ -209,7 +209,7 @@ export default function InvoiceTable({
                       </div>
                     </TableCell>
 
-                    <TableCell className="hidden sm:table-cell px-5 py-4 text-start">
+                    <TableCell className=" px-5 py-4 text-start">
                       <div
                         onClick={(e) => {
                           e.stopPropagation();

@@ -253,9 +253,7 @@ export default function AcceptInvitationForm() {
             {/* Security Verification */}
             <div>
               <Label>
-                {inviteData?.userExists
-                  ? t("accept_invitation.password_label_existing")
-                  : t("accept_invitation.password_label_new")}{" "}
+                {t("accept_invitation.password_label")}{" "}
                 <span className="text-error-500">*</span>
               </Label>
               <div className="relative">

@@ -20,7 +20,7 @@ import NotFound from "./pages/OtherPage/NotFound";
 import AppLayout from "./layout/AppLayout";
 import PublicRoute from "./hooks/route/PublicRoute";
 import BusinessGuard from "./hooks/route/BusinessGuard";
-import ProtectedRoute from "./hooks/route/ProtectedRoute";
+import ProtectedRoute from "./hooks/route/ProtectedRoute"; 
 
 // --- DASHBOARD & BUSINESS PAGES ---
 import Home from "./pages/Dashboard/Home";

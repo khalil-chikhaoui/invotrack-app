@@ -241,5 +241,10 @@
     "SYNC_FAILED": "Synchronisation fehlgeschlagen",
     "REMOVAL_FAILED": "Entfernen fehlgeschlagen",
     "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten."
+  },
+  "meta_card": {
+    "upload_btn": "Logo ändern",
+    "edit_btn": "Details bearbeiten",
+    "remove_btn": "Entfernen"
   }
 }

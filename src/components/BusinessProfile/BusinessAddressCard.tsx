@@ -89,7 +89,7 @@ export default function BusinessAddressCard({
 
   return (
     <div className="p-5 border border-gray-200 rounded-2xl bg-white dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 text-start">
-      <h4 className="mb-6 text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+      <h4 className="mb-6 text-lg font-semibold text-gray-800 dark:text-white  tracking-wide">
         {t("settings.general.cards.address_title")}
       </h4>
 

@@ -58,13 +58,13 @@ export default function BusinessLegalCard({
   return (
     <div className="p-5 border border-gray-200 rounded-2xl bg-white dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 text-start">
       <div className="flex items-center justify-between mb-6">
-        <h4 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+        <h4 className="text-lg font-semibold text-gray-800 dark:text-white  tracking-wide">
           {t("settings.general.cards.legal_title")}
         </h4>
         {isAdmin && (
           <button
             onClick={openModal}
-            className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 uppercase tracking-widest transition-all"
+            className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400  tracking-widest transition-all"
           >
             {t("settings.general.form.edit")}
           </button>

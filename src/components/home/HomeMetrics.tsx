@@ -17,18 +17,18 @@ import { BusinessData } from "../../apis/business";
 
 function MetricSkeleton() {
   return (
-    <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white px-5 py-8 md:p-5  dark:border-white/[0.05] dark:bg-gray-900 animate-pulse h-full">
+    <div className="flex flex-col justify-between h-full px-5 py-3 bg-white border border-gray-200 animate-pulse rounded-2xl dark:border-white/[0.05] dark:bg-gray-900">
       <div className="flex items-start justify-between mb-4">
         <div className="w-full">
-          <div className="h-7 w-1/2 bg-gray-200 dark:bg-gray-800 rounded mb-3"></div>
-          <div className="h-4 w-1/3 bg-gray-100 dark:bg-gray-800/80 rounded mb-2"></div>
-          <div className="h-3 w-2/3 bg-gray-50 dark:bg-gray-800/50 rounded"></div>
+          <div className="w-1/2 mb-3 rounded h-7 bg-gray-200 dark:bg-gray-800"></div>
+          <div className="w-1/3 mb-2 rounded h-4 bg-gray-100 dark:bg-gray-800/80"></div>
+          <div className="w-2/3 rounded h-3 bg-gray-50 dark:bg-gray-800/50"></div>
         </div>
-        <div className="h-10 w-10 bg-gray-100 dark:bg-gray-800 rounded-xl shrink-0 ml-4"></div>
+        <div className="ml-4 shrink-0 h-10 w-10 bg-gray-100 dark:bg-gray-800 rounded-xl"></div>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <div className="h-6 w-16 bg-gray-100 dark:bg-gray-800 rounded-full"></div>
-        <div className="h-3 w-20 bg-gray-50 dark:bg-gray-800/50 rounded"></div>
+        <div className="w-16 h-6 bg-gray-100 rounded-full dark:bg-gray-800"></div>
+        <div className="w-20 h-3 rounded bg-gray-50 dark:bg-gray-800/50"></div>
       </div>
     </div>
   );
@@ -160,14 +160,14 @@ export default function HomeMetrics({
       {metricsConfig.map((item) => (
         <div
           key={item.id}
-          className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white px-5 py-8 md:p-5  dark:border-gray-800 dark:bg-white/[0.03]"
+          className="flex flex-col justify-between  px-5 py-3 bg-white border border-gray-200 rounded-2xl dark:border-gray-800 dark:bg-white/[0.03]"
         >
           <div className="flex items-start justify-between mb-4">
             <div>
               <h4 className="text-xl font-semibold text-gray-800 dark:text-white/90">
                 {item.value}
               </h4>
-              <span className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mt-1">
+              <span className="block mt-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
                 {item.title}
               </span>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
@@ -181,7 +181,7 @@ export default function HomeMetrics({
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div
               className={`inline-flex items-center gap-0.5 rounded-full px-2 py-1 text-xs font-semibold ${
                 item.metric.isPositive
@@ -196,7 +196,7 @@ export default function HomeMetrics({
               )}
               {item.metric.change}%
             </div>
-            <span className="text-xs text-gray-600 dark:text-gray-300 truncate">
+            <span className="text-xs text-gray-600 truncate dark:text-gray-300">
               {comparisonLabel}
             </span>
           </div>

@@ -70,8 +70,8 @@
       "desc": "Ajouter des détails..."
     },
     "options": {
-      "product": "Produit (Stocké)",
-      "service": "Service (Main-d'œuvre/Frais)"
+      "product": "Produit",
+      "service": "Service"
     },
     "actions": {
       "next": "Étape suivante",
