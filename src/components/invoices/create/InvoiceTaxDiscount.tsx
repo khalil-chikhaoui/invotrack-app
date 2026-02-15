@@ -23,7 +23,7 @@ export default function InvoiceTaxDiscount({
   const { t } = useTranslation("invoice");
 
   return (
-    <div className="p-5 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/[0.05] shadow-sm">
+    <div className="p-5 bg-white dark:bg-gray-900 rounded-md border border-gray-200 dark:border-white/[0.05] shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <HiOutlineCalculator className="text-brand-500 size-5" />
         <h3 className="font-semibold text-gray-800 dark:text-white text-sm">

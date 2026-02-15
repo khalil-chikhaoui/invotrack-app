@@ -15,7 +15,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { Modal } from "../ui/modal";
 import { DELIVERY_STATUS_OPTIONS } from "../../apis/invoices";
-import SelectField from "../../components/form/SelectField"; // <--- Imported Helper
+import SelectField from "../../components/form/SelectField";
 
 interface InvoiceFiltersProps {
   searchTerm: string;
@@ -66,9 +66,12 @@ export default function InvoiceFilters({
   const { t: tCommon } = useTranslation("common");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 1. Separate Refs to prevent conflict between Mobile and Desktop inputs
+  // State to control the text displayed in the input
+  const [displayRange, setDisplayRange] = useState("");
+
   const desktopPickerRef = useRef<HTMLInputElement>(null);
   const mobilePickerRef = useRef<HTMLInputElement>(null);
+  const fpInstances = useRef<flatpickr.Instance[]>([]);
 
   const hasActiveFilters =
     statusFilter !== "" || deliveryFilter !== "" || dateRange !== "all";
@@ -79,86 +82,122 @@ export default function InvoiceFilters({
     setDateRange("all");
     setSortConfig("issueDate:desc");
     setPage(1);
+    setStartDate("");
+    setEndDate("");
   };
 
-  // --- Options Definitions ---
-  const dateRangeOptions = [
-    { value: "all", label: t("filters.date_ranges.all") },
-    { value: "today", label: t("filters.date_ranges.today") },
-    { value: "lastweek", label: t("filters.date_ranges.lastweek") },
-    { value: "lastmonth", label: t("filters.date_ranges.lastmonth") },
-    { value: "custom", label: t("filters.date_ranges.custom") },
-  ];
+  // --- 1. Helper: Format Dates for Display ---
+  const formatForDisplay = (start: string, end: string) => {
+    if (!start || !end) return "";
+    const opts: Intl.DateTimeFormatOptions = {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    };
+    const locale =
+      i18n.language === "fr"
+        ? "fr-FR"
+        : i18n.language === "de"
+          ? "de-DE"
+          : "en-US";
+    try {
+      const s = new Date(start).toLocaleDateString(locale, opts);
+      const e = new Date(end).toLocaleDateString(locale, opts);
+      return `${s} ${t("common.to", { defaultValue: "to" })} ${e}`;
+    } catch (e) {
+      return `${start} - ${end}`;
+    }
+  };
 
-  const statusOptions = [
-    { value: "", label: t("filters.status.all") },
-    { value: "Unpaid", label: tCommon("status.open") },
-    { value: "Paid", label: tCommon("status.paid") },
-    { value: "Cancelled", label: tCommon("status.cancelled") },
-  ];
-
-  const deliveryOptions = [
-    { value: "", label: t("filters.logistics.all") },
-    ...DELIVERY_STATUS_OPTIONS.map((opt) => ({
-      value: opt,
-      label: tCommon(`status.${opt.toLowerCase()}`, { defaultValue: opt }),
-    })),
-  ];
-
-  const sortOptions = [
-    { value: "createdAt:desc", label: t("filters.sort.created_new") },
-    { value: "createdAt:asc", label: t("filters.sort.created_old") },
-    { value: "issueDate:desc", label: t("filters.sort.issued_new") },
-    { value: "issueDate:asc", label: t("filters.sort.issued_old") },
-    { value: "invoiceNumber:asc", label: t("filters.sort.number_asc") },
-    { value: "invoiceNumber:desc", label: t("filters.sort.number_desc") },
-    { value: "price:desc", label: t("filters.sort.amount_high") },
-    { value: "price:asc", label: t("filters.sort.amount_low") },
-  ];
-
-  // --- Logic for Date Picker (Flatpickr) ---
+  // --- 2. Effect: Sync Display Text with State ---
   useEffect(() => {
-    const activeRefs = [desktopPickerRef.current, mobilePickerRef.current];
-    const instances: flatpickr.Instance[] = [];
+    setDisplayRange(formatForDisplay(startDate, endDate));
+  }, [startDate, endDate, i18n.language]);
 
+  const handleDateRangeChange = (val: string, onCustomSelect?: () => void) => {
+    setDateRange(val);
+    if (val === "custom") {
+      setStartDate("");
+      setEndDate("");
+      if (onCustomSelect) onCustomSelect();
+    }
+  };
+
+  // --- 3. Auto-Open Picker ---
+  useEffect(() => {
     if (dateRange === "custom") {
+      const timer = setTimeout(() => {
+        const mobileInstance = fpInstances.current.find(
+          (i) => i.element === mobilePickerRef.current,
+        );
+        const desktopInstance = fpInstances.current.find(
+          (i) => i.element === desktopPickerRef.current,
+        );
+
+        if (mobileInstance) mobileInstance.open();
+        else if (desktopInstance) desktopInstance.open();
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [dateRange]);
+
+  // --- 4. Flatpickr Init ---
+  useEffect(() => {
+    fpInstances.current.forEach((fp) => fp.destroy());
+    fpInstances.current = [];
+
+    const activeRefs = [];
+    if (desktopPickerRef.current) activeRefs.push(desktopPickerRef.current);
+    if (mobilePickerRef.current) activeRefs.push(mobilePickerRef.current);
+
+    if (dateRange === "custom" && activeRefs.length > 0) {
       let locale: any = "default";
       if (i18n.language === "fr") locale = French;
       if (i18n.language === "de") locale = German;
 
       activeRefs.forEach((ref) => {
-        if (ref) {
-          const fp = flatpickr(ref, {
-            mode: "range",
-            dateFormat: "M d, Y",
-            locale: locale,
-            defaultDate:
-              startDate && endDate
-                ? [startDate, endDate]
-                : [new Date(), new Date()],
-            onClose: (selectedDates, _, instance) => {
-              if (selectedDates.length === 2) {
-                setStartDate(instance.formatDate(selectedDates[0], "Y-m-d"));
-                setEndDate(instance.formatDate(selectedDates[1], "Y-m-d"));
-              }
-            },
-          });
-          instances.push(fp);
-        }
+        const fp = flatpickr(ref, {
+          mode: "range",
+          dateFormat: "M d, Y",
+          locale: locale,
+          defaultDate: startDate && endDate ? [startDate, endDate] : undefined,
+          onChange: () => {},
+          onClose: (selectedDates, _, instance) => {
+            if (selectedDates.length === 2) {
+              setStartDate(instance.formatDate(selectedDates[0], "Y-m-d"));
+              setEndDate(instance.formatDate(selectedDates[1], "Y-m-d"));
+            }
+          },
+        });
+        fpInstances.current.push(fp);
       });
     }
-    return () => {
-      instances.forEach((fp) => fp.destroy());
-    };
-  }, [dateRange, isModalOpen, i18n.language]);
 
-  const FilterFields = () => (
+    return () => {
+      fpInstances.current.forEach((fp) => fp.destroy());
+      fpInstances.current = [];
+    };
+  }, [dateRange, i18n.language]);
+
+  // --- Components ---
+
+  const FilterFields = ({
+    onCustomSelect,
+  }: {
+    onCustomSelect?: () => void;
+  }) => (
     <>
       <SelectField
         label={t("filters.date_range_label")}
         value={dateRange}
-        onChange={(val) => setDateRange(val)}
-        options={dateRangeOptions}
+        onChange={(val) => handleDateRangeChange(val, onCustomSelect)}
+        options={[
+          { value: "all", label: t("filters.date_ranges.all") },
+          { value: "today", label: t("filters.date_ranges.today") },
+          { value: "lastweek", label: t("filters.date_ranges.lastweek") },
+          { value: "lastmonth", label: t("filters.date_ranges.lastmonth") },
+          { value: "custom", label: t("filters.date_ranges.custom") },
+        ]}
         isActive={dateRange !== "all"}
         className="w-full xl:w-44"
       />
@@ -170,7 +209,12 @@ export default function InvoiceFilters({
           setStatusFilter(val);
           setPage(1);
         }}
-        options={statusOptions}
+        options={[
+          { value: "", label: t("filters.status.all") },
+          { value: "Unpaid", label: tCommon("status.open") },
+          { value: "Paid", label: tCommon("status.paid") },
+          { value: "Cancelled", label: tCommon("status.cancelled") },
+        ]}
         isActive={statusFilter !== ""}
         className="w-full xl:w-40"
       />
@@ -182,29 +226,48 @@ export default function InvoiceFilters({
           setDeliveryFilter(val);
           setPage(1);
         }}
-        options={deliveryOptions}
+        options={[
+          { value: "", label: t("filters.logistics.all") },
+          ...DELIVERY_STATUS_OPTIONS.map((opt) => ({
+            value: opt,
+            label: tCommon(`status.${opt.toLowerCase()}`, {
+              defaultValue: opt,
+            }),
+          })),
+        ]}
         isActive={deliveryFilter !== ""}
         className="w-full xl:w-40"
       />
 
+      {/* FIX: Inline sortOptions to prevent ReferenceError */}
       <SelectField
         label={t("filters.sort_label")}
         value={sortConfig}
         onChange={(val) => setSortConfig(val)}
-        options={sortOptions}
-        // Always sorting by something, so typically no 'active' dot needed unless deviating from default
+        options={[
+          { value: "createdAt:desc", label: t("filters.sort.created_new") },
+          { value: "createdAt:asc", label: t("filters.sort.created_old") },
+          { value: "issueDate:desc", label: t("filters.sort.issued_new") },
+          { value: "issueDate:asc", label: t("filters.sort.issued_old") },
+          { value: "invoiceNumber:asc", label: t("filters.sort.number_asc") },
+          { value: "invoiceNumber:desc", label: t("filters.sort.number_desc") },
+          { value: "price:desc", label: t("filters.sort.amount_high") },
+          { value: "price:asc", label: t("filters.sort.amount_low") },
+        ]}
         isActive={sortConfig !== "issueDate:desc"}
-        className="w-full xl:w-44"
+        className="w-full xl:w-52"
       />
     </>
   );
 
+  const inputClassName =
+    "h-11 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-xs text-gray-700 dark:text-white font-medium outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 hover:border-gray-400 dark:hover:border-gray-600 transition-all cursor-pointer placeholder-gray-500";
+
   return (
     <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
       <div className="flex flex-col gap-4">
-        {/* ROW 1: Search (Full Width) + Action Buttons */}
+        {/* ROW 1: Search + Actions */}
         <div className="flex flex-col xl:flex-row gap-4 xl:items-end justify-between">
-          {/* SEARCH (Expanded Width) */}
           <div className="flex-1 flex gap-2 items-end w-full">
             <div className="flex-1 w-full">
               <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
@@ -272,32 +335,35 @@ export default function InvoiceFilters({
           </div>
         </div>
 
-        {/* ROW 2: Filters (Left) + Custom Date Input (Right) */}
+        {/* ROW 2: Desktop Filters */}
         <div className="hidden xl:flex items-end justify-between gap-4 mt-1 relative">
-          {/* Left Side: Standard Filters */}
           <div className="flex items-end gap-3 z-0">
             <FilterFields />
           </div>
 
-          {/* Right Side: Custom Date Input (Float Right) */}
+          {/* External Date Input (Desktop) */}
           {dateRange === "custom" && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300 z-50">
               <div className="relative w-64">
-                <label className="text-[10px] font-semibold text-gray-400 mb-1.5 flex items-center uppercase tracking-widest">
+                <label className="text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 flex items-center uppercase tracking-wide">
                   {t("filters.select_dates")}
                 </label>
                 <div className="relative">
                   <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 z-10" />
                   <input
                     ref={desktopPickerRef}
-                    className="h-11 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-900 text-xs text-gray-700 dark:text-white font-medium dark:border-gray-700 outline-none focus:border-brand-500 transition-all cursor-pointer "
+                    className={inputClassName}
                     placeholder={t("filters.pick_range")}
+                    value={displayRange} // CONTROLLED VALUE
+                    readOnly
                   />
                 </div>
               </div>
             </div>
           )}
         </div>
+
+        {/* --- MOBILE SECTION --- */}
 
         {/* Mobile New Invoice Button */}
         {canManage && (
@@ -312,15 +378,17 @@ export default function InvoiceFilters({
           </div>
         )}
 
-        {/* Mobile Date Range Fallback */}
+        {/* External Date Input (Mobile Fallback) */}
         {dateRange === "custom" && (
-          <div className="xl:hidden flex pt-2 border-t border-gray-100 dark:border-white/5">
+          <div className="xl:hidden flex pt-2 border-t border-gray-100 dark:border-white/5 animate-in fade-in slide-in-from-top-2">
             <div className="relative w-full">
               <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 z-10" />
               <input
                 ref={mobilePickerRef}
-                className="h-11 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 text-xs text-gray-700 dark:text-white font-medium dark:border-gray-700 outline-none focus:border-brand-500 transition-all cursor-pointer"
+                className={inputClassName}
                 placeholder={t("filters.pick_range")}
+                value={displayRange} // CONTROLLED VALUE
+                readOnly
               />
             </div>
           </div>
@@ -343,24 +411,12 @@ export default function InvoiceFilters({
                 <HiOutlineXMark className="size-6 text-gray-400" />
               </button>
             </div>
+
             <div className="px-6 py-5 space-y-5 overflow-y-auto">
-              <FilterFields />
-              {dateRange === "custom" && (
-                <div className="relative">
-                  <label className="text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
-                    {t("filters.select_dates")}
-                  </label>
-                  <div className="relative">
-                    <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-gray-400 z-10" />
-                    <input
-                      ref={mobilePickerRef}
-                      className="h-12 w-full pl-10 pr-4 rounded-xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white dark:bg-gray-900 text-sm"
-                      placeholder={t("filters.pick_range")}
-                    />
-                  </div>
-                </div>
-              )}
+              {/* Pass close callback to auto-close modal on Custom selection */}
+              <FilterFields onCustomSelect={() => setIsModalOpen(false)} />
             </div>
+
             <div className="p-6 bg-gray-50 dark:bg-white/[0.02] flex flex-col gap-3">
               <Button
                 onClick={() => setIsModalOpen(false)}
@@ -380,4 +436,4 @@ export default function InvoiceFilters({
       )}
     </div>
   );
-} 
+}

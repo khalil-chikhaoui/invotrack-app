@@ -224,9 +224,6 @@ export default function Members() {
           <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-white/[0.05]">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end text-start">
               <div className="flex-1 text-start">
-                <label className="text-theme-xs font-semibold text-gray-500 mb-1.5 block uppercase tracking-wider">
-                  {t("list.search_placeholder")}
-                </label>
                 <Input
                   placeholder={t("list.search_placeholder")}
                   value={searchTerm}
@@ -240,7 +237,7 @@ export default function Members() {
                     onClick={() =>
                       navigate(`/business/${businessId}/add-member`)
                     }
-                    className="h-11 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-6"
+                    className="h-11 flex items-center gap-2 text-[10px] font-semibold  tracking-widest px-6"
                   >
                     <PlusIcon className="fill-current size-5" />{" "}
                     {t("list.add_button")}
@@ -251,7 +248,7 @@ export default function Members() {
                   variant="outline"
                   onClick={fetchData}
                   disabled={loading}
-                  className="h-11 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-4 border-gray-200 dark:border-white/10"
+                  className="h-11 flex items-center gap-2 text-[10px] font-semibold  tracking-widest px-4 border-gray-200 dark:border-white/10"
                 >
                   <HiOutlineArrowPath
                     className={`size-5 ${loading ? "animate-spin" : ""}`}
@@ -269,31 +266,31 @@ export default function Members() {
                 <TableRow>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
+                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.member")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
+                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     Title
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
+                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.status")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
+                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.role")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-end font-semibold text-gray-500 text-[10px] uppercase tracking-widest"
+                    className="px-5 py-4 text-end font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.actions")}
                   </TableCell>
@@ -342,9 +339,9 @@ export default function Members() {
                         className="text-start hover:bg-gray-50/50 dark:hover:bg-white/[0.01] transition-colors"
                       >
                         {/* Member Identity */}
-                        <TableCell className="px-5 py-4">
+                        <TableCell className="px-5 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 overflow-hidden rounded-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                            <div className="w-10 h-10 overflow-hidden rounded-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center shrink-0">
                               {member.profileImage ? (
                                 <img
                                   src={member.profileImage}
@@ -356,7 +353,7 @@ export default function Members() {
                               )}
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-semibold text-theme-sm text-gray-800 dark:text-white leading-tight uppercase tracking-tight">
+                              <span className="font-semibold text-theme-sm text-gray-800 dark:text-white leading-tight  tracking-tight">
                                 {member.name}{" "}
                                 {isCurrentUser && (
                                   <span className="text-brand-500 ml-1 text-[9px]">
@@ -364,7 +361,7 @@ export default function Members() {
                                   </span>
                                 )}
                               </span>
-                              <span className="text-gray-400 text-[10px] font-semibold uppercase tracking-widest mt-1">
+                              <span className="text-gray-400 text-[10px] font-semibold  tracking-widest mt-1">
                                 {member.email}
                               </span>
                             </div>
@@ -372,12 +369,12 @@ export default function Members() {
                         </TableCell>
 
                         {/* Title */}
-                        <TableCell className="px-5 py-4 text-theme-sm font-semibold text-gray-500 dark:text-gray-400 uppercase text-[10px] tracking-tight">
+                        <TableCell className="px-5 py-4 text-theme-sm font-semibold text-gray-500 dark:text-gray-400  text-[10px] tracking-tight whitespace-nowrap">
                           {member.title || "Staff"}
                         </TableCell>
 
                         {/* Access Status */}
-                        <TableCell className="px-5 py-4">
+                        <TableCell className="px-5 py-4 whitespace-nowrap">
                           <div className="flex flex-col items-start gap-1">
                             <Badge
                               color={
@@ -385,7 +382,7 @@ export default function Members() {
                                   ? "success"
                                   : "warning"
                               }
-                              className="font-semibold text-[9px] uppercase tracking-widest px-3"
+                              className="font-semibold text-[9px]  tracking-widest px-3"
                             >
                               <div className="flex items-center gap-1.5">
                                 {member.invitationStatus === "Pending" && (
@@ -402,7 +399,7 @@ export default function Members() {
                             </Badge>
                             {member.invitationStatus === "Pending" &&
                               daysLeft && (
-                                <div className="flex items-center gap-1 text-[9px] font-semibold text-gray-400 uppercase tracking-wide ml-1">
+                                <div className="flex items-center gap-1 text-[9px] font-semibold text-gray-400  tracking-wide ml-1">
                                   <HiOutlineClock className="size-3" />{" "}
                                   {daysLeft}
                                 </div>
@@ -411,7 +408,7 @@ export default function Members() {
                         </TableCell>
 
                         {/* Permissions / Role */}
-                        <TableCell className="px-5 py-4">
+                        <TableCell className="px-5 py-4 whitespace-nowrap">
                           <div
                             onClick={() => {
                               if (
@@ -434,7 +431,7 @@ export default function Members() {
                           >
                             <Badge
                               color={getRoleColor(member.role)}
-                              className="font-semibold text-[9px] uppercase tracking-widest px-3"
+                              className="font-semibold text-[9px]  tracking-widest px-3"
                             >
                               <div className="flex items-center gap-1.5">
                                 {translateRole(member.role)}
@@ -449,14 +446,14 @@ export default function Members() {
                         </TableCell>
 
                         {/* Controls */}
-                        <TableCell className="px-5 py-4 text-end">
+                        <TableCell className="px-5 py-4 text-end whitespace-nowrap">
                           <div className="flex items-center justify-end gap-3 min-h-[28px]">
                             {isCurrentUser && !isLastAdmin && (
                               <button
                                 onClick={openLeaveModal}
                                 className="text-gray-400 hover:text-error-500 flex items-center gap-1 transition-colors"
                               >
-                                <span className="text-[10px] font-semibold uppercase tracking-widest">
+                                <span className="text-[10px] font-semibold  tracking-widest">
                                   {t("modals.confirm_leave", {
                                     defaultValue: "Leave",
                                   })}
@@ -501,10 +498,10 @@ export default function Members() {
           <div className="w-12 h-12 bg-brand-50 dark:bg-brand-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <HiOutlineShieldCheck className="size-6 text-brand-500" />
           </div>
-          <h4 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight mb-1">
+          <h4 className="text-lg font-semibold text-gray-800 dark:text-white  tracking-tight mb-1">
             {t("list.columns.role")} {/* Reusing "Role" label */}
           </h4>
-          <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-widest mb-6">
+          <p className="text-[10px] text-gray-500 font-semibold  tracking-widest mb-6">
             {memberToUpdate?.name}
           </p>
 
@@ -516,7 +513,7 @@ export default function Members() {
               >
                 <div className="flex flex-col text-left">
                   <span
-                    className={`text-sm font-semibold uppercase tracking-wide ${selectedRole === role ? "text-brand-600 dark:text-brand-400" : "text-gray-700 dark:text-gray-300"}`}
+                    className={`text-sm font-semibold  tracking-wide ${selectedRole === role ? "text-brand-600 dark:text-brand-400" : "text-gray-700 dark:text-gray-300"}`}
                   >
                     {translateRole(role)}
                   </span>
@@ -547,13 +544,13 @@ export default function Members() {
           <div className="flex gap-3 mt-8">
             <Button
               variant="outline"
-              className="w-full text-[10px] font-semibold uppercase tracking-widest"
+              className="w-full text-[10px] font-semibold  tracking-widest"
               onClick={closeRoleModal}
             >
               {t("invite.cancel")}
             </Button>
             <Button
-              className="w-full text-[10px] font-semibold uppercase tracking-widest shadow-lg shadow-brand-500/20"
+              className="w-full text-[10px] font-semibold  tracking-widest shadow-lg shadow-brand-500/20"
               onClick={handleConfirmRoleChange}
               disabled={updatingRole}
             >

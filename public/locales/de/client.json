@@ -81,7 +81,7 @@
     },
     "options": {
       "individual": "Privatperson",
-      "business": "Unternehmen / Organisation"
+      "business": "Unternehmen" 
     },
     "actions": {
       "next": "Nächster Schritt",

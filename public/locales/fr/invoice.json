@@ -18,7 +18,7 @@
     }
   },
   "filters": {
-    "search_label": "Recherche",
+    "search_label": "Rechercher",
     "search_placeholder": "N° Facture ou Client...",
     "date_range_label": "Période",
     "status_label": "Paiement",

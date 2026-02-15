@@ -3,7 +3,7 @@
     "title": "Membres de l'équipe",
     "subtitle": "Gérez l'accès et les rôles de votre organisation.",
     "search_placeholder": "Rechercher par nom ou e-mail...",
-    "add_button": "Inviter un membre",
+    "add_button": "Inviter",
     "columns": {
       "member": "Membre",
       "role": "Rôle",

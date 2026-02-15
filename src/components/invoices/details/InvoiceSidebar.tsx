@@ -79,16 +79,7 @@ export default function InvoiceSidebar({
         </div>
       </div>
 
-      {/* --- Internal Notes Card --- */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 shadow-sm">
-        <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-4">
-          {t("sidebar.notes_title")}
-        </h3>
-        <textarea
-          placeholder={t("sidebar.notes_placeholder")}
-          className="w-full bg-transparent text-xs text-gray-600 dark:text-gray-300 outline-none resize-none h-20 placeholder-gray-300 dark:placeholder-gray-600"
-        />
-      </div>
+     
     </div>
   );
 }

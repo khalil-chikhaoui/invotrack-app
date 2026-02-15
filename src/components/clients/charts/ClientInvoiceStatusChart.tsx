@@ -142,7 +142,8 @@ export default function ClientInvoiceStatusChart({
   };
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]flex flex-col h-full p-6">
+    // FIX: Added space between dark:bg-white/[0.03] and flex
+    <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] flex flex-col h-full p-6">
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
           {t("analytics.status.title")}

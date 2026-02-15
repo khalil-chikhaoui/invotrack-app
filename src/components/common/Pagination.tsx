@@ -60,7 +60,7 @@ export default function Pagination({
         bg-white/50 dark:bg-transparent backdrop-blur-sm transition-all"
       >
         {/* Left: Info Text (Hidden on mobile to declutter, shown on sm+) */}
-        <div className="hidden sm:block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+        <div className="hidden sm:block text-xs font-medium text-gray-500 dark:text-gray-400 tracking-wider">
           Showing Page{" "}
           <span className="font-bold text-gray-900 dark:text-white">
             {currentPage}
@@ -105,7 +105,7 @@ export default function Pagination({
 
           {/* Mobile: Center Info Badge (Replaces the pill) */}
           <div className="sm:hidden flex flex-col items-center">
-            <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">
+            <span className="text-[10px] text-gray-400 tracking-widest font-semibold">
               Page
             </span>
             <span className="text-sm font-bold text-gray-800 dark:text-gray-100 font-mono">

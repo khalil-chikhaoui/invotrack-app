@@ -36,7 +36,7 @@ export default function InvoiceSummary({
   const { t } = useTranslation("invoice");
 
   return (
-    <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/[0.05] shadow-sm xl:sticky xl:top-24">
+    <div className="p-6 bg-white dark:bg-gray-900 rounded-md border border-gray-200 dark:border-white/[0.05]  xl:sticky xl:top-24">
       {/* --- Header Section --- */}
       <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100 dark:border-white/5">
         <div className="w-8 h-8 rounded-full bg-brand-50 dark:bg-brand-500/10 flex items-center justify-center">
@@ -95,7 +95,7 @@ export default function InvoiceSummary({
       <Button
         onClick={onSubmit}
         disabled={loading}
-        className="w-full py-4 text-xs font-semibold uppercase tracking-widest shadow-xl shadow-brand-500/20"
+        className="w-full py-4 text-xs font-semibold uppercase tracking-wide "
       >
         {loading
           ? t("create.actions.syncing")

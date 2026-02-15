@@ -144,8 +144,8 @@ export default function ItemManager({
 
   return (
     <div className="relative" ref={containerRef} onKeyDown={handleKeyDown}>
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-[2rem] shadow-sm flex flex-col transition-all">
-        <div className="px-6 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-white dark:bg-gray-900/50 rounded-t-[2rem]">
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-md shadow-sm flex flex-col transition-all">
+        <div className="px-6 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-white dark:bg-gray-900/50 rounded-t-md">
           <div className="flex items-center gap-2">
             <div className="p-1 rounded-lg bg-gray-100 dark:bg-white/5">
               <HiOutlineCubeTransparent className="size-3.5 text-gray-600 dark:text-gray-400" />
@@ -176,7 +176,8 @@ export default function ItemManager({
               onFocus={() => setIsOpen(true)}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("create.placeholders.item_search")}
-              className="w-full h-11 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 pl-11 pr-10 text-sm font-medium focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 transition-all text-gray-900 dark:text-white placeholder:text-gray-400"
+              className="w-full h-11 rounded-md border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 pl-11 pr-10 text-sm font-medium focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 transition-all 
+              text-gray-900 dark:text-white placeholder:text-gray-500 placeholder:font-light dark:placeholder:text-gray-300"
             />
             <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
               {searching ? (

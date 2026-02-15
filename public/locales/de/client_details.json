@@ -10,7 +10,7 @@
     "directory": "Kundenverzeichnis",
     "restore": "Konto wiederherstellen"
   },
-  "identity_card": {
+  "identity_card": { 
     "type_business": "Unternehmen",
     "type_individual": "Privatperson",
     "archived": "Archiviert",

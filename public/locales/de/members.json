@@ -3,7 +3,7 @@
     "title": "Teammitglieder",
     "subtitle": "Verwalten Sie Zugriff und Rollen für Ihre Organisation.",
     "search_placeholder": "Nach Name oder E-Mail suchen...",
-    "add_button": "Mitglied einladen",
+    "add_button": "Einladen",
     "columns": {
       "member": "Mitglied",
       "role": "Rolle",

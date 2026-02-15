@@ -41,7 +41,6 @@ export default function InvoiceStatsTab({
     return { totalCost, profit, margin, daysToPay };
   }, [invoice]);
 
-  
   const cards = [
     {
       label: t("stats.profit"),
@@ -51,15 +50,15 @@ export default function InvoiceStatsTab({
         business.currencyFormat,
       ),
       description: t("stats.profit_desc"),
-      icon: <HiOutlineScale className="size-6 text-emerald-500" />,
-      color: "bg-emerald-50 dark:bg-emerald-500/10",
+      icon: <HiOutlineScale className="size-5 sm:size-6 text-emerald-500" />,
+      bgClass: "bg-emerald-50 dark:bg-emerald-500/10",
     },
     {
       label: t("stats.margin"),
       value: `${stats.margin.toFixed(1)}%`,
       description: t("stats.margin_desc"),
-      icon: <HiOutlineReceiptPercent className="size-6 text-brand-500" />,
-      color: "bg-brand-50 dark:bg-brand-500/10",
+      icon: <HiOutlineReceiptPercent className="size-5 sm:size-6 text-brand-500" />,
+      bgClass: "bg-brand-50 dark:bg-brand-500/10",
     },
     {
       label: t("stats.cost"),
@@ -69,8 +68,8 @@ export default function InvoiceStatsTab({
         business.currencyFormat,
       ),
       description: t("stats.cost_desc"),
-      icon: <HiOutlinePresentationChartBar className="size-6 text-amber-500" />,
-      color: "bg-amber-50 dark:bg-amber-500/10",
+      icon: <HiOutlinePresentationChartBar className="size-5 sm:size-6 text-amber-500" />,
+      bgClass: "bg-amber-50 dark:bg-amber-500/10",
     },
     {
       label: t("stats.velocity"),
@@ -79,33 +78,40 @@ export default function InvoiceStatsTab({
           ? `${stats.daysToPay} ${t("stats.days")}`
           : "---",
       description: t("stats.velocity_desc"),
-      icon: <HiOutlineClock className="size-6 text-purple-500" />,
-      color: "bg-purple-50 dark:bg-purple-500/10",
+      icon: <HiOutlineClock className="size-5 sm:size-6 text-purple-500" />,
+      bgClass: "bg-purple-50 dark:bg-purple-500/10",
     },
   ];
 
+  // Shared classes matching your ItemHealthMetrics example
+  const cardClassName =
+    "rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 dark:border-white/[0.05] dark:bg-white/[0.03] group hover:border-brand-100 dark:hover:border-brand-500/20 transition-all flex flex-row sm:flex-col items-center sm:items-start justify-start sm:justify-between gap-4 sm:gap-0 min-h-0 sm:min-h-[160px]";
+
+  const iconContainerClass = (colorClass: string) =>
+    `flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl shrink-0 sm:mb-4 ${colorClass}`;
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-start">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-6 text-start">
         {cards.map((card, idx) => (
-          <div
-            key={idx}
-            className="p-6 bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xltransition-shadow"
-          >
-            <div
-              className={`w-12 h-12 ${card.color} rounded-xl flex items-center justify-center mb-4`}
-            >
+          <div key={idx} className={cardClassName}>
+            {/* Icon Wrapper */}
+            <div className={iconContainerClass(card.bgClass)}>
               {card.icon}
             </div>
-            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">
-              {card.label}
-            </span>
-            <h4 className="text-2xl font-semibold text-gray-800 dark:text-white mb-1">
-              {card.value}
-            </h4>
-            <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
-              {card.description}
-            </p>
+
+            {/* Text Content */}
+            <div>
+              <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 block">
+                {card.label}
+              </span>
+              <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
+                {card.value}
+              </h4>
+              <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+                {card.description}
+              </p>
+            </div>
           </div>
         ))}
       </div>

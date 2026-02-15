@@ -13,6 +13,7 @@ import { businessApi } from "../../apis/business";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
 import { scrollToTopAppLayout } from "../../layout/AppLayout";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
 export default function AddMember() {
   const { t } = useTranslation("members");
@@ -93,32 +94,31 @@ export default function AddMember() {
         title={t("invite.title") + " | Invotrack"}
         description={t("invite.subtitle")}
       />
-      <PageBreadcrumb pageTitle={t("invite.title")} />
 
-      <div className="w-full">
+      <div className="w-full px-3 md:p-0 mt-4">
         {/* Navigation Control */}
-        <button
+       <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 mb-6 text-[10px] font-semibold text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400 transition-colors uppercase tracking-widest"
         >
-          <ChevronLeftIcon className="size-4" />
-          {t("actions.back")} 
+          <HiOutlineArrowLeft className="size-4" />
+          {t("actions.back")}
         </button>
-
+        <PageBreadcrumb pageTitle={t("invite.title")} />
         {/* Global Feedback Alert */}
         <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-6">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90 uppercase tracking-tight">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90 tracking-tight">
               {t("invite.title")}
             </h3>
-            <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-300">
               {t("invite.subtitle")}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
               {/* Full Name */}
               <div className="sm:col-span-1">

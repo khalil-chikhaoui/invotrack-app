@@ -44,6 +44,11 @@ const AppSidebar: React.FC = () => {
       name: t("sidebar.nav.dashboard"),
       path: "/",
     },
+     {
+      icon: <HiOutlineDocumentText className="size-6" />,
+      name: t("sidebar.nav.invoices"),
+      path: "/invoices",
+    },
     {
       icon: <HiOutlineUsers className="size-6" />,
       name: t("sidebar.nav.clients"),
@@ -53,11 +58,6 @@ const AppSidebar: React.FC = () => {
       icon: <HiOutlineCube className="size-6" />,
       name: t("sidebar.nav.items"),
       path: "/items",
-    },
-    {
-      icon: <HiOutlineDocumentText className="size-6" />,
-      name: t("sidebar.nav.invoices"),
-      path: "/invoices",
     },
     {
       icon: <HiCalendar className="size-6" />,

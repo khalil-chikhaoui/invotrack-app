@@ -86,7 +86,8 @@ export default function ItemsTable({
         onClick={() => handleViewItem(item._id)}
         className="hover:bg-gray-50/80 dark:hover:bg-white/[0.02] transition-all cursor-pointer group"
       >
-        <TableCell className="px-5 py-4 text-start">
+        {/* Added whitespace-nowrap */}
+        <TableCell className="px-5 py-4 text-start whitespace-nowrap">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-gray-50 dark:bg-white/[0.05] flex items-center justify-center overflow-hidden border border-gray-100 dark:border-white/[0.05] shrink-0 group-hover:border-brand-200 dark:group-hover:border-brand-500/30 transition-colors">
               {item.image ? (
@@ -104,14 +105,14 @@ export default function ItemsTable({
                 {item.name}
               </span>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[9px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-widest">
-                  {item.sku || "No SKU"}
+                <span className="text-[9px] text-gray-500 dark:text-gray-400 font-bold tracking-widest">
+                  {item.sku || "-"}
                 </span>
                 {item.isArchived && (
                   <Badge
                     color="error"
                     size="sm"
-                    className="text-[8px] px-1.5 py-0 uppercase tracking-widest font-bold"
+                    className="text-[8px] px-1.5 py-0 tracking-widest font-bold"
                   >
                     {t("filters.status.archived")}
                   </Badge>
@@ -121,12 +122,13 @@ export default function ItemsTable({
           </div>
         </TableCell>
 
-        <TableCell className="px-5 py-4 text-start">
+        {/* Added whitespace-nowrap */}
+        <TableCell className="px-5 py-4 text-start whitespace-nowrap">
           <Badge
             size="sm"
             variant="light"
             color={item.itemType === "Product" ? "success" : "warning"}
-            className="uppercase font-bold text-[9px] tracking-wider"
+            className="font-bold text-[9px] tracking-wider"
           >
             {t(
               `form.options.${item.itemType.toLowerCase()}` as any,
@@ -135,6 +137,7 @@ export default function ItemsTable({
           </Badge>
         </TableCell>
 
+        {/* Existing whitespace-nowrap */}
         <TableCell className="px-5 py-4 text-start font-bold font-mono text-sm text-gray-800 dark:text-white whitespace-nowrap tracking-tight">
           {formatMoney(
             item.price,
@@ -143,7 +146,8 @@ export default function ItemsTable({
           )}
         </TableCell>
 
-        <TableCell className="px-5 py-4 text-start">
+        {/* Added whitespace-nowrap */}
+        <TableCell className="px-5 py-4 text-start whitespace-nowrap">
           {item.itemType === "Product" ? (
             <span
               className={`text-sm font-bold whitespace-nowrap ${
@@ -153,7 +157,7 @@ export default function ItemsTable({
               }`}
             >
               {item.currentStock}{" "}
-              <span className="text-[10px] uppercase font-medium">
+              <span className="text-[10px] font-medium">
                 {item.unit}
               </span>
             </span>
@@ -164,7 +168,8 @@ export default function ItemsTable({
           )}
         </TableCell>
 
-        <TableCell className="hidden sm:table-cell px-5 py-4 text-end">
+        {/* Added whitespace-nowrap */}
+        <TableCell className="hidden sm:table-cell px-5 py-4 text-end whitespace-nowrap">
           <div
             className="flex items-center justify-end gap-3 min-h-[28px]"
             onClick={(e) => e.stopPropagation()}
@@ -224,31 +229,31 @@ export default function ItemsTable({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 tracking-widest whitespace-nowrap"
               >
                 {t("list.columns.details")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 tracking-widest whitespace-nowrap"
               >
                 {t("list.columns.type")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest min-w-[120px]"
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 tracking-widest min-w-[120px] whitespace-nowrap"
               >
                 {t("list.columns.price")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                className="px-5 py-3 text-start text-[10px] font-bold text-gray-400 tracking-widest whitespace-nowrap"
               >
                 {t("list.columns.stock")}
               </TableCell>
               <TableCell
                 isHeader
-                className="hidden sm:table-cell px-5 py-3 text-end text-[10px] font-bold text-gray-400 uppercase tracking-widest"
+                className="hidden sm:table-cell px-5 py-3 text-end text-[10px] font-bold text-gray-400 tracking-widest whitespace-nowrap"
               >
                 {t("list.columns.actions")}
               </TableCell>

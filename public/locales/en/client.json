@@ -47,7 +47,7 @@
   },
   "form": {
     "title": "New Client Registry",
-    "subtitle_1": "Legal identity and classification.",
+    "subtitle_1": "Legal identity and classification.", 
     "subtitle_2": "Digital communication channels.",
     "subtitle_3": "Billing and Shipping coordinates.",
     "steps": {
@@ -81,7 +81,7 @@
     },
     "options": {
       "individual": "Individual",
-      "business": "Business / Entity"
+      "business": "Business" 
     },
     "actions": {
       "next": "Next Step",

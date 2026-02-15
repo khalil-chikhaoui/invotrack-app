@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next"; 
 import {
   clientApi,
   ClientData,

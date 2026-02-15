@@ -81,7 +81,7 @@
     },
     "options": {
       "individual": "Particulier",
-      "business": "Entreprise / Entité"
+      "business": "Entreprise" 
     },
     "actions": {
       "next": "Étape suivante",

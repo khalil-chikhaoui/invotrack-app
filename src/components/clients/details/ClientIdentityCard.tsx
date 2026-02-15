@@ -31,7 +31,7 @@ export default function ClientIdentityCard({
   isArchived,
   onEdit,
   refresh,
-  setAlert,
+  setAlert, 
 }: ClientIdentityCardProps) {
   const { t } = useTranslation("client_details");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -110,7 +110,7 @@ export default function ClientIdentityCard({
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
         
-        {/* --- LEFT: LOGO (Clean, no buttons underneath) --- */}
+        {/* --- LEFT: LOGO --- */}
         <div className="flex-shrink-0">
           <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
             {uploading ? (
@@ -132,27 +132,32 @@ export default function ClientIdentityCard({
         {/* --- RIGHT: INFO & ACTIONS --- */}
         <div className="text-center md:text-start flex-1 w-full pt-1">
           
-          {/* Badges Row */}
+          {/* Badges Row - UPDATED TO MATCH TABLE STYLE */}
           <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
             <Badge
-              color={client.clientType === "Business" ? "info" : "light"}
-              className="font-semibold text-[10px] tracking-widest px-3 uppercase"
+              size="sm"
+              variant="light"
+              color={client.clientType === "Business" ? "warning" : "info"}
+              className="font-bold text-[10px] tracking-widest px-2 py-0.5 uppercase"
             >
-              {client.clientType === "Business"
-                ? t("identity_card.type_business")
-                : t("identity_card.type_individual")}
+              {t(
+                `identity_card.type_${client.clientType.toLowerCase()}`,
+                client.clientType
+              )}
             </Badge>
+
             {isArchived && (
               <Badge
-                color="warning"
-                className="font-semibold text-[9px] tracking-widest uppercase"
+                size="sm"
+                color="error"
+                className="font-bold text-[9px] tracking-widest px-1.5 py-0 uppercase"
               >
                 {t("identity_card.archived")}
               </Badge>
             )}
           </div>
 
-          {/* Name + Main Edit Button Row */}
+          {/* Name + Edit Button Row */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-tight leading-none break-all">
               {client.name}
@@ -171,7 +176,7 @@ export default function ClientIdentityCard({
             )}
           </div>
 
-          {/* --- CONTACT DETAILS (RESTORED TO ORIGINAL DESIGN) --- */}
+          {/* --- CONTACT DETAILS --- */}
           <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
             {client.email && (
               <div className="flex items-center gap-2 text-xs text-brand-500 font-semibold uppercase tracking-tighter">
@@ -190,7 +195,7 @@ export default function ClientIdentityCard({
             )}
           </div>
 
-          {/* --- LOGO ACTIONS ROW (Kept inline here) --- */}
+          {/* --- LOGO ACTIONS ROW --- */}
           {canManage && !isArchived && (
             <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-3">
               <input

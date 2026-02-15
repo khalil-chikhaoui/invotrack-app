@@ -1,5 +1,5 @@
 type BadgeVariant = "light" | "solid";
-type BadgeSize = "sm" | "md";
+type BadgeSize =  "sm" | "md";
 type BadgeColor =
   | "primary"
   | "success"

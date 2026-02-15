@@ -47,7 +47,7 @@ export default function CreateInvoice() {
   );
   const [dueDate, setDueDate] = useState(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 3);
+    d.setDate(d.getDate() + 14);
     return d.toISOString().split("T")[0];
   });
   const [notes, setNotes] = useState("");
@@ -272,10 +272,13 @@ export default function CreateInvoice() {
       <div className="mt-4" />
       <PageBreadcrumb pageTitle={t("create.breadcrumb")} />
 
-      <div className="px-2 sm:px-6 pb-20 space-y-4">
+      <div className="px-2 sm:px-4 pb-20 space-y-4">
         <CustomAlert data={alert} onClose={() => setAlert(null)} />
+
+        {/* --- MAIN GRID LAYOUT --- */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
-          <div className="xl:col-span-8 space-y-4">
+          {/* --- LEFT COLUMN (Content) --- */}
+          <div className="xl:col-span-8 flex flex-col gap-4">
             <ClientSelector
               selectedClient={selectedClient}
               setSelectedClient={setSelectedClient}
@@ -295,8 +298,15 @@ export default function CreateInvoice() {
               currency={business?.currency}
               currencyFormat={business?.currencyFormat as any}
             />
+            
+            {/* IMPRESSIVE MOVE: 
+              Notes are now nested here, filling the gap on the left of the summary.
+            */}
+            <InvoiceNotes notes={notes} setNotes={setNotes} />
           </div>
-          <div className="xl:col-span-4 space-y-4">
+
+          {/* --- RIGHT COLUMN (Meta & Totals) --- */}
+          <div className="xl:col-span-4 flex flex-col gap-4">
             <InvoiceDates
               issueDate={issueDate}
               setIssueDate={setIssueDate}
@@ -322,9 +332,6 @@ export default function CreateInvoice() {
               hasDiscount={discountValue > 0}
             />
           </div>
-        </div>
-        <div className="w-full">
-          <InvoiceNotes notes={notes} setNotes={setNotes} />
         </div>
       </div>
 

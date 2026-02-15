@@ -10,7 +10,7 @@
     "directory": "Répertoire des clients",
     "restore": "Restaurer le compte"
   },
-  "identity_card": {
+  "identity_card": { 
     "type_business": "Entreprise",
     "type_individual": "Particulier",
     "archived": "Archivé",
@@ -41,7 +41,7 @@
     }
   },
   "history_tab": {
-    "title": "Grand livre des transactions",
+    "title": "Transactions",
     "new_invoice": "Nouvelle facture",
     "empty_cancelled": "Aucun enregistrement annulé trouvé",
     "empty_generic": "Aucun historique de transaction ne correspond aux critères"

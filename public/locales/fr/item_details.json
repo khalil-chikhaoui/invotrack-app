@@ -48,7 +48,7 @@
     }
   },
   "history_tab": {
-    "title": "Grand livre des transactions",
+    "title": "Transactions",
     "empty_filter": "Aucune facture ne correspond aux filtres sélectionnés",
     "empty_item": "Aucune facture trouvée contenant cet article"
   },

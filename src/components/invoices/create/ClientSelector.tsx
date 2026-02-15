@@ -38,6 +38,7 @@ export default function ClientSelector({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollParentRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); 
 
   const displayItems = useMemo(
     () => (search.trim().length > 0 ? results : clients),
@@ -85,6 +86,15 @@ export default function ClientSelector({
     setSelectedClient(client);
     setSearch("");
     setIsOpen(false);
+  };
+
+  const handleChangeClient = () => {
+    setSelectedClient(null);
+   // Open dropdown immediately 
+    setTimeout(() => {
+      inputRef.current?.focus();
+      setIsOpen(true);
+    }, 0);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -139,7 +149,7 @@ export default function ClientSelector({
 
   return (
     <div className="relative" ref={containerRef} onKeyDown={handleKeyDown}>
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-md shadow-sm flex flex-col transition-all">
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-md  flex flex-col transition-all">
         {/* Header */}
         <div className="px-6 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-white dark:bg-gray-900/50 rounded-t-md">
           <div className="flex items-center gap-2">
@@ -171,12 +181,13 @@ export default function ClientSelector({
                 />
               </div>
               <input
+                ref={inputRef} 
                 type="text"
                 value={search}
                 onFocus={() => setIsOpen(true)}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={t("create.placeholders.client_search")}
-                className="w-full h-11 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 pl-11 pr-10 text-sm font-medium focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 transition-all text-gray-900 dark:text-white placeholder:text-gray-400"
+                className="w-full h-11 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 pl-11 pr-10 text-sm font-medium focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 transition-all text-gray-900 dark:text-white placeholder:text-gray-500 placeholder:font-light dark:placeholder:text-gray-300"
               />
 
               <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -244,9 +255,9 @@ export default function ClientSelector({
               )}
             </div>
           ) : (
-            <div className="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-transparent border border-brand-500/20 shadow-sm animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between p-4 rounded-md bg-white dark:bg-transparent border border-brand-500/20 animate-in zoom-in-95 duration-200">
               <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-500/10 flex items-center justify-center shrink-0 border border-brand-100 dark:border-brand-500/20 overflow-hidden">
+                <div className="relative w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-500/10 flex items-center justify-center shrink-0 border border-brand-100 dark:border-brand-500/20 overflow-hidden">
                   {selectedClient.logo ? (
                     <img
                       src={selectedClient.logo}
@@ -258,7 +269,7 @@ export default function ClientSelector({
                   <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-tight truncate leading-none mb-1">
+                  <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-tight truncate leading-none mb-1">
                     {selectedClient.name}
                   </h4>
                   <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium truncate leading-none">
@@ -268,7 +279,7 @@ export default function ClientSelector({
               </div>
               <button
                 type="button"
-                onClick={() => setSelectedClient(null)}
+                onClick={handleChangeClient} // 4. Updated Click Handler
                 className="flex items-center gap-1.5 text-[9px] font-semibold text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-300 uppercase tracking-widest transition-all hover:bg-red-50 dark:hover:bg-red-500/10 px-3 py-1.5 rounded-lg group"
               >
                 <HiOutlineXMark className="size-3.5" />
