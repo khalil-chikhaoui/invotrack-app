@@ -60,7 +60,7 @@ export default function PublicInvoiceViewer() {
   const formattedStyle = styleParam 
     ? styleParam.charAt(0).toUpperCase() + styleParam.slice(1).toLowerCase() 
     : null;
-  const isValidStyle = ["Classic", "Modern", "Minimal"].includes(formattedStyle || "");
+  const isValidStyle = ["Classic", "Modern", "Minimal","Receipt"].includes(formattedStyle || "");
 
   // 2. Handle Language Override (New)
   const langParam = searchParams.get("lang")?.toLowerCase(); // e.g., ?lang=fr

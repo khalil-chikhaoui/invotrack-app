@@ -17,7 +17,9 @@
       "minimal": "Minimaliste",
       "minimal_desc": "Lignes épurées, focus sur les données.",
       "modern": "Moderne",
-      "modern_desc": "Design visuel à fort impact."
+      "modern_desc": "Design visuel à fort impact.",
+      "receipt": "Reçu",
+      "receipt_desc": "Style imprimante thermique (80mm)"
     }
   },
   "identity_card": {

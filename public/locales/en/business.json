@@ -122,7 +122,6 @@
       "style_title": "Style",
       "branding_title": "Branding",
       "fields_title": "Fields",
-      "preview_label": "Scaled Preview (Fit Width)",
       "localization_title": "Document Language",
       "language_label": "Select Language",
       "language_helper": "This sets the language for PDF labels (e.g. Invoice, Date, Total).",

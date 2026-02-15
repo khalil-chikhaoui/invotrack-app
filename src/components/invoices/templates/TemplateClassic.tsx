@@ -193,7 +193,7 @@ export default function TemplateClassic({
               }}
             />
           ) : (
-            <Text style={styles.h3}>{business.name}</Text>
+            <Text style={{...styles.h3, marginBottom:20}}>{business.name}</Text>
           )}
           <View style={{ alignItems: "flex-start" }}>
             {settings.visibility.showLogo && business.logo && (
@@ -232,7 +232,7 @@ export default function TemplateClassic({
       <View style={styles.section}>
         <Text style={styles.h2}>{t("billTo")}</Text>
         <Text style={[styles.text, { fontWeight: 700, fontSize: 11 }]}>
-          {invoice.clientSnapshot.name}
+          {t(invoice.clientSnapshot.name)}
         </Text>
         <Text style={styles.text}>
           {invoice.clientSnapshot.address?.street}

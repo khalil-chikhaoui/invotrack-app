@@ -17,7 +17,9 @@
       "minimal": "Minimal",
       "minimal_desc": "Clean lines, data-focused.",
       "modern": "Modern",
-      "modern_desc": "High impact visual design."
+      "modern_desc": "High impact visual design.",
+      "receipt": "Receipt",
+      "receipt_desc": "Thermal printer style (80mm)"
     }
   },
   "identity_card": {

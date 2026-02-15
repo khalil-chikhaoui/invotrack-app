@@ -17,7 +17,9 @@
       "minimal": "Minimalistisch",
       "minimal_desc": "Klare Linien, datenfokussiert.",
       "modern": "Modern",
-      "modern_desc": "Auffälliges visuelles Design."
+      "modern_desc": "Auffälliges visuelles Design.",
+      "receipt": "Quittung",
+      "receipt_desc": "Thermodrucker-Stil (80mm)"
     }
   },
   "identity_card": {

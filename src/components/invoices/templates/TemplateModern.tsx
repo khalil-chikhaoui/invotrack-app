@@ -65,9 +65,9 @@ const createStyles = (primaryColor: string, accentColor: string, secondaryColor:
     noteLabel: { fontSize: 9, fontWeight: 700, color: primaryColor, textTransform: "uppercase", marginBottom: 4 },
     noteText: { fontSize: 9, color: "#6B7280", lineHeight: 1.4, textAlign: "justify" },
     summarySection: { width: "45%" },
-    summaryBox: { padding: 15, backgroundColor: hexToRgba(secondaryColor, 0.05), borderRadius: 8 },
+    summaryBox: { paddingHorizontal: 15, paddingVertical:10, backgroundColor: hexToRgba(secondaryColor, 0.02), borderRadius: 8 },
     summaryRow: { flexDirection: "row", justifyContent: "space-between", paddingVertical: 4 },
-    grandTotalRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 10, paddingTop: 10, borderTopWidth: 2, borderTopColor: primaryColor },
+    grandTotalRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 10, paddingVertical: 10, borderTopWidth: 2, borderTopColor: primaryColor },
     
     // Footer Styles
     fixedFooter: { position: "absolute", bottom: 20, left: 40, right: 40, textAlign: "center", fontSize: 8, color: "#444" },
@@ -103,7 +103,7 @@ export default function TemplateModern({ invoice, business, settings, t, locale 
              <Image src={business.logo} style={{ ...logoDim, marginBottom: 10, objectFit: "contain", objectPosition: "left" }} />
           )}
           <View>
-            <Text style={[styles.businessName, { fontSize: settings.visibility.showLogo ? 14 : 18 }]}>{business.name}</Text>
+            <Text style={[styles.businessName, { fontSize: settings.visibility.showLogo ? 14 : 18, marginBottom:10 }]}>{business.name}</Text>
             <Text style={styles.businessText}>{business.address?.street}</Text>
             <Text style={styles.businessText}>{business.address?.city} {business.address?.zipCode} {business.address?.country}</Text>
           </View>
@@ -127,7 +127,7 @@ export default function TemplateModern({ invoice, business, settings, t, locale 
       <View style={styles.infoSection}>
         <View style={{ width: "100%" }}>
           <Text style={styles.sectionLabel}>{t("billTo")}</Text>
-          <Text style={{ fontWeight: 700, fontSize: 13, marginBottom: 5 }}>{invoice.clientSnapshot.name}</Text>
+          <Text style={{ fontWeight: 700, fontSize: 13, marginBottom: 5 }}>{t(invoice.clientSnapshot.name)}</Text>
           <Text style={{ fontSize: 10 }}>{invoice.clientSnapshot.address?.street}</Text>
           <Text style={{ fontSize: 10 }}>{invoice.clientSnapshot.address?.city} {invoice.clientSnapshot.address?.zipCode}</Text>
         </View>

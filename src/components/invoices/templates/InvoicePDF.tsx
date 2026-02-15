@@ -10,6 +10,7 @@ import TemplateMinimal from "./TemplateMinimal";
 import TemplateModern from "./TemplateModern";
 import TemplateClassic from "./TemplateClassic";
 import { enUS, de, fr } from "date-fns/locale";
+import TemplateReceipt from "./TemplateReceipt";
 
 const DATE_LOCALES: Record<string, any> = {
   en: enUS,
@@ -35,6 +36,10 @@ const PDF_TRANSLATIONS: any = {
     notes: "Notes",
     page: "Page",
     of: "of",
+    // Receipt specific short labels
+    receiptNo: "NO",
+    dateLabel: "DATE",
+    clientLabel: "CLIENT",
     preview: {
       client_name: "Acme Corp Ltd.",
       items: {
@@ -65,6 +70,10 @@ const PDF_TRANSLATIONS: any = {
     notes: "Hinweise",
     page: "Seite",
     of: "von",
+    // Receipt specific short labels
+    receiptNo: "NR",
+    dateLabel: "DATUM",
+    clientLabel: "KUNDE",
     preview: {
       client_name: "Musterfirma GmbH",
       items: {
@@ -95,16 +104,20 @@ const PDF_TRANSLATIONS: any = {
     notes: "Notes",
     page: "Page",
     of: "sur",
+    // Receipt specific short labels
+    receiptNo: "N°",
+    dateLabel: "DATE",
+    clientLabel: "CLIENT",
     preview: {
       client_name: "Société Acme SAS",
       items: {
         consulting: "Conseil Stratégique",
         ui_ux: "Phase de Design UI/UX",
         maintenance: "Maintenance Serveur",
-        product: "Design Produit",
+        product: "Design Produit", 
         development: "Développement Web",
       },
-      notes:
+      notes: 
         "Cette section affiche les remarques spécifiques ou les instructions de paiement fournies lors de la création de cette facture. Si aucune note n'est ajoutée, cette zone restera vide.",
     },
   },
@@ -145,7 +158,6 @@ export default function InvoicePDF({
     } as InvoiceSettings);
 
   // Determine Language & Locale
-  // Determine Language & Locale
   const langCode =
     business.language && PDF_TRANSLATIONS[business.language]
       ? business.language
@@ -164,6 +176,7 @@ export default function InvoicePDF({
 
     return typeof value === "string" ? value : key;
   };
+
   /**
    * Template Dispatcher
    */
@@ -184,6 +197,8 @@ export default function InvoicePDF({
         return <TemplateMinimal {...props} />;
       case "Modern":
         return <TemplateModern {...props} />;
+      case "Receipt":
+        return <TemplateReceipt {...props} />;
       default:
         return <TemplateClassic {...props} />;
     }

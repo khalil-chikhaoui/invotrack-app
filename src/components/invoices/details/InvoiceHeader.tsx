@@ -1,4 +1,3 @@
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useTranslation } from "react-i18next";
 import {
   HiOutlineArrowLeft,
@@ -8,7 +7,6 @@ import {
 } from "react-icons/hi2";
 import { Dropdown } from "../../ui/dropdown/Dropdown";
 import { DropdownItem } from "../../ui/dropdown/DropdownItem";
-import InvoicePDF from "../templates/InvoicePDF";
 import { InvoiceData } from "../../../apis/invoices";
 import { BusinessData } from "../../../apis/business";
 
@@ -20,8 +18,6 @@ interface InvoiceHeaderProps {
   handleSmartBack: () => void;
   isStyleDropdownOpen: boolean;
   setIsStyleDropdownOpen: (v: boolean) => void;
-  downloadingStyle: boolean;
-  handleDownloadStyle: (style: "Classic" | "Minimal" | "Modern") => void;
 }
 
 export default function InvoiceHeader({
@@ -30,10 +26,24 @@ export default function InvoiceHeader({
   handleSmartBack,
   isStyleDropdownOpen,
   setIsStyleDropdownOpen,
-  downloadingStyle,
-  handleDownloadStyle,
 }: InvoiceHeaderProps) {
   const { t } = useTranslation("invoice_details");
+
+  // Determine the default style from business settings, fallback to Classic
+  const defaultStyle = business.invoiceSettings?.template || "Classic";
+
+  // --- OPEN LINK HANDLER ---
+  const openInvoiceView = (style: string) => {
+    // Default to 'en' if business language is missing
+    const lang = business.language || "en";
+    const baseUrl = window.location.origin;
+    
+    // Construct URL: /invoice/:id/view?style=X&lang=Y
+    const url = `${baseUrl}/invoice/${invoice._id}/view?style=${style}&lang=${lang}`;
+    
+    window.open(url, "_blank");
+    setIsStyleDropdownOpen(false);
+  };
 
   return (
     <div className="flex flex-wrap items-center justify-between mb-4 gap-3">
@@ -48,23 +58,19 @@ export default function InvoiceHeader({
       <div className="flex gap-3 ml-auto">
         {/* Export Group */}
         <div className="flex items-center bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-lg p-1">
-          <PDFDownloadLink
-            document={<InvoicePDF invoice={invoice} business={business} />}
-            fileName={`${invoice.invoiceNumber}.pdf`}
+          
+          {/* Main Print Button (Uses Default Style from Settings) */}
+          <button
+            onClick={() => openInvoiceView(defaultStyle)}
+            className="flex items-center gap-2 px-4 py-2 rounded-md text-[10px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-pointer"
           >
-            {({ loading: pdfLoading }) => (
-              <button
-                disabled={pdfLoading || downloadingStyle}
-                className="flex items-center gap-2 px-4 py-2 rounded-md text-[10px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors disabled:opacity-50 cursor-pointer"
-              >
-                <HiOutlinePrinter className="size-4" />{" "}
-                {pdfLoading ? t("header.loading_pdf") : t("header.export_pdf")}
-              </button>
-            )}
-          </PDFDownloadLink>
+            <HiOutlinePrinter className="size-4" />{" "}
+            {t("header.export_pdf")}
+          </button>
 
           <div className="w-px h-5 bg-gray-200 dark:bg-white/10 mx-1"></div>
 
+          {/* Style Dropdown */}
           <div className="relative inline-block">
             <button
               onClick={() => setIsStyleDropdownOpen(!isStyleDropdownOpen)}
@@ -85,7 +91,7 @@ export default function InvoiceHeader({
                 {t("header.export_alt")}
               </div>
               <DropdownItem
-                onItemClick={() => handleDownloadStyle("Classic")}
+                onItemClick={() => openInvoiceView("Classic")}
                 className="flex flex-col items-start w-full p-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 group transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-800 dark:text-white">
@@ -96,7 +102,7 @@ export default function InvoiceHeader({
                 </span>
               </DropdownItem>
               <DropdownItem
-                onItemClick={() => handleDownloadStyle("Minimal")}
+                onItemClick={() => openInvoiceView("Minimal")}
                 className="flex flex-col items-start w-full p-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 group transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-800 dark:text-white">
@@ -107,7 +113,7 @@ export default function InvoiceHeader({
                 </span>
               </DropdownItem>
               <DropdownItem
-                onItemClick={() => handleDownloadStyle("Modern")}
+                onItemClick={() => openInvoiceView("Modern")}
                 className="flex flex-col items-start w-full p-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 group transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-800 dark:text-white flex items-center gap-2">
@@ -116,6 +122,19 @@ export default function InvoiceHeader({
                 </span>
                 <span className="text-[10px] text-gray-500 font-medium">
                   {t("header.styles.modern_desc")}
+                </span>
+              </DropdownItem>
+
+              <DropdownItem
+                onItemClick={() => openInvoiceView("Receipt")}
+                className="flex flex-col items-start w-full p-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 group transition-colors"
+              >
+                <span className="text-sm font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+                  <HiOutlinePrinter className="size-3 text-brand-500" />{" "}
+                  {t("header.styles.receipt")}
+                </span>
+                <span className="text-[10px] text-gray-500 font-medium">
+                  {t("header.styles.receipt_desc")}
                 </span>
               </DropdownItem>
             </Dropdown>

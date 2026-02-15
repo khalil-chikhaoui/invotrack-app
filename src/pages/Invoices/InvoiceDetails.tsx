@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router";
-import { pdf } from "@react-pdf/renderer";
 import { useTranslation } from "react-i18next";
 import {
   invoiceApi,
@@ -16,8 +15,6 @@ import { usePermissions } from "../../hooks/usePermissions";
 import PageMeta from "../../components/common/PageMeta";
 import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
-import InvoicePDF from "../../components/invoices/templates/InvoicePDF";
-import { DEFAULT_COLORS } from "../Business/InvoiceSettings";
 import InvoiceIdentityCard from "../../components/invoices/details/InvoiceIdentityCard";
 import InvoiceParties from "../../components/invoices/details/InvoiceParties";
 import InvoiceLedger from "../../components/invoices/details/InvoiceLedger";
@@ -84,7 +81,7 @@ export default function InvoiceDetails() {
   const [updating, setUpdating] = useState(false);
 
   const [isStyleDropdownOpen, setIsStyleDropdownOpen] = useState(false);
-  const [downloadingStyle, setDownloadingStyle] = useState(false);
+  // removed downloadingStyle state as it is no longer used
 
   const fetchData = async () => {
     if (!invoiceId || !businessId || !canViewFinancials) return;
@@ -361,60 +358,6 @@ export default function InvoiceDetails() {
     }
   };
 
-  const handleDownloadStyle = async (
-    templateStyle: "Classic" | "Minimal" | "Modern",
-  ) => {
-    if (!invoice || !business) return;
-    setIsStyleDropdownOpen(false);
-    setDownloadingStyle(true);
-    try {
-      const defaultColors = DEFAULT_COLORS;
-      const tempBusinessData: BusinessData = {
-        ...business,
-        invoiceSettings: {
-          template: templateStyle,
-          color: business.invoiceSettings?.color || defaultColors,
-          logoSize: business.invoiceSettings?.logoSize || "Medium",
-          visibility: business.invoiceSettings?.visibility || {
-            showLogo: true,
-            showTaxId: true,
-            showDueDate: true, 
-            showDiscount: true,
-            showNotes: true,
-            showPaymentTerms: true,
-            showFooter: true,
-          },
-          paymentTerms: business.invoiceSettings?.paymentTerms || "",
-          footerNote: business.invoiceSettings?.footerNote || "",
-        },
-      };
-      const blob = await pdf(
-        <InvoicePDF invoice={invoice} business={tempBusinessData} />,
-      ).toBlob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${invoice.invoiceNumber}_${templateStyle}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      setAlert({
-        type: "success",
-        title: "Downloaded",
-        message: t("messages.EXPORT_SUCCESS", { style: templateStyle }),
-      });
-    } catch (error) {
-      setAlert({
-        type: "error",
-        title: "Export Error",
-        message: t("messages.EXPORT_ERROR"),
-      });
-    } finally {
-      setDownloadingStyle(false);
-    }
-  };
-
   const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   useEffect(() => {
@@ -468,9 +411,7 @@ export default function InvoiceDetails() {
         handleSmartBack={handleSmartBack}
         isStyleDropdownOpen={isStyleDropdownOpen}
         setIsStyleDropdownOpen={setIsStyleDropdownOpen}
-        downloadingStyle={downloadingStyle}
-        handleDownloadStyle={handleDownloadStyle}
-      />
+        />
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 

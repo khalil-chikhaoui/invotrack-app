@@ -48,7 +48,7 @@ export interface DefaultDiscount {
  * Branding and UI visibility settings for generated invoices.
  */
 export interface InvoiceSettings {
-  template: "Classic" | "Minimal" | "Modern";
+  template: "Classic" | "Minimal" | "Modern" | "Receipt";
   color: {
     primary: string;
     secondary: string;

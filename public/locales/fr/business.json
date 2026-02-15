@@ -122,7 +122,6 @@
       "style_title": "Style",
       "branding_title": "Branding",
       "fields_title": "Champs",
-      "preview_label": "Aperçu mis à l'échelle",
       "localization_title": "Langue du document",
       "language_label": "Sélectionner la langue",
       "language_helper": "Définit la langue des libellés du PDF (ex: Facture, Date, Total).",
