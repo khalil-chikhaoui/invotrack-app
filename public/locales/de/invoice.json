@@ -158,5 +158,11 @@
     "no_email": "Keine E-Mail",
     "no_results": "Keine Ergebnisse gefunden",
     "change": "Ändern"
+  },
+  "public_viewer": {
+    "loading": "Rechnung wird geladen...",
+    "error_title": "Hoppla!",
+    "error_cancelled": "Diese Rechnung ist nicht mehr gültig (Storniert).",
+    "error_not_found": "Rechnung nicht gefunden oder Link abgelaufen."
   }
 }

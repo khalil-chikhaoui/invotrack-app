@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, memo } from "react";
 import { useParams } from "react-router";
 import { BlobProvider } from "@react-pdf/renderer";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import {
   businessApi,
   InvoiceSettings as IInvoiceSettings,
@@ -19,8 +19,10 @@ import { HiOutlineCheckCircle, HiArrowPath } from "react-icons/hi2";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
+import TextArea from "../../components/form/input/TextArea";
+import LanguageSelector from "../../components/common/LanguageSelector";
 
-// Constants (Internal logic, not user-facing)
+// Constants
 export const DEFAULT_COLORS = {
   primary: "#231f70",
   secondary: "#5c16b1",
@@ -39,76 +41,6 @@ const DEFAULT_VISIBILITY = {
 
 const DUMMY_LOGO_URL =
   "https://placehold.co/200x200/231f70/FFFFFF.png?text=LOGO";
-
-const PREVIEW_INVOICE: InvoiceData = {
-  _id: "preview_id",
-  businessId: "preview_biz",
-  invoiceNumber: "INV-001",
-  clientSnapshot: {
-    name: "Acme Corp Ltd.",
-    email: "billing@acme.com",
-    address: {
-      street: "42 Innovation Dr",
-      city: "San Francisco",
-      zipCode: "94103",
-      country: "USA",
-    },
-  },
-  items: [
-    {
-      itemId: "1",
-      name: "Strategic Consulting",
-      quantity: 10,
-      price: 150,
-      total: 1500,
-    },
-    {
-      itemId: "2",
-      name: "UI/UX Design Phase",
-      quantity: 1,
-      price: 2500,
-      total: 2500,
-    },
-    {
-      itemId: "3",
-      name: "Server Maintenance",
-      quantity: 5,
-      price: 100,
-      total: 500,
-    },
-    {
-      itemId: "4",
-      name: "Product Design",
-      quantity: 2,
-      price: 250,
-      total: 500,
-    },
-    {
-      itemId: "5",
-      name: "Web Development",
-      quantity: 6,
-      price: 200,
-      total: 1200,
-    },
-  ],
-  subTotal: 6200,
-  discountType: "percentage",
-  discountValue: 10,
-  totalDiscount: 620,
-  taxRate: 10,
-  totalTax: 558,
-  grandTotal: 6138,
-  isPaid: false,
-  isDeleted: false,
-  deliveryStatus: "Pending",
-  createdAt: new Date().toISOString(),
-  dueDate: new Date(Date.now() + 86400000 * 14).toISOString(),
-  issueDate: new Date(Date.now()).toISOString(),
-  createdBy: { _id: "user", name: "Admin" },
-  updatedAt: new Date().toISOString(),
-  notes:
-    "Thank you for your business! We appreciate the opportunity to work with you.",
-};
 
 const ResetButton = ({
   onClick,
@@ -144,16 +76,14 @@ const MemoizedPDFPreview = memo(
         document={<InvoicePDF invoice={invoice} business={business} />}
       >
         {({ url, loading, error }) => {
-          if (loading) {
+          if (loading)
             return <LoadingState message={loadingText} minHeight="30vh" />;
-          }
-          if (error) {
+          if (error)
             return (
               <div className="w-full h-full flex items-center justify-center text-red-500 text-sm font-semibold uppercase tracking-widest">
                 {errorText}
               </div>
             );
-          }
           return (
             <iframe
               src={`${url}#toolbar=0&navpanes=0&view=FitH`}
@@ -166,23 +96,29 @@ const MemoizedPDFPreview = memo(
     );
   },
   (prevProps, nextProps) => {
+    // We check settings AND language to trigger re-render
     return (
       JSON.stringify(prevProps.business.invoiceSettings) ===
-      JSON.stringify(nextProps.business.invoiceSettings)
+        JSON.stringify(nextProps.business.invoiceSettings) &&
+      prevProps.business.language === nextProps.business.language
     );
   },
 );
 
 export default function InvoiceSettings() {
-  const { t } = useTranslation("business"); // <--- Load "business" namespace
+  const { t, } = useTranslation("business");
+  
+  
   const { businessId } = useParams();
   const { canManageSettings } = usePermissions();
   const [initialLoading, setInitialLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { alert, setAlert } = useAlert();
+
   const [realBusinessData, setRealBusinessData] = useState<BusinessData | null>(
     null,
   );
+  const [language, setLanguage] = useState("en");
 
   const [settings, setSettings] = useState<IInvoiceSettings>({
     template: "Classic",
@@ -193,12 +129,86 @@ export default function InvoiceSettings() {
     footerNote: "",
   });
 
+const previewInvoice: InvoiceData = useMemo(
+  () => ({
+    _id: "preview_id",
+    businessId: "preview_biz",
+    invoiceNumber: "INV-001",
+    clientSnapshot: {
+      name: "preview.client_name", 
+      email: "billing@acme.com",
+      address: {
+        street: "42 Innovation Dr",
+        city: "San Francisco",
+        zipCode: "94103",
+        country: "USA",
+      },
+    },
+    items: [
+      {
+        itemId: "1",
+        name: "preview.items.consulting", 
+        quantity: 10,
+        price: 150,
+        total: 1500,
+      },
+      {
+        itemId: "2",
+        name: "preview.items.ui_ux",
+        quantity: 1,
+        price: 2500,
+        total: 2500,
+      },
+      {
+        itemId: "3",
+        name: "preview.items.maintenance",
+        quantity: 5,
+        price: 100,
+        total: 500,
+      },
+      {
+        itemId: "4",
+        name: "preview.items.product",
+        quantity: 2,
+        price: 250,
+        total: 500,
+      },
+      {
+        itemId: "5",
+        name: "preview.items.development",
+        quantity: 6,
+        price: 200,
+        total: 1200,
+      },
+    ],
+    subTotal: 6200,
+    discountType: "percentage",
+    discountValue: 10,
+    totalDiscount: 620,
+    taxRate: 10,
+    totalTax: 558,
+    grandTotal: 6138,
+    isPaid: false,
+    isDeleted: false,
+    deliveryStatus: "Pending",
+    createdAt: new Date().toISOString(),
+    dueDate: new Date(Date.now() + 86400000 * 14).toISOString(),
+    issueDate: new Date(Date.now()).toISOString(),
+    createdBy: { _id: "user", name: "Admin" },
+    updatedAt: new Date().toISOString(),
+    notes: "preview.notes",
+  }),
+  [] 
+);
+
   useEffect(() => {
     if (!businessId || !canManageSettings) return;
     businessApi
       .getBusiness(businessId)
       .then((data) => {
         setRealBusinessData(data);
+        setLanguage(data.language || "en");
+
         if (data.invoiceSettings) {
           setSettings((prev) => ({
             ...prev,
@@ -207,6 +217,7 @@ export default function InvoiceSettings() {
               ...prev.visibility,
               ...(data.invoiceSettings?.visibility || {}),
             },
+            footerNote: data.invoiceSettings?.footerNote || "",
           }));
         }
       })
@@ -242,7 +253,7 @@ export default function InvoiceSettings() {
         message: t("messages.INVOICE_SETTINGS_UPDATED"),
       });
       setTimeout(() => setAlert(null), 1500);
-    } catch (error: any) {
+    } catch (error: any) {      
       const errorCode = error.message;
       setAlert({
         type: "error",
@@ -254,18 +265,35 @@ export default function InvoiceSettings() {
     }
   };
 
+  const handleLanguageChange = async (newLang: string) => {
+    if (!businessId) return;
+    setLanguage(newLang);
+    try {
+      await businessApi.updateBusiness(businessId, { language: newLang });
+      setAlert({
+        type: "success",
+        title: t("messages.SETTINGS_SAVED"),
+        message: t("messages.LANGUAGE_UPDATED"),
+      });
+      setTimeout(() => setAlert(null), 1500);
+    } catch (error: any) {
+      setAlert({
+        type: "error",
+        title: t("errors.UPDATE_FAILED"),
+        message: error.message,
+      });
+    }
+  };
+
   const handleTemplateChange = (template: any) =>
     saveSettings({ ...settings, template });
-
   const handleColorChange = (
     key: "primary" | "secondary" | "accent",
     value: string,
   ) => {
     setSettings({ ...settings, color: { ...settings.color, [key]: value } });
   };
-
   const saveColorFinal = () => saveSettings(settings);
-
   const toggleVisibility = (field: keyof IInvoiceSettings["visibility"]) => {
     const newVisibility = {
       ...settings.visibility,
@@ -273,7 +301,12 @@ export default function InvoiceSettings() {
     };
     saveSettings({ ...settings, visibility: newVisibility });
   };
-
+  const handleFooterChange = (val: string) => {
+    if (val.length <= 100) {
+      setSettings({ ...settings, footerNote: val });
+    }
+  };
+  const saveFooterFinal = () => saveSettings(settings);
   const resetBranding = () => {
     saveSettings({
       ...settings,
@@ -281,7 +314,6 @@ export default function InvoiceSettings() {
       logoSize: DEFAULT_LOGO_SIZE as "Medium",
     });
   };
-
   const resetVisibility = () =>
     saveSettings({ ...settings, visibility: DEFAULT_VISIBILITY });
 
@@ -290,20 +322,19 @@ export default function InvoiceSettings() {
     return {
       ...realBusinessData,
       logo: realBusinessData.logo || DUMMY_LOGO_URL,
+      language: language,
       invoiceSettings: settings,
     };
-  }, [realBusinessData, settings]);
+  }, [realBusinessData, settings, language]);
 
-  if (initialLoading) {
+  if (initialLoading)
     return (
       <LoadingState
         message={t("settings.invoice_design.loading_config")}
         minHeight="50vh"
       />
     );
-  }
 
-  // Helper to translate visibility keys safely
   const getVisibilityLabel = (key: string) => {
     const cleanKey = key.replace("show", "");
     return t(`settings.invoice_design.visibility.${cleanKey}` as any, cleanKey);
@@ -337,10 +368,18 @@ export default function InvoiceSettings() {
                 <div
                   key={templateName}
                   onClick={() => handleTemplateChange(templateName)}
-                  className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-all ${settings.template === templateName ? "border-brand-500 bg-brand-50 dark:bg-brand-500/10 ring-1 ring-brand-500" : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+                  className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-all ${
+                    settings.template === templateName
+                      ? "border-brand-500 bg-brand-50 dark:bg-brand-500/10 ring-1 ring-brand-500"
+                      : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-white/5"
+                  }`}
                 >
                   <span
-                    className={`text-sm font-semibold ${settings.template === templateName ? "text-brand-600 dark:text-brand-400" : "text-gray-600 dark:text-gray-300"}`}
+                    className={`text-sm font-semibold ${
+                      settings.template === templateName
+                        ? "text-brand-600 dark:text-brand-400"
+                        : "text-gray-600 dark:text-gray-300"
+                    }`}
                   >
                     {t(
                       `settings.invoice_design.templates.${templateName}` as any,
@@ -352,6 +391,25 @@ export default function InvoiceSettings() {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Localization Card */}
+          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+                {t("settings.invoice_design.localization_title")}
+              </h3>
+            </div>
+            <div>
+              <LanguageSelector
+                label={t("settings.invoice_design.language_label")}
+                value={language}
+                onChange={handleLanguageChange}
+              />
+              <p className="mt-2 text-[10px] text-gray-400">
+                {t("settings.invoice_design.language_helper")}
+              </p>
             </div>
           </div>
 
@@ -404,6 +462,43 @@ export default function InvoiceSettings() {
             </div>
           </div>
 
+          {/* Footer Content */}
+          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+                {t("settings.invoice_design.footer_title")}
+              </h3>
+              <span
+                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                  (settings.footerNote?.length || 0) >= 100
+                    ? "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-900/30"
+                    : "bg-gray-100 text-gray-500 border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+                }`}
+              >
+                {settings.footerNote?.length || 0} / 100
+              </span>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <Label>{t("settings.invoice_design.footer_note_label")}</Label>
+                <TextArea
+                  value={settings.footerNote || ""}
+                  onChange={handleFooterChange}
+                  onBlur={saveFooterFinal}
+                  rows={3}
+                  placeholder={t(
+                    "settings.invoice_design.footer_placeholder",
+                    "e.g. Thank you for your business! | Reg: 12345",
+                  )}
+                  error={(settings.footerNote?.length || 0) >= 100}
+                />
+                <p className="mt-1.5 text-[10px] text-gray-400">
+                  {t("settings.invoice_design.footer_helper")}
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Visibility */}
           <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
@@ -428,7 +523,13 @@ export default function InvoiceSettings() {
                     </span>
                     <button
                       onClick={() => toggleVisibility(key as any)}
-                      className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
+                      className={`shrink-0 p-1.5 rounded-md transition-colors ${
+                        settings.visibility[
+                          key as keyof typeof settings.visibility
+                        ]
+                          ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400"
+                          : "bg-gray-100 text-gray-400 dark:bg-white/10"
+                      }`}
                     >
                       {settings.visibility[
                         key as keyof typeof settings.visibility
@@ -450,7 +551,7 @@ export default function InvoiceSettings() {
             <div className="w-full aspect-[210/297] bg-white dark:bg-gray-800 rounded-sm shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden relative">
               {previewBusinessObject ? (
                 <MemoizedPDFPreview
-                  invoice={PREVIEW_INVOICE}
+                  invoice={previewInvoice}
                   business={previewBusinessObject}
                   loadingText={t("settings.invoice_design.loading_pdf")}
                   errorText={t("settings.invoice_design.preview_error")}

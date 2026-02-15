@@ -123,6 +123,13 @@
       "branding_title": "Branding",
       "fields_title": "Champs",
       "preview_label": "Aperçu mis à l'échelle",
+      "localization_title": "Langue du document",
+      "language_label": "Sélectionner la langue",
+      "language_helper": "Définit la langue des libellés du PDF (ex: Facture, Date, Total).",
+      "footer_title": "Contenu du pied de page",
+      "footer_note_label": "Note légale / Texte de pied de page",
+      "footer_placeholder": "ex: Merci de votre confiance ! | SIRET : 12345",
+      "footer_helper": "Ce texte apparaîtra tout en bas de chaque page.",
       "templates": {
         "Classic": "Classique",
         "Minimal": "Minimaliste",
@@ -228,7 +235,8 @@
     "REGISTRY_UPDATED": "Détails du registre synchronisés.",
     "BRANDING_UPDATED": "Le logo de l'entreprise a été synchronisé.",
     "ASSET_PURGED": "Le logo de l'entreprise a été retiré.",
-    "INVOICE_SETTINGS_UPDATED": "Design de facture enregistré."
+    "INVOICE_SETTINGS_UPDATED": "Design de facture enregistré.",
+    "LANGUAGE_UPDATED": "Langue mise à jour avec succès."
   },
   "errors": {
     "AUTH_NOT_AUTHENTICATED": "Vous devez être connecté.",

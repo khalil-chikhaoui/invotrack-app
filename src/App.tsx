@@ -20,7 +20,7 @@ import NotFound from "./pages/OtherPage/NotFound";
 import AppLayout from "./layout/AppLayout";
 import PublicRoute from "./hooks/route/PublicRoute";
 import BusinessGuard from "./hooks/route/BusinessGuard";
-import ProtectedRoute from "./hooks/route/ProtectedRoute"; 
+import ProtectedRoute from "./hooks/route/ProtectedRoute";
 
 // --- DASHBOARD & BUSINESS PAGES ---
 import Home from "./pages/Dashboard/Home";
@@ -47,6 +47,7 @@ import InvoiceDetails from "./pages/Invoices/InvoiceDetails";
 // --- UI & UTILS ---
 import Calendar from "./pages/Calendar/Calendar";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
+import PublicInvoiceViewer from "./pages/Invoices/PublicInvoiceViewer";
 
 export default function App() {
   return (
@@ -59,6 +60,9 @@ export default function App() {
           {/* --- 1. PUBLIC ROUTES --- 
               Accessible only when the user is NOT logged in.
           */}
+           {/*  Public Invoice Viewer */}
+            <Route path="/invoice/:id/view" element={<PublicInvoiceViewer />} />
+            
           <Route element={<PublicRoute />}>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />

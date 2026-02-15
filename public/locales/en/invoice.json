@@ -158,5 +158,11 @@
     "no_email": "No email",
     "no_results": "No results found",
     "change": "Change"
+  },
+  "public_viewer": {
+    "loading": "Loading Invoice...",
+    "error_title": "Oops!",
+    "error_cancelled": "This invoice is no longer valid (Cancelled).",
+    "error_not_found": "Invoice not found or link expired."
   }
 }

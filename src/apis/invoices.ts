@@ -519,4 +519,23 @@ export const invoiceApi = {
       throw new Error(data.message || "Failed to restore invoice");
     return data.invoice;
   },
+  /**
+   * Fetches public invoice data without authentication.
+   * The backend populates 'businessId', so it returns the Business object inside.
+   */
+  getPublicInvoice: async (id: string): Promise<any> => {
+    const response = await fetch(`${BASE_URL}/public/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // Note: No Authorization header here!
+      },
+    });
+    
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch public invoice");
+    }
+    return data;
+  },
 };

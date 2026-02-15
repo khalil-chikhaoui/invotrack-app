@@ -123,6 +123,13 @@
       "branding_title": "Branding",
       "fields_title": "Felder",
       "preview_label": "Vorschau (An Breite anpassen)",
+      "localization_title": "Dokumentsprache",
+      "language_label": "Sprache auswählen",
+      "language_helper": "Legt die Sprache für PDF-Beschriftungen fest (z. B. Rechnung, Datum, Summe).",
+      "footer_title": "Fußzeileninhalt",
+      "footer_note_label": "Rechtlicher Hinweis / Fußzeilentext",
+      "footer_placeholder": "z. B. Vielen Dank für Ihr Vertrauen! | USt-IdNr.: 12345",
+      "footer_helper": "Dieser Text erscheint ganz unten auf jeder Seite.",
       "templates": {
         "Classic": "Klassisch",
         "Minimal": "Minimal",
@@ -228,7 +235,8 @@
     "REGISTRY_UPDATED": "Registerdetails synchronisiert.",
     "BRANDING_UPDATED": "Unternehmenslogo wurde synchronisiert.",
     "ASSET_PURGED": "Unternehmenslogo wurde entfernt.",
-    "INVOICE_SETTINGS_UPDATED": "Rechnungsdesign-Einstellungen gespeichert."
+    "INVOICE_SETTINGS_UPDATED": "Rechnungsdesign-Einstellungen gespeichert.",
+    "LANGUAGE_UPDATED": "Sprache erfolgreich aktualisiert."
   },
   "errors": {
     "AUTH_NOT_AUTHENTICATED": "Sie müssen eingeloggt sein.",

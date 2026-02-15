@@ -378,7 +378,7 @@ export default function InvoiceDetails() {
           visibility: business.invoiceSettings?.visibility || {
             showLogo: true,
             showTaxId: true,
-            showDueDate: true,
+            showDueDate: true, 
             showDiscount: true,
             showNotes: true,
             showPaymentTerms: true,

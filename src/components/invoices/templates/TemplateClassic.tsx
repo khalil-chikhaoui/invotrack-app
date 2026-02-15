@@ -1,13 +1,9 @@
-/**
- * @fileoverview TemplateClassic (PDF Layout)
- * Updated: Logo alignment set to flex-start (Left).
- */
-
 import { useMemo } from "react";
 import { Page, Text, View, StyleSheet, Image, Font } from "@react-pdf/renderer";
 import { InvoiceTemplateProps } from "./InvoicePDF";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { formatDate } from "date-fns";
+import InvoiceQRCode from "../InvoiceQRCode";
 
 const getFontSrc = (fontName: string) => {
   if (typeof window !== "undefined") {
@@ -16,7 +12,6 @@ const getFontSrc = (fontName: string) => {
   return `/fonts/${fontName}`;
 };
 
-// Register localized Cairo font weights
 Font.register({
   family: "Cairo",
   fonts: [
@@ -28,7 +23,6 @@ Font.register({
   ],
 });
 
-// --- 1. STYLES FACTORY ---
 const createStyles = (primaryColor: string) =>
   StyleSheet.create({
     page: {
@@ -89,7 +83,7 @@ const createStyles = (primaryColor: string) =>
     },
     tableHeader: {
       flexDirection: "row",
-      backgroundColor: "rgba(0,0,0,0.02)",
+      backgroundColor: "#F9FAFB",
       borderTopWidth: 1,
       borderBottomWidth: 1,
       borderColor: "#E5E7EB",
@@ -111,11 +105,7 @@ const createStyles = (primaryColor: string) =>
     colQty: { width: "15%", textAlign: "center" },
     colRate: { width: "20%", textAlign: "right" },
     colTotal: { width: "20%", textAlign: "right", paddingRight: 8 },
-    summaryBox: {
-      width: "48%",
-      padding: 10,
-      backgroundColor: "rgba(0,0,0,0.02)",
-    },
+    summaryBox: { width: "48%", padding: 10, backgroundColor: "#F9FAFB" },
     totalRow: {
       flexDirection: "row",
       justifyContent: "space-between",
@@ -129,6 +119,7 @@ const createStyles = (primaryColor: string) =>
       borderTopWidth: 2,
       borderTopColor: primaryColor,
     },
+    // Footer Styles
     footerNote: {
       position: "absolute",
       bottom: 20,
@@ -138,19 +129,32 @@ const createStyles = (primaryColor: string) =>
       fontSize: 8,
       color: "#444",
     },
+    qrFooterLeft: {
+      position: "absolute",
+      bottom: 20,
+      left: 30,
+    },
   });
-
-// --- 2. MAIN COMPONENT ---
 
 export default function TemplateClassic({
   invoice,
   business,
   settings,
+  t,
+  locale,
 }: InvoiceTemplateProps) {
   const styles = useMemo(
     () => createStyles(settings.color.primary),
     [settings.color.primary],
   );
+
+  const renderDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const formatStr =
+      business.language === "en" ? "MMMM dd, yyyy" : "dd MMMM yyyy";
+    return formatDate(date, formatStr, { locale });
+  };
 
   const getLogoDimensions = (size: string) => {
     switch (size) {
@@ -162,18 +166,21 @@ export default function TemplateClassic({
         return { width: 140, height: 70 };
     }
   };
-
   const logoDim = getLogoDimensions(settings.logoSize);
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
 
+  // --- QR CODE URL GENERATION ---
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+  const qrUrl = `${baseUrl}/invoice/${invoice._id}/view?style=Classic&lang=${business.language}`;
   return (
     <Page size="A4" style={styles.page}>
-      <View style={styles.headerBar} />
+      {/* Header Bar */}
+      <View style={styles.headerBar} fixed />
 
-      {/* 1. Header & Identity */}
+      {/* Header Container */}
       <View style={styles.headerContainer}>
-        {/* LEFT COLUMN: Logo and Business Details */}
+        {/* Left: Logo/Address */}
         <View style={styles.colLeft}>
           {settings.visibility.showLogo && business.logo ? (
             <Image
@@ -182,15 +189,13 @@ export default function TemplateClassic({
                 ...logoDim,
                 marginBottom: 8,
                 objectFit: "contain",
-                objectPosition: "left", // Ensures image anchors to the left
+                objectPosition: "left",
               }}
             />
           ) : (
             <Text style={styles.h3}>{business.name}</Text>
           )}
-
           <View style={{ alignItems: "flex-start" }}>
-            {/* Business Name shown below logo if logo exists */}
             {settings.visibility.showLogo && business.logo && (
               <Text style={[styles.text, { fontWeight: 700, marginBottom: 2 }]}>
                 {business.name}
@@ -204,35 +209,28 @@ export default function TemplateClassic({
           </View>
         </View>
 
-        {/* RIGHT COLUMN: Invoice Meta Data */}
+        {/* Right: Invoice Info */}
         <View style={styles.colRight}>
-          <Text style={styles.title}>INVOICE</Text>
+          <Text style={styles.title}>{t("invoice")}</Text>
           <Text style={[styles.h3, { fontSize: 16 }]}>
             #{invoice.invoiceNumber}
           </Text>
           <View style={styles.row}>
-            <Text style={styles.label}>Issue Date:</Text>
-            <Text>
-              {formatDate(
-                new Date(invoice.issueDate || invoice.createdAt),
-                "MMMM dd, yyyy",
-              )}
-            </Text>
+            <Text style={styles.label}>{t("issueDate")}:</Text>
+            <Text>{renderDate(invoice.issueDate)}</Text>
           </View>
           {settings.visibility.showDueDate && invoice.dueDate && (
             <View style={styles.row}>
-              <Text style={styles.label}>Due Date:</Text>
-              <Text>
-                {formatDate(new Date(invoice.dueDate), "MMMM dd, yyyy")}
-              </Text>
+              <Text style={styles.label}>{t("dueDate")}:</Text>
+              <Text>{renderDate(invoice.dueDate)}</Text>
             </View>
           )}
         </View>
       </View>
 
-      {/* 2. Client Identity */}
+      {/* Client Section */}
       <View style={styles.section}>
-        <Text style={styles.h2}>Bill to</Text>
+        <Text style={styles.h2}>{t("billTo")}</Text>
         <Text style={[styles.text, { fontWeight: 700, fontSize: 11 }]}>
           {invoice.clientSnapshot.name}
         </Text>
@@ -240,22 +238,20 @@ export default function TemplateClassic({
           {invoice.clientSnapshot.address?.street}
         </Text>
         <Text style={styles.text}>{invoice.clientSnapshot.address?.city}</Text>
-        {invoice.clientSnapshot.email && (
-          <Text style={styles.text}>{invoice.clientSnapshot.email}</Text>
-        )}
       </View>
 
-      {/* 3. Items Table */}
+      {/* Table Section */}
       <View style={styles.section}>
-        <View style={styles.tableHeader}>
-          <Text style={[styles.th, styles.colDesc]}>Description</Text>
-          <Text style={[styles.th, styles.colQty]}>Qty</Text>
-          <Text style={[styles.th, styles.colRate]}>Rate</Text>
-          <Text style={[styles.th, styles.colTotal]}>Amount</Text>
+        <View style={styles.tableHeader} fixed>
+          <Text style={[styles.th, styles.colDesc]}>{t("description")}</Text>
+          <Text style={[styles.th, styles.colQty]}>{t("qty")}</Text>
+          <Text style={[styles.th, styles.colRate]}>{t("rate")}</Text>
+          <Text style={[styles.th, styles.colTotal]}>{t("amount")}</Text>
         </View>
+
         {invoice.items.map((item, i) => (
           <View key={i} style={styles.tableRow} wrap={false}>
-            <Text style={styles.colDesc}>{item.name}</Text>
+            <Text style={styles.colDesc}>{t(item.name)}</Text>
             <Text style={styles.colQty}>{item.quantity}</Text>
             <Text style={styles.colRate}>{format(item.price)}</Text>
             <Text style={[styles.colTotal, { fontWeight: 700 }]}>
@@ -265,19 +261,21 @@ export default function TemplateClassic({
         ))}
       </View>
 
-      {/* 4. Financial Summary */}
+      {/* Summary Section */}
       <View style={[styles.row, { justifyContent: "flex-end" }]} wrap={false}>
         <View style={styles.summaryBox}>
           <View style={styles.totalRow}>
-            <Text>Subtotal</Text>
+            <Text>{t("subtotal")}</Text>
             <Text>{format(invoice.subTotal)}</Text>
           </View>
           <View style={styles.totalRow}>
-            <Text>Tax ({invoice.taxRate}%)</Text>
+            <Text>
+              {t("tax")} ({invoice.taxRate}%)
+            </Text>
             <Text>{format(invoice.totalTax)}</Text>
           </View>
           <View style={styles.grandTotal}>
-            <Text style={{ fontWeight: 700 }}>TOTAL DUE</Text>
+            <Text style={{ fontWeight: 700 }}>{t("totalDue")}</Text>
             <Text style={{ fontSize: 14, fontWeight: 800 }}>
               {format(invoice.grandTotal)}
             </Text>
@@ -285,8 +283,8 @@ export default function TemplateClassic({
         </View>
       </View>
 
-      {/* 5. Footer Notes */}
-      <View style={{ marginTop: "auto", paddingTop: 20 }}>
+      {/* Footer Notes */}
+      <View style={{ marginTop: 20 }} wrap={false}>
         {settings.visibility.showNotes && invoice.notes && (
           <View style={{ marginBottom: 10 }}>
             <Text
@@ -295,31 +293,24 @@ export default function TemplateClassic({
                 { fontWeight: 700, textTransform: "uppercase", fontSize: 8 },
               ]}
             >
-              Notes
+              {t("notes")}
             </Text>
-            <Text style={styles.text}>{invoice.notes}</Text>
-          </View>
-        )}
-        {settings.visibility.showPaymentTerms && settings.paymentTerms && (
-          <View>
-            <Text
-              style={[
-                styles.text,
-                { fontWeight: 700, textTransform: "uppercase", fontSize: 8 },
-              ]}
-            >
-              Payment Terms
-            </Text>
-            <Text style={styles.text}>{settings.paymentTerms}</Text>
+            <Text style={styles.text}>{t(invoice.notes)}</Text>
           </View>
         )}
       </View>
 
+      {/* --- Footer Note (Center) --- */}
       {settings.visibility.showFooter && settings.footerNote && (
         <Text style={styles.footerNote} fixed>
           {settings.footerNote}
         </Text>
       )}
+
+      {/* --- QR Code (Left Footer) --- */}
+      <View style={styles.qrFooterLeft} fixed>
+        <InvoiceQRCode url={qrUrl} size={70} />
+      </View>
     </Page>
   );
 }

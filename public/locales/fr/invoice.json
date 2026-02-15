@@ -158,5 +158,11 @@
     "no_email": "Aucun e-mail",
     "no_results": "Aucun résultat trouvé",
     "change": "Changer"
+  },
+  "public_viewer": {
+    "loading": "Chargement de la facture...",
+    "error_title": "Oups !",
+    "error_cancelled": "Cette facture n'est plus valide (Annulée).",
+    "error_not_found": "Facture introuvable ou lien expiré."
   }
 }

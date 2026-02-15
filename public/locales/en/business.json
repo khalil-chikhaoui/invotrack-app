@@ -123,6 +123,13 @@
       "branding_title": "Branding",
       "fields_title": "Fields",
       "preview_label": "Scaled Preview (Fit Width)",
+      "localization_title": "Document Language",
+      "language_label": "Select Language",
+      "language_helper": "This sets the language for PDF labels (e.g. Invoice, Date, Total).",
+      "footer_title": "Footer Content",
+      "footer_note_label": "Legal Note / Footer Text",
+      "footer_placeholder": "e.g. Thank you for your business! | Reg: 12345",
+      "footer_helper": "This text will appear at the very bottom of every page.",
       "templates": {
         "Classic": "Classic",
         "Minimal": "Minimal",
@@ -228,7 +235,8 @@
     "REGISTRY_UPDATED": "Registry details synchronized.",
     "BRANDING_UPDATED": "Business logo has been synchronized.",
     "ASSET_PURGED": "Business logo has been removed.",
-    "INVOICE_SETTINGS_UPDATED": "Invoice design settings saved."
+    "INVOICE_SETTINGS_UPDATED": "Invoice design settings saved.",
+    "LANGUAGE_UPDATED": "Language updated successfully."
   },
   "errors": {
     "AUTH_NOT_AUTHENTICATED": "You must be logged in.",

@@ -1,11 +1,5 @@
 /**
  * @fileoverview TextArea Component
- * A stylized, multi-line text input designed for the Invotrack UI.
- * Features:
- * 1. Semantic Feedback: Visual state changes for Error and Disabled modes.
- * 2. Theme Integration: Seamless transition between Light and Dark modes.
- * 3. Contextual Hints: Supports status-aware helper text (hints).
- * 4. Controlled State: Uses a clean string-based callback for parent state updates.
  */
 
 import React from "react";
@@ -14,7 +8,8 @@ interface TextareaProps {
   placeholder?: string;
   rows?: number;
   value?: string;
-  onChange?: (value: string) => void; // Dispatches the raw string value
+  onChange?: (value: string) => void; 
+  onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void; 
   className?: string;
   disabled?: boolean;
   error?: boolean;
@@ -28,27 +23,21 @@ const TextArea: React.FC<TextareaProps> = ({
   value = "",
   autoFocus = false,
   onChange,
+  onBlur, 
   className = "",
   disabled = false,
   error = false,
   hint = "",
 }) => {
-  /**
-   * Dispatches the internal event value to the parent callback.
-   */
+  
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
       onChange(e.target.value);
     }
   };
 
-  // Base structural classes
   let textareaClasses = `w-full rounded-lg border px-4 py-2.5 text-sm shadow-theme-xs transition-all duration-200 focus:outline-none ${className} `;
 
-  /**
-   * Logic State Styling:
-   * Prioritizes 'Disabled', then 'Error', falling back to 'Default/Brand'.
-   */
   if (disabled) {
     textareaClasses += ` bg-gray-100 opacity-50 text-gray-500 border-gray-300 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700`;
   } else if (error) {
@@ -65,11 +54,11 @@ const TextArea: React.FC<TextareaProps> = ({
         rows={rows}
         value={value}
         onChange={handleChange}
+        onBlur={onBlur} 
         disabled={disabled}
         className={textareaClasses}
       />
 
-      {/* Helper text / Hint display */}
       {hint && (
         <p
           className={`mt-1.5 text-xs font-medium ${
