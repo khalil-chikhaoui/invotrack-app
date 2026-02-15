@@ -15,6 +15,7 @@ import { ClientData, clientApi } from "../../../apis/clients";
 import Button from "../../ui/button/Button";
 import { useModal } from "../../../hooks/useModal";
 import ConfirmModal from "../../common/ConfirmModal";
+import ClipboardButton from "../../common/ClipboardButton";
 
 interface ClientIdentityCardProps {
   client: ClientData;
@@ -31,7 +32,7 @@ export default function ClientIdentityCard({
   isArchived,
   onEdit,
   refresh,
-  setAlert, 
+  setAlert,
 }: ClientIdentityCardProps) {
   const { t } = useTranslation("client_details");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -109,7 +110,6 @@ export default function ClientIdentityCard({
       </div>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
-        
         {/* --- LEFT: LOGO --- */}
         <div className="flex-shrink-0">
           <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
@@ -131,8 +131,7 @@ export default function ClientIdentityCard({
 
         {/* --- RIGHT: INFO & ACTIONS --- */}
         <div className="text-center md:text-start flex-1 w-full pt-1">
-          
-          {/* Badges Row - UPDATED TO MATCH TABLE STYLE */}
+          {/* Badges Row */}
           <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
             <Badge
               size="sm"
@@ -159,9 +158,12 @@ export default function ClientIdentityCard({
 
           {/* Name + Edit Button Row */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-tight leading-none break-all">
-              {client.name}
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-tight leading-none break-all">
+                {client.name}
+              </h2>
+              <ClipboardButton text={client.name} />
+            </div>
 
             {canManage && !isArchived && (
               <Button
@@ -177,20 +179,31 @@ export default function ClientIdentityCard({
           </div>
 
           {/* --- CONTACT DETAILS --- */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
+          <div className="flex flex-wrap justify-center md:justify-start gap-y-3 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
             {client.email && (
-              <div className="flex items-center gap-2 text-xs text-brand-500 font-semibold uppercase tracking-tighter">
-                <HiOutlineEnvelope className="size-4" /> {client.email}
+              <div className="flex items-center gap-1 group transition-all">
+                <div className="flex items-center gap-2 text-xs text-brand-600 dark:text-brand-400 font-semibold  ">
+                  <HiOutlineEnvelope className="size-4" /> {client.email}
+                </div>
+                <ClipboardButton text={client.email} />
               </div>
             )}
+            
             {client.phone && client.phone.number && (
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tighter">
-                <HiOutlinePhone className="size-4" /> {client.phone.number}
+              <div className="flex items-center gap-1 group transition-all">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase ">
+                  <HiOutlinePhone className="size-4" /> {client.phone.number}
+                </div>
+                <ClipboardButton text={client.phone.number} />
               </div>
             )}
+            
             {client.taxId && (
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tighter">
-                <HiOutlineIdentification className="size-4" /> {client.taxId}
+              <div className="flex items-center gap-1 group transition-all">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase ">
+                  <HiOutlineIdentification className="size-4" /> {client.taxId}
+                </div>
+                <ClipboardButton text={client.taxId} />
               </div>
             )}
           </div>
@@ -205,20 +218,22 @@ export default function ClientIdentityCard({
                 className="hidden"
                 accept="image/png, image/jpeg, image/jpg"
               />
-              
-              <Button 
-                variant="outline" 
-                size="sm" 
+
+              <Button
+                variant="outline"
+                size="sm"
                 className="gap-2 h-8 text-[10px] font-bold uppercase tracking-widest"
                 onClick={handleUploadClick}
                 disabled={uploading || deleting}
               >
                 <HiOutlineCamera className="size-3.5" />
-                {t("identity_card.change_logo", { defaultValue: "Change Logo" })}
+                {t("identity_card.change_logo", {
+                  defaultValue: "Change Logo",
+                })}
               </Button>
 
               {client.logo && (
-                <Button 
+                <Button
                   variant="outline"
                   size="sm"
                   className="gap-2 h-8 text-[10px] font-bold uppercase tracking-widest text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-700 dark:hover:text-red-300"

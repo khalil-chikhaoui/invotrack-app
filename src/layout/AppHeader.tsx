@@ -24,7 +24,7 @@ const AppHeader: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  /**
+  /** 
    * Sidebar Toggle Logic
    */
   const handleToggle = () => {
@@ -96,7 +96,7 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex w-full bg-white border-b border-gray-200 dark:border-gray-800 dark:bg-gray-900 ]">
+<header className="sticky top-0 z-40 flex w-full bg-white/80 dark:bg-[#0B1120]/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5">
       <div className="flex items-center justify-between w-full px-3 py-3 lg:px-6 lg:py-4">
         {/* --- Left Section: Toggle, Logo, Search --- */}
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-8">

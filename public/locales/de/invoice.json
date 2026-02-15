@@ -110,7 +110,9 @@
       "mode": "Modus",
       "tax_rate": "Steuersatz (%)",
       "summary": "Bewertungszusammenfassung",
-      "notes": "Notizen & Bedingungen"
+      "notes": "Notizen & Bedingungen",
+      "fixed": "Festbetrag",
+       "percentage": "%"
     },
     "placeholders": {
       "client_search": "Kunde suchen...",

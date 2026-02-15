@@ -110,7 +110,9 @@
       "mode": "Mode",
       "tax_rate": "Taux du grand livre fiscal (%)",
       "summary": "Résumé de l'évaluation",
-      "notes": "Notes et conditions"
+      "notes": "Notes et conditions",
+      "fixed": "Fixe",
+      "percentage": "%"
     },
     "placeholders": {
       "client_search": "Trouver un client...",

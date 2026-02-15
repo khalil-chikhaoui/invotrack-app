@@ -57,7 +57,7 @@ export default function ItemGeneralTab({
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("general_tab.labels.sku")}
             </span>
-            <p className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
+            <p className="text-sm font-semibold text-gray-800 dark:text-white uppercase ">
               {item.sku || "---"}
             </p>
           </div>

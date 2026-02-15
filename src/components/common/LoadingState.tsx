@@ -13,10 +13,10 @@ export default function LoadingState({
       style={{ minHeight }}
     >
       {/* The Spinner */}
-      <div className="w-11 h-11 border-3 border-brand-600 dark:border-brand-300 rounded-full border-t-transparent dark:border-t-transparent animate-spin" />
+      <div className="w-8 h-8 border-3 border-brand-600 dark:border-brand-200 rounded-full border-t-transparent dark:border-t-transparent animate-spin" />
 
       {/* The Label */}
-      <p className="mt-5 text-brand-500 dark:text-brand-300 font-semibold text-sm ">
+      <p className="mt-3 text-brand-600 dark:text-brand-200 font-medium text-sm ">
         {message}
       </p>
     </div>

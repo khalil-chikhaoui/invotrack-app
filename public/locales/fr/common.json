@@ -87,5 +87,11 @@
   "alt": "Erreur 404",
   "message": "Nous ne parvenons pas à trouver la page que vous recherchez !",
   "back": "Retour"
-}
+},
+"clipboard": {
+    "copy": "Copier",
+    "copied": "Copié",
+    "done": "Terminé !",
+    "copy_text": "Copier {{text}}"
+  }
 }

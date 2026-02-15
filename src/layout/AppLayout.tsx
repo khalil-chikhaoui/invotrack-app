@@ -20,21 +20,26 @@ const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   return (
-    <div className="h-[100dvh] w-full overflow-hidden xl:flex  bg-white dark:bg-gray-900">
+    // 1. Updated Base Background Colors & Added relative positioning for children
+<div className="h-[100dvh] w-full overflow-hidden xl:flex bg-transparent relative">      
+      
+
       {/* --- Sidebar & Mobile Overlay --- */}
-      <div>
+      {/* Added relative z-20 to ensure Sidebar sits ABOVE the background blobs */}
+      <div className="relative z-20">
         <AppSidebar />
         <Backdrop />
       </div>
 
       {/* --- Main Content Area --- */}
+      {/* Added relative z-10 to ensure content sits ABOVE background */}
       <div
         id="main-content"
-        className={`flex-1 h-full overflow-y-auto transition-all duration-300 ease-in-out 
+        className={`relative z-10 flex-1 h-full overflow-y-auto transition-all duration-300 ease-in-out 
           ${isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"} 
           ${isMobileOpen ? "ml-0" : ""}
         `}
-      >
+      > 
         {/* Persistent Header */}
         <AppHeader />
 

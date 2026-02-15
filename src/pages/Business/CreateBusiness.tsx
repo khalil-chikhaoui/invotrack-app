@@ -410,7 +410,7 @@ export default function CreateBusiness() {
                 {t("create.nav.back")}
               </button>
             )}
-            <div className="font-black text-xl tracking-tighter text-gray-900 dark:text-white ml-4">
+            <div className="font-black text-xl  text-gray-900 dark:text-white ml-4">
               InvoTrack
             </div>
           </div>

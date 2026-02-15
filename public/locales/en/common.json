@@ -87,5 +87,11 @@
     "alt": "404 Error",
     "message": "We can’t seem to find the page you are looking for!",
     "back": "Back"
+  },
+  "clipboard": {
+    "copy": "Copy",
+    "copied": "Copied",
+    "done": "Done!",
+    "copy_text": "Copy {{text}}"
   }
 }

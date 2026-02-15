@@ -1,14 +1,9 @@
 /**
  * @fileoverview Switch (Toggle) Component
- * A customizable, accessible binary toggle for the Invotrack UI.
- * Features:
- * 1. Semantic Accessibility: Uses a hidden checkbox to maintain native form behavior.
- * 2. Visual Themes: Supports 'blue' (brand) and 'gray' color variants.
- * 3. Smooth Transitions: High-performance CSS transforms for the knob movement.
- * 4. State Management: Fully supports disabled states with desaturated colors.
+
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 interface SwitchProps {
   label: string;

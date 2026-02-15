@@ -1,8 +1,9 @@
 /**
  * @fileoverview NewPasswordForm Component
+ * Updated with professional password validation and real-time feedback.
  */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
@@ -11,6 +12,7 @@ import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
 import { authApi } from "../../apis/auth";
 import { useAuth } from "../../context/AuthContext";
+import PasswordValidator from "./PasswordValidator";
 
 export default function NewPasswordForm() {
   const { t } = useTranslation("auth");
@@ -30,18 +32,26 @@ export default function NewPasswordForm() {
   const [error, setError] = useState("");
 
   /**
-   * Reset Handler:
-   * 1. Performs strict client-side validation.
-   * 2. Synchronizes with the authApi to update the database record.
-   * 3. Upon success, initializes the Auth session and redirects to tenant selection.
+   * Complexity Logic: 
+   * Validates: 8+ chars, 1 Uppercase, 1 Lowercase, 1 Symbol.
    */
+  const isPasswordValid = useMemo(() => {
+    return (
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    );
+  }, [password]);
+
+  const passwordsMatch = password.length > 0 && password === confirmPassword;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Client-side validation using translations
-    if (password !== confirmPassword)
-      return setError(t("errors.PASSWORDS_DO_NOT_MATCH"));
-    if (password.length < 6) return setError(t("errors.PASSWORD_TOO_SHORT"));
+    // Secondary safety checks
+    if (!passwordsMatch) return setError(t("errors.PASSWORDS_DO_NOT_MATCH"));
+    if (!isPasswordValid) return setError(t("errors.PASSWORD_REQUIREMENTS_NOT_MET"));
 
     setError("");
     setIsLoading(true);
@@ -51,7 +61,6 @@ export default function NewPasswordForm() {
       login(data.token, data.user);
       navigate("/select-business");
     } catch (err: any) {
-      // PRO ERROR HANDLING
       const errorCode = err.message;
       const translatedError = t(
         `errors.${errorCode}` as any,
@@ -90,7 +99,7 @@ export default function NewPasswordForm() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Error Messenger */}
           {error && (
-            <div className="p-4 text-sm font-semibold text-white bg-error-500 rounded-xl">
+            <div className="p-4 text-sm font-semibold text-white bg-error-500 rounded-xl animate-in shake duration-300">
               {error}
             </div>
           )}
@@ -109,10 +118,12 @@ export default function NewPasswordForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="new-password"
+                // Red border if user typed but requirements aren't met
+                error={password.length > 0 && !isPasswordValid}
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute -translate-y-1/2 cursor-pointer right-4 top-1/2 p-1"
+                className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2 p-1"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
@@ -122,6 +133,9 @@ export default function NewPasswordForm() {
                 )}
               </span>
             </div>
+
+            {/* INTERACTIVE VALIDATOR */}
+            {password.length > 0 && <PasswordValidator password={password} />}
           </div>
 
           {/* Confirmation Input */}
@@ -138,10 +152,12 @@ export default function NewPasswordForm() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 autoComplete="new-password"
+                // Red border if it doesn't match primary password
+                error={confirmPassword.length > 0 && !passwordsMatch}
               />
               <span
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute -translate-y-1/2 cursor-pointer right-4 top-1/2 p-1"
+                className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2 p-1"
                 aria-label={
                   showConfirmPassword
                     ? "Hide confirm password"
@@ -159,7 +175,11 @@ export default function NewPasswordForm() {
 
           {/* Submit Action */}
           <div className="pt-2 pb-20 lg:pb-0">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full shadow-lg shadow-brand-500/20" 
+              disabled={isLoading || !isPasswordValid || !passwordsMatch}
+            >
               {isLoading
                 ? t("new_password.loading")
                 : t("new_password.submit_button")}

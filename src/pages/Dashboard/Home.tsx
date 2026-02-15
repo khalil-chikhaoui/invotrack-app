@@ -11,18 +11,17 @@ import HomeMetrics from "../../components/home/HomeMetrics";
 import { businessApi, BusinessData } from "../../apis/business";
 import TopSellingProductsChart from "../../components/home/TopSellingProductsChart";
 import RevenueChart from "../../components/home/RevenueChart";
-import { endOfWeek, startOfWeek } from "date-fns";
+import { endOfQuarter, startOfQuarter } from "date-fns";
 import HomeDeliveryChart from "../../components/home/HomeDeliveryChart";
 import HomeClientProfitChart from "../../components/home/HomeClientProfitChart";
 
 const getDefaultRange = (): DashboardDateRange => {
   const now = new Date();
   return {
-    start: startOfWeek(now, { weekStartsOn: 0 }),
-    end: endOfWeek(now, { weekStartsOn: 0 }),
+    start: startOfQuarter(now),
+    end: endOfQuarter(now),
   };
 };
-
 export default function Home() {
   const { t } = useTranslation("home");
   const { businessId } = useParams();

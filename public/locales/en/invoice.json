@@ -108,9 +108,9 @@
       "tax_discount": "Tax & Discount",
       "amount": "Amount",
       "mode": "Mode",
-      "tax_rate": "Tax Ledger Rate (%)",
-      "summary": "Valuation Summary",
-      "notes": "Invoice Notes & Terms"
+      "fixed": "Fixed",
+     "percentage": "%",
+      "tax_rate": "Tax Rate (%)"
     },
     "placeholders": {
       "client_search": "Find client...",

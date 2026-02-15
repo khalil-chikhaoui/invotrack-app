@@ -293,7 +293,7 @@ export default function Subscription() {
                     key={inv.id}
                     className="text-sm hover:bg-gray-50/50 dark:hover:bg-white/[0.01] transition-colors group"
                   >
-                    <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white uppercase tracking-tighter">
+                    <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white uppercase ">
                       {inv.id}
                     </td>
                     <td className="px-6 py-4 text-gray-500 font-medium">

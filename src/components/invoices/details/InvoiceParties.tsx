@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next"; 
 import { HiOutlinePencil, HiOutlineUser } from "react-icons/hi2";
 import { InvoiceData } from "../../../apis/invoices";
-
+import ClipboardButton from "../../common/ClipboardButton";
 
 interface InvoicePartiesProps {
   invoice: InvoiceData;
@@ -16,55 +16,78 @@ export default function InvoiceParties({
   onEditClient,
 }: InvoicePartiesProps) {
   const { t } = useTranslation("invoice_details");
-  const showEditButton = onEditClient && !invoice.isDeleted;
+  
+  // Logic check: only show if function exists AND invoice is active
+  const showEditButton = !!onEditClient && !invoice.isDeleted;
+
+  // Helper to format address for clipboard
+  const address = invoice.clientSnapshot.address;
+  const fullAddress = address 
+    ? `${address.street}, ${address.city}, ${address.zipCode}, ${address.country}`
+    : "";
 
   return (
-    <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl py-4 px-6 ">
-      <div className="">
+    <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl py-4 px-6">
+      <div>
         {/* Header Row */}
         <div className="flex items-start justify-between mb-4">
           <h4 className="text-[11px] font-semibold text-brand-500 dark:text-brand-300 uppercase tracking-wide flex items-center gap-2 mt-1.5">
             <HiOutlineUser className="size-6" /> {t("parties.recipient")}
           </h4>
 
-          {/* Edit Button: Hidden on Cancelled */}
           {showEditButton && (
             <button
               type="button"
               onClick={onEditClient}
-              className="group flex items-center bg-brand-500/7 hover:bg-brand-500/10 dark:bg-brand-50/10 dark:hover:bg-brand-50/20 py-1.5 px-3 rounded-md gap-1.5 text-[12px] font-medium  tracking-wide text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors"
+              className="group flex items-center bg-brand-500/10 hover:bg-brand-500/20 dark:bg-white/5 dark:hover:bg-white/10 py-1.5 px-3 rounded-md gap-1.5 text-[12px] font-medium tracking-wide text-brand-600 dark:text-brand-400 transition-colors"
             >
               <HiOutlinePencil className="size-3.5" /> {t("parties.edit")}
             </button>
           )}
         </div>
 
-        {/* Content */}
-        <Link
-          to={`/business/${businessId}/clients/${invoice.clientSnapshot.clientId}`}
-          className="group inline-block"
-        >
-          <p className="text-lg font-semibold text-gray-800 dark:text-white uppercase mb-1 group-hover:text-brand-500 transition-all underline decoration-gray-200 dark:decoration-white/10 underline-offset-4 group-hover:decoration-brand-500">
-            {invoice.clientSnapshot.name}
-          </p>
-        </Link>
+        {/* --- Client Name Row --- */}
+        <div className="flex items-center gap-2 mb-1">
+          <Link
+            to={`/business/${businessId}/clients/${invoice.clientSnapshot.clientId}`}
+            className="group inline-block"
+          >
+            <p className="text-lg font-semibold text-gray-800 dark:text-white uppercase group-hover:text-brand-500 transition-all underline decoration-gray-200 dark:decoration-white/10 underline-offset-4 group-hover:decoration-brand-500">
+              {invoice.clientSnapshot.name}
+            </p>
+          </Link>
+          <ClipboardButton text={invoice.clientSnapshot.name} />
+        </div>
+
+        {/* --- Email Row --- */}
         {invoice.clientSnapshot.email && (
-          <p className="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-tighter">
-            {invoice.clientSnapshot.email}
-          </p>
+          <div className="flex items-center gap-2 mb-2 group">
+            <p className="text-xs text-gray-500 font-semibold uppercase">
+              {invoice.clientSnapshot.email}
+            </p>
+            <ClipboardButton text={invoice.clientSnapshot.email} label="Email" />
+          </div>
         )}
+
+        {/* --- Phone Row --- */}
         {invoice.clientSnapshot.phone?.number && (
-          <p className="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-tighter">
-            {invoice.clientSnapshot.phone?.number}
-          </p>
+          <div className="flex items-center gap-2 mb-2 group">
+            <p className="text-xs text-gray-500 font-semibold uppercase">
+              {invoice.clientSnapshot.phone?.number}
+            </p>
+            <ClipboardButton text={invoice.clientSnapshot.phone?.number} label="Phone" />
+          </div>
         )}
-        {invoice.clientSnapshot.address?.street && (
-          <div className="text-xs text-gray-400 font-medium leading-relaxed">
-            {invoice.clientSnapshot.address?.street},
-            {invoice.clientSnapshot.address?.city}
-            <br />
-            {invoice.clientSnapshot.address?.zipCode},{" "}
-            {invoice.clientSnapshot.address?.country}
+
+        {/* --- Address Row --- */}
+        {address?.street && (
+          <div className="flex items-start justify-between group mt-2 pt-2 border-t border-gray-100 dark:border-white/5">
+            <div className="text-xs text-gray-400 font-medium leading-relaxed">
+              {address.street}, {address.city}
+              <br />
+              {address.zipCode}, {address.country}
+            </div>
+            <ClipboardButton text={fullAddress} label="Address" className="mt-1" />
           </div>
         )}
       </div>

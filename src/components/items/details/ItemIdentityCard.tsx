@@ -15,6 +15,7 @@ import { BusinessData } from "../../../apis/business";
 import Button from "../../ui/button/Button";
 import ConfirmModal from "../../common/ConfirmModal";
 import { useModal } from "../../../hooks/useModal";
+import ClipboardButton from "../../common/ClipboardButton";
 
 interface ItemIdentityCardProps {
   item: ItemData;
@@ -110,7 +111,7 @@ export default function ItemIdentityCard({
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
         
-        {/* --- LEFT: IMAGE (Static, Clean) --- */}
+        {/* --- LEFT: IMAGE --- */}
         <div className="flex-shrink-0">
           <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden shadow-inner">
             {uploading ? (
@@ -153,9 +154,13 @@ export default function ItemIdentityCard({
 
           {/* Name + Main Edit Button */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-tight leading-none">
-              {item.name}
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white uppercase tracking-tight leading-none">
+                {item.name}
+              </h2>
+              <ClipboardButton text={item.name} />
+            </div>
+
             {canManage && !item.isArchived && (
               <Button
                 size="sm"
@@ -170,11 +175,17 @@ export default function ItemIdentityCard({
           </div>
 
           {/* Details Grid */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-y-2 mt-4 gap-x-6 text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-white/5 pt-2">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
-              <HiOutlineHashtag className="size-4 text-brand-500" />{" "}
-              {t("identity_card.sku")}: {item.sku || "N/A"}
+          <div className="flex flex-wrap justify-center md:justify-start gap-y-3 mt-4 gap-x-6 text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-white/5 pt-2">
+            {/* SKU Section with Clipboard */}
+            <div className="flex items-center gap-1 group">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
+                <HiOutlineHashtag className="size-4 text-brand-500" />{" "}
+                {t("identity_card.sku")}: {item.sku || "N/A"}
+              </div>
+              {item.sku && <ClipboardButton text={item.sku} label="SKU" />}
             </div>
+
+            {/* Price (Static) */}
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">
               <HiOutlineTag className="size-4 text-brand-500" />{" "}
               {formatMoney(
@@ -185,7 +196,7 @@ export default function ItemIdentityCard({
             </div>
           </div>
 
-          {/* --- IMAGE ACTIONS ROW (Consistent Inline Layout) --- */}
+          {/* --- IMAGE ACTIONS ROW --- */}
           {canManage && !item.isArchived && (
             <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-3">
               <input

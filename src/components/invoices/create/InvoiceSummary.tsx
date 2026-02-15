@@ -82,7 +82,7 @@ export default function InvoiceSummary({
 
         {/* --- Grand Total --- */}
         <div className="flex justify-between items-center pt-6 mt-2 border-t-2 border-dashed border-gray-100 dark:border-white/10">
-          <span className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
+          <span className="text-sm font-semibold text-gray-800 dark:text-white uppercase ">
             {t("create.summary.total")}
           </span>
           <span className="text-lg font-semibold text-brand-600 dark:text-brand-500 tracking-tight">

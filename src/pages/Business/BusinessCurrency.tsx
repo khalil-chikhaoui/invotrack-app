@@ -341,7 +341,7 @@ export default function BusinessCurrency() {
                 {t("settings.currency_settings.live_preview_desc")}
               </p>
 
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-gray-700">
+              <div className=" rounded-xl p-6 flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-gray-700">
                 <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
                   {t("settings.currency_settings.total_amount_label")}
                 </span>

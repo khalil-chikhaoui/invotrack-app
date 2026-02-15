@@ -413,7 +413,7 @@ export default function InvoiceLedger({
               </span>
             </div>
             <div className="flex justify-between pt-4 border-t border-gray-100 dark:border-white/5 mt-2">
-              <span className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
+              <span className="text-xs font-semibold text-gray-800 dark:text-white uppercase ">
                 {t("ledger.totals.grand_total")}
               </span>
               <span className="text-xl font-black text-brand-600 dark:text-brand-400">

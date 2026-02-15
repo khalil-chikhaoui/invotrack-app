@@ -2,7 +2,7 @@
  * @fileoverview SignUpForm Component
  */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
@@ -11,6 +11,7 @@ import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
 import { authApi } from "../../apis/auth";
 import LanguageSelector from "../../components/common/LanguageSelector";
+import PasswordValidator from "./PasswordValidator";
 
 export default function SignUpForm() {
   // 1. Get i18n instance from the hook
@@ -24,33 +25,40 @@ export default function SignUpForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
+  // Logic to validate the "Contract"
+  const isPasswordValid = useMemo(() => {
+    return (
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    );
+  }, [password]);
+
   // 2. Initialize state with the CURRENT app language
   // We split by '-' to handle cases like 'en-US' -> 'en'
   const [language, setLanguage] = useState(
-    i18n.language ? i18n.language.split("-")[0] : "en"
+    i18n.language ? i18n.language.split("-")[0] : "en",
   );
 
   // 3. Handler to update BOTH local state and App UI
   const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);         // Updates the value sent to backend API
+    setLanguage(lang); // Updates the value sent to backend API
     i18n.changeLanguage(lang); // Updates the App UI immediately
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isPasswordValid) return; // Extra safety
+
     setError("");
     setIsLoading(true);
     try {
       await authApi.signUp({ name, email, password, language });
       navigate("/verify-email", { state: { email } });
     } catch (err: any) {
-      const errorCode = err.message;
-      const translatedError = t(
-        `errors.${errorCode}` as any,
-        t("errors.GENERIC_ERROR"),
-      );
-      setError(translatedError);
+      setError(t(`errors.${err.message}`, t("errors.GENERIC_ERROR")));
     } finally {
       setIsLoading(false);
     }
@@ -114,7 +122,7 @@ export default function SignUpForm() {
               <div>
                 <LanguageSelector
                   value={language}
-                  onChange={handleLanguageChange} 
+                  onChange={handleLanguageChange}
                   label={t("signup.language_label")}
                 />
               </div>
@@ -133,18 +141,25 @@ export default function SignUpForm() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     autoComplete="new-password"
+                    /* If they start typing and it's not valid, show red border border subtly */
+                    error={password.length > 0 && !isPasswordValid}
                   />
                   <span
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2 p-1"
                   >
                     {showPassword ? (
-                      <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                      <EyeIcon className="size-5 fill-gray-500" />
                     ) : (
-                      <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                      <EyeCloseIcon className="size-5 fill-gray-500" />
                     )}
                   </span>
                 </div>
+
+                {/* INTERACTIVE VALIDATOR */}
+                {password.length > 0 && (
+                  <PasswordValidator password={password} />
+                )}
               </div>
 
               <div className="pt-2">
