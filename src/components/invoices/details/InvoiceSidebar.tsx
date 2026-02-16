@@ -25,12 +25,11 @@ export default function InvoiceSidebar({
   return (
     <div className="space-y-6 no-print">
       {/* --- Lifecycle Management Card --- */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 shadow-sm">
-        <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-          <HiOutlineInformationCircle className="size-4 text-brand-500" />{" "}
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl px-6 pt-4 pb-6 shadow-sm">
+        <h4 className="text-[11px] font-semibold text-brand-500 dark:text-brand-300 uppercase tracking-wide flex items-center gap-2 mb-4">
+          <HiOutlineInformationCircle className="size-6" />{" "}
           {t("sidebar.lifecycle_title")}
-        </h3>
-
+        </h4>
         <div className="space-y-5">
           {/* Payment Status Row */}
           <div className="flex items-center justify-between">
@@ -78,8 +77,6 @@ export default function InvoiceSidebar({
           </div>
         </div>
       </div>
-
-     
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function ProfitAnalyticsCard({
   data,
   loading,
   currency = "USD",
-  title = "Profitability",
+  title = "Profitability", 
   subtitle = "Cost vs Profit analysis",
   emptyTitle = "Insufficient Data",
   emptyDescription = "Cost prices needed for analysis.",
@@ -50,7 +50,7 @@ export default function ProfitAnalyticsCard({
     { name: "Net Profit", data: data.map((d) => d.profit) },
   ];
 
-  const options: ApexOptions = {
+const options: ApexOptions = {
     colors: isDark ? DARK_COLORS : LIGHT_COLORS,
     chart: {
       fontFamily: "Outfit, sans-serif",
@@ -58,27 +58,42 @@ export default function ProfitAnalyticsCard({
       stacked: true,
       toolbar: { show: false },
       background: "transparent",
+    
+      animations: {
+        enabled: false, // Disabling animation fixes the "floating bar" glitch on iOS
+      },
     },
     theme: { mode: isDark ? "dark" : "light" },
     plotOptions: {
-      bar: { horizontal: true, borderRadius: 4, barHeight: "50%" },
+      bar: { 
+        horizontal: true, 
+        barHeight: "50%",
+        dataLabels: {
+           position: 'top', 
+        }
+      },
     },
     dataLabels: { enabled: false },
-    stroke: { width: 1, colors: isDark ? ["#1F2937"] : ["#ffffff"] },
+    stroke: { 
+      width: 1, 
+      colors: isDark ? ["#1F2937"] : ["#ffffff"] 
+    },
     xaxis: {
       categories: data.map((d) => d.label),
       axisBorder: { show: false },
       axisTicks: { show: false },
       labels: {
         style: { fontSize: "10px", colors: "#9CA3AF" },
-        formatter: (val: string | number) =>
-          formatMoney(val, currency, { digits: 0 }),
+        formatter: (val: string | number) => {
+          const numVal = typeof val === 'string' ? parseFloat(val) : val;
+          return formatMoney(numVal, currency, { digits: 0 });
+        },
       },
     },
     yaxis: {
       labels: {
         style: { colors: "#9CA3AF", fontSize: "11px", fontWeight: 500 },
-        maxWidth: 100,
+        maxWidth: 100, // Ensure long names don't push the chart off-screen
       },
     },
     grid: {

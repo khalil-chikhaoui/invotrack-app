@@ -38,7 +38,7 @@ interface InvoiceTableProps {
 export default function InvoiceTable({
   invoices,
   business,
-  loading,
+  loading, 
   canManage,
   meta,
   onPageChange,
@@ -68,33 +68,33 @@ export default function InvoiceTable({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start min-w-[150px]"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[150px]"
               >
                 {t("list.columns.details")}
-              </TableCell>
+              </TableCell> 
               {showClient && (
                 <TableCell
                   isHeader
-                  className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
+                  className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
                 >
                   {t("list.columns.client")}
                 </TableCell>
               )}
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.amount")}
               </TableCell>
               <TableCell
                 isHeader
-                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
+                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.payment")}
               </TableCell>
               <TableCell
                 isHeader
-                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-400 uppercase text-start"
+                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.logistics")}
               </TableCell>
@@ -102,7 +102,7 @@ export default function InvoiceTable({
           </TableHeader>
 
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {!loading && invoices.length != 0 ? (
+            {loading && invoices.length === 0 ? (
               <TableRow>
                 <td colSpan={baseColSpan} className="p-0 border-none">
                   <div className="min-h-[300px] flex items-center justify-center">

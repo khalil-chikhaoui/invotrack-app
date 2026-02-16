@@ -121,7 +121,7 @@ export default function InvoiceIdentityCard({
           </span>
         </div>
         <div className="bg-gray-50/[0.02] dark:bg-white/[0.02] border border-gray-100 dark:border-white/[0.05] p-6 rounded-2xl text-center min-w-[180px]">
-          <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">
+          <span className="text-[9px] font-semibold text-gray-500 dark:text-gray-200 uppercase tracking-widest block mb-1">
             {t("identity_card.valuation")}
           </span>
           <span className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
