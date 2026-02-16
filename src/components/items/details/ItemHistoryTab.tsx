@@ -45,7 +45,7 @@ export default function ItemHistoryTab({
       </div>
 
       {/* 2. THE MASTER CARD */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
         <InvoiceFilters placeholder="Invoice # ..." {...filterProps} />
 
         {showTable ? (

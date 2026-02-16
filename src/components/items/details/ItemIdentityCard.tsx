@@ -103,7 +103,7 @@ export default function ItemIdentityCard({
   };
 
   return (
-    <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 shadow-sm relative overflow-hidden text-start">
+    <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 shadow-sm relative overflow-hidden text-start">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
         <HiOutlineCube className="size-32 text-gray-400" />

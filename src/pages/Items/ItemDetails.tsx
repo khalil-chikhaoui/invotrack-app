@@ -72,7 +72,7 @@ export default function ItemDetails() {
   // --- UI State ---
   const [activeTab, setActiveTab] = useState<
     "general" | "analytics" | "history"
-  >("analytics");
+  >("general");
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -305,16 +305,17 @@ export default function ItemDetails() {
 
   // Tabs Configuration
   const TABS = [
+     {
+      id: "general",
+      label: t("tabs.general"),
+      icon: <HiOutlineCube className="size-5" />,
+    },
     {
       id: "analytics",
       label: t("tabs.analytics"),
       icon: <HiOutlineChartPie className="size-5" />,
     },
-    {
-      id: "general",
-      label: t("tabs.general"),
-      icon: <HiOutlineCube className="size-5" />,
-    },
+   
     {
       id: "history",
       label: t("tabs.history"),

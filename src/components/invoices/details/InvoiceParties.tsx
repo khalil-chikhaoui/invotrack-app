@@ -27,7 +27,7 @@ export default function InvoiceParties({
     : "";
 
   return (
-    <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl py-4 px-6">
+    <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl py-4 px-6">
       <div>
         {/* Header Row */}
         <div className="flex items-start justify-between mb-4">

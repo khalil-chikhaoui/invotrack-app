@@ -333,7 +333,7 @@ export default function BusinessCurrency() {
         {/* Sidebar: Live Preview */}
         <div className="xl:col-span-1 space-y-6">
           <div className="sticky top-24">
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <div className="rounded-2xl border border-gray-200  p-6 shadow-sm dark:border-gray-800 ">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                 {t("settings.currency_settings.live_preview_title")}
               </h3>

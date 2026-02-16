@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import { HiOutlineMapPin, HiOutlinePencilSquare } from "react-icons/hi2";
 import Button from "../../ui/button/Button";
 import { ClientData } from "../../../apis/clients";
@@ -11,15 +11,13 @@ function SectionEditButton({
   label: string;
 }) {
   return (
-    <div className="flex justify-center md:justify-end">
-      <Button
-        size="sm"
-        className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
-        onClick={onClick}
-      >
-        <HiOutlinePencilSquare className="size-4" /> {label}
-      </Button>
-    </div>
+    <Button
+      size="sm"
+      className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap"
+      onClick={onClick}
+    >
+      <HiOutlinePencilSquare className="size-4" /> {label}
+    </Button>
   );
 }
 
@@ -41,13 +39,16 @@ export default function ClientProfileTab({
   const { t } = useTranslation("client_details");
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
+    <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
+      
       {/* Address Block */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl px-8 pt-4 ">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-end gap-1.5 text-brand-500 dark:text-brand-400 uppercase font-semibold text-sm tracking-widest">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl px-5  sm:px-8 pt-3 pb-5">
+        
+        {/* Header: Allowed wrapping (flex-wrap) for very small screens */}
+        <div className="flex flex-row flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-2 text-brand-500 dark:text-brand-400 uppercase font-semibold text-sm tracking-widest">
             <HiOutlineMapPin className="size-5 stroke-[2.5]" />
-            {t("profile_tab.address_title")}
+            <span>{t("profile_tab.address_title")}</span>
           </div>
 
           {canManage && !isArchived && (
@@ -58,15 +59,21 @@ export default function ClientProfileTab({
           )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 pb-5">
-          <div>
+        {/* GRID FIX: 
+           - grid-cols-2: Puts 2 items per row on mobile (instead of 1)
+           - sm:grid-cols-4: Puts 4 items per row on desktop
+           - Reduced gap from 8 to gap-x-4 gap-y-6 
+        */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-6">
+          <div className="col-span-2 sm:col-span-1"> {/* Street often needs more space, but kept consistent for now */}
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.street")}
             </span>
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 break-words">
               {client.address?.street || "---"}
             </p>
           </div>
+          
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.city_state")}
@@ -76,6 +83,7 @@ export default function ClientProfileTab({
               {client.address?.state ? `, ${client.address.state}` : ""}
             </p>
           </div>
+          
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.zip")}
@@ -84,6 +92,7 @@ export default function ClientProfileTab({
               {client.address?.zipCode || "---"}
             </p>
           </div>
+          
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.country")}
@@ -97,7 +106,7 @@ export default function ClientProfileTab({
 
       {/* Account Lifecycle */}
       {canManage && (
-        <div className=" pt-8 border-t border-gray-100 dark:border-white/5">
+        <div className="pt-4 sm:pt-6 border-t border-gray-100 dark:border-white/5">
           <h4
             className={`text-sm font-semibold uppercase tracking-widest mb-4 ${
               isArchived
@@ -108,7 +117,7 @@ export default function ClientProfileTab({
             {t("profile_tab.lifecycle.title")}
           </h4>
           <div
-            className={`p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 ${
+            className={`p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-5 ${
               isArchived
                 ? "bg-amber-200/20 border-amber-100 dark:bg-amber-500/8 dark:border-amber-500/10"
                 : "bg-error-200/30 border-error-100 dark:bg-error-400/2 dark:border-error-500/10"
@@ -129,7 +138,7 @@ export default function ClientProfileTab({
 
             <Button
               variant="outline"
-              className={`px-6 text-[10px] font-semibold uppercase tracking-widest transition-all ${
+              className={`w-full sm:w-auto px-6 text-[10px] font-semibold uppercase tracking-widest transition-all justify-center ${
                 isArchived
                   ? "border-amber-200 text-amber-600 hover:bg-amber-600 hover:text-white"
                   : "border-error-200 text-error-600 hover:bg-error-600 hover:text-white dark:hover:text-white"

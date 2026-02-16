@@ -106,7 +106,7 @@ export default function UserProfiles() {
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 mb-10">
+      <div className="rounded-2xl border border-gray-200  p-5 dark:border-gray-800  lg:p-6 mb-10">
         <div className="space-y-3">
           <UserMetaCard setAlert={triggerAlert} />
           <UserInfoCard setAlert={triggerAlert} />

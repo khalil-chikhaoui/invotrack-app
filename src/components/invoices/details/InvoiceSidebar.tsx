@@ -25,7 +25,7 @@ export default function InvoiceSidebar({
   return (
     <div className="space-y-6 no-print">
       {/* --- Lifecycle Management Card --- */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl px-6 pt-4 pb-6 shadow-sm">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl px-6 pt-4 pb-6 shadow-sm">
         <h4 className="text-[11px] font-semibold text-brand-500 dark:text-brand-300 uppercase tracking-wide flex items-center gap-2 mb-4">
           <HiOutlineInformationCircle className="size-6" />{" "}
           {t("sidebar.lifecycle_title")}

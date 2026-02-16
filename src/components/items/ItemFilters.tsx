@@ -128,7 +128,7 @@ export default function ItemFilters({
         {/* Search + Mobile Controls */}
         <div className="flex flex-1 items-end gap-2">
           <div className="flex-1">
-            <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
+            <label className="hidden xl:block text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 uppercase tracking-widest">
               {t("filters.search_label")}
             </label>
             <Input

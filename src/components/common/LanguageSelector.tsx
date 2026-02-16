@@ -67,7 +67,7 @@ export default function LanguageSelector({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={`relative w-full h-11 pl-10 pr-10 text-left cursor-pointer transition-all duration-200 
-            bg-white dark:bg-white/[0.03] border rounded-xl outline-none focus:ring-2 focus:ring-brand-500/20
+             border rounded-xl outline-none focus:ring-2 focus:ring-brand-500/20
             ${
               isOpen
                 ? "border-brand-500 ring-2 ring-brand-500/20"

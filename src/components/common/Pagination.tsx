@@ -115,7 +115,7 @@ export default function Pagination({
 
           {/* Desktop: Number Pill */}
           <div
-            className="hidden sm:flex items-center gap-1 bg-white dark:bg-white/[0.03] px-1.5 py-1 rounded-full 
+            className="hidden sm:flex items-center gap-1  px-1.5 py-1 rounded-full 
             border border-gray-200 dark:border-white/[0.1] shadow-sm ring-1 ring-gray-900/5 dark:ring-white/5"
           >
             {pages.map((pageNum, idx) => (

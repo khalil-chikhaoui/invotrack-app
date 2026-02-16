@@ -73,7 +73,7 @@ export default function ClientDetails() {
   // --- UI State ---
   const [activeTab, setActiveTab] = useState<
     "analytics" | "profile" | "history"
-  >("analytics");
+  >("profile");
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -303,15 +303,15 @@ export default function ClientDetails() {
   };
 
   const TABS = [
+     {
+      id: "profile",
+      label: t("tabs.profile"),
+      icon: <HiOutlineUser className="size-5" />,
+    },
     {
       id: "analytics",
       label: t("tabs.analytics"),
       icon: <HiOutlineChartPie className="size-5" />,
-    },
-    {
-      id: "profile",
-      label: t("tabs.profile"),
-      icon: <HiOutlineUser className="size-5" />,
     },
     {
       id: "history",

@@ -270,7 +270,7 @@ export default function InvoiceFilters({
         <div className="flex flex-col xl:flex-row gap-4 xl:items-end justify-between">
           <div className="flex-1 flex gap-2 items-end w-full">
             <div className="flex-1 w-full">
-              <label className="hidden xl:block text-[10px] font-semibold text-gray-400 mb-1.5 uppercase tracking-widest">
+              <label className="hidden xl:block text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 uppercase tracking-widest">
                 {t("filters.search_label")}
               </label>
               <Input

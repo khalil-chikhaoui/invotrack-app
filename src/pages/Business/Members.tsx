@@ -219,7 +219,7 @@ export default function Members() {
       <PageBreadcrumb pageTitle={t("list.title")} />
 
       <div className="w-full space-y-8">
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 ">
           {/* --- Filters Header --- */}
           <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-white/[0.05]">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end text-start">

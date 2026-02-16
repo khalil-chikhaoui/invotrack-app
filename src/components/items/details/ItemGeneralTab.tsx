@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import {
   HiOutlineInformationCircle,
   HiOutlineArchiveBoxXMark,
@@ -24,23 +24,28 @@ export default function ItemGeneralTab({
 }: ItemGeneralTabProps) {
   const { t } = useTranslation("item_details");
   const isArchived = item.isArchived;
- 
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
       {/* --- Specifications Block --- */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-8 shadow-sm">
-        <div className="flex items-center gap-2 mb-6 text-brand-500">
+      {/* Changed p-8 to p-6 to reduce outer bulk */}
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 shadow-sm">
+        
+        {/* Header: Reduced mb-6 to mb-3 */}
+        <div className="flex items-center gap-2 mb-3 text-brand-500">
           <HiOutlineInformationCircle className="size-5 stroke-[2.5]" />
           <h3 className="font-semibold text-[10px] tracking-widest uppercase">
             {t("general_tab.specs_title")}
           </h3>
         </div>
 
+        {/* Description */}
         <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-4xl text-sm">
           {item.description || t("general_tab.no_desc")}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-10 pt-8 border-t border-gray-100 dark:border-white/5">
+        {/* Info Grid: Reduced mt-10 pt-8 to mt-6 pt-6 */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6 pt-6 border-t border-gray-100 dark:border-white/5">
           <div>
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("general_tab.labels.unit_price")}
@@ -69,7 +74,7 @@ export default function ItemGeneralTab({
               className={`text-sm font-semibold ${
                 item.itemType === "Service"
                   ? "text-gray-400"
-                  : item.currentStock > item.lowStockThreshold
+                  : item.currentStock > (item.lowStockThreshold || 0)
                     ? "text-emerald-500"
                     : "text-rose-500"
               }`}
@@ -128,12 +133,14 @@ export default function ItemGeneralTab({
               variant="outline"
               className={`px-6 text-[10px] font-semibold uppercase tracking-widest transition-all ${
                 isArchived
-                  ? "border-amber-200 text-amber-600 hover:bg-amber-600"
-                  : "border-error-200 text-error-600 hover:bg-error-600 dark:hover:text-white"
+                  ? "border-amber-200 text-amber-600 hover:bg-amber-600 hover:text-white"
+                  : "border-error-200 text-error-600 hover:bg-error-600 hover:text-white dark:hover:text-white"
               }`}
               onClick={onLifecycleAction}
             >
-              {isArchived ? t("general_tab.lifecycle.btn_restore") : t("general_tab.lifecycle.btn_archive")}
+              {isArchived
+                ? t("general_tab.lifecycle.btn_restore")
+                : t("general_tab.lifecycle.btn_archive")}
             </Button>
           </div>
         </div>

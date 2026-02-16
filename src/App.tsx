@@ -42,7 +42,7 @@ import PublicInvoiceViewer from "./pages/Invoices/PublicInvoiceViewer";
 // --- GLOBAL BACKGROUND COMPONENT ---
 // This sits behind the entire app
 const GlobalBackground = () => (
-  <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-slate-50 dark:bg-[#0B1120] transition-colors duration-500">
+  <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-white dark:bg-[#0B1120] transition-colors duration-500">
     {/* Top Right Blob */}
     <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-brand-500/10 dark:bg-brand-500/20 rounded-full blur-[100px] opacity-70 animate-pulse" />
     {/* Bottom Left Blob */}

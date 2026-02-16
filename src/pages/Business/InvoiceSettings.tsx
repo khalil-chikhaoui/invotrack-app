@@ -282,7 +282,7 @@ export default function InvoiceSettings() {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 text-start">
         <div className="xl:col-span-4 space-y-6">
           {/* Template Selection */}
-          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+          <div className="p-6  rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
                 {t("settings.invoice_design.style_title")}
@@ -310,7 +310,7 @@ export default function InvoiceSettings() {
           </div>
 
           {/* Localization */}
-          <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+          <div className="p-6  rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">{t("settings.invoice_design.localization_title")}</h3>
             </div>
@@ -322,7 +322,7 @@ export default function InvoiceSettings() {
           {settings.template !== "Receipt" && (
             <>
               {/* Branding */}
-              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+              <div className="p-6  rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">{t("settings.invoice_design.branding_title")}</h3>
                   <ResetButton onClick={resetBranding} label={t("settings.invoice_design.actions.reset")} />
@@ -346,7 +346,7 @@ export default function InvoiceSettings() {
               </div>
 
               {/* Footer Note */}
-              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+              <div className="p-6  rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">{t("settings.invoice_design.footer_title")}</h3>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${(settings.footerNote?.length || 0) >= 100 ? "bg-red-50 text-red-600 border-red-100" : "bg-gray-100 text-gray-500 border-gray-200 dark:bg-gray-800 dark:text-gray-400"}`}>
@@ -359,7 +359,7 @@ export default function InvoiceSettings() {
               </div>
 
               {/* Visibility Controls */}
-              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
+              <div className="p-6  rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-tight">{t("settings.invoice_design.fields_title")}</h3>
                   <ResetButton onClick={resetVisibility} label={t("settings.invoice_design.actions.reset")} />

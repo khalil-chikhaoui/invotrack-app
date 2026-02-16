@@ -208,7 +208,7 @@ export default function Invoices() {
       <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm  animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm  animate-in fade-in slide-in-from-bottom-2 duration-300">
         <InvoiceFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

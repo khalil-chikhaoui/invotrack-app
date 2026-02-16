@@ -103,7 +103,7 @@ export default function ClientIdentityCard({
   };
 
   return (
-    <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 overflow-hidden relative text-start">
+    <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 overflow-hidden relative text-start">
       {/* Background Icon Decoration */}
       <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
         <HiOutlineBuildingOffice2 className="size-32 text-gray-400" />

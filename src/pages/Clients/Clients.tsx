@@ -139,7 +139,7 @@ export default function Clients() {
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       {/* THE UNIFIED MASTER CARD */}
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
         {/* 1. Header Section */}
         <ClientFilters
           searchTerm={searchTerm}

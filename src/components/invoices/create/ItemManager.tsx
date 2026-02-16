@@ -144,7 +144,7 @@ export default function ItemManager({
 
   return (
     <div className="relative" ref={containerRef} onKeyDown={handleKeyDown}>
-      <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.05] rounded-md shadow-sm flex flex-col transition-all">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-md shadow-sm flex flex-col transition-all">
         <div className="px-6 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-white dark:bg-gray-900/50 rounded-t-md">
           <div className="flex items-center gap-2">
             <div className="p-1 rounded-lg bg-gray-100 dark:bg-white/5">

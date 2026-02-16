@@ -8,7 +8,7 @@ import Input from "../../components/form/input/InputField";
 import Button from "../../components/ui/button/Button";
 import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
-import { PaperPlaneIcon, ChevronLeftIcon } from "../../icons";
+import { PaperPlaneIcon } from "../../icons";
 import { businessApi } from "../../apis/business";
 import { useAlert } from "../../hooks/useAlert";
 import { usePermissions } from "../../hooks/usePermissions";
@@ -70,7 +70,7 @@ export default function AddMember() {
 
       triggerAlert({
         type: "error",
-        title: t("messages.error_title"), // <--- Translated
+        title: t("messages.error_title"), 
         message: translatedError,
       });
     } finally {
@@ -81,9 +81,9 @@ export default function AddMember() {
   if (!canManageSettings) {
     return (
       <PermissionDenied
-        title={t("permissions.restricted_title")} // <--- Translated
-        description={t("permissions.restricted_desc")} // <--- Translated
-        actionText={t("actions.back")} // <--- Translated
+        title={t("permissions.restricted_title")}
+        description={t("permissions.restricted_desc")} 
+        actionText={t("actions.back")} 
       />
     );
   }
@@ -108,7 +108,7 @@ export default function AddMember() {
         {/* Global Feedback Alert */}
         <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="rounded-2xl border border-gray-200  p-5 dark:border-gray-800  lg:p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="mb-8 border-b border-gray-100 dark:border-gray-800 pb-6">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90 tracking-tight">
               {t("invite.title")}
@@ -179,7 +179,7 @@ export default function AddMember() {
                     onChange={(e) =>
                       setFormData({ ...formData, role: e.target.value })
                     }
-                    className="h-11 w-full appearance-none rounded-lg border border-gray-200 bg-transparent px-4 py-2.5 text-sm font-medium text-gray-800 dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10"
+                    className="h-11 w-full appearance-none rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-800 dark:border-gray-800  dark:text-white/90 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10"
                   >
                     <option value="Viewer">{t("roles.Viewer")}</option>
                     <option value="Deliver">{t("roles.Deliver")}</option>

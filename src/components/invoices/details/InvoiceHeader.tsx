@@ -57,7 +57,7 @@ export default function InvoiceHeader({
 
       <div className="flex gap-3 ml-auto">
         {/* Export Group */}
-        <div className="flex items-center bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-lg p-1">
+        <div className="flex items-center  border border-gray-200 dark:border-white/10 rounded-lg p-1">
           
           {/* Main Print Button (Uses Default Style from Settings) */}
           <button
