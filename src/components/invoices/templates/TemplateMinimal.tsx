@@ -335,12 +335,12 @@ export default function TemplateMinimal({
 
       {/* Persistent Footer Elements */}
       {settings.visibility.showFooter && settings.footerNote && (
-        <Text style={styles.footerNote} fixed>
+        <Text style={styles.footerNote} >
           {settings.footerNote}
         </Text>
       )}
 
-      <View style={styles.qrFooterLeft} fixed>
+      <View style={styles.qrFooterLeft} >
         <InvoiceQRCode url={qrUrl} size={70} />
         <Text style={styles.generatedDate}>{generatedAt}</Text>
       </View>

@@ -172,7 +172,7 @@ export default function CreateDeliveryNote() {
         </button>
       )}
 
-      <div className="mx-auto w-full space-y-6 mt-8 px-4 md:px-2">
+      <div className="mx-auto w-full space-y-6 mt-8 ">
         <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
         <div className="rounded-3xl p-6 border border-gray-200 dark:border-white/5 ">

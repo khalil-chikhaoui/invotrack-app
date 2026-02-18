@@ -210,7 +210,7 @@ export default function DeliveryDetails() {
         title={`${t("meta.title")} | ${note.deliveryNumber}`}
       />
 
-      <div className="mx-auto w-full px-4 md:px-2">
+      <div className="mx-auto w-full ">
         <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
         {/* 1. Header Actions */}
