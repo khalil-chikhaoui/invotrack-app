@@ -126,7 +126,7 @@ const AppHeader: React.FC = () => {
             )}
           </button>
 
-          <Link to="/" className="lg:hidden">
+         {/* <Link to="/" className="lg:hidden">
             <img
               className="dark:hidden"
               src="/images/logo/logo.svg"
@@ -137,7 +137,7 @@ const AppHeader: React.FC = () => {
               src="/images/logo/logo-dark.svg"
               alt="Logo"
             />
-          </Link>
+          </Link>*/}
 
           {/* --- Desktop Search Engine --- */}
           <div className="hidden lg:block relative" ref={dropdownRef}>

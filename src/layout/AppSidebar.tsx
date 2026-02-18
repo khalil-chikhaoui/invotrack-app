@@ -182,7 +182,7 @@ const AppSidebar: React.FC = () => {
             !showFullSidebar ? "justify-center px-0" : "px-6"
           }`}
         >
-          <Link
+          {/*<Link
             to={getScopedPath("/")}
             onClick={handleLinkClick}
             className={`flex items-center justify-center transition-all duration-500 ${
@@ -201,7 +201,7 @@ const AppSidebar: React.FC = () => {
               className="hidden dark:block w-32"
               alt="Logo"
             />
-          </Link>
+          </Link>*/}
           {!showFullSidebar && <div className="w-0 h-8"></div>}
         </div>
 
