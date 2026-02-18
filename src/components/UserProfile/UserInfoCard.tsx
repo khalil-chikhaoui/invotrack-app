@@ -2,7 +2,7 @@
  * @fileoverview UserInfoCard Component
  */
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { useModal } from "../../hooks/useModal";
@@ -65,7 +65,8 @@ export default function UserInfoCard({
   };
 
   return (
-    <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 ">
+    // Removed border, padding, and rounded classes from this container
+    <div>
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="w-full">
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">

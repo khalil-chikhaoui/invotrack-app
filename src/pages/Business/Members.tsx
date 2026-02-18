@@ -218,19 +218,13 @@ export default function Members() {
       />
       <PageBreadcrumb pageTitle={t("list.title")} />
 
-      {/* Changed: Added h-full to the outer wrapper to allow growth */}
       <div className="w-full h-full space-y-8">
         
-        {/* Changed: 
-          1. Removed 'rounded-2xl'
-          2. Removed 'border' and 'border-gray-300...' 
-          3. Added 'flex flex-col h-full' to make it a flex container that fills height
-        */}
         <div className="flex flex-col h-full overflow-hidden">
           
           {/* --- Filters Header --- */}
-          <div className="pb-5 sm:pb-6  border-b border-gray-300 dark:border-white/[0.05]">
-            <div className="flex flex-col gap-4 xl:flex-row xl:items-end text-start">
+          <div className="pb-4">
+            <div className="flex flex-col gap-2 xl:flex-row xl:items-end text-start">
               <div className="flex-1 text-start">
                 <Input
                   placeholder={t("list.search_placeholder")}
@@ -239,7 +233,7 @@ export default function Members() {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 {canManageSettings && (
                   <Button
                     onClick={() =>
@@ -267,41 +261,37 @@ export default function Members() {
             </div>
           </div>
 
-          {/* --- Personnel Registry Table --- 
-            Changed: Added 'flex-1' to force this div to take up all remaining vertical space
-            This ensures the table container stretches to the bottom even with 1 item.
-          */}
-          <div className="flex-1 max-w-full overflow-x-auto text-start">
+          <div className="flex-1   text-start">
             <Table>
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.member")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     Title
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.status")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.role")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="px-5 py-4 text-end font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="py-4 text-end font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.actions")}
                   </TableCell>
@@ -350,7 +340,7 @@ export default function Members() {
                         className="text-start hover:bg-gray-50/50 dark:hover:bg-white/[0.01] transition-colors"
                       >
                         {/* Member Identity */}
-                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                        <TableCell className="pr-5 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 overflow-hidden rounded-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center shrink-0">
                               {member.profileImage ? (
@@ -380,12 +370,12 @@ export default function Members() {
                         </TableCell>
 
                         {/* Title */}
-                        <TableCell className="px-5 py-4 text-theme-sm font-semibold text-gray-500 dark:text-gray-400  text-[10px] tracking-tight whitespace-nowrap">
+                        <TableCell className="pr-5 py-4 text-theme-sm font-semibold text-gray-500 dark:text-gray-400  text-[10px] tracking-tight whitespace-nowrap">
                           {member.title || "Staff"}
                         </TableCell>
 
                         {/* Access Status */}
-                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                        <TableCell className="pr-5 py-4 whitespace-nowrap">
                           <div className="flex flex-col items-start gap-1">
                             <Badge
                               color={
@@ -419,7 +409,7 @@ export default function Members() {
                         </TableCell>
 
                         {/* Permissions / Role */}
-                        <TableCell className="px-5 py-4 whitespace-nowrap">
+                        <TableCell className="pr-5 py-4 whitespace-nowrap">
                           <div
                             onClick={() => {
                               if (
@@ -457,7 +447,7 @@ export default function Members() {
                         </TableCell>
 
                         {/* Controls */}
-                        <TableCell className="px-5 py-4 text-end whitespace-nowrap">
+                        <TableCell className="pr-5 py-4 text-end whitespace-nowrap">
                           <div className="flex items-center justify-end gap-3 min-h-[28px]">
                             {isCurrentUser && !isLastAdmin && (
                               <button

@@ -42,7 +42,7 @@ const LayoutContent: React.FC = () => {
                - 'flex flex-col' ensures the <Outlet>'s child (your Members page) 
                  can successfully use 'flex-1' or 'h-full'.
         */}
-        <div className="flex-1 flex flex-col py-4 pb-24 md:pb-8 safe-area-bottom p-1 md:px-3">
+        <div className="flex-1 flex flex-col py-4 pb-24 md:pb-8 safe-area-bottom px-3 md:px-4">
           <Outlet />
         </div>
       </div>

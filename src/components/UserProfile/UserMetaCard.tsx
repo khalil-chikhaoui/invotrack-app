@@ -10,13 +10,12 @@ import { useAuth } from "../../context/AuthContext";
 import { useModal } from "../../hooks/useModal";
 import ConfirmModal from "../common/ConfirmModal";
 import { authApi } from "../../apis/auth";
-import { 
-  HiOutlineCamera, 
-  HiOutlineTrash, 
-  HiOutlineUser 
+import {
+  HiOutlineCamera,
+  HiOutlineTrash,
+  HiOutlineUser,
 } from "react-icons/hi2";
 import Button from "../ui/button/Button";
-
 
 export default function UserMetaCard({
   setAlert,
@@ -113,14 +112,14 @@ export default function UserMetaCard({
 
   return (
     <>
-      <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 ">
+      {/* Removed container styling (p-5, border, rounded-2xl, etc.) */}
+      <div>
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          
           {/* --- AVATAR DISPLAY (Static & Clean) --- */}
           <div className="relative shrink-0">
             <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-black/20 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
               {uploading ? (
-                 <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
               ) : user.profileImage ? (
                 <img
                   src={user.profileImage}
@@ -132,7 +131,10 @@ export default function UserMetaCard({
               )}
             </div>
             {/* Status Indicator (Optional) */}
-            <div className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-4 border-white dark:border-gray-900 rounded-full" title="Active"></div>
+            <div
+              className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-4 border-white dark:border-gray-900 rounded-full"
+              title="Active"
+            ></div>
           </div>
 
           {/* --- USER INFO & ACTIONS --- */}
@@ -140,17 +142,17 @@ export default function UserMetaCard({
             <h4 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
               {user.name}
             </h4>
-            
+
             <div className="mt-1 flex flex-col sm:flex-row items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-               <span>{user.email}</span>
-               {activeMembership && (
-                 <>
+              <span>{user.email}</span>
+              {activeMembership && (
+                <>
                   <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
                   <span className="font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-500/10 px-2 py-0.5 rounded text-xs uppercase tracking-wide">
                     {activeMembership.title}
                   </span>
-                 </>
-               )}
+                </>
+              )}
             </div>
 
             {/* --- ACTION BUTTONS ROW --- */}
@@ -164,9 +166,9 @@ export default function UserMetaCard({
               />
 
               {/* Upload Button */}
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleUploadClick}
                 disabled={uploading || deleting}
                 className="gap-2 h-9"
@@ -177,7 +179,7 @@ export default function UserMetaCard({
 
               {/* Delete Button (Only if image exists) */}
               {user.profileImage && (
-                <Button 
+                <Button
                   variant="outline"
                   size="sm"
                   onClick={openDeleteModal}

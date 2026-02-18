@@ -106,13 +106,15 @@ export default function UserProfiles() {
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className="rounded-2xl border border-gray-200  p-5 dark:border-gray-800  lg:p-6 mb-10">
-        <div className="space-y-3">
+      {/* Removed rounded-2xl, border, p-5/p-6 classes */}
+      <div className="mb-10">
+        <div className="space-y-6">
           <UserMetaCard setAlert={triggerAlert} />
           <UserInfoCard setAlert={triggerAlert} />
 
           {/* --- Language Preferences --- */}
-          <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6  mt-3">
+          {/* Removed border and padding from this section as well */}
+          <div className="mt-6">
             <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">
               {t("preferences.title")}
             </h4>
@@ -126,7 +128,7 @@ export default function UserProfiles() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row justify-end pt-6 gap-3 ">
+          <div className="flex flex-col sm:flex-row justify-end pt-6 gap-3">
             <button
               onClick={handleSendPasswordReset}
               disabled={loadingReset}

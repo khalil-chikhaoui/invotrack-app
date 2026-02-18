@@ -95,7 +95,7 @@ export default function AddMember() {
         description={t("invite.subtitle")}
       />
 
-      <div className="w-full px-3 md:p-0 mt-4">
+      <div className="w-full md:p-0 mt-4">
         {/* Navigation Control */}
         <button
           onClick={() => navigate(-1)}
