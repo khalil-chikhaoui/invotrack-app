@@ -11,6 +11,7 @@ import TemplateModern from "./TemplateModern";
 import TemplateClassic from "./TemplateClassic";
 import { enUS, de, fr } from "date-fns/locale";
 import TemplateReceipt from "./TemplateReceipt";
+import { format } from "date-fns";
 
 const DATE_LOCALES: Record<string, any> = {
   en: enUS,
@@ -129,6 +130,7 @@ export interface InvoiceTemplateProps {
   settings: InvoiceSettings;
   t: (key: string) => string;
   locale: any;
+  generatedAt: string;
 }
 
 export default function InvoicePDF({
@@ -180,16 +182,17 @@ export default function InvoicePDF({
   /**
    * Template Dispatcher
    */
-  // Select the date-fns locale object (defaults to enUS)
-  const selectedLocale = DATE_LOCALES[langCode] || enUS;
-
-  const renderTemplate = () => {
+    const selectedLocale = DATE_LOCALES[langCode] || enUS;
+    const generatedAt = format(new Date(), "dd-MM-yyyy HH:mm:ss", { locale: selectedLocale });
+  
+    const renderTemplate = () => {
     const props: InvoiceTemplateProps = {
       invoice,
       business,
       settings,
       t,
       locale: selectedLocale,
+      generatedAt,
     };
 
     switch (settings.template) {
@@ -209,4 +212,4 @@ export default function InvoicePDF({
       {renderTemplate()}
     </Document>
   );
-}
+} 

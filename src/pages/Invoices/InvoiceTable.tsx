@@ -8,7 +8,6 @@ import {
   STATUS_COLORS,
 } from "../../apis/invoices";
 import { BusinessData } from "../../apis/business";
-import { PencilIcon } from "../../icons";
 import { HiOutlineDocumentText, HiOutlineInbox } from "react-icons/hi2";
 import { formatMoney } from "../../hooks/formatMoney";
 import Badge from "../../components/ui/badge/Badge";
@@ -30,20 +29,16 @@ interface InvoiceTableProps {
   canManage: boolean;
   meta?: InvoicePaginationMeta | null;
   onPageChange?: (page: number) => void;
-  onOpenStatus: (inv: InvoiceData) => void;
-  onOpenDelivery: (inv: InvoiceData) => void;
   showClient?: boolean;
 }
 
 export default function InvoiceTable({
   invoices,
   business,
-  loading, 
-  canManage,
+  loading,
   meta,
   onPageChange,
-  onOpenStatus,
-  onOpenDelivery,
+
   showClient = true,
 }: InvoiceTableProps) {
   const { t } = useTranslation("invoice");
@@ -71,7 +66,7 @@ export default function InvoiceTable({
                 className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[150px]"
               >
                 {t("list.columns.details")}
-              </TableCell> 
+              </TableCell>
               {showClient && (
                 <TableCell
                   isHeader
@@ -150,7 +145,7 @@ export default function InvoiceTable({
                             {inv.invoiceNumber}
                           </span>
                           <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">
-                            {/* Use the dateLocale from the hook */}
+                            {" "}
                             {formatDate(
                               new Date(inv.issueDate),
                               "MMM do, yyyy",
@@ -185,64 +180,34 @@ export default function InvoiceTable({
                     </TableCell>
 
                     <TableCell className=" px-5 py-4 text-start">
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (canManage) onOpenStatus(inv);
-                        }}
-                        className={
-                          canManage
-                            ? "cursor-pointer hover:scale-105 transition-transform origin-left"
-                            : ""
-                        }
-                      >
-                        <Badge size="sm" color={statusColor}>
-                          <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                            {tCommon(`status.${displayStatus.toLowerCase()}`, {
-                              defaultValue: displayStatus,
-                            })}
-                            {canManage && (
-                              <PencilIcon className="size-2.5 opacity-50" />
-                            )}
-                          </div>
-                        </Badge>
-                      </div>
+                      <Badge size="sm" color={statusColor}>
+                        <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
+                          {tCommon(`status.${displayStatus.toLowerCase()}`, {
+                            defaultValue: displayStatus,
+                          })}
+                        </div>
+                      </Badge>
                     </TableCell>
 
                     <TableCell className=" px-5 py-4 text-start">
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (canManage) onOpenDelivery(inv);
-                        }}
-                        className={
-                          canManage
-                            ? "cursor-pointer hover:scale-105 transition-transform origin-left"
-                            : ""
+                      <Badge
+                        size="sm"
+                        variant="light"
+                        color={
+                          inv.deliveryStatus === "Delivered"
+                            ? "success"
+                            : inv.deliveryStatus === "Shipped"
+                              ? "info"
+                              : "light"
                         }
                       >
-                        <Badge
-                          size="sm"
-                          variant="light"
-                          color={
-                            inv.deliveryStatus === "Delivered"
-                              ? "success"
-                              : inv.deliveryStatus === "Shipped"
-                                ? "info"
-                                : "light"
-                          }
-                        >
-                          <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                            {tCommon(
-                              `status.${inv.deliveryStatus.toLowerCase()}`,
-                              { defaultValue: inv.deliveryStatus },
-                            )}
-                            {canManage && (
-                              <PencilIcon className="size-2.5 opacity-50" />
-                            )}
-                          </div>
-                        </Badge>
-                      </div>
+                        <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
+                          {tCommon(
+                            `status.${inv.deliveryStatus.toLowerCase()}`,
+                            { defaultValue: inv.deliveryStatus },
+                          )}
+                        </div>
+                      </Badge>
                     </TableCell>
                   </TableRow>
                 );

@@ -13,6 +13,7 @@ import invoice from "../../public/locales/en/invoice.json";
 import invoice_details from "../../public/locales/en/invoice_details.json";
 import members from "../../public/locales/en/members.json";
 import home from "../../public/locales/en/home.json";
+import delivery from "../../public/locales/en/delivery.json";
 
 declare module "i18next" {
   interface CustomTypeOptions {
@@ -30,6 +31,7 @@ declare module "i18next" {
        invoice_details: typeof invoice_details;
       members: typeof members;
       home: typeof home;
+      delivery: typeof delivery;
     };
   }
 }

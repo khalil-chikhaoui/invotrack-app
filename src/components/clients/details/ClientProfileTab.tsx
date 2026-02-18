@@ -44,7 +44,6 @@ export default function ClientProfileTab({
       {/* Address Block */}
       <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl px-5  sm:px-8 pt-3 pb-5">
         
-        {/* Header: Allowed wrapping (flex-wrap) for very small screens */}
         <div className="flex flex-row flex-wrap items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2 text-brand-500 dark:text-brand-400 uppercase font-semibold text-sm tracking-widest">
             <HiOutlineMapPin className="size-5 stroke-[2.5]" />
@@ -59,13 +58,8 @@ export default function ClientProfileTab({
           )}
         </div>
 
-        {/* GRID FIX: 
-           - grid-cols-2: Puts 2 items per row on mobile (instead of 1)
-           - sm:grid-cols-4: Puts 4 items per row on desktop
-           - Reduced gap from 8 to gap-x-4 gap-y-6 
-        */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-6">
-          <div className="col-span-2 sm:col-span-1"> {/* Street often needs more space, but kept consistent for now */}
+          <div className="col-span-2 sm:col-span-1"> 
             <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.street")}
             </span>

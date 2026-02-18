@@ -6,6 +6,7 @@ import Input from "../../components/form/input/InputField";
 import CountryInput from "../../components/form/input/CountryInput";
 import Label from "../../components/form/Label";
 import { clientApi, ClientData } from "../../apis/clients";
+import { CountryData } from "../../hooks/countries";
 
 interface ClientAddressModalProps {
   isOpen: boolean;
@@ -123,7 +124,9 @@ export default function ClientAddressModal({
               <Label>{t("modals.address.fields.country")}</Label>
               <CountryInput
                 value={formData.country}
-                onChange={(val) => setFormData({ ...formData, country: val })}
+                onChange={(countryData: CountryData) =>
+                  setFormData({ ...formData, country: countryData.code })
+                }
                 placeholder=""
               />
             </div>

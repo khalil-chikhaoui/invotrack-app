@@ -188,16 +188,30 @@ export default function ClientIdentityCard({
                 <ClipboardButton text={client.email} />
               </div>
             )}
-            
-            {client.phone && client.phone.number && (
-              <div className="flex items-center gap-1 group transition-all">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase ">
-                  <HiOutlinePhone className="size-4" /> {client.phone.number}
-                </div>
-                <ClipboardButton text={client.phone.number} />
-              </div>
-            )}
-            
+
+            {client.phone &&
+              client.phone.number &&
+              (() => {
+                // Logic: Strip all non-numeric characters except '+'
+                const cleanPhone = client.phone.number.replace(/[^\d+]/g, "");
+                // If it's just "+" or just a country code (like "+49"), hide it.
+                // We check if there's at least 4 digits after the '+' or if the string
+                // is significantly longer than a standard dial code.
+                const isActuallyAPhoneNumber = cleanPhone.length > 4;
+
+                if (!isActuallyAPhoneNumber) return null;
+
+                return (
+                  <div className="flex items-center gap-1 group transition-all">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase ">
+                      <HiOutlinePhone className="size-4" />{" "}
+                      {client.phone.number}
+                    </div>
+                    <ClipboardButton text={client.phone.number} />
+                  </div>
+                );
+              })()}
+
             {client.taxId && (
               <div className="flex items-center gap-1 group transition-all">
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase ">

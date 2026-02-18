@@ -18,7 +18,8 @@
       "invoices": "Invoices",
       "calendar": "Calendar",
       "business_settings": "Business Settings",
-      "team_members": "Team Members"
+      "team_members": "Team Members",
+      "delivery": "Delivery Notes"
     },
     "sub": {
       "general": "General Settings",
@@ -93,5 +94,12 @@
     "copied": "Copied",
     "done": "Done!",
     "copy_text": "Copy {{text}}"
+  },
+  "phone_input": {
+    "number_placeholder": "Phone number...",
+    "select_placeholder": "Select",
+    "search_placeholder": "Search country or code...",
+    "no_results": "No countries found"
   }
 }
+ 

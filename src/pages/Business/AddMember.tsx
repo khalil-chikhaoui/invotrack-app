@@ -182,7 +182,7 @@ export default function AddMember() {
                     className="h-11 w-full appearance-none rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-800 dark:border-gray-800  dark:text-white/90 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10"
                   >
                     <option value="Viewer">{t("roles.Viewer")}</option>
-                    <option value="Deliver">{t("roles.Deliver")}</option>
+                   {/* FUTURE DEV <option value="Deliver">{t("roles.Deliver")}</option>*/ }
                     <option value="Manager">{t("roles.Manager")}</option>
                     <option value="Admin">{t("roles.Admin")}</option>
                   </select>
@@ -213,7 +213,7 @@ export default function AddMember() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="flex items-center gap-2 shadow-lg shadow-brand-500/20 text-[10px] uppercase font-semibold tracking-widest px-6"
+                className="flex items-center gap-2  text-[10px] uppercase font-semibold tracking-widest px-6"
               >
                 {loading ? t("invite.sending") : t("invite.submit")}
                 <PaperPlaneIcon className="fill-current size-4" />

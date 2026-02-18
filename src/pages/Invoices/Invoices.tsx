@@ -7,22 +7,16 @@ import {
   InvoiceData,
   InvoicePaginationMeta,
   DeliveryStatus,
-  DELIVERY_STATUS_OPTIONS,
-  getInvoiceDisplayStatus,
 } from "../../apis/invoices";
 import { businessApi, BusinessData } from "../../apis/business";
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import { useModal } from "../../hooks/useModal";
 import CustomAlert from "../../components/common/CustomAlert";
 import PermissionDenied from "../../components/common/PermissionDenied";
 import { useAlert } from "../../hooks/useAlert";
 import InvoiceTable from "./InvoiceTable";
 import { usePermissions } from "../../hooks/usePermissions";
 import InvoiceFilters from "../../components/invoices/InvoiceFilters";
-import StatusUpdateModal from "../../components/common/StatusUpdateModal";
-
-const PAYMENT_STATES = ["Open", "Paid", "Cancelled"];
 
 export default function Invoices() {
   const { t } = useTranslation("invoice");
@@ -49,17 +43,6 @@ export default function Invoices() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [page, setPage] = useState(1);
-
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
-    null,
-  );
-  const [targetStatus, setTargetStatus] = useState<string>("Open");
-  const [targetDelivery, setTargetDelivery] =
-    useState<DeliveryStatus>("Pending");
-  const [updating, setUpdating] = useState(false);
-
-  const statusModal = useModal();
-  const deliveryModal = useModal();
 
   // --- Flatpickr Effect ---
   useEffect(() => {
@@ -146,49 +129,6 @@ export default function Invoices() {
     canViewFinancials,
   ]);
 
-  const handleUpdate = async (type: "status" | "delivery") => {
-    if (!selectedInvoice) return;
-    setUpdating(true);
-    try {
-      if (type === "status") {
-        if (targetStatus === "Cancelled") {
-          await invoiceApi.deleteInvoice(selectedInvoice._id);
-        } else if (targetStatus === "Paid") {
-          if (!selectedInvoice.isPaid)
-            await invoiceApi.togglePayment(selectedInvoice._id);
-        } else if (targetStatus === "Open") {
-          if (selectedInvoice.isDeleted) {
-            await invoiceApi.restoreInvoice(selectedInvoice._id);
-          } else if (selectedInvoice.isPaid) {
-            await invoiceApi.togglePayment(selectedInvoice._id);
-          }
-        }
-      } else {
-        await invoiceApi.updateInvoice(selectedInvoice._id, {
-          deliveryStatus: targetDelivery,
-        });
-      }
-
-      setAlert({
-        type: "success",
-        title: "Updated",
-        message: t("messages.STATUS_SYNCED"),
-      });
-      fetchData();
-      statusModal.closeModal();
-      deliveryModal.closeModal();
-    } catch (e: any) {
-      const errorCode = e.message;
-      setAlert({
-        type: "error",
-        title: t("errors.UPDATE_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
-      });
-    } finally {
-      setUpdating(false);
-    }
-  };
-
   if (!canViewFinancials) {
     return (
       <PermissionDenied
@@ -208,7 +148,7 @@ export default function Invoices() {
       <PageBreadcrumb pageTitle={t("list.breadcrumb")} />
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm  animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl   animate-in fade-in slide-in-from-bottom-2 duration-300">
         <InvoiceFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -239,50 +179,8 @@ export default function Invoices() {
           meta={meta}
           loading={loading}
           onPageChange={setPage}
-          onOpenStatus={(inv) => {
-            setSelectedInvoice(inv);
-            setTargetStatus(getInvoiceDisplayStatus(inv));
-            statusModal.openModal();
-          }}
-          onOpenDelivery={(inv) => {
-            setSelectedInvoice(inv);
-            setTargetDelivery(inv.deliveryStatus);
-            deliveryModal.openModal();
-          }}
         />
       </div>
-
-      {/* 1. Payment Status */}
-      <StatusUpdateModal
-        isOpen={statusModal.isOpen}
-        onClose={statusModal.closeModal}
-        title={t("status_modal.title_payment")}
-        type="payment"
-        options={PAYMENT_STATES} // Passed as English
-        currentValue={targetStatus}
-        onValueChange={setTargetStatus}
-        onConfirm={() => handleUpdate("status")}
-        isLoading={updating}
-        confirmLabel={
-          targetStatus === "Cancelled"
-            ? t("status_modal.actions.confirm_void")
-            : t("status_modal.actions.update")
-        }
-      />
-
-      {/* 2. Logistics/Delivery Status */}
-      <StatusUpdateModal
-        isOpen={deliveryModal.isOpen}
-        onClose={deliveryModal.closeModal}
-        title={t("status_modal.title_delivery")}
-        type="delivery"
-        options={DELIVERY_STATUS_OPTIONS} // Passed as English
-        currentValue={targetDelivery}
-        onValueChange={(val) => setTargetDelivery(val)}
-        onConfirm={() => handleUpdate("delivery")}
-        isLoading={updating}
-        confirmLabel={t("status_modal.actions.update")}
-      />
     </>
   );
 }

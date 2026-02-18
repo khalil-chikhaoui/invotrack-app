@@ -6,7 +6,7 @@ import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import CountryInput from "../../components/form/input/CountryInput";
 import Label from "../../components/form/Label";
-import SelectField from "../../components/form/SelectField"; 
+import SelectField from "../../components/form/SelectField";
 import { clientApi, ClientData } from "../../apis/clients";
 import {
   HiOutlineUser,
@@ -15,14 +15,15 @@ import {
   HiChevronLeft,
   HiOutlineEnvelope,
   HiMapPin,
-  // HiChevronDown removed as it's handled by SelectField
 } from "react-icons/hi2";
 import PhoneInput from "../../components/form/group-input/PhoneInput";
+import { CountryData, COUNTRIES } from "../../hooks/countries";
 
 interface ClientFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   businessId: string;
+  defaultCountry?: string;
   setAlert: (alert: {
     type: "success" | "error" | "warning" | "info";
     title: string;
@@ -45,6 +46,7 @@ export default function ClientFormModal({
   isOpen,
   onClose,
   businessId,
+  defaultCountry = "US",
   setAlert,
   onSuccess,
 }: ClientFormModalProps) {
@@ -66,14 +68,25 @@ export default function ClientFormModal({
     { value: "Business", label: t("form.options.business") },
   ];
 
-  // Reset form and step when modal opens
   useEffect(() => {
     if (isOpen) {
-      setFormData(INITIAL_STATE);
+      // 1. Find the dial code for the passed defaultCountry (e.g. "DE" -> "+49")
+      const countryData = COUNTRIES.find((c) => c.code === defaultCountry);
+      const smartDialCode = countryData ? countryData.dial_code : "";
+
+      // 2. Reset form with the smart default
+      setFormData({
+        ...INITIAL_STATE,
+        phone: {
+          country: defaultCountry,
+          number: smartDialCode,
+        },
+      });
+
       setStep(1);
       setErrors({});
     }
-  }, [isOpen]);
+  }, [isOpen, defaultCountry]);
 
   const handleNext = (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -149,7 +162,7 @@ export default function ClientFormModal({
         <div
           className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
             step >= 1
-              ? "border-brand-500 bg-brand-500 text-white shadow-brand-500/30 shadow-sm"
+              ? "border-brand-500 bg-brand-500 text-white"
               : "border-gray-300 text-gray-400"
           }`}
         >
@@ -177,7 +190,7 @@ export default function ClientFormModal({
         <div
           className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
             step >= 2
-              ? "border-brand-500 bg-brand-500 text-white shadow-brand-500/30 shadow-sm"
+              ? "border-brand-500 bg-brand-500 text-white"
               : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400"
           }`}
         >
@@ -205,7 +218,7 @@ export default function ClientFormModal({
         <div
           className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
             step === 3
-              ? "border-brand-500 bg-brand-500 text-white shadow-brand-500/30 shadow-sm"
+              ? "border-brand-500 bg-brand-500 text-white "
               : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400"
           }`}
         >
@@ -283,7 +296,6 @@ export default function ClientFormModal({
               </div>
 
               <div>
-                {/* Replaced native Select with SelectField */}
                 <SelectField
                   label={t("form.fields.classification")}
                   value={formData.clientType}
@@ -428,10 +440,13 @@ export default function ClientFormModal({
                 </Label>
                 <CountryInput
                   value={formData.address.country}
-                  onChange={(val) =>
+                  onChange={(countryData: CountryData) =>
                     setFormData({
                       ...formData,
-                      address: { ...formData.address, country: val },
+                      address: {
+                        ...formData.address,
+                        country: countryData.code,
+                      },
                     })
                   }
                 />

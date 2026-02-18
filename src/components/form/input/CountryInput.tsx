@@ -1,10 +1,10 @@
-import React, { useState, useMemo, type FC } from "react";
+import React, { useState, useMemo, useEffect, type FC } from "react";
 import { HiOutlineMapPin } from "react-icons/hi2";
-import { COUNTRIES } from "../../../hooks/countries";
+import { COUNTRIES, CountryData } from "../../../hooks/countries";
 
 interface CountryInputProps {
-  value: string;
-  onChange: (country: string) => void;
+  value: string; // Expects ISO Code (e.g. "DE", "US")
+  onChange: (country: CountryData) => void; // Returns full object (code, name, dial_code)
   id?: string;
   name?: string;
   placeholder?: string;
@@ -25,24 +25,55 @@ const CountryInput: FC<CountryInputProps> = ({
   required = false,
   autoFocus = false,
 }) => {
+  // Find the selected country object based on the code passed in (value)
+  const selectedCountry = useMemo(
+    () => COUNTRIES.find((c) => c.code === value),
+    [value]
+  );
+
+  // Local state for what the user actively sees/types
+  const [displayValue, setDisplayValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Filter countries based on current value
-  const filteredCountries = useMemo(() => {
-    const searchTerm = value.toLowerCase();
-    return COUNTRIES.filter(
-      (c) => c !== "---" && c.toLowerCase().includes(searchTerm)
-    );
-  }, [value]);
+  // Sync the display text whenever the external value (code) changes
+  useEffect(() => {
+    if (selectedCountry) {
+      setDisplayValue(selectedCountry.name);
+    }
+  }, [selectedCountry]);
 
-  const handleSelect = (country: string) => {
-    onChange(country);
+  // Filter countries based on user input (searches Name OR Code)
+  const filteredCountries = useMemo(() => {
+    if (!displayValue) return COUNTRIES;
+    const searchTerm = displayValue.toLowerCase();
+    
+    return COUNTRIES.filter(
+      (c) => 
+        c.name.toLowerCase().includes(searchTerm) || 
+        c.code.toLowerCase().includes(searchTerm)
+    );
+  }, [displayValue]);
+
+  const handleSelect = (country: CountryData) => {
+    setDisplayValue(country.name); // Show the name
+    onChange(country); // Send full object to parent
     setShowSuggestions(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    setDisplayValue(e.target.value);
     if (!showSuggestions) setShowSuggestions(true);
+  };
+
+  const handleBlur = () => {
+    // Small delay to allow click event on suggestion to fire first
+    setTimeout(() => {
+      // If user leaves field and text doesn't match a valid country, revert to last valid selection
+      if (selectedCountry && displayValue !== selectedCountry.name) {
+        setDisplayValue(selectedCountry.name);
+      }
+      setShowSuggestions(false);
+    }, 200);
   };
 
   return (
@@ -58,12 +89,13 @@ const CountryInput: FC<CountryInputProps> = ({
         id={id}
         name={name}
         placeholder={placeholder}
-        value={value}
+        value={displayValue}
         onChange={handleInputChange}
         onFocus={(e) => {
           setShowSuggestions(true);
           e.target.select();
         }}
+        onBlur={handleBlur}
         required={required}
         autoFocus={autoFocus}
         autoComplete="off"
@@ -73,30 +105,26 @@ const CountryInput: FC<CountryInputProps> = ({
       {/* Suggestions Dropdown */}
       {showSuggestions && (
         <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40 bg-transparent"
-            onClick={() => setShowSuggestions(false)}
-          />
-
           {/* List */}
           <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl dark:bg-gray-900 dark:border-gray-700 max-h-56 overflow-y-auto custom-scrollbar animate-in fade-in zoom-in-95 duration-100">
             {filteredCountries.length > 0 ? (
               filteredCountries.map((c) => (
                 <div
-                  key={c}
-                  onMouseDown={(e) => e.preventDefault()}
+                  key={c.code}
+                  onMouseDown={(e) => e.preventDefault()} // Prevent blur before click
                   onClick={() => handleSelect(c)}
                   className={`
-                      px-4 py-2.5 text-sm cursor-pointer flex items-center border-b last:border-0 border-gray-50 dark:border-gray-800 transition-colors
+                      px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between border-b last:border-0 border-gray-50 dark:border-gray-800 transition-colors
                       ${
-                        c === value
+                        c.code === value
                           ? "bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-300 font-medium"
                           : "hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
                       }
                     `}
                 >
-                  <span className="font-medium">{c}</span>
+                  <span className="font-medium">{c.name}</span>
+                  {/* Optional: Show ISO code lightly on the right */}
+                  <span className="text-xs text-gray-400 font-mono opacity-50">{c.code}</span>
                 </div>
               ))
             ) : (

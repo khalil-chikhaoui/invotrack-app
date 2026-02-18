@@ -5,9 +5,7 @@ import { itemApi, ItemData } from "../../apis/items";
 import {
   invoiceApi,
   InvoiceData,
-  DeliveryStatus,
   InvoicePaginationMeta,
-  getInvoiceDisplayStatus,
 } from "../../apis/invoices";
 import { businessApi, BusinessData } from "../../apis/business";
 import { useModal } from "../../hooks/useModal";
@@ -27,7 +25,6 @@ import ItemHeader from "../../components/items/details/ItemHeader";
 import ItemIdentityCard from "../../components/items/details/ItemIdentityCard";
 import ItemGeneralTab from "../../components/items/details/ItemGeneralTab";
 import ItemHistoryTab from "../../components/items/details/ItemHistoryTab";
-import ItemTransactionModals from "../../components/items/details/ItemTransactionModals";
 import ItemAnalyticsTab from "../../components/items/details/ItemAnalyticsTab";
 import RecordNotFound from "../../components/common/RecordNotFound";
 import LoadingState from "../../components/common/LoadingState";
@@ -76,17 +73,6 @@ export default function ItemDetails() {
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // --- Invoice Action States ---
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
-    null,
-  );
-
-  const [tempStatus, setTempStatus] = useState<string>("Open");
-  const [tempDelivery, setTempDelivery] = useState<DeliveryStatus>("Pending");
-
-  const [updating, setUpdating] = useState(false);
-  const [deletingInvoice, setDeletingInvoice] = useState(false);
-
   // --- Lifecycle Action States ---
   const [processingLifecycle, setProcessingLifecycle] = useState(false);
 
@@ -103,9 +89,6 @@ export default function ItemDetails() {
   } = useModal();
 
   // Specific modals
-  const statusModal = useModal();
-  const deliveryModal = useModal();
-  const invoiceDeleteModal = useModal();
   const lifecycleModal = useModal();
 
   const canGoBack = location.key !== "default" && window.history.length > 1;
@@ -238,74 +221,9 @@ export default function ItemDetails() {
     }
   };
 
-  const handleStatusUpdate = async (payload: {
-    status?: string;
-    deliveryStatus?: DeliveryStatus;
-  }) => {
-    if (!selectedInvoice) return;
-    setUpdating(true);
-    try {
-      // 1. Payment Toggle Logic
-      if (payload.status) {
-        if (payload.status === "Paid" && !selectedInvoice.isPaid) {
-          await invoiceApi.togglePayment(selectedInvoice._id);
-        } else if (payload.status !== "Paid" && selectedInvoice.isPaid) {
-          await invoiceApi.togglePayment(selectedInvoice._id);
-        }
-      }
-
-      // 2. Delivery Update Logic
-      if (payload.deliveryStatus) {
-        await invoiceApi.updateInvoice(selectedInvoice._id, {
-          deliveryStatus: payload.deliveryStatus,
-        });
-      }
-
-      setAlert({
-        type: "success",
-        title: t("messages.SYNC_SUCCESS"),
-        message: t("messages.SYNC_DESC"),
-      });
-      setRefreshKey((prev) => prev + 1);
-      statusModal.closeModal();
-      deliveryModal.closeModal();
-    } catch (e: any) {
-      setAlert({
-        type: "error",
-        title: t("errors.UPDATE_FAILED"),
-        message: e.message,
-      });
-    } finally {
-      setUpdating(false);
-    }
-  };
-
-  const confirmVoidInvoice = async () => {
-    if (!selectedInvoice) return;
-    setDeletingInvoice(true);
-    try {
-      await invoiceApi.deleteInvoice(selectedInvoice._id);
-      setAlert({
-        type: "success",
-        title: t("messages.VOIDED"),
-        message: t("messages.VOIDED_DESC"),
-      });
-      setRefreshKey((prev) => prev + 1);
-      invoiceDeleteModal.closeModal();
-    } catch (e: any) {
-      setAlert({
-        type: "error",
-        title: t("errors.ACTION_FAILED"),
-        message: e.message,
-      });
-    } finally {
-      setDeletingInvoice(false);
-    }
-  };
-
   // Tabs Configuration
   const TABS = [
-     {
+    {
       id: "general",
       label: t("tabs.general"),
       icon: <HiOutlineCube className="size-5" />,
@@ -315,7 +233,7 @@ export default function ItemDetails() {
       label: t("tabs.analytics"),
       icon: <HiOutlineChartPie className="size-5" />,
     },
-   
+
     {
       id: "history",
       label: t("tabs.history"),
@@ -436,16 +354,6 @@ export default function ItemDetails() {
           canManage={canManage}
           meta={meta}
           setPage={setPage}
-          onOpenStatus={(inv) => {
-            setSelectedInvoice(inv);
-            setTempStatus(getInvoiceDisplayStatus(inv));
-            statusModal.openModal();
-          }}
-          onOpenDelivery={(inv) => {
-            setSelectedInvoice(inv);
-            setTempDelivery(inv.deliveryStatus);
-            deliveryModal.openModal();
-          }}
           filterProps={{
             searchTerm,
             setSearchTerm,
@@ -484,24 +392,6 @@ export default function ItemDetails() {
         onClose={closeStockModal}
         item={item}
         refresh={fetchProfile}
-      />
-
-      <ItemTransactionModals
-        isDeleteOpen={invoiceDeleteModal.isOpen}
-        closeDeleteModal={invoiceDeleteModal.closeModal}
-        confirmVoidInvoice={confirmVoidInvoice}
-        selectedInvoice={selectedInvoice}
-        deleting={deletingInvoice}
-        isStatusOpen={statusModal.isOpen}
-        closeStatusModal={statusModal.closeModal}
-        tempStatus={tempStatus}
-        setTempStatus={setTempStatus}
-        handleStatusUpdate={handleStatusUpdate}
-        isDeliveryOpen={deliveryModal.isOpen}
-        closeDeliveryModal={deliveryModal.closeModal}
-        tempDelivery={tempDelivery}
-        setTempDelivery={setTempDelivery}
-        updating={updating}
       />
 
       <ConfirmModal

@@ -205,7 +205,7 @@ export default function BusinessTaxDiscount() {
                 <Button
                   type="submit"
                   disabled={saving}
-                  className="shadow-lg shadow-brand-500/20"
+                
                 >
                   {saving
                     ? t("settings.tax_discount.actions.updating")
@@ -219,7 +219,7 @@ export default function BusinessTaxDiscount() {
         {/* Dynamic Calculation Sidebar */}
         <div className="xl:col-span-1">
           <div className="sticky top-24">
-            <div className="rounded-2xl border border-gray-200  p-6 shadow-sm dark:border-gray-800 ">
+            <div className="rounded-2xl border border-gray-200  p-6  dark:border-gray-800 ">
               <h3 className="text-lg font-semibold dark:text-white mb-2 uppercase tracking-tight">
                 {t("settings.tax_discount.sandbox.title")}
               </h3>

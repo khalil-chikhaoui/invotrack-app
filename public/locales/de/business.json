@@ -19,14 +19,15 @@
     },
     "steps": {
       "identity_title": "Identität",
-      "identity_sub": "Name & Beschreibung",
+      "identity_sub": "Name & Beschreibung", 
       "presence_title": "Präsenz",
       "presence_sub": "Standort & Kontakt",
       "fiscal_title": "Fiskalisch",
       "fiscal_sub": "Währung & Steuern",
       "header_desc_1": "Identität der Organisation.",
       "header_desc_2": "Kontaktinformationen.",
-      "header_desc_3": "Finanzielle & regionale Standardwerte."
+      "header_desc_3": "Finanzielle & regionale Standardwerte.",
+      "step_label": "Schritt {{step}}"
     },
     "form": {
       "name_label": "Offizieller Unternehmensname",
@@ -77,6 +78,7 @@
         "phone_label": "Telefonnummer",
         "desc_label": "Beschreibung / Bio",
         "language_label": "Unternehmenssprache",
+        "language_helper": "Alle Rechnungen, Lieferscheine und Berichte werden standardmäßig in dieser Sprache erstellt.",
         "website_label": "Website URL",
         "social_facebook": "Facebook",
         "social_twitter": "Twitter / X",

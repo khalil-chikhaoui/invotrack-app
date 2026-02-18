@@ -274,10 +274,10 @@ export default function BusinessAddressCard({
                 <Label>{t("create.form.country_label")}</Label>
                 <CountryInput
                   value={formData.address?.country || ""}
-                  onChange={(val) =>
+                  onChange={(countryData) =>
                     setFormData({
                       ...formData,
-                      address: { ...formData.address, country: val },
+                      address: { ...formData.address, country: countryData.code },
                     })
                   }
                   placeholder={t("create.form.country_label")}

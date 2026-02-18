@@ -321,7 +321,7 @@ export default function CreateInvoice() {
               taxRate={taxRate}
               setTaxRate={setTaxRate}
             />
-            <InvoiceSummary
+            <InvoiceSummary 
               totals={totals}
               taxRate={taxRate}
               currency={business?.currency}
@@ -341,6 +341,12 @@ export default function CreateInvoice() {
         businessId={businessId!}
         onSuccess={handleClientSuccess}
         setAlert={setAlert}
+        // Prioritize phone country, fall back to address country, fall back to US
+        defaultCountry={
+          (business?.phoneNumber as any)?.country || 
+          business?.address?.country || 
+          "US"
+        }
       />
       <ItemFormModal
         isOpen={itemModal.isOpen}

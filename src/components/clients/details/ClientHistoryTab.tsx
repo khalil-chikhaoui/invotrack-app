@@ -4,7 +4,7 @@ import Button from "../../ui/button/Button";
 import { InvoiceData, InvoicePaginationMeta } from "../../../apis/invoices";
 import { BusinessData } from "../../../apis/business";
 import InvoiceTable from "../../../pages/Invoices/InvoiceTable";
-import InvoiceFilters from "../../invoices/InvoiceFilters";
+import InvoiceFilters from "../../invoices/InvoiceFilters"; 
 
 interface ClientHistoryTabProps {
   clientInvoices: InvoiceData[];
@@ -17,8 +17,7 @@ interface ClientHistoryTabProps {
   clientId: string;
   setPage: (p: number) => void;
   navigate: (path: string) => void;
-  onOpenStatus: (inv: InvoiceData) => void;
-  onOpenDelivery: (inv: InvoiceData) => void;
+
   filterProps: any;
 }
 
@@ -33,8 +32,7 @@ export default function ClientHistoryTab({
   clientId,
   setPage,
   navigate,
-  onOpenStatus,
-  onOpenDelivery,
+
   filterProps,
 }: ClientHistoryTabProps) {
   const { t } = useTranslation("client_details");
@@ -87,8 +85,6 @@ export default function ClientHistoryTab({
             canManage={canManage}
             meta={meta}
             onPageChange={setPage}
-            onOpenStatus={onOpenStatus}
-            onOpenDelivery={onOpenDelivery}
             showClient={false}
           />
         ) : (

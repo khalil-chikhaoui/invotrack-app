@@ -26,7 +26,7 @@ Font.register({
 const createStyles = (primaryColor: string) =>
   StyleSheet.create({
     page: {
-      padding: "20 30 60 30",
+      padding: "20 30 110 30",
       fontFamily: "Cairo",
       fontSize: 10,
       lineHeight: 1.5,
@@ -133,6 +133,14 @@ const createStyles = (primaryColor: string) =>
       position: "absolute",
       bottom: 20,
       left: 30,
+      alignItems: "flex-start",
+    },
+    generatedDate: {
+      fontSize: 7.5,
+      color: "#222222",
+      marginTop: 2,
+      fontFamily: "Cairo",
+      fontWeight: 700,
     },
   });
 
@@ -142,6 +150,7 @@ export default function TemplateClassic({
   settings,
   t,
   locale,
+  generatedAt,
 }: InvoiceTemplateProps) {
   const styles = useMemo(
     () => createStyles(settings.color.primary),
@@ -156,8 +165,8 @@ export default function TemplateClassic({
     return formatDate(date, formatStr, { locale });
   };
 
-  const getLogoDimensions = (size: string) => {
-    switch (size) {
+  const logoDim = useMemo(() => {
+    switch (settings.logoSize) {
       case "Small":
         return { width: 100, height: 50 };
       case "Large":
@@ -165,22 +174,19 @@ export default function TemplateClassic({
       default:
         return { width: 140, height: 70 };
     }
-  };
-  const logoDim = getLogoDimensions(settings.logoSize);
+  }, [settings.logoSize]);
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
 
-  // --- QR CODE URL GENERATION ---
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const qrUrl = `${baseUrl}/invoice/${invoice._id}/view?style=Classic&lang=${business.language}`;
+
   return (
     <Page size="A4" style={styles.page}>
-      {/* Header Bar */}
       <View style={styles.headerBar} fixed />
 
       {/* Header Container */}
       <View style={styles.headerContainer}>
-        {/* Left: Logo/Address */}
         <View style={styles.colLeft}>
           {settings.visibility.showLogo && business.logo ? (
             <Image
@@ -193,7 +199,9 @@ export default function TemplateClassic({
               }}
             />
           ) : (
-            <Text style={{...styles.h3, marginBottom:20}}>{business.name}</Text>
+            <Text style={{ ...styles.h3, marginBottom: 20 }}>
+              {business.name}
+            </Text>
           )}
           <View style={{ alignItems: "flex-start" }}>
             {settings.visibility.showLogo && business.logo && (
@@ -209,11 +217,10 @@ export default function TemplateClassic({
           </View>
         </View>
 
-        {/* Right: Invoice Info */}
         <View style={styles.colRight}>
           <Text style={styles.title}>{t("invoice")}</Text>
           <Text style={[styles.h3, { fontSize: 16 }]}>
-            #{invoice.invoiceNumber}
+            {invoice.invoiceNumber}
           </Text>
           <View style={styles.row}>
             <Text style={styles.label}>{t("issueDate")}:</Text>
@@ -232,7 +239,7 @@ export default function TemplateClassic({
       <View style={styles.section}>
         <Text style={styles.h2}>{t("billTo")}</Text>
         <Text style={[styles.text, { fontWeight: 700, fontSize: 11 }]}>
-          {t(invoice.clientSnapshot.name)}
+          {invoice.clientSnapshot.name}
         </Text>
         <Text style={styles.text}>
           {invoice.clientSnapshot.address?.street}
@@ -240,7 +247,7 @@ export default function TemplateClassic({
         <Text style={styles.text}>{invoice.clientSnapshot.address?.city}</Text>
       </View>
 
-      {/* Table Section */}
+      {/* Table Section - This View allows wrapping */}
       <View style={styles.section}>
         <View style={styles.tableHeader} fixed>
           <Text style={[styles.th, styles.colDesc]}>{t("description")}</Text>
@@ -261,8 +268,11 @@ export default function TemplateClassic({
         ))}
       </View>
 
-      {/* Summary Section */}
-      <View style={[styles.row, { justifyContent: "flex-end" }]} wrap={false}>
+      {/* Summary Section - wrap={false} ensures the box doesn't split between pages */}
+      <View
+        style={[styles.row, { justifyContent: "flex-end", marginTop: 10 }]}
+        wrap={false}
+      >
         <View style={styles.summaryBox}>
           <View style={styles.totalRow}>
             <Text>{t("subtotal")}</Text>
@@ -283,33 +293,36 @@ export default function TemplateClassic({
         </View>
       </View>
 
-      {/* Footer Notes */}
-      <View style={{ marginTop: 20 }} wrap={false}>
-        {settings.visibility.showNotes && invoice.notes && (
-          <View style={{ marginBottom: 10 }}>
-            <Text
-              style={[
-                styles.text,
-                { fontWeight: 700, textTransform: "uppercase", fontSize: 8 },
-              ]}
-            >
-              {t("notes")}
-            </Text>
-            <Text style={styles.text}>{t(invoice.notes)}</Text>
-          </View>
-        )}
-      </View>
+      {/* Notes */}
+      {settings.visibility.showNotes && invoice.notes && (
+        <View style={{ marginTop: 20 }} wrap={false}>
+          <Text
+            style={[
+              styles.text,
+              {
+                fontWeight: 700,
+                textTransform: "uppercase",
+                fontSize: 8,
+                marginBottom: 4,
+              },
+            ]}
+          >
+            {t("notes")}
+          </Text>
+          <Text style={styles.text}>{t(invoice.notes)}</Text>
+        </View>
+      )}
 
-      {/* --- Footer Note (Center) --- */}
+      {/* Footer Elements (Absolute Positioned) */}
       {settings.visibility.showFooter && settings.footerNote && (
         <Text style={styles.footerNote} fixed>
           {settings.footerNote}
         </Text>
       )}
 
-      {/* --- QR Code (Left Footer) --- */}
       <View style={styles.qrFooterLeft} fixed>
         <InvoiceQRCode url={qrUrl} size={70} />
+        <Text style={styles.generatedDate}>{generatedAt}</Text>
       </View>
     </Page>
   );

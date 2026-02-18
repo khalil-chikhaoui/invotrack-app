@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import {
   clientApi,
   ClientData,
@@ -139,7 +139,7 @@ export default function Clients() {
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       {/* THE UNIFIED MASTER CARD */}
-      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl  overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
         {/* 1. Header Section */}
         <ClientFilters
           searchTerm={searchTerm}
@@ -173,6 +173,12 @@ export default function Clients() {
         onClose={closeFormModal}
         businessId={businessId!}
         setAlert={triggerAlert}
+        // Prioritize phone country, fall back to address country, fall back to US
+        defaultCountry={
+          (business?.phoneNumber as any)?.country ||
+          business?.address?.country ||
+          "US"
+        }
       />
     </>
   );

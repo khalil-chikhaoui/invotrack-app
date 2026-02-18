@@ -130,13 +130,21 @@ const createStyles = (primaryColor: string, accentColor: string) =>
       position: "absolute",
       bottom: 20,
       left: 30,
+      alignItems: "flex-start",
     },
+    generatedDate: {
+      fontSize: 7.5,
+      color: "#222222",
+      marginTop: 2,
+      fontFamily:"Cairo",fontWeight:700 
+    }
   });
 
 export default function TemplateMinimal({
   invoice,
   business,
   settings,
+  generatedAt,
   t,
 }: InvoiceTemplateProps) {
   const styles = useMemo(
@@ -194,7 +202,7 @@ export default function TemplateMinimal({
         </View>
 
         <View style={[styles.colHalf, styles.colRight]}>
-          <Text style={styles.headerTitle}>{invoice.invoiceNumber}</Text>
+          <Text style={styles.headerTitle}>{t("invoice")} {invoice.invoiceNumber}</Text>
           <View style={{ marginTop: 20, alignItems: "flex-end" }}>
             <Text style={[styles.value, { marginTop: 4, fontWeight: 600 }]}>
               {t("issueDate")}:{" "}
@@ -307,16 +315,17 @@ export default function TemplateMinimal({
         </View>
       </View>
 
-      {/* --- Footer Note (Center, Fixed) --- */}
+      {/* --- Footer Note (Center, ) --- */}
       {settings.visibility.showFooter && settings.footerNote && (
-        <Text style={styles.footerNote} fixed>
+        <Text style={styles.footerNote} >
           {settings.footerNote}
         </Text> 
       )}
 
-      {/* --- QR Code (Left Footer, Fixed) --- */}
-      <View style={styles.qrFooterLeft} fixed>
+      {/* --- QR Code (Left Footer, ) --- */}
+      <View style={styles.qrFooterLeft} >
         <InvoiceQRCode url={qrUrl} size={70} />
+        <Text style={styles.generatedDate}>{generatedAt}</Text>
       </View>
     </Page>
   );

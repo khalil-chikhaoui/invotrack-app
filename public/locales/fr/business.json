@@ -26,7 +26,8 @@
       "fiscal_sub": "Devise & Taxes",
       "header_desc_1": "Identité de l'organisation.",
       "header_desc_2": "Coordonnées.",
-      "header_desc_3": "Paramètres financiers et régionaux."
+      "header_desc_3": "Paramètres financiers et régionaux.",
+      "step_label": "Étape {{step}}"
     },
     "form": {
       "name_label": "Nom légal de l'entreprise",
@@ -76,7 +77,8 @@
         "email_label": "E-mail de contact",
         "phone_label": "Numéro de téléphone",
         "desc_label": "Description / Bio",
-        "language_label": "Langue de l'entreprise",
+        "language_label": "Langue de l'entreprise", 
+        "language_helper": "Toutes les factures, bons de livraison et rapports seront générés par défaut dans cette langue.",
         "website_label": "URL du site web",
         "social_facebook": "Facebook",
         "social_twitter": "Twitter / X",

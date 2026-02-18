@@ -132,26 +132,24 @@ export default function ClientIdentityModal({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>{t("modals.identity.fields.email")}</Label>
-              <Input
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <Label>{t("modals.identity.fields.phone")}</Label>
-              <PhoneInput
-                country={formData.phone.country}
-                value={formData.phone.number}
-                onChange={(data) => setFormData({ ...formData, phone: data })}
-                placeholder=""
-              />
-            </div>
+          <div>
+            <Label>{t("modals.identity.fields.email")}</Label>
+            <Input
+              type="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <Label>{t("modals.identity.fields.phone")}</Label>
+            <PhoneInput
+              country={formData.phone.country}
+              value={formData.phone.number}
+              onChange={(data) => setFormData({ ...formData, phone: data })}
+              placeholder=""
+            />
           </div>
 
           <div className="flex justify-end gap-3 mt-8">

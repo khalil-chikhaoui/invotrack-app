@@ -219,9 +219,9 @@ export default function Members() {
       <PageBreadcrumb pageTitle={t("list.title")} />
 
       <div className="w-full space-y-8">
-        <div className="overflow-hidden rounded-2xl border border-gray-200 ">
+        <div className="overflow-hidden rounded-2xl border border-gray-300 dark:border-white/[0.05]">
           {/* --- Filters Header --- */}
-          <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-white/[0.05]">
+          <div className="p-5 sm:p-6 border-b border-gray-300 dark:border-white/[0.05]">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end text-start">
               <div className="flex-1 text-start">
                 <Input
@@ -529,7 +529,7 @@ export default function Members() {
                   </span>
                 </div>
                 <div
-                  className={`w-2.5 h-2.5 rounded-full ${selectedRole === role ? "bg-brand-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]" : "bg-gray-200 dark:bg-gray-700"}`}
+                  className={`w-2.5 h-2.5 rounded-full ${selectedRole === role ? "bg-brand-500" : "bg-gray-200 dark:bg-gray-700"}`}
                 ></div>
                 <input
                   type="radio"
@@ -550,7 +550,7 @@ export default function Members() {
               {t("invite.cancel")}
             </Button>
             <Button
-              className="w-full text-[10px] font-semibold  tracking-widest shadow-lg shadow-brand-500/20"
+              className="w-full text-[10px] font-semibold  tracking-widest "
               onClick={handleConfirmRoleChange}
               disabled={updatingRole}
             >

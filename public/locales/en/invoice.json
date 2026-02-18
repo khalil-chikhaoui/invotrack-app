@@ -109,6 +109,7 @@
       "amount": "Amount",
       "mode": "Mode",
       "fixed": "Fixed",
+      "notes": "Notes & conditions",
      "percentage": "%",
       "tax_rate": "Tax Rate (%)"
     },

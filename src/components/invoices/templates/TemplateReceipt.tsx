@@ -19,22 +19,22 @@ Font.register({
 });
 
 // --- CONSTANTS FOR LAYOUT CALCULATION (in points) ---
-const PT_TO_CM = 28.35; 
+const PT_TO_CM = 28.35;
 const PAGE_WIDTH = 220;
 const PADDING_HORIZ = 10;
 const CONTENT_WIDTH = PAGE_WIDTH - PADDING_HORIZ * 2;
-const DESC_COL_WIDTH = CONTENT_WIDTH * 0.55; 
+const DESC_COL_WIDTH = CONTENT_WIDTH * 0.55;
 
 // Vertical heights for the dynamic engine
-const H_HEADER_BRAND = 25; 
-const H_HEADER_ADDR = 25;  
-const H_DIVIDER = 13;      
-const H_INFO_ROW = 10;     
-const H_TABLE_HEAD = 18;   
-const H_TOTAL_ROW = 12;    
-const H_GRAND_TOTAL = 25;  
-const H_QR_SECTION = 60;   
-const H_BOTTOM_SPACER = PT_TO_CM; 
+const H_HEADER_BRAND = 25;
+const H_HEADER_ADDR = 25;
+const H_DIVIDER = 13;
+const H_INFO_ROW = 10;
+const H_TABLE_HEAD = 18;
+const H_TOTAL_ROW = 12;
+const H_GRAND_TOTAL = 25;
+const H_QR_SECTION = 75;
+const H_BOTTOM_SPACER = PT_TO_CM;
 
 const styles = StyleSheet.create({
   page: {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   receiptInfo: { marginBottom: 6, fontSize: 7 },
-  infoRow: { marginBottom: 1 }, 
+  infoRow: { marginBottom: 1 },
   tableHeader: {
     flexDirection: "row",
     borderBottomWidth: 1,
@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     marginBottom: 4,
   },
-  tableRow: { 
-    flexDirection: "row", 
+  tableRow: {
+    flexDirection: "row",
     marginBottom: 4,
-    alignItems: "flex-start" 
+    alignItems: "flex-start",
   },
   colDesc: { width: "55%" },
   colQty: { width: "15%", textAlign: "center" },
@@ -90,11 +90,17 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 700,
   },
-  qrContainer: { 
-    marginTop: 10, 
+  qrContainer: {
+    marginTop: 10,
     alignItems: "center",
-    height: 50, 
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  generatedDate: {
+    fontSize: 7.5,
+    color: "#222222",
+    marginTop: 2,
+    fontFamily: "Cairo",
+    fontWeight: 700,
   },
 });
 
@@ -103,6 +109,7 @@ export default function TemplateReceipt({
   business,
   t,
   locale,
+  generatedAt,
 }: InvoiceTemplateProps) {
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
@@ -116,12 +123,12 @@ export default function TemplateReceipt({
     let h = 15; // Initial Top Padding
 
     // 1. Header & Brand
-    h += H_HEADER_BRAND + H_HEADER_ADDR; 
-    h += H_DIVIDER; 
+    h += H_HEADER_BRAND + H_HEADER_ADDR;
+    h += H_DIVIDER;
 
     // 2. Info Rows (Receipt No, Date, Client Name + Optional Due Date)
     const activeInfoRows = invoice.dueDate ? 4 : 3;
-    h += (H_INFO_ROW * activeInfoRows) + 6; 
+    h += H_INFO_ROW * activeInfoRows + 6;
     h += H_TABLE_HEAD;
 
     // 3. Line Items (Calculates multi-line wrapping)
@@ -129,14 +136,14 @@ export default function TemplateReceipt({
       const name = t(item.name) || item.name || "";
       const estLines = Math.ceil((name.length * 4.5) / DESC_COL_WIDTH);
       const lines = Math.max(1, estLines);
-      h += (lines * 9) + 4; 
+      h += lines * 9 + 4;
     });
 
     h += H_DIVIDER;
 
     // 4. Totals Block
-    h += H_TOTAL_ROW * 2; 
-    if (invoice.totalDiscount > 0) h += H_TOTAL_ROW; 
+    h += H_TOTAL_ROW * 2;
+    if (invoice.totalDiscount > 0) h += H_TOTAL_ROW;
     h += H_GRAND_TOTAL;
 
     // 5. QR and Cutting Spacer
@@ -182,7 +189,8 @@ export default function TemplateReceipt({
         )}
 
         <Text style={styles.infoRow}>
-          {t("clientLabel") || "Client"}: {t(invoice.clientSnapshot.name) || invoice.clientSnapshot.name}
+          {t("clientLabel") || "Client"}:{" "}
+          {t(invoice.clientSnapshot.name) || invoice.clientSnapshot.name}
         </Text>
       </View>
 
@@ -230,6 +238,7 @@ export default function TemplateReceipt({
       {/* QR CODE & FOOTER */}
       <View style={styles.qrContainer}>
         <InvoiceQRCode url={qrUrl} size={50} />
+        <Text style={styles.generatedDate}>{generatedAt}</Text>
       </View>
     </Page>
   );

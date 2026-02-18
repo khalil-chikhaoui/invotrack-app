@@ -8,9 +8,7 @@ import { businessApi, BusinessData } from "../../apis/business";
 import {
   invoiceApi,
   InvoiceData,
-  DeliveryStatus,
   InvoicePaginationMeta,
-  getInvoiceDisplayStatus,
 } from "../../apis/invoices";
 
 // Hooks & Context
@@ -23,7 +21,6 @@ import ClientHeader from "../../components/clients/details/ClientHeader";
 import ClientIdentityCard from "../../components/clients/details/ClientIdentityCard";
 import ClientProfileTab from "../../components/clients/details/ClientProfileTab";
 import ClientHistoryTab from "../../components/clients/details/ClientHistoryTab";
-import TransactionModals from "../../components/clients/details/TransactionModals";
 import ClientAnalyticsTab from "../../components/clients/details/ClientAnalyticsTab";
 
 // UI Components
@@ -77,22 +74,10 @@ export default function ClientDetails() {
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // --- Transaction State ---
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
-    null,
-  );
-  const [tempStatus, setTempStatus] = useState<string>("Open");
-  const [tempDelivery, setTempDelivery] = useState<DeliveryStatus>("Pending");
-
   // Loading States
-  const [updating, setUpdating] = useState(false);
-  const [deleting, setDeleting] = useState(false);
   const [lifecycleLoading, setLifecycleLoading] = useState(false);
 
   // --- Modals ---
-  const statusModal = useModal();
-  const deliveryModal = useModal();
-  const deleteModal = useModal();
   const identityModal = useModal();
   const addressModal = useModal();
   const lifecycleModal = useModal();
@@ -181,52 +166,6 @@ export default function ClientDetails() {
     endDate,
   ]);
 
-  const handleStatusUpdate = async (payload: {
-    status?: string;
-    deliveryStatus?: DeliveryStatus;
-  }) => {
-    if (!selectedInvoice) return;
-    setUpdating(true);
-    try {
-      if (payload.status) {
-        if (payload.status === "Cancelled") {
-          await invoiceApi.deleteInvoice(selectedInvoice._id);
-        } else if (payload.status === "Paid") {
-          if (!selectedInvoice.isPaid)
-            await invoiceApi.togglePayment(selectedInvoice._id);
-        } else if (payload.status === "Open") {
-          if (selectedInvoice.isDeleted)
-            await invoiceApi.restoreInvoice(selectedInvoice._id);
-          else if (selectedInvoice.isPaid)
-            await invoiceApi.togglePayment(selectedInvoice._id);
-        }
-      }
-
-      if (payload.deliveryStatus) {
-        await invoiceApi.updateInvoice(selectedInvoice._id, {
-          deliveryStatus: payload.deliveryStatus,
-        });
-      }
-
-      setAlert({
-        type: "success",
-        title: "Success",
-        message: t("messages.STATUS_UPDATED"),
-      });
-      setRefreshKey((k) => k + 1);
-      statusModal.closeModal();
-      deliveryModal.closeModal();
-    } catch (e: any) {
-      setAlert({
-        type: "error",
-        title: t("errors.UPDATE_FAILED"),
-        message: e.message,
-      });
-    } finally {
-      setUpdating(false);
-    }
-  };
-
   const handleLifecycleConfirm = async () => {
     if (!client) return;
     setLifecycleLoading(true);
@@ -257,29 +196,6 @@ export default function ClientDetails() {
       });
     } finally {
       setLifecycleLoading(false);
-    }
-  };
-
-  const confirmVoidInvoice = async () => {
-    if (!selectedInvoice) return;
-    setDeleting(true);
-    try {
-      await invoiceApi.deleteInvoice(selectedInvoice._id);
-      setAlert({
-        type: "success",
-        title: "Success",
-        message: t("messages.INVOICE_VOIDED"),
-      });
-      setRefreshKey((k) => k + 1);
-      deleteModal.closeModal();
-    } catch (e: any) {
-      setAlert({
-        type: "error",
-        title: t("errors.UPDATE_FAILED"),
-        message: e.message,
-      });
-    } finally {
-      setDeleting(false);
     }
   };
 
@@ -379,7 +295,7 @@ export default function ClientDetails() {
         setAlert={setAlert}
       />
 
-      <div className="flex gap-6  mb-8 overflow-x-auto w-full no-scrollbar px-1">
+      <div className="flex gap-6 mb-8 overflow-x-auto w-full no-scrollbar px-1">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -421,7 +337,7 @@ export default function ClientDetails() {
             business={business}
           />
         )}
-
+ 
         {activeTab === "history" && (
           <ClientHistoryTab
             clientInvoices={clientInvoices}
@@ -434,16 +350,6 @@ export default function ClientDetails() {
             clientId={clientId!}
             setPage={setPage}
             navigate={navigate}
-            onOpenStatus={(inv) => {
-              setSelectedInvoice(inv);
-              setTempStatus(getInvoiceDisplayStatus(inv));
-              statusModal.openModal();
-            }}
-            onOpenDelivery={(inv) => {
-              setSelectedInvoice(inv);
-              setTempDelivery(inv.deliveryStatus);
-              deliveryModal.openModal();
-            }}
             filterProps={{
               searchTerm,
               setSearchTerm,
@@ -506,24 +412,6 @@ export default function ClientDetails() {
             : t("modals.lifecycle.confirm_archive")
         }
         isLoading={lifecycleLoading}
-      />
-
-      <TransactionModals
-        isStatusOpen={statusModal.isOpen}
-        closeStatusModal={statusModal.closeModal}
-        tempStatus={tempStatus}
-        setTempStatus={setTempStatus}
-        handleStatusUpdate={handleStatusUpdate}
-        isDeliveryOpen={deliveryModal.isOpen}
-        closeDeliveryModal={deliveryModal.closeModal}
-        tempDelivery={tempDelivery}
-        setTempDelivery={setTempDelivery}
-        isDeleteOpen={deleteModal.isOpen}
-        closeDeleteModal={deleteModal.closeModal}
-        confirmVoidInvoice={confirmVoidInvoice}
-        selectedInvoice={selectedInvoice}
-        updating={updating}
-        deleting={deleting}
       />
     </div>
   );

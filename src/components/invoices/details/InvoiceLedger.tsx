@@ -120,7 +120,7 @@ export default function InvoiceLedger({
 
   return (
     <div
-      className=" border border-gray-200 dark:border-white/[0.05] rounded-md flex flex-col transition-all overflow-hidden"
+      className="border border-gray-200 dark:border-white/[0.05] rounded-md flex flex-col transition-all overflow-hidden"
       ref={containerRef}
     >
       {/* Header */}
@@ -322,7 +322,7 @@ export default function InvoiceLedger({
               <div className="animate-in fade-in duration-200">
                 <textarea
                   autoFocus
-                  className="w-full h-32 p-3 text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 outline-none resize-none mb-3 text-gray-700 dark:text-white"
+                  className="w-full h-32 p-3 text-xs border border-gray-200 dark:border-white/10 rounded-xl focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 outline-none resize-none mb-3 text-gray-700 dark:text-white"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder={t("ledger.notes.placeholder")}
@@ -350,9 +350,9 @@ export default function InvoiceLedger({
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-medium whitespace-pre-wrap">
+              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-normal whitespace-pre-wrap">
                 {notes || (
-                  <span className="opacity-30 italic">
+                  <span className="opacity-70 ">
                     {t("ledger.notes.empty")}
                   </span>
                 )}
@@ -413,7 +413,7 @@ export default function InvoiceLedger({
               </span>
             </div>
             <div className="flex justify-between pt-4 border-t border-gray-100 dark:border-white/5 mt-2">
-              <span className="text-xs font-semibold text-gray-800 dark:text-white uppercase ">
+              <span className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
                 {t("ledger.totals.grand_total")}
               </span>
               <span className="text-xl font-black text-brand-600 dark:text-brand-400">

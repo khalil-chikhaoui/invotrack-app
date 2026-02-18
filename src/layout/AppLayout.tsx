@@ -21,9 +21,7 @@ const LayoutContent: React.FC = () => {
 
   return (
     // 1. Updated Base Background Colors & Added relative positioning for children
-<div className="h-[100dvh] w-full overflow-hidden xl:flex bg-transparent relative">      
-      
-
+    <div className="h-[100dvh] w-full overflow-hidden xl:flex bg-transparent relative">
       {/* --- Sidebar & Mobile Overlay --- */}
       {/* Added relative z-20 to ensure Sidebar sits ABOVE the background blobs */}
       <div className="relative z-20">
@@ -39,12 +37,12 @@ const LayoutContent: React.FC = () => {
           ${isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"} 
           ${isMobileOpen ? "ml-0" : ""}
         `}
-      > 
+      >
         {/* Persistent Header */}
         <AppHeader />
 
         {/* Dynamic Page Content */}
-        <div className="py-4 px-2 md:px-4 pb-24 md:pb-8 safe-area-bottom">
+        <div className="py-4 pb-24 md:pb-8 safe-area-bottom">
           <Outlet />
         </div>
       </div>

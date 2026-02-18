@@ -8,6 +8,7 @@ import { InvoiceData } from "../../../apis/invoices";
 import { HiOutlineUser } from "react-icons/hi2";
 import Label from "../../form/Label";
 import PhoneInput from "../../form/group-input/PhoneInput";
+import { CountryData } from "../../../hooks/countries";
 
 interface EditClientModalProps {
   isOpen: boolean;
@@ -166,10 +167,16 @@ export default function EditClientModal({
                 }
               />
               <CountryInput
-                placeholder={t("modals.client.fields.country")}
-                value={formData.country}
-                onChange={(val) => setFormData({ ...formData, country: val })}
-              />
+                  placeholder={t("modals.client.fields.country")}
+                  value={formData.country}
+                  onChange={(countryData: CountryData) => 
+                    setFormData({ 
+                      ...formData, 
+                      country: countryData.code,
+                     
+                    })
+                  }
+                />
             </div>
           </div>
 

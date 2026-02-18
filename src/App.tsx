@@ -38,6 +38,10 @@ import InvoiceDetails from "./pages/Invoices/InvoiceDetails";
 import Calendar from "./pages/Calendar/Calendar";
 import VerifyEmail from "./pages/AuthPages/VerifyEmail";
 import PublicInvoiceViewer from "./pages/Invoices/PublicInvoiceViewer";
+import CreateDeliveryNote from "./pages/Delivery/CreateDeliveryNote";
+import DeliveryHistory from "./pages/Delivery/DeliveryHistory";
+import PublicDeliveryNoteViewer from "./pages/Delivery/PublicDeliveryNoteViewer";
+import DeliveryDetails from "./pages/Delivery/DeliveryDetails";
 
 // --- GLOBAL BACKGROUND COMPONENT ---
 // This sits behind the entire app
@@ -63,7 +67,10 @@ export default function App() {
         <Routes>
           {/* --- 1. PUBLIC ROUTES --- */}
           <Route path="/invoice/:id/view" element={<PublicInvoiceViewer />} />
+          <Route path="/delivery/:id/view" element={<PublicDeliveryNoteViewer />} />
 
+
+            {/* --- 2. ROUTES FOR NOT LOGGED IN USERS--- */}
           <Route element={<PublicRoute />}>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
@@ -72,7 +79,7 @@ export default function App() {
             <Route path="/reset-password/:token" element={<NewPassword />} />
           </Route>
 
-          {/* --- 2. HYBRID/INVITATION ROUTE --- */}
+          {/* --- 3. HYBRID/INVITATION ROUTE --- */}
           <Route
             path="/accept-invitation/:token"
             element={<AcceptInvitation />}
@@ -104,6 +111,11 @@ export default function App() {
                 <Route path="add-member" element={<AddMember />} />
                 <Route path="profile" element={<UserProfiles />} />
                 <Route path="calendar" element={<Calendar />} />
+                <Route path="delivery">
+                  <Route index element={<DeliveryHistory />} />
+                  <Route path="create" element={<CreateDeliveryNote />} />
+                  <Route path=":id" element={<DeliveryDetails />} />
+                </Route>
               </Route>
             </Route>
 

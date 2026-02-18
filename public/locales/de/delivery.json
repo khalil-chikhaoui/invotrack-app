@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "title": "Lieferscheine",
+    "description": "Erstellen Sie Lieferübersichten und Manifeste aus Rechnungen."
+  },
+  "header": {
+    "title": "Lieferschein-Generator",
+    "subtitle": "Wählen Sie unten Rechnungen aus, um ein Manifest für Ihre Fahrer zu erstellen."
+  },
+  "actions": {
+    "reset": "Alles löschen",
+    "generate": "Neues Manifest",
+    "preparing": "PDF wird vorbereitet...",
+    "shipping": "Als versandt markieren...",
+    "download_ready": "Manifest herunterladen",
+    "reprint": "PDF erneut drucken",
+    "delete": "Manifest löschen",
+    "confirm_delete": "Sind Sie sicher, dass Sie dieses Manifest löschen möchten? Dadurch wird der Status aller versandten Rechnungen auf «Ausstehend» zurückgesetzt.",
+    "remove": "Entfernen",
+    "edit": "Bearbeiten",
+    "save": "Speichern"
+  },
+  "form": {
+    "search_label": "Rechnungen finden",
+    "search_placeholder": "Suche nach Rechnungs-Nr. oder Kundenname...",
+    "searching": "Datenbank wird durchsucht...",
+    "no_results": "Keine passenden Rechnungen gefunden.",
+    "items_selected": "{{count}} Elemente ausgewählt",
+    "select_all": "Alle in der Ansicht auswählen",
+    "deselect_all": "Alle in der Ansicht abwählen",
+    "info_banner": "Hier werden nur Rechnungen mit dem Status <Ausstehend> angezeigt. Das Erstellen eines Lieferscheins ändert den Status dieser Rechnungen automatisch auf <Versandt>.",
+    "notes_label": "Manifest-Notizen",
+    "notes_placeholder": "Besondere Lieferanweisungen...",
+    "notes_empty": "Keine Notizen hinzugefügt. Zum Bearbeiten klicken..."
+  },
+  "filters": {
+    "search_label": "Verlauf durchsuchen",
+    "search_placeholder": "Suche nach Lieferschein-Nr....",
+    "date_range_label": "Zeitraum",
+    "date_ranges": {
+      "all": "Gesamter Zeitraum",
+      "today": "Heute",
+      "lastweek": "Letzte 7 Tage",
+      "lastmonth": "Letzte 30 Tage"
+    }
+  },
+  "list": {
+    "manifest_title": "Aktuelles Manifest",
+    "remove_hint": "Von Lieferung entfernen",
+    "empty_state": "Noch keine Rechnungen ausgewählt. Nutzen Sie die Suche oben, um Ihr Manifest zu starten.",
+    "empty_history": "Kein Lieferverlauf gefunden.",
+    "items_count": "Dok.",
+    "columns": {
+      "details": "Manifest",
+      "status": "Logistik-Status",
+      "invoices": "Dok.",
+      "value": "Gesamtwert",
+      "value_sub": "Netto-Manifest",
+      "actions": "Aktionen"
+    },
+    "invoices": "Verknüpfte Rechnungen",
+    "remove_hint_invoice": "Rechnung entfernen",
+    "confirm_remove_shipped": "Diese Rechnung ist derzeit als «Versandt» markiert. Durch das Entfernen wird der Status auf «Ausstehend» zurückgesetzt. Fortfahren?",
+    "confirm_remove_generic": "Sind Sie sicher, dass Sie diese Rechnung aus dem Manifest entfernen möchten?"
+  },
+  "messages": {
+    "success_title": "Erfolg",
+    "error_title": "Fehler",
+    "manifest_shipped": "Manifest bereit! Alle ausgewählten Rechnungen wurden als «Versandt» markiert.",
+    "delete_success": "Manifest erfolgreich gelöscht. Verknüpfte Rechnungen wurden auf «Ausstehend» zurückgesetzt.",
+    "invoice_removed": "Rechnung erfolgreich entfernt und auf den Status «Ausstehend» zurückgesetzt.",
+    "invoice_removed_generic": "Die Rechnung wurde erfolgreich aus dem Lieferschein entfernt.",
+    "notes_updated": "Notizen erfolgreich aktualisiert."
+  },
+  "errors": {
+    "SHIP_FAILED": "Lieferstatus konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.",
+    "SYNC_ERROR": "Verlaufsfehler",
+    "GENERIC_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
+    "NOT_FOUND_TITLE": "Manifest nicht gefunden",
+    "NOT_FOUND_DESC": "Der gesuchte Lieferschein existiert nicht oder wurde gelöscht."
+  },
+  "pdf_filename": "Lieferschein",
+  "back": "Zurück",
+  "public_viewer": {
+    "loading": "Lieferschein wird geladen...",
+    "error_title": "Hoppla!",
+    "error_cancelled": "Dieser Lieferschein ist nicht mehr gültig.",
+    "error_not_found": "Lieferschein nicht gefunden oder Link abgelaufen."
+  }
+}

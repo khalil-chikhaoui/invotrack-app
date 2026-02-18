@@ -531,10 +531,55 @@ export const invoiceApi = {
         // Note: No Authorization header here!
       },
     });
-    
+
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.message || "Failed to fetch public invoice");
+    }
+    return data;
+  },
+
+  /**
+   * Fetches lightweight invoice list for the Delivery Note selector.
+   */
+  getDeliveryCandidates: async (
+    businessId: string,
+    search = "",
+  ): Promise<InvoiceData[]> => {
+    // Append search param if it exists
+    const url = new URL(`${BASE_URL}/business/${businessId}/delivery-ready`);
+    if (search) url.searchParams.append("search", search);
+
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: getAuthHeaders(),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch delivery candidates");
+    }
+    return data;
+  },
+
+  /**
+   * Generates a Delivery Note and marks invoices as 'Shipped'
+   */
+  batchUpdateStatus: async (
+    invoiceIds: string[],
+    status: string,
+    businessId: string,
+    notes: string = "",
+  ) => {
+    const response = await fetch(`${BASE_URL}/batch-status`, {
+      method: "PATCH",
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ invoiceIds, status, businessId, notes }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Batch update failed");
     }
     return data;
   },

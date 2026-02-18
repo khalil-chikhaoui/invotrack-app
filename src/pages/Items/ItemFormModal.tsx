@@ -173,7 +173,7 @@ export default function ItemFormModal({
         <React.Fragment key={s}>
           <div className="flex items-center gap-2">
             <div
-              className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${step >= s ? "border-brand-500 bg-brand-500 text-white shadow-brand-500/30 shadow-sm" : "border-gray-300 text-gray-400"}`}
+              className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${step >= s ? "border-brand-500 bg-brand-500 text-white " : "border-gray-300 text-gray-400"}`}
             >
               <span className="text-xs font-semibold">{s}</span>
             </div>

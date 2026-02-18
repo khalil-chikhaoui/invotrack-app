@@ -1,6 +1,6 @@
 /**
  * @fileoverview PermissionDenied Component
- * A consistent, user-friendly UI for Access Control blocks.
+ * User-friendly UI for Access Control blocks.
  */
 
 import { useNavigate } from "react-router";

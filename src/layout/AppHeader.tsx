@@ -24,7 +24,7 @@ const AppHeader: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  /** 
+  /**
    * Sidebar Toggle Logic
    */
   const handleToggle = () => {
@@ -96,12 +96,12 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-<header className="sticky top-0 z-40 flex w-full bg-white/80 dark:bg-[#0B1120]/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5">
-      <div className="flex items-center justify-between w-full px-3 py-3 lg:px-6 lg:py-4">
+    <header className="sticky top-0 z-40 flex w-full bg-white/80 dark:bg-[#0B1120]/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5">
+      <div className="flex items-center justify-between w-full py-3  pl-2 pr-4 lg:py-4">
         {/* --- Left Section: Toggle, Logo, Search --- */}
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-8">
           <button
-            className="flex items-center justify-center w-10 h-10 text-gray-500 border-gray-200 rounded-lg dark:border-gray-800 dark:text-gray-400 lg:h-11 lg:w-11 lg:border bg-white dark:bg-gray-800"
+            className="flex items-center justify-center w-10 h-10 text-gray-500 border-gray-200 rounded-lg dark:border-gray-800 dark:text-gray-400 lg:h-11 lg:w-11 lg:border bg-transparent"
             onClick={handleToggle}
             aria-label="Toggle Sidebar"
           >
@@ -150,7 +150,7 @@ const AppHeader: React.FC = () => {
                   onChange={(e) => setQuery(e.target.value)}
                   onFocus={() => query.length > 1 && setShowDropdown(true)}
                   placeholder={t("header.search_placeholder")}
-                  className="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm py-2.5 pl-4 pr-14 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800  dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
+                  className="h-11 w-full rounded-lg border border-gray-200  backdrop-blur-sm py-2.5 pl-4 pr-14 text-sm text-gray-800 shadow-theme-xs  focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800  dark:bg-white/[0.03] dark:text-white/90 placeholder:text-gray-500 dark:placeholder:text-gray-400 dark:focus:border-brand-800 xl:w-[430px] !bg-transparent"
                 />
                 {/* --- Spinner / Shortcut Indicator --- */}
                 <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center">

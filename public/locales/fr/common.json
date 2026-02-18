@@ -18,7 +18,8 @@
       "invoices": "Factures",
       "calendar": "Calendrier",
       "business_settings": "Paramètres d'entreprise",
-      "team_members": "Membres de l'équipe"
+      "team_members": "Membres de l'équipe",
+      "delivery": "Bons de Livraison"
     },
     "sub": {
       "general": "Paramètres généraux",
@@ -72,8 +73,8 @@
     "pending": "En attente",
     "shipped": "Expédié",
     "delivered": "Livré",
-    "returned": "Retourné" 
-  },
+    "returned": "Retourné"
+  }, 
   "actions": {
     "cancel": "Annuler",
     "back": "Retour",
@@ -81,17 +82,23 @@
   },
   "processing": "Traitement",
   "not_found": {
-  "meta_title": "404 - Page non trouvée | Invotrack",
-  "meta_desc": "La page que vous recherchez n'existe pas ou a été déplacée.",
-  "title": "ERREUR",
-  "alt": "Erreur 404",
-  "message": "Nous ne parvenons pas à trouver la page que vous recherchez !",
-  "back": "Retour"
-},
-"clipboard": {
+    "meta_title": "404 - Page non trouvée | Invotrack",
+    "meta_desc": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "title": "ERREUR",
+    "alt": "Erreur 404",
+    "message": "Nous ne parvenons pas à trouver la page que vous recherchez !",
+    "back": "Retour"
+  },
+  "clipboard": {
     "copy": "Copier",
     "copied": "Copié",
     "done": "Terminé !",
     "copy_text": "Copier {{text}}"
+  },
+  "phone_input": {
+    "number_placeholder": "Numéro de téléphone...",
+    "select_placeholder": "Sélectionner",
+    "search_placeholder": "Rechercher pays ou code...",
+    "no_results": "Aucun pays trouvé"
   }
 }

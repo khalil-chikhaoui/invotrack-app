@@ -30,14 +30,22 @@ export default function SignInForm() {
       login(data.token, data.user);
       navigate("/select-business");
     } catch (err: any) {
-      const errorCode = err.message;
+      // Detect if the browser couldn't reach the server (Failed to fetch)
+      const errorCode =
+        err.message === "Failed to fetch"
+          ? "SERVER_UNREACHABLE"
+          : (err.message as string);
 
-      // --- 1. HANDLE VERIFICATION REDIRECT ---
       if (errorCode === "AUTH_NOT_VERIFIED") {
         navigate("/verify-email", { state: { email } });
         return;
       }
-      const translatedError = t(`errors.${errorCode}` as any);
+
+      /** * 2. Cast the template literal to 'any' or the specific TFunction type
+       * to bypass the strict key check.
+       */
+      const translatedError =
+        t(`errors.${errorCode}` as any) || t("errors.GENERIC_ERROR" as any);
       setError(translatedError);
     } finally {
       setIsLoading(false);

@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "title": "Bons de Livraison",
+    "description": "Générez des résumés de livraison et des manifestes à partir des factures."
+  },
+  "header": {
+    "title": "Générateur de Bon de Livraison",
+    "subtitle": "Sélectionnez les factures ci-dessous pour générer un manifeste pour vos chauffeurs."
+  },
+  "actions": {
+    "reset": "Tout effacer",
+    "generate": "Nouveau Manifeste",
+    "preparing": "Préparation du PDF...",
+    "shipping": "Marquage comme expédié...",
+    "download_ready": "Télécharger le Manifeste",
+    "reprint": "Réimprimer le PDF",
+    "delete": "Supprimer le Manifeste",
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer ce manifeste ? Cela rétablira le statut de toutes les factures expédiées à « En attente ».",
+    "remove": "Retirer",
+    "edit": "Modifier",
+    "save": "Enregistrer"
+  },
+  "form": {
+    "search_label": "Trouver des factures",
+    "search_placeholder": "Rechercher par N° de facture ou nom du client...",
+    "searching": "Recherche dans la base de données...",
+    "no_results": "Aucune facture correspondant à votre recherche.",
+    "items_selected": "{{count}} éléments sélectionnés",
+    "select_all": "Tout sélectionner",
+    "deselect_all": "Tout désélectionner",
+    "info_banner": "Seules les factures avec un statut <En attente> sont affichées ici. La génération d'un bon de livraison passera automatiquement le statut de ces factures à <Expédiée>.",
+    "notes_label": "Notes du Manifeste",
+    "notes_placeholder": "Instructions de livraison spéciales...",
+    "notes_empty": "Aucune note ajoutée. Cliquez pour modifier..."
+  },
+  "filters": {
+    "search_label": "Rechercher dans l'historique",
+    "search_placeholder": "Rechercher par N° de BL...",
+    "date_range_label": "Période",
+    "date_ranges": {
+      "all": "Toutes les dates",
+      "today": "Aujourd'hui",
+      "lastweek": "7 derniers jours",
+      "lastmonth": "30 derniers jours"
+    }
+  },
+  "list": {
+    "manifest_title": "Manifeste Actuel",
+    "remove_hint": "Retirer de la livraison",
+    "empty_state": "Aucune facture sélectionnée. Utilisez la recherche ci-dessus pour commencer votre manifeste.",
+    "empty_history": "Aucun historique de livraison trouvé.",
+    "items_count": "Docs",
+    "columns": {
+      "details": "Manifeste",
+      "status": "Santé Logistique",
+      "invoices": "Docs",
+      "value": "Valeur Totale",
+      "value_sub": "Manifeste Net",
+      "actions": "Actions"
+    },
+    "invoices": "Factures Liées",
+    "remove_hint_invoice": "Retirer la facture",
+    "confirm_remove_shipped": "Cette facture est actuellement marquée comme Expédiée. La retirer rétablira son statut à « En attente ». Continuer ?",
+    "confirm_remove_generic": "Êtes-vous sûr de vouloir retirer cette facture du manifeste ?"
+  },
+  "messages": {
+    "success_title": "Succès",
+    "error_title": "Erreur",
+    "manifest_shipped": "Manifeste prêt ! Toutes les factures sélectionnées ont été marquées comme Expédiées.",
+    "delete_success": "Manifeste supprimé avec succès. Les factures liées ont été remises en attente.",
+    "invoice_removed": "Facture retirée avec succès et remise en statut « En attente ».",
+  "invoice_removed_generic": "La facture a été retirée avec succès de ce manifeste.",
+    "notes_updated": "Notes mises à jour avec succès."
+  },
+  "errors": {
+    "SHIP_FAILED": "Échec de la mise à jour du statut de livraison. Veuillez réessayer.",
+    "SYNC_ERROR": "Erreur d'historique",
+    "GENERIC_ERROR": "Une erreur inattendue est survenue.",
+    "NOT_FOUND_TITLE": "Manifeste Introuvable",
+    "NOT_FOUND_DESC": "Le bon de livraison que vous recherchez n'existe pas ou a été supprimé."
+  },
+  "pdf_filename": "Bon_de_Livraison",
+  "back": "Retour",
+  "public_viewer": {
+    "loading": "Chargement du bon de livraison...",
+    "error_title": "Oups !",
+    "error_cancelled": "Ce bon de livraison n'est plus valide.",
+    "error_not_found": "Bon de livraison introuvable ou lien expiré."
+  }
+}

@@ -11,8 +11,8 @@ interface SelectFieldProps {
   value: string;
   onChange: (value: string) => void;
   options: Option[];
-  className?: string; // For controlling width (e.g., w-40)
-  isActive?: boolean; // To show the PulseDot
+  className?: string; 
+  isActive?: boolean;
   placeholder?: string;
 }
 
@@ -55,7 +55,7 @@ export default function SelectField({
   return (
     <div className={`relative ${className}`} ref={containerRef}>
       {label && (
-        <label className="text-[10px] font-semibold text-gray-700 dark:text-gray-300  mb-1.5 flex items-center uppercase tracking-wide">
+        <label className="text-[10px] font-semibold text-gray-600 dark:text-gray-300  mb-1.5 flex items-center uppercase tracking-wide">
           {label} {isActive && <PulseDot />}
         </label>
       )}

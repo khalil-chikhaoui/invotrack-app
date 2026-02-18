@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { useTranslation } from "react-i18next"; // <--- Import Hook
+import { useTranslation } from "react-i18next";
 import { CURRENCIES } from "../../hooks/currencies";
 
 interface CurrencySelectProps {
@@ -13,16 +13,15 @@ export default function CurrencySelect({
   onChange,
   className = "",
 }: CurrencySelectProps) {
-  const { t } = useTranslation("common"); // <--- Load "common" namespace
+  const { t } = useTranslation("common");
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // 1. Get the current selected currency object for display
   const selectedCurrency = useMemo(
     () => CURRENCIES.find((c) => c.code === value),
-    [value]
+    [value],
   );
 
   // 2. Filter list based on search term
@@ -33,7 +32,7 @@ export default function CurrencySelect({
       (c) =>
         c.code.toLowerCase().includes(lower) ||
         c.name.toLowerCase().includes(lower) ||
-        c.symbol.toLowerCase().includes(lower)
+        c.symbol.toLowerCase().includes(lower),
     );
   }, [searchTerm]);
 
@@ -137,7 +136,7 @@ export default function CurrencySelect({
                 placeholder={t("currency_select.search_placeholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
               />
             </div>
           </div>

@@ -15,8 +15,7 @@ interface ItemHistoryTabProps {
   canManage: boolean;
   meta: InvoicePaginationMeta | null;
   setPage: (p: number) => void;
-  onOpenStatus: (inv: InvoiceData) => void;
-  onOpenDelivery: (inv: InvoiceData) => void;
+
   filterProps: any;
 }
 
@@ -27,8 +26,7 @@ export default function ItemHistoryTab({
   canManage,
   meta,
   setPage,
-  onOpenStatus,
-  onOpenDelivery,
+
   filterProps,
 }: ItemHistoryTabProps) {
   const { t } = useTranslation("item_details");
@@ -56,8 +54,6 @@ export default function ItemHistoryTab({
             canManage={canManage}
             meta={meta}
             onPageChange={setPage}
-            onOpenStatus={onOpenStatus}
-            onOpenDelivery={onOpenDelivery}
           />
         ) : (
           /* Empty State  */

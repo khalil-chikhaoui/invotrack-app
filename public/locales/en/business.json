@@ -19,14 +19,15 @@
     },
     "steps": {
       "identity_title": "Identity",
-      "identity_sub": "Name & Description",
+      "identity_sub": "Name & Description", 
       "presence_title": "Presence",
       "presence_sub": "Location & Contact",
       "fiscal_title": "Fiscal",
       "fiscal_sub": "Currency & Tax",
       "header_desc_1": "Organization identity.",
       "header_desc_2": "Contact info.",
-      "header_desc_3": "Financial & Regional defaults."
+      "header_desc_3": "Financial & Regional defaults.",
+      "step_label": "Step {{step}}"
     },
     "form": {
       "name_label": "Legal Business Name",
@@ -77,6 +78,7 @@
         "phone_label": "Phone Number",
         "desc_label": "Description / Bio",
         "language_label": "Business Language",
+        "language_helper": "All invoices, delivery notes, and reports will be generated in this language by default.",
         "website_label": "Website URL",
         "social_facebook": "Facebook",
         "social_twitter": "Twitter / X",

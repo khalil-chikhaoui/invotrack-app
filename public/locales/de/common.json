@@ -18,7 +18,8 @@
       "invoices": "Rechnungen",
       "calendar": "Kalender",
       "business_settings": "Unternehmenseinstellungen",
-      "team_members": "Teammitglieder"
+      "team_members": "Teammitglieder",
+      "delivery": "Lieferscheine"
     },
     "sub": {
       "general": "Allgemeine Einstellungen",
@@ -93,5 +94,12 @@
     "copied": "Kopiert",
     "done": "Fertig!",
     "copy_text": "{{text}} kopieren"
+  },
+  "phone_input": {
+    "number_placeholder": "Telefonnummer...",
+    "select_placeholder": "Auswählen",
+    "search_placeholder": "Land oder Code suchen...",
+    "no_results": "Keine Länder gefunden"
   }
 }
+ 
