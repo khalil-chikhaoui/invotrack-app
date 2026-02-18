@@ -27,7 +27,7 @@ import InvoiceStatsTab from "../../components/invoices/InvoiceStatsTab";
 import RecordNotFound from "../../components/common/RecordNotFound";
 import EditDatesModal from "../../components/invoices/details/EditDatesModal";
 import ItemFormModal from "../Items/ItemFormModal";
-import EditTaxDiscountModal from "../../components/invoices/details/EditTaxDiscountModal";
+import EditFinancialsModal from "../../components/invoices/details/EditFinancialsModal";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import LoadingState from "../../components/common/LoadingState";
 import { HiOutlineChartPie, HiOutlineDocumentText } from "react-icons/hi";
@@ -275,27 +275,29 @@ export default function InvoiceDetails() {
   };
 
   const handleTaxUpdate = async (data: {
-    taxRate: number;
-    discountValue: number;
-    discountType: "percentage" | "fixed";
-  }) => {
-    if (!invoice) return;
-    try {
-      await invoiceApi.updateInvoice(invoice._id, {
-        taxRate: data.taxRate,
-        discountValue: data.discountValue,
-        discountType: data.discountType,
-      });
-      setAlert({
-        type: "success",
-        title: "Updated",
-        message: t("messages.FINANCIALS_UPDATED"),
-      });
-      fetchData();
-    } catch (e: any) {
-      throw new Error(e.message);
-    }
-  };
+  taxRate: number;
+  discountValue: number;
+  discountType: "percentage" | "fixed";
+  deliveryFee: number; // Add this line
+}) => {
+  if (!invoice) return;
+  try {
+    await invoiceApi.updateInvoice(invoice._id, {
+      taxRate: data.taxRate,
+      discountValue: data.discountValue,
+      discountType: data.discountType,
+      deliveryFee: data.deliveryFee, // Add this line
+    });
+    setAlert({
+      type: "success",
+      title: "Updated",
+      message: t("messages.FINANCIALS_UPDATED"),
+    });
+    fetchData(); // This refreshes the UI with the new totals
+  } catch (e: any) {
+    throw new Error(e.message);
+  }
+};
 
   const handleUpdate = async (payload: {
     status?: string;
@@ -530,14 +532,14 @@ export default function InvoiceDetails() {
         setAlert={setAlert}
         item={null}
       />
-      <EditTaxDiscountModal
+      <EditFinancialsModal
         isOpen={taxModal.isOpen}
         onClose={taxModal.closeModal}
         invoice={invoice}
         onSave={handleTaxUpdate}
       />
 
-      <ConfirmModal
+      <ConfirmModal 
         isOpen={isConfirmDeleteOpen}
         onClose={() => setIsConfirmDeleteOpen(false)}
         onConfirm={confirmDeleteItem}

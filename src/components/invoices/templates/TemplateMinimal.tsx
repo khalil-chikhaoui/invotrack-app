@@ -32,7 +32,7 @@ const createStyles = (primaryColor: string, accentColor: string) =>
       fontSize: 9,
       color: "#000",
       lineHeight: 1.3,
-      paddingBottom: 60, // Added padding at bottom to prevent overlap with footer
+      paddingBottom: 110, // Increased to accommodate QR code and notes
     },
     row: { flexDirection: "row", width: "100%" },
     colHalf: { width: "50%" },
@@ -108,15 +108,14 @@ const createStyles = (primaryColor: string, accentColor: string) =>
       justifyContent: "space-between",
       marginBottom: 5,
     },
-    grandTotalLabel: { fontSize: 11, fontWeight: 700, color: primaryColor },
-    grandTotalValue: { fontSize: 14, fontWeight: 700, color: primaryColor },
+    grandTotalLabel: { fontSize: 14, fontWeight: 700, color: primaryColor },
+    grandTotalValue: { fontSize: 14, fontWeight: 900, color: primaryColor },
     footerSection: {
       marginTop: 20,
       borderTopWidth: 1,
       borderTopColor: "#e5e7eb",
       paddingTop: 8,
     },
-    // --- New Footer Styles ---
     footerNote: {
       position: "absolute",
       bottom: 20,
@@ -136,8 +135,16 @@ const createStyles = (primaryColor: string, accentColor: string) =>
       fontSize: 7.5,
       color: "#222222",
       marginTop: 2,
-      fontFamily:"Cairo",fontWeight:700 
-    }
+      fontFamily: "Cairo",
+      fontWeight: 700,
+    },
+    deliveryRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: 5,
+      color: primaryColor,
+      fontWeight: 700,
+    },
   });
 
 export default function TemplateMinimal({
@@ -155,6 +162,7 @@ export default function TemplateMinimal({
       ),
     [settings.color],
   );
+
   const format = (amount: number) =>
     formatMoney(amount, business.currency, business.currencyFormat);
 
@@ -169,12 +177,12 @@ export default function TemplateMinimal({
     }
   };
 
-  // --- QR CODE URL GENERATION ---
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const qrUrl = `${baseUrl}/invoice/${invoice._id}/view?style=Minimal&lang=${business.language}`;
 
   return (
     <Page size="A4" style={styles.page}>
+      {/* Header */}
       <View style={[styles.row, { alignItems: "flex-start" }]}>
         <View style={styles.colHalf}>
           {settings.visibility.showLogo && business.logo ? (
@@ -202,7 +210,9 @@ export default function TemplateMinimal({
         </View>
 
         <View style={[styles.colHalf, styles.colRight]}>
-          <Text style={styles.headerTitle}>{t("invoice")} {invoice.invoiceNumber}</Text>
+          <Text style={styles.headerTitle}>
+            {t("invoice")} {invoice.invoiceNumber}
+          </Text>
           <View style={{ marginTop: 20, alignItems: "flex-end" }}>
             <Text style={[styles.value, { marginTop: 4, fontWeight: 600 }]}>
               {t("issueDate")}:{" "}
@@ -226,7 +236,7 @@ export default function TemplateMinimal({
       <View style={styles.row}>
         <View style={styles.colHalf}>
           <Text style={styles.clientName}>
-            {t("billTo")}: {t(invoice.clientSnapshot.name)}
+            {t("billTo")}: {invoice.clientSnapshot.name}
           </Text>
           <Text style={styles.value}>
             {invoice.clientSnapshot.address?.street}
@@ -239,7 +249,6 @@ export default function TemplateMinimal({
       </View>
 
       <View style={styles.tableContainer}>
-        {/* Fixed: Header repeats */}
         <View style={styles.tableHeader} fixed>
           <Text style={[styles.th, styles.colDesc]}>{t("description")}</Text>
           <Text style={[styles.th, styles.colQty]}>{t("qty")}</Text>
@@ -268,13 +277,14 @@ export default function TemplateMinimal({
         />
       </View>
 
-      {/* Totals - wrap={false} prevents splitting */}
+      {/* Totals Breakdown */}
       <View style={styles.totalsContainer} wrap={false}>
         <View style={{ width: "40%" }}>
           <View style={styles.summaryRow}>
             <Text style={styles.value}>{t("subtotal")}</Text>
             <Text style={styles.value}>{format(invoice.subTotal)}</Text>
           </View>
+
           {settings.visibility.showDiscount && invoice.totalDiscount > 0 && (
             <View style={styles.summaryRow}>
               <Text style={[styles.value, styles.textAccent]}>
@@ -285,15 +295,25 @@ export default function TemplateMinimal({
               </Text>
             </View>
           )}
-          <View style={styles.summaryRow}>
+
+          {invoice.totalTax > 0 && <View style={styles.summaryRow}>
             <Text style={styles.value}>
               {t("tax")} ({invoice.taxRate}%)
             </Text>
             <Text style={styles.value}>{format(invoice.totalTax)}</Text>
-          </View>
+          </View>}
+
+          {/* New Delivery Fee Row */}
+          {invoice.deliveryFee > 0 && (
+            <View style={styles.deliveryRow}>
+              <Text style={styles.value}>{t("delivery")}</Text>
+              <Text style={styles.value}>+{format(invoice.deliveryFee)}</Text>
+            </View>
+          )}
+
           <View style={styles.dividerLight} />
           <View style={[styles.summaryRow, { alignItems: "center" }]}>
-            <Text style={styles.grandTotalLabel}>{t("total")}</Text>
+            <Text style={styles.grandTotalLabel}>{t("totalDue")}</Text>
             <Text style={styles.grandTotalValue}>
               {format(invoice.grandTotal)}
             </Text>
@@ -301,29 +321,26 @@ export default function TemplateMinimal({
         </View>
       </View>
 
-      {/* Notes - wrap={false} */}
+      {/* Notes */}
       <View style={styles.footerSection} wrap={false}>
-        <View style={styles.row}>
-          {settings.visibility.showNotes && invoice.notes && (
-            <View style={{ width: "100%" }}>
-              <Text style={styles.label}>{t("notes")}</Text>
-              <Text style={[styles.value, { fontSize: 8, color: "#666" }]}>
-         {t(invoice.notes)}
-              </Text>
-            </View>
-          )}
-        </View>
+        {settings.visibility.showNotes && invoice.notes && (
+          <View style={{ width: "100%" }}>
+            <Text style={styles.label}>{t("notes")}</Text>
+            <Text style={[styles.value, { fontSize: 8, color: "#666" }]}>
+              {t(invoice.notes)}
+            </Text>
+          </View>
+        )}
       </View>
 
-      {/* --- Footer Note (Center, ) --- */}
+      {/* Persistent Footer Elements */}
       {settings.visibility.showFooter && settings.footerNote && (
-        <Text style={styles.footerNote} >
+        <Text style={styles.footerNote} fixed>
           {settings.footerNote}
-        </Text> 
+        </Text>
       )}
 
-      {/* --- QR Code (Left Footer, ) --- */}
-      <View style={styles.qrFooterLeft} >
+      <View style={styles.qrFooterLeft} fixed>
         <InvoiceQRCode url={qrUrl} size={70} />
         <Text style={styles.generatedDate}>{generatedAt}</Text>
       </View>

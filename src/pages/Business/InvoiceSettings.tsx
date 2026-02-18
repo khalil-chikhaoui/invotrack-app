@@ -42,7 +42,7 @@ const DUMMY_LOGO_URL =
 
 const ResetButton = ({
   onClick,
-  label,
+  label, 
 }: {
   onClick: () => void;
   label: string;
@@ -182,7 +182,8 @@ export default function InvoiceSettings() {
       totalDiscount: 620,
       taxRate: 10,
       totalTax: 558,
-      grandTotal: 6138,
+      deliveryFee: 42,
+      grandTotal: 6180, 
       isPaid: false,
       isDeleted: false,
       deliveryStatus: "Pending",

@@ -14,7 +14,7 @@ import TemplateReceipt from "./TemplateReceipt";
 import { format } from "date-fns";
 
 const DATE_LOCALES: Record<string, any> = {
-  en: enUS,
+  en: enUS, 
   de: de,
   fr: fr,
 };
@@ -34,6 +34,7 @@ const PDF_TRANSLATIONS: any = {
     discount: "Discount",
     total: "TOTAL",
     totalDue: "TOTAL DUE",
+    delivery: "Delivery Fee", // Add this
     notes: "Notes",
     page: "Page",
     of: "of",
@@ -67,6 +68,7 @@ const PDF_TRANSLATIONS: any = {
     tax: "Steuer",
     discount: "Rabatt",
     total: "GESAMT",
+    delivery: "Liefergebühr",
     totalDue: "GESAMTBETRAG",
     notes: "Hinweise",
     page: "Seite",
@@ -105,7 +107,7 @@ const PDF_TRANSLATIONS: any = {
     notes: "Notes",
     page: "Page",
     of: "sur",
-    // Receipt specific short labels
+    delivery: "Frais de livraison", 
     receiptNo: "N°",
     dateLabel: "DATE",
     clientLabel: "CLIENT",

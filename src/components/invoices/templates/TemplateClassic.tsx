@@ -111,6 +111,13 @@ const createStyles = (primaryColor: string) =>
       justifyContent: "space-between",
       paddingVertical: 4,
     },
+    deliveryRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingVertical: 4,
+      color: primaryColor,
+      fontWeight: 700,
+    },
     grandTotal: {
       flexDirection: "row",
       justifyContent: "space-between",
@@ -119,7 +126,6 @@ const createStyles = (primaryColor: string) =>
       borderTopWidth: 2,
       borderTopColor: primaryColor,
     },
-    // Footer Styles
     footerNote: {
       position: "absolute",
       bottom: 20,
@@ -147,7 +153,7 @@ const createStyles = (primaryColor: string) =>
 export default function TemplateClassic({
   invoice,
   business,
-  settings,
+  settings, 
   t,
   locale,
   generatedAt,
@@ -175,6 +181,7 @@ export default function TemplateClassic({
         return { width: 140, height: 70 };
     }
   }, [settings.logoSize]);
+
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
 
@@ -247,7 +254,7 @@ export default function TemplateClassic({
         <Text style={styles.text}>{invoice.clientSnapshot.address?.city}</Text>
       </View>
 
-      {/* Table Section - This View allows wrapping */}
+      {/* Table Section */}
       <View style={styles.section}>
         <View style={styles.tableHeader} fixed>
           <Text style={[styles.th, styles.colDesc]}>{t("description")}</Text>
@@ -268,7 +275,7 @@ export default function TemplateClassic({
         ))}
       </View>
 
-      {/* Summary Section - wrap={false} ensures the box doesn't split between pages */}
+      {/* Summary Section */}
       <View
         style={[styles.row, { justifyContent: "flex-end", marginTop: 10 }]}
         wrap={false}
@@ -278,14 +285,31 @@ export default function TemplateClassic({
             <Text>{t("subtotal")}</Text>
             <Text>{format(invoice.subTotal)}</Text>
           </View>
-          <View style={styles.totalRow}>
+          
+          {settings.visibility.showDiscount && invoice.totalDiscount > 0 && (
+            <View style={styles.totalRow}>
+              <Text style={{ color: settings.color.accent || "#ef4444" }}>{t("discount")}</Text>
+              <Text>-{format(invoice.totalDiscount)}</Text>
+            </View>
+          )}
+
+          {invoice.totalTax > 0 && <View style={styles.totalRow}>
             <Text>
               {t("tax")} ({invoice.taxRate}%)
             </Text>
             <Text>{format(invoice.totalTax)}</Text>
-          </View>
+          </View>}
+
+          {/* Delivery Fee Row: Non-taxable, added after tax calculation */}
+          {invoice.deliveryFee > 0 && (
+            <View style={styles.deliveryRow}>
+              <Text>{t("delivery")}</Text>
+              <Text>+{format(invoice.deliveryFee)}</Text>
+            </View>
+          )}
+
           <View style={styles.grandTotal}>
-            <Text style={{ fontWeight: 700 }}>{t("totalDue")}</Text>
+            <Text style={{ fontSize: 14,fontWeight: 700 }}>{t("totalDue")}</Text>
             <Text style={{ fontSize: 14, fontWeight: 800 }}>
               {format(invoice.grandTotal)}
             </Text>
@@ -313,7 +337,7 @@ export default function TemplateClassic({
         </View>
       )}
 
-      {/* Footer Elements (Absolute Positioned) */}
+      {/* Footer Elements */}
       {settings.visibility.showFooter && settings.footerNote && (
         <Text style={styles.footerNote} fixed>
           {settings.footerNote}

@@ -18,7 +18,7 @@ import ClientSelector from "../../components/invoices/create/ClientSelector";
 import ItemManager from "../../components/invoices/create/ItemManager";
 import InvoiceNotes from "../../components/invoices/create/InvoiceNotes";
 import InvoiceDates from "../../components/invoices/create/InvoiceDates";
-import InvoiceTaxDiscount from "../../components/invoices/create/InvoiceTaxDiscount";
+import InvoiceFinancials from "../../components/invoices/create/InvoiceFinancials";
 import InvoiceSummary from "../../components/invoices/create/InvoiceSummary";
 import EditItemModal from "../../components/invoices/details/EditItemModal";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
@@ -39,7 +39,7 @@ export default function CreateInvoice() {
   const [business, setBusiness] = useState<BusinessData | null>(null);
   const [clients, setClients] = useState<ClientData[]>([]);
   const [availableItems, setAvailableItems] = useState<ItemData[]>([]);
-
+  const [deliveryFee, setDeliveryFee] = useState(0);
   const [selectedClient, setSelectedClient] = useState<ClientData | null>(null);
   const [invoiceItems, setInvoiceItems] = useState<any[]>([]);
   const [issueDate, setIssueDate] = useState(
@@ -120,16 +120,19 @@ export default function CreateInvoice() {
   }
 
   const totals = useMemo(() => {
-    const subTotal = invoiceItems.reduce((sum, item) => sum + item.total, 0);
-    const totalDiscount =
-      discountType === "percentage"
-        ? subTotal * (discountValue / 100)
-        : discountValue;
-    const taxableAmount = Math.max(0, subTotal - totalDiscount);
-    const totalTax = taxableAmount * (taxRate / 100);
-    const grandTotal = taxableAmount + totalTax;
-    return { subTotal, totalDiscount, totalTax, grandTotal };
-  }, [invoiceItems, discountType, discountValue, taxRate]);
+  const subTotal = invoiceItems.reduce((sum, item) => sum + item.total, 0);
+  const totalDiscount =
+    discountType === "percentage"
+      ? subTotal * (discountValue / 100)
+      : discountValue;
+  const taxableAmount = Math.max(0, subTotal - totalDiscount);
+  const totalTax = taxableAmount * (taxRate / 100);
+  
+  // Logic: Add deliveryFee after tax
+  const grandTotal = taxableAmount + totalTax + deliveryFee;
+  
+  return { subTotal, totalDiscount, totalTax, grandTotal, deliveryFee };
+}, [invoiceItems, discountType, discountValue, taxRate, deliveryFee]);
 
   // --- ITEM HANDLERS ---
 
@@ -230,6 +233,7 @@ export default function CreateInvoice() {
           address: selectedClient.address,
           phone: selectedClient.phone,
         },
+        deliveryFee: Number(deliveryFee),
         items: invoiceItems,
         issueDate,
         dueDate,
@@ -298,7 +302,7 @@ export default function CreateInvoice() {
               currency={business?.currency}
               currencyFormat={business?.currencyFormat as any}
             />
-            
+             
             {/* IMPRESSIVE MOVE: 
               Notes are now nested here, filling the gap on the left of the summary.
             */}
@@ -313,13 +317,15 @@ export default function CreateInvoice() {
               dueDate={dueDate}
               setDueDate={setDueDate}
             />
-            <InvoiceTaxDiscount
+            <InvoiceFinancials
               discountValue={discountValue}
               setDiscountValue={setDiscountValue}
               discountType={discountType}
               setDiscountType={setDiscountType}
               taxRate={taxRate}
               setTaxRate={setTaxRate}
+              deliveryFee={deliveryFee}
+  setDeliveryFee={setDeliveryFee}
             />
             <InvoiceSummary 
               totals={totals}

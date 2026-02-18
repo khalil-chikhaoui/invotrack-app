@@ -11,15 +11,15 @@
     },
     "columns": {
       "details": "Détails de la facture",
-      "client": "Infos client",
+      "client": "Infos Client",
       "amount": "Montant",
       "payment": "Paiement",
       "logistics": "Logistique"
     }
   },
   "filters": {
-    "search_label": "Rechercher",
-    "search_placeholder": "N° Facture ou Client...",
+    "search_label": "Recherche",
+    "search_placeholder": "N° de facture ou Client...",
     "date_range_label": "Période",
     "status_label": "Paiement",
     "logistics_label": "Logistique",
@@ -27,30 +27,30 @@
     "modal_title": "Affiner le registre",
     "modal_desc": "Filtrer par date, statut ou suivi",
     "select_dates": "Sélectionner les dates",
-    "pick_range": "Choisir une plage",
-    "apply": "Appliquer",
-    "reset": "Tout réinitialiser",
+    "pick_range": "Choisir une période",
+    "apply": "Appliquer les filtres",
+    "reset": "Réinitialiser tout",
     "date_ranges": {
-      "all": "Tout le temps",
+      "all": "Toute période",
       "today": "Aujourd'hui",
-      "lastweek": "Semaine dernière",
-      "lastmonth": "Mois dernier",
-      "custom": "Plage personnalisée"
+      "lastweek": "La semaine dernière",
+      "lastmonth": "Le mois dernier",
+      "custom": "Période personnalisée"
     },
     "status": {
       "all": "Tous les statuts",
-      "unpaid": "Non payé",
-      "paid": "Payé",
-      "cancelled": "Annulé"
+      "unpaid": "Impayée",
+      "paid": "Payée",
+      "cancelled": "Annulée"
     },
     "logistics": {
-      "all": "Tout le suivi"
+      "all": "Tous les suivis"
     },
     "sort": {
-      "created_new": "Créé : Le plus récent",
-      "created_old": "Créé : Le plus ancien",
-      "issued_new": "Émis : Le plus récent",
-      "issued_old": "Émis : Le plus ancien",
+      "created_new": "Création : Plus récent",
+      "created_old": "Création : Plus ancien",
+      "issued_new": "Émission : Plus récent",
+      "issued_old": "Émission : Plus ancien",
       "number_asc": "N° Facture (0-9)",
       "number_desc": "N° Facture (9-0)",
       "amount_high": "Montant (Haut-Bas)",
@@ -58,7 +58,7 @@
     }
   },
   "status_modal": {
-    "title_payment": "Statut de paiement",
+    "title_payment": "Statut du paiement",
     "title_delivery": "Suivi logistique",
     "actions": {
       "cancel": "Annuler",
@@ -66,9 +66,9 @@
       "confirm_void": "Confirmer l'annulation"
     },
     "options": {
-      "open": "Ouvert",
-      "paid": "Payé",
-      "cancelled": "Annulé"
+      "open": "Ouverte",
+      "paid": "Payée",
+      "cancelled": "Annulée"
     }
   },
   "errors": {
@@ -76,25 +76,25 @@
     "INVOICE_NOT_FOUND": "L'enregistrement de la facture est introuvable.",
     "CLIENT_ARCHIVED": "Le client sélectionné a été archivé.",
     "ITEMS_ARCHIVED": "Un ou plusieurs articles sélectionnés ont été archivés.",
-    "CANNOT_UPDATE_VOIDED": "Impossible de modifier une facture annulée ou nulle.",
+    "CANNOT_UPDATE_VOIDED": "Impossible de modifier une facture annulée.",
     "INVOICE_ALREADY_ACTIVE": "Cette facture est déjà active.",
     "INVOICE_ALREADY_VOIDED": "Cette facture a déjà été annulée.",
-    "GENERIC_ERROR": "Une erreur inattendue s'est produite.",
-    "SYNC_ERROR": "Erreur de synchronisation",
+    "GENERIC_ERROR": "Une erreur inattendue est survenue.",
+    "SYNC_ERROR": "Erreur de synchro",
     "UPDATE_FAILED": "Échec de la mise à jour",
     "ACCESS_RESTRICTED": "Accès restreint",
-    "ACCESS_RESTRICTED_DESC": "Pas de permission pour voir les factures."
+    "ACCESS_RESTRICTED_DESC": "Aucune permission pour voir les factures."
   },
   "messages": {
     "INVOICE_CREATED": "Facture créée avec succès.",
     "INVOICE_UPDATED": "Facture mise à jour avec succès.",
-    "INVOICE_RESTORED": "Facture restaurée au statut actif.",
+    "INVOICE_RESTORED": "Facture rétablie en statut actif.",
     "INVOICE_VOIDED": "Facture annulée et stock retourné.",
     "STATUS_SYNCED": "Statut du grand livre synchronisé."
   },
   "create": {
     "title": "Nouvelle facture",
-    "meta_desc": "Rédiger et expédier de nouveaux documents financiers.",
+    "meta_desc": "Rédiger et envoyer de nouveaux documents financiers.",
     "breadcrumb": "Nouvelle facture",
     "loading": "Initialisation du créateur de facture...",
     "sections": {
@@ -105,32 +105,36 @@
       "dates": "Dates",
       "issue_date": "Date d'émission",
       "due_date": "Date d'échéance",
-      "tax_discount": "Taxe et Remise",
+      "financials": "Données financières",
+      "tax_discount": "Taxes et remises",
+      "delivery_fee": "Frais de livraison",
+      "discount": "Remise",
       "amount": "Montant",
+      "summary": "Résumé de la facture",
       "mode": "Mode",
-      "tax_rate": "Taux du grand livre fiscal (%)",
-      "summary": "Résumé de l'évaluation",
-      "notes": "Notes et conditions",
       "fixed": "Fixe",
-      "percentage": "%"
+      "percentage": "%",
+      "tax_rate": "Taux de taxe (%)",
+      "notes": "Notes & conditions"
     },
     "placeholders": {
       "client_search": "Trouver un client...",
       "item_search": "Trouver des produits ou services...",
-      "select_date": "Sélectionner une date",
-      "select_due_date": "Sélectionner une échéance",
-      "notes": "Instructions de paiement, coordonnées bancaires ou messages..."
+      "select_date": "Choisir une date",
+      "select_due_date": "Choisir l'échéance",
+      "notes": "Instructions de paiement, détails de virement bancaire ou messages personnalisés..."
     },
     "summary": {
       "subtotal": "Sous-total",
       "adjustment": "Ajustement",
       "taxation": "Taxation",
+      "delivery": "Livraison",
       "total": "TOTAL"
     },
     "actions": {
       "syncing": "Synchronisation...",
       "sync_update": "Synchroniser la mise à jour",
-      "confirm": "Confirmer et expédier",
+      "confirm": "Confirmer & Envoyer",
       "back": "Retour"
     },
     "item_manager": {
@@ -139,35 +143,35 @@
       "headers": {
         "nomenclature": "Nomenclature",
         "qty": "Qté",
-        "rate": "Taux",
-        "total": "Total", 
+        "rate": "Prix",
+        "total": "Total",
         "control": "Contrôle"
       },
       "modals": {
         "remove_title": "Supprimer l'article ?",
         "remove_desc": "Supprimer cet article de la facture actuelle ?",
-        "edit_title": "Modifier la ligne",
+        "edit_title": "Modifier l'article",
         "edit_desc": "Mettre à jour les détails pour",
         "qty": "Quantité",
         "selling_price": "Prix de vente",
         "internal_costing": "Coût interne",
         "margin": "Marge projetée",
-        "line_total": "Nouveau total de la ligne",
-        "save": "Mettre à jour",
-        "saving": "Sauvegarde..."
+        "line_total": "Nouveau total ligne",
+        "save": "Mettre à jour l'article",
+        "saving": "Enregistrement..."
       }
     },
-    "no_email": "Aucun e-mail",
+    "no_email": "Pas d'e-mail",
     "no_results": "Aucun résultat trouvé",
     "change": "Changer"
   },
   "public_viewer": {
-  "loading": "Chargement de la facture...",
-  "error_title": "Oups !",
-  "error_cancelled": "Cette facture n'est plus valide (Annulée).",
-  "error_not_found": "Facture introuvable ou lien expiré.",
-  "view_full_pdf": "Voir la facture complète",
-  "preparing": "Génération du PDF...",
-  "mobile_hint": "Optimisé pour mobile. Appuyez pour ouvrir le PDF en haute qualité."
-}
+    "loading": "Chargement de la facture...",
+    "error_title": "Oups !",
+    "error_cancelled": "Cette facture n'est plus valide (Annulée).",
+    "error_not_found": "Facture introuvable ou lien expiré.",
+    "view_full_pdf": "Voir la facture complète",
+    "preparing": "Génération du PDF...",
+    "mobile_hint": "Optimisé pour mobile. Appuyez pour ouvrir le PDF haute qualité."
+  }
 }

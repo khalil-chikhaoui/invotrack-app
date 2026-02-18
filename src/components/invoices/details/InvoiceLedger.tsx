@@ -352,9 +352,7 @@ export default function InvoiceLedger({
             ) : (
               <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-normal whitespace-pre-wrap">
                 {notes || (
-                  <span className="opacity-70 ">
-                    {t("ledger.notes.empty")}
-                  </span>
+                  <span className="opacity-70 ">{t("ledger.notes.empty")}</span>
                 )}
               </p>
             )}
@@ -412,6 +410,19 @@ export default function InvoiceLedger({
                 )}
               </span>
             </div>
+            {invoice.deliveryFee > 0 && (
+              <div className="flex justify-between text-[10px] font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest">
+                <span>{t("ledger.totals.delivery_fee")}</span>
+                <span>
+                  +
+                  {formatMoney(
+                    invoice.deliveryFee,
+                    business?.currency,
+                    business?.currencyFormat,
+                  )}
+                </span>
+              </div>
+            )}
             <div className="flex justify-between pt-4 border-t border-gray-100 dark:border-white/5 mt-2">
               <span className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-tighter">
                 {t("ledger.totals.grand_total")}

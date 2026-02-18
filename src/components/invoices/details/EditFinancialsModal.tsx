@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Modal } from "../../ui/modal";
 import Button from "../../ui/button/Button";
 import { InvoiceData } from "../../../apis/invoices";
-import InvoiceTaxDiscount from "../create/InvoiceTaxDiscount";
+import InvoiceFinancials from "../create/InvoiceFinancials";
 import { HiOutlineCalculator } from "react-icons/hi2";
 import { HiX } from "react-icons/hi";
 
-interface EditTaxDiscountModalProps {
+interface EditFinancialsModalProps {
   isOpen: boolean;
   onClose: () => void;
   invoice: InvoiceData | null;
@@ -15,15 +15,16 @@ interface EditTaxDiscountModalProps {
     taxRate: number;
     discountValue: number;
     discountType: "percentage" | "fixed";
+    deliveryFee: number; 
   }) => Promise<void>;
 }
 
-export default function EditTaxDiscountModal({
+export default function EditFinancialsModal({
   isOpen,
   onClose,
   invoice,
   onSave,
-}: EditTaxDiscountModalProps) {
+}: EditFinancialsModalProps) {
   const { t } = useTranslation("invoice_details");
   const [discountValue, setDiscountValue] = useState(0);
   const [discountType, setDiscountType] = useState<"percentage" | "fixed">(
@@ -31,11 +32,12 @@ export default function EditTaxDiscountModal({
   );
   const [taxRate, setTaxRate] = useState(0);
   const [saving, setSaving] = useState(false);
-
+  const [deliveryFee, setDeliveryFee] = useState(0);
   useEffect(() => {
     if (invoice) {
       setDiscountValue(invoice.discountValue || 0);
       setDiscountType(invoice.discountType || "percentage");
+      setDeliveryFee(invoice.deliveryFee || 0);
       setTaxRate(invoice.taxRate || 0);
     }
   }, [invoice, isOpen]);
@@ -48,6 +50,7 @@ export default function EditTaxDiscountModal({
         discountValue,
         discountType,
         taxRate,
+        deliveryFee
       });
       onClose();
     } catch (error) {
@@ -88,7 +91,7 @@ export default function EditTaxDiscountModal({
           >
             <HiX className="w-5 h-5" />
           </button>
-        </div>
+        </div> 
 
         {/* --- Content Section --- */}
         <div className="p-0">
@@ -103,13 +106,15 @@ export default function EditTaxDiscountModal({
             [&_.border-l]:!border-gray-300 dark:[&_.border-l]:!border-gray-700
           "
           >
-            <InvoiceTaxDiscount
+            <InvoiceFinancials
               discountValue={discountValue}
               setDiscountValue={setDiscountValue}
               discountType={discountType}
               setDiscountType={setDiscountType}
               taxRate={taxRate}
               setTaxRate={setTaxRate}
+              deliveryFee={deliveryFee}
+  setDeliveryFee={setDeliveryFee}
             />
           </div>
         </div>

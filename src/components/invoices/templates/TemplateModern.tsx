@@ -55,12 +55,12 @@ const createStyles = (
       lineHeight: 1.4,
       color: "#333",
       paddingTop: PAGE_TOP_PADDING,
-      paddingBottom: 65,
+      paddingBottom: 110, // Increased to ensure no overlap with footer
     },
     headerBlock: {
       backgroundColor: primaryColor,
-      marginTop: -2 * PAGE_TOP_PADDING,
-      padding: `${PAGE_TOP_PADDING + 20} 30 30 30`,
+      marginTop: -1 * PAGE_TOP_PADDING, // Fixed potential double-offset
+      padding: `20 30 30 30`,
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "flex-start",
@@ -156,6 +156,13 @@ const createStyles = (
       justifyContent: "space-between",
       paddingVertical: 4,
     },
+    deliveryRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingVertical: 4,
+      color: primaryColor,
+      fontWeight: 700,
+    },
     grandTotalRow: {
       flexDirection: "row",
       justifyContent: "space-between",
@@ -164,8 +171,6 @@ const createStyles = (
       borderTopWidth: 2,
       borderTopColor: primaryColor,
     },
-
-    // Footer Styles
     fixedFooter: {
       position: "absolute",
       bottom: 20,
@@ -204,13 +209,12 @@ export default function TemplateModern({
   const secondary = settings.color.secondary || DEFAULT_COLORS.secondary;
   const styles = useMemo(
     () => createStyles(primary, accent, secondary),
-    [settings.color],
+    [primary, accent, secondary],
   );
   const logoDim = getLogoDimensions(settings.logoSize);
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
 
-  // Helper for Date Translation
   const renderDate = (dateString: string) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -219,7 +223,6 @@ export default function TemplateModern({
     return formatDate(date, formatStr, { locale });
   };
 
-  // --- QR CODE URL GENERATION ---
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const qrUrl = `${baseUrl}/invoice/${invoice._id}/view?style=Modern&lang=${business.language}`;
 
@@ -311,7 +314,7 @@ export default function TemplateModern({
         <View style={{ width: "100%" }}>
           <Text style={styles.sectionLabel}>{t("billTo")}</Text>
           <Text style={{ fontWeight: 700, fontSize: 13, marginBottom: 5 }}>
-            {t(invoice.clientSnapshot.name)}
+            {invoice.clientSnapshot.name}
           </Text>
           <Text style={{ fontSize: 10 }}>
             {invoice.clientSnapshot.address?.street}
@@ -324,7 +327,6 @@ export default function TemplateModern({
       </View>
 
       <View style={styles.tableContainer}>
-        {/* Fixed: Header repeats on page 2+ */}
         <View style={styles.tableHeader} fixed>
           <Text style={[styles.th, styles.colDesc]}>{t("description")}</Text>
           <Text style={[styles.th, styles.colQty]}>{t("qty")}</Text>
@@ -382,19 +384,32 @@ export default function TemplateModern({
                 </Text>
               </View>
             )}
-            <View style={styles.summaryRow}>
-              <Text style={{ fontWeight: 500 }}>
-                {t("tax")} ({invoice.taxRate}%)
-              </Text>
-              <Text style={{ fontWeight: 700 }}>
-                {format(invoice.totalTax)}
-              </Text>
-            </View>
+            {invoice.totalTax > 0 && (
+              <View style={styles.summaryRow}>
+                <Text style={{ fontWeight: 500 }}>
+                  {t("tax")} ({invoice.taxRate}%)
+                </Text>
+                <Text style={{ fontWeight: 700 }}>
+                  {format(invoice.totalTax)}
+                </Text>
+              </View>
+            )}
+
+            {/* Delivery Fee Logic: Added after tax to be non-taxable */}
+            {invoice.deliveryFee > 0 && (
+              <View style={styles.deliveryRow}>
+                <Text style={{ fontWeight: 500 }}>{t("delivery")}</Text>
+                <Text style={{ fontWeight: 700 }}>
+                  +{format(invoice.deliveryFee)}
+                </Text>
+              </View>
+            )}
+
             <View style={styles.grandTotalRow}>
-              <Text style={{ fontWeight: 700, color: primary }}>
-                {t("total")}
+              <Text style={{ fontSize: 14, fontWeight: 700, color: primary }}>
+                {t("totalDue")}
               </Text>
-              <Text style={{ fontSize: 16, fontWeight: 900, color: primary }}>
+              <Text style={{ fontSize: 14, fontWeight: 900, color: primary }}>
                 {format(invoice.grandTotal)}
               </Text>
             </View>
@@ -402,12 +417,11 @@ export default function TemplateModern({
         </View>
       </View>
 
-      {/* --- Footer Note (Center) --- */}
+      {/* Persistent Footers */}
       {settings.visibility.showFooter && settings.footerNote && (
         <Text style={styles.fixedFooter}>{settings.footerNote}</Text>
       )}
 
-      {/* --- QR Code (Left Footer) --- */}
       <View style={styles.qrFooterLeft}>
         <InvoiceQRCode url={qrUrl} size={70} />
         <Text style={styles.generatedDate}>{generatedAt}</Text>

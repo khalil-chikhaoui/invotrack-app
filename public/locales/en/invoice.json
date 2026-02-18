@@ -105,13 +105,17 @@
       "dates": "Dates",
       "issue_date": "Invoice Issue Date",
       "due_date": "Settlement Due Date",
+      "financials": "Financials",
       "tax_discount": "Tax & Discount",
+      "delivery_fee": "Delivery Fee",
+      "discount": "Discount",
       "amount": "Amount",
+  "summary": "Invoice Summary",
       "mode": "Mode",
       "fixed": "Fixed",
-      "notes": "Notes & conditions",
-     "percentage": "%",
-      "tax_rate": "Tax Rate (%)"
+      "percentage": "%",
+      "tax_rate": "Tax Rate (%)",
+      "notes": "Notes & conditions"
     },
     "placeholders": {
       "client_search": "Find client...",
@@ -124,6 +128,7 @@
       "subtotal": "Subtotal",
       "adjustment": "Adjustment",
       "taxation": "Taxation",
+      "delivery": "Delivery",
       "total": "TOTAL"
     },
     "actions": {
@@ -139,7 +144,7 @@
         "nomenclature": "Nomenclature",
         "qty": "Qty",
         "rate": "Rate",
-        "total": "Total", 
+        "total": "Total",
         "control": "Control"
       },
       "modals": {
@@ -161,12 +166,12 @@
     "change": "Change"
   },
   "public_viewer": {
-  "loading": "Loading Invoice...",
-  "error_title": "Oops!",
-  "error_cancelled": "This invoice is no longer valid (Cancelled).",
-  "error_not_found": "Invoice not found or link expired.",
-  "view_full_pdf": "View Full Invoice",
-  "preparing": "Generating PDF...",
-  "mobile_hint": "Optimized for mobile viewing. Tap to open the high-quality PDF."
-}
+    "loading": "Loading Invoice...",
+    "error_title": "Oops!",
+    "error_cancelled": "This invoice is no longer valid (Cancelled).",
+    "error_not_found": "Invoice not found or link expired.",
+    "view_full_pdf": "View Full Invoice",
+    "preparing": "Generating PDF...",
+    "mobile_hint": "Optimized for mobile viewing. Tap to open the high-quality PDF."
+  }
 }

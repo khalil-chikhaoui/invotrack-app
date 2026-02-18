@@ -90,6 +90,7 @@ export interface InvoiceData {
   totalDiscount: number;
   taxRate: number;
   totalTax: number;
+  deliveryFee: number;
   grandTotal: number;
   isPaid: boolean;
   paidAt?: string | null;

@@ -56,11 +56,12 @@
       "empty": "Keine zusätzlichen Notizen vorhanden."
     },
     "totals": {
-      "adjust": "Steuer/Rabatt anpassen",
+      "adjust": "Finanzdaten anpassen",
       "subtotal": "Zwischensumme",
       "discount": "Rabatt",
       "tax": "Steuer",
-      "grand_total": "Gesamtsumme"
+      "grand_total": "Gesamtsumme",
+      "delivery_fee": "Liefergebühr"
     }
   },
   "sidebar": {

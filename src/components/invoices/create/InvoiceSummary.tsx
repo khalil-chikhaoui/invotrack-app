@@ -1,8 +1,9 @@
 /**
  * @fileoverview InvoiceSummary Component
+ * Displays the final financial breakdown including non-taxable delivery fees.
  */
 import { useTranslation } from "react-i18next";
-import { HiOutlineBanknotes } from "react-icons/hi2";
+import { HiOutlineBanknotes, HiOutlineTruck } from "react-icons/hi2";
 import Button from "../../ui/button/Button";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { CurrencyFormat } from "../../../apis/business";
@@ -12,6 +13,7 @@ interface Props {
     subTotal: number;
     totalDiscount: number;
     totalTax: number;
+    deliveryFee: number; // Added deliveryFee to Props
     grandTotal: number;
   };
   taxRate: number;
@@ -36,7 +38,7 @@ export default function InvoiceSummary({
   const { t } = useTranslation("invoice");
 
   return (
-    <div className="p-6 bg-white dark:bg-gray-900 rounded-md border border-gray-200 dark:border-white/[0.05]  xl:sticky xl:top-24">
+    <div className="p-6 bg-white dark:bg-gray-900 rounded-md border border-gray-200 dark:border-white/[0.05] xl:sticky xl:top-24">
       {/* --- Header Section --- */}
       <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100 dark:border-white/5">
         <div className="w-8 h-8 rounded-full bg-brand-50 dark:bg-brand-500/10 flex items-center justify-center">
@@ -79,6 +81,19 @@ export default function InvoiceSummary({
             +{formatMoney(totals.totalTax, currency, currencyFormat)}
           </span>
         </div>
+
+        {/* Delivery Fee (New Row) */}
+        {totals.deliveryFee > 0 && (
+          <div className="flex justify-between items-center text-xs font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest">
+            <span className="flex items-center gap-1">
+              <HiOutlineTruck className="size-3.5" />
+              {t("create.summary.delivery")}
+            </span>
+            <span className="text-sm font-semibold">
+              +{formatMoney(totals.deliveryFee, currency, currencyFormat)}
+            </span>
+          </div>
+        )}
 
         {/* --- Grand Total --- */}
         <div className="flex justify-between items-center pt-6 mt-2 border-t-2 border-dashed border-gray-100 dark:border-white/10">

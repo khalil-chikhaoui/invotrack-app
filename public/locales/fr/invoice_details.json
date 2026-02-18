@@ -56,11 +56,12 @@
       "empty": "Aucune note additionnelle fournie."
     },
     "totals": {
-      "adjust": "Ajuster Taxe/Remise",
+      "adjust": "Modifier les données financières",
       "subtotal": "Sous-total",
       "discount": "Remise",
       "tax": "Taxe",
-      "grand_total": "Total général"
+      "grand_total": "Total général",
+      "delivery_fee": "Frais de livraison"
     }
   },
   "sidebar": {

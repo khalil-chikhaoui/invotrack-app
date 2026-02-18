@@ -56,11 +56,12 @@
       "empty": "No additional notes provided."
     },
     "totals": {
-      "adjust": "Adjust Tax/Discount",
+      "adjust": "Adjust Financials",
       "subtotal": "Subtotal",
       "discount": "Discount",
       "tax": "Tax",
-      "grand_total": "Grand Total"
+      "grand_total": "Grand Total",
+      "delivery_fee": "Delivery Fee"
     }
   },
   "sidebar": {

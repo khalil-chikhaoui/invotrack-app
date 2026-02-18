@@ -18,14 +18,13 @@ Font.register({
   ],
 });
 
-// --- CONSTANTS FOR LAYOUT CALCULATION (in points) ---
+// --- CONSTANTS FOR LAYOUT CALCULATION ---
 const PT_TO_CM = 28.35;
 const PAGE_WIDTH = 220;
 const PADDING_HORIZ = 10;
 const CONTENT_WIDTH = PAGE_WIDTH - PADDING_HORIZ * 2;
 const DESC_COL_WIDTH = CONTENT_WIDTH * 0.55;
 
-// Vertical heights for the dynamic engine
 const H_HEADER_BRAND = 25;
 const H_HEADER_ADDR = 25;
 const H_DIVIDER = 13;
@@ -80,6 +79,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 1,
   },
+  deliveryRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 1,
+    fontWeight: 700,
+  },
   grandTotal: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 700,
   },
-  qrContainer: {
+  qrContainer: { 
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -114,24 +119,19 @@ export default function TemplateReceipt({
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
 
-  // --- QR CODE URL ---
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const qrUrl = `${baseUrl}/invoice/${invoice._id}/view?style=Receipt&lang=${business.language}`;
 
   // --- DYNAMIC HEIGHT ENGINE ---
   const pageHeight = useMemo(() => {
-    let h = 15; // Initial Top Padding
-
-    // 1. Header & Brand
+    let h = 15; 
     h += H_HEADER_BRAND + H_HEADER_ADDR;
     h += H_DIVIDER;
 
-    // 2. Info Rows (Receipt No, Date, Client Name + Optional Due Date)
     const activeInfoRows = invoice.dueDate ? 4 : 3;
     h += H_INFO_ROW * activeInfoRows + 6;
     h += H_TABLE_HEAD;
 
-    // 3. Line Items (Calculates multi-line wrapping)
     invoice.items.forEach((item) => {
       const name = t(item.name) || item.name || "";
       const estLines = Math.ceil((name.length * 4.5) / DESC_COL_WIDTH);
@@ -141,21 +141,20 @@ export default function TemplateReceipt({
 
     h += H_DIVIDER;
 
-    // 4. Totals Block
-    h += H_TOTAL_ROW * 2;
+    // Totals Block
+    h += H_TOTAL_ROW * 2; // Subtotal and Tax
     if (invoice.totalDiscount > 0) h += H_TOTAL_ROW;
+    if (invoice.deliveryFee > 0) h += H_TOTAL_ROW; // --- ADDED HEIGHT FOR DELIVERY ---
+    
     h += H_GRAND_TOTAL;
-
-    // 5. QR and Cutting Spacer
     h += H_QR_SECTION;
     h += H_BOTTOM_SPACER;
 
     return h;
-  }, [invoice.items, invoice.totalDiscount, invoice.dueDate, t]);
+  }, [invoice.items, invoice.totalDiscount, invoice.deliveryFee, invoice.dueDate, t]);
 
   return (
     <Page size={[PAGE_WIDTH, pageHeight]} style={styles.page}>
-      {/* BRANDING */}
       <View style={styles.centered}>
         <Text style={styles.brandName}>{business.name}</Text>
         <Text style={styles.addressText}>{business.address?.street}</Text>
@@ -166,35 +165,27 @@ export default function TemplateReceipt({
 
       <View style={styles.dashedLine} />
 
-      {/* METADATA INFO */}
       <View style={styles.receiptInfo}>
         <Text style={styles.infoRow}>
           {t("receiptNo") || "Receipt No"}: {invoice.invoiceNumber}
         </Text>
         <Text style={styles.infoRow}>
           {t("dateLabel") || "Date"}:{" "}
-          {formatDate(new Date(invoice.issueDate), "dd/MM/yy HH:mm", {
-            locale,
-          })}
+          {formatDate(new Date(invoice.issueDate), "dd/MM/yy HH:mm", { locale })}
         </Text>
 
-        {/* --- DUE DATE ROW --- */}
         {invoice.dueDate && (
           <Text style={styles.infoRow}>
             {t("dueDate") || "Due Date"}:{" "}
-            {formatDate(new Date(invoice.dueDate), "dd/MM/yy", {
-              locale,
-            })}
+            {formatDate(new Date(invoice.dueDate), "dd/MM/yy", { locale })}
           </Text>
         )}
 
         <Text style={styles.infoRow}>
-          {t("clientLabel") || "Client"}:{" "}
-          {t(invoice.clientSnapshot.name) || invoice.clientSnapshot.name}
+          {t("clientLabel") || "Client"}: {invoice.clientSnapshot.name}
         </Text>
       </View>
 
-      {/* ITEMS TABLE */}
       <View style={styles.tableHeader}>
         <Text style={styles.colDesc}>{t("description")}</Text>
         <Text style={styles.colQty}>{t("qty")}</Text>
@@ -211,31 +202,38 @@ export default function TemplateReceipt({
 
       <View style={styles.dashedLine} />
 
-      {/* FINANCIAL SUMMARY */}
       <View style={styles.totalsSection} wrap={false}>
         <View style={styles.totalRow}>
           <Text>{t("subtotal")}</Text>
           <Text>{format(invoice.subTotal)}</Text>
         </View>
+         {invoice.totalTax > 0 && (
         <View style={styles.totalRow}>
-          <Text>
-            {t("tax")} ({invoice.taxRate}%)
-          </Text>
+          <Text>{t("tax")} ({invoice.taxRate}%)</Text>
           <Text>{format(invoice.totalTax)}</Text>
         </View>
+ )}
         {invoice.totalDiscount > 0 && (
           <View style={styles.totalRow}>
             <Text>{t("discount")}</Text>
             <Text>-{format(invoice.totalDiscount)}</Text>
           </View>
         )}
+
+        {/* --- DELIVERY FEE ROW --- */}
+        {invoice.deliveryFee > 0 && (
+          <View style={styles.deliveryRow}>
+            <Text>{t("delivery")}</Text>
+            <Text>+{format(invoice.deliveryFee)}</Text>
+          </View>
+        )}
+
         <View style={styles.grandTotal}>
           <Text>{t("total").toUpperCase()}</Text>
           <Text>{format(invoice.grandTotal)}</Text>
         </View>
       </View>
 
-      {/* QR CODE & FOOTER */}
       <View style={styles.qrContainer}>
         <InvoiceQRCode url={qrUrl} size={50} />
         <Text style={styles.generatedDate}>{generatedAt}</Text>
