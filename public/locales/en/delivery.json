@@ -85,6 +85,9 @@
   "loading": "Loading Delivery Note...",
   "error_title": "Oops!",
   "error_cancelled": "This delivery note is no longer valid.",
-  "error_not_found": "Delivery note not found or link expired."
+  "error_not_found": "Delivery note not found or link expired.",
+  "preparing": "Opening Manifest...",
+  "view_full_pdf": "View Delivery Note",
+  "mobile_hint": "Optimized for mobile. Opening high-quality PDF..."
 }
-}
+} 

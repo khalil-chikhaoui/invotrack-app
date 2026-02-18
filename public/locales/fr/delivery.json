@@ -82,9 +82,12 @@
   "pdf_filename": "Bon_de_Livraison",
   "back": "Retour",
   "public_viewer": {
-    "loading": "Chargement du bon de livraison...",
-    "error_title": "Oups !",
-    "error_cancelled": "Ce bon de livraison n'est plus valide.",
-    "error_not_found": "Bon de livraison introuvable ou lien expiré."
-  }
+  "loading": "Chargement du bon de livraison...",
+  "error_title": "Oups !",
+  "error_cancelled": "Ce bon de livraison n'est plus valide.",
+  "error_not_found": "Bon de livraison introuvable ou lien expiré.",
+  "preparing": "Ouverture du manifeste...",
+  "view_full_pdf": "Voir le bon de livraison",
+  "mobile_hint": "Optimisé pour mobile. Ouverture du PDF haute qualité..."
+}
 }

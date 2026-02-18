@@ -34,16 +34,14 @@ Font.register({
   ],
 });
 
-// --- PDF THEME COLORS (Match app theme) ---
 const PDF_STATUS_COLORS: Record<string, { bg: string; text: string }> = {
-  Shipped: { bg: "#EFF6FF", text: "#2563EB" }, // Blue-50 / Blue-600
-  Delivered: { bg: "#F0FDF4", text: "#16A34A" }, // Green-50 / Green-600
-  Pending: { bg: "#F9FAFB", text: "#6B7280" }, // Gray-50 / Gray-500
-  Returned: { bg: "#FEF2F2", text: "#DC2626" }, // Red-50 / Red-600
-  Cancelled: { bg: "#FEF2F2", text: "#DC2626" }, // Red-50 / Red-600
+  Shipped: { bg: "#EFF6FF", text: "#2563EB" },
+  Delivered: { bg: "#F0FDF4", text: "#16A34A" },
+  Pending: { bg: "#F9FAFB", text: "#6B7280" },
+  Returned: { bg: "#FEF2F2", text: "#DC2626" },
+  Cancelled: { bg: "#FEF2F2", text: "#DC2626" },
 };
 
-// --- LOCALIZATION ---
 const TRANSLATIONS = {
   en: {
     title: "DELIVERY MANIFEST",
@@ -112,15 +110,13 @@ const TRANSLATIONS = {
 
 const DATE_LOCALES: Record<string, any> = { en: enUS, de: de, fr: fr };
 
-// --- STYLES ---
 const createStyles = (primaryColor: string) =>
   StyleSheet.create({
     page: {
       fontFamily: "Cairo",
       fontSize: 9,
       color: "#333",
-      padding: 30,
-      paddingBottom: 60,
+      padding: "30 30 70 30",
     },
     header: {
       flexDirection: "row",
@@ -130,7 +126,7 @@ const createStyles = (primaryColor: string) =>
       borderBottomColor: primaryColor,
       paddingBottom: 15,
     },
-    logo: { width: 100, height: 50, objectFit: "contain", marginBottom: 5 },
+    logo: { width: 100, height: 50, objectFit: "contain" },
     brandName: { fontSize: 14, fontWeight: 700, textTransform: "uppercase" },
     brandInfo: { fontSize: 8, color: "#666", marginTop: 2 },
     titleBlock: { alignItems: "flex-end" },
@@ -144,8 +140,6 @@ const createStyles = (primaryColor: string) =>
     metaRow: { flexDirection: "row", marginBottom: 2 },
     metaLabel: { fontSize: 8, color: "#666", marginRight: 5 },
     metaValue: { fontSize: 8, fontWeight: 700 },
-
-    table: { marginTop: 10 },
     tableHeader: {
       flexDirection: "row",
       backgroundColor: "#F3F4F6",
@@ -172,15 +166,12 @@ const createStyles = (primaryColor: string) =>
     },
     td: { fontSize: 8, color: "#444" },
     invDate: { fontSize: 7, color: "#666", marginTop: 2 },
-
-    // --- COLUMN WIDTHS ---
     colQR: { width: "12%" },
     colInv: { width: "12%" },
     colClient: { width: "18%" },
     colDest: { width: "36%" },
     colStatus: { width: "12%", alignItems: "flex-start" },
     colTotal: { width: "10%", textAlign: "right" },
-
     summaryContainer: {
       marginTop: 20,
       flexDirection: "row",
@@ -211,7 +202,6 @@ const createStyles = (primaryColor: string) =>
     },
     summaryLabel: { fontSize: 8, color: "#666" },
     summaryValue: { fontSize: 9, fontWeight: 700 },
-
     notesContainer: {
       marginTop: 20,
       paddingTop: 10,
@@ -225,12 +215,7 @@ const createStyles = (primaryColor: string) =>
       textTransform: "uppercase",
       marginBottom: 4,
     },
-    notesText: {
-      fontSize: 9,
-      color: "#4B5563",
-      lineHeight: 1.4,
-    },
-
+    notesText: { fontSize: 9, color: "#4B5563", lineHeight: 1.4 },
     footer: {
       position: "absolute",
       bottom: 20,
@@ -242,9 +227,6 @@ const createStyles = (primaryColor: string) =>
       borderTopColor: "#E5E7EB",
       paddingTop: 10,
     },
-    pageNumber: { fontSize: 8, color: "#9CA3AF" },
-
-    // Base Status Style (Color will be injected dynamically)
     statusBase: {
       fontSize: 7,
       fontWeight: 700,
@@ -258,10 +240,10 @@ const createStyles = (primaryColor: string) =>
 interface DeliveryNotePDFProps {
   invoices: InvoiceData[];
   business: BusinessData;
-  user?: { name: string; email: string };
   deliveryNumber?: string;
   createdDate?: string;
-  notes?: string; 
+  notes?: string;
+  baseUrl: string;
 }
 
 export default function DeliveryNotePDF({
@@ -270,30 +252,26 @@ export default function DeliveryNotePDF({
   deliveryNumber,
   createdDate,
   notes,
+  baseUrl,
 }: DeliveryNotePDFProps) {
   const primaryColor = business.invoiceSettings?.color?.primary || "#231f70";
   const styles = useMemo(() => createStyles(primaryColor), [primaryColor]);
-
   const lang = (business.language as "en" | "fr" | "de") || "en";
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const locale = DATE_LOCALES[lang] || enUS;
 
   const totalValue = invoices.reduce((sum, inv) => sum + inv.grandTotal, 0);
-
   const formattedCreatedDate = createdDate
     ? format(new Date(createdDate), "PPP p", { locale })
     : format(new Date(), "PPP p", { locale });
-
   const formattedGeneratedDate = format(new Date(), "PPP p", { locale });
 
-  const getInvoiceUrl = (invoiceId: string) => {
-      return `${window.location.origin}/invoice/${invoiceId}/view?lang=${lang}`;
-  };
+  const getInvoiceUrl = (invoiceId: string) =>
+    `${baseUrl}/invoice/${invoiceId}/view?lang=${lang}`;
 
   return (
     <Document title={`Delivery_Note_${deliveryNumber || "Draft"}`}>
       <Page size="A4" style={styles.page}>
-        {/* HEADER */}
         <View style={styles.header}>
           <View>
             {business.logo ? (
@@ -306,7 +284,6 @@ export default function DeliveryNotePDF({
               {business.address?.city}, {business.address?.country}
             </Text>
           </View>
-
           <View style={styles.titleBlock}>
             <Text style={styles.docTitle}>{deliveryNumber || t.title}</Text>
             <View style={styles.metaRow}>
@@ -320,87 +297,73 @@ export default function DeliveryNotePDF({
           </View>
         </View>
 
-        {/* MANIFEST TABLE */}
-        <View style={styles.table}>
-          <View style={styles.tableHeader} fixed>
-            <Text style={[styles.th, styles.colQR]}>{}</Text>
-            <Text style={[styles.th, styles.colInv]}>{t.colInvoice}</Text>
-            <Text style={[styles.th, styles.colClient]}>{t.colClient}</Text>
-            <Text style={[styles.th, styles.colDest]}>{t.colDest}</Text>
-            <Text style={[styles.th, styles.colStatus]}>{t.colStatus}</Text>
-            <Text style={[styles.th, styles.colTotal]}>{t.colTotal}</Text>
-          </View>
-
-          {invoices.map((inv, index) => {
-            const statusKey = `status_${(inv.deliveryStatus || "pending").toLowerCase()}`;
-            const statusLabel = (t as any)[statusKey] || inv.deliveryStatus;
-
-            // Get Colors based on status
-            const theme =
-              PDF_STATUS_COLORS[inv.deliveryStatus] ||
-              PDF_STATUS_COLORS.Pending;
-
-            return (
-              <View
-                key={inv._id}
-                style={[
-                  styles.tableRow,
-                  { backgroundColor: index % 2 === 0 ? "white" : "#F9FAFB" },
-                ]}
-                wrap={false}
-              >
-                <View style={styles.colQR}>
-                  <InvoiceQRCode url={getInvoiceUrl(inv._id)} size={45} />
-                </View>
-
-                <View style={styles.colInv}>
-                  <Text style={[styles.td, { fontWeight: 700 }]}>
-                    {inv.invoiceNumber}
-                  </Text>
-                  <Text style={styles.invDate}>
-                    {format(new Date(inv.issueDate), "dd/MM/yy")}
-                  </Text>
-                </View>
-
-                <Text style={[styles.td, styles.colClient]}>
-                  {inv.clientSnapshot.name}
-                </Text>
-
-                <Text style={[styles.td, styles.colDest]}>
-                  {[
-                    inv.clientSnapshot.address?.street,
-                    inv.clientSnapshot.address?.city,
-                  ]
-                    .filter(Boolean)
-                    .join(", ") || "-"}
-                </Text>
-
-                {/* Status with Dynamic Colors */}
-                <View style={[styles.td, styles.colStatus]}>
-                  <Text
-                    style={[
-                      styles.statusBase,
-                      { backgroundColor: theme.bg, color: theme.text },
-                    ]}
-                  >
-                    {statusLabel}
-                  </Text>
-                </View>
-
-                <Text style={[styles.td, styles.colTotal, { fontWeight: 700 }]}>
-                  {formatMoney(
-                    inv.grandTotal,
-                    business.currency,
-                    business.currencyFormat,
-                  )}
-                </Text>
-              </View>
-            );
-          })}
+        <View style={styles.tableHeader} fixed>
+          <Text style={[styles.th, styles.colQR]} />
+          <Text style={[styles.th, styles.colInv]}>{t.colInvoice}</Text>
+          <Text style={[styles.th, styles.colClient]}>{t.colClient}</Text>
+          <Text style={[styles.th, styles.colDest]}>{t.colDest}</Text>
+          <Text style={[styles.th, styles.colStatus]}>{t.colStatus}</Text>
+          <Text style={[styles.th, styles.colTotal]}>{t.colTotal}</Text>
         </View>
 
-        {/* SUMMARY SECTION */}
-        <View style={styles.summaryContainer}>
+        {invoices.map((inv, index) => {
+          const theme =
+            PDF_STATUS_COLORS[inv.deliveryStatus] || PDF_STATUS_COLORS.Pending;
+          return (
+            <View
+              key={inv._id}
+              style={[
+                styles.tableRow,
+                { backgroundColor: index % 2 === 0 ? "white" : "#F9FAFB" },
+              ]}
+              wrap={false}
+            >
+              <View style={styles.colQR}>
+                <InvoiceQRCode url={getInvoiceUrl(inv._id)} size={45} />
+              </View>
+              <View style={styles.colInv}>
+                <Text style={[styles.td, { fontWeight: 700 }]}>
+                  {inv.invoiceNumber}
+                </Text>
+                <Text style={styles.invDate}>
+                  {format(new Date(inv.issueDate), "dd/MM/yy")}
+                </Text>
+              </View>
+              <Text style={[styles.td, styles.colClient]}>
+                {inv.clientSnapshot.name}
+              </Text>
+              <Text style={[styles.td, styles.colDest]}>
+                {[
+                  inv.clientSnapshot.address?.street,
+                  inv.clientSnapshot.address?.city,
+                ]
+                  .filter(Boolean)
+                  .join(", ") || "-"}
+              </Text>
+              <View style={[styles.td, styles.colStatus]}>
+                <Text
+                  style={[
+                    styles.statusBase,
+                    { backgroundColor: theme.bg, color: theme.text },
+                  ]}
+                >
+                  {(t as any)[
+                    `status_${(inv.deliveryStatus || "pending").toLowerCase()}`
+                  ] || inv.deliveryStatus}
+                </Text>
+              </View>
+              <Text style={[styles.td, styles.colTotal, { fontWeight: 700 }]}>
+                {formatMoney(
+                  inv.grandTotal,
+                  business.currency,
+                  business.currencyFormat,
+                )}
+              </Text>
+            </View>
+          );
+        })}
+
+        <View style={styles.summaryContainer} wrap={false}>
           <View style={styles.summaryBox}>
             <Text style={styles.summaryTitle}>{t.summaryTitle}</Text>
             <View style={styles.summaryRow}>
@@ -425,7 +388,6 @@ export default function DeliveryNotePDF({
           </View>
         </View>
 
-        {/* --- Notes--- */}
         {notes && (
           <View style={styles.notesContainer} wrap={false}>
             <Text style={styles.notesLabel}>{t.notes}</Text>
@@ -433,13 +395,12 @@ export default function DeliveryNotePDF({
           </View>
         )}
 
-        {/* FOOTER */}
         <View style={styles.footer} fixed>
           <Text style={{ fontSize: 8, color: "#ccc" }}>
             {business.name} — {t.title}
           </Text>
           <Text
-            style={styles.pageNumber}
+            style={{ fontSize: 8, color: "#9CA3AF" }}
             render={({ pageNumber, totalPages }) =>
               `${t.page} ${pageNumber} ${t.of} ${totalPages}`
             }

@@ -82,9 +82,13 @@
   "pdf_filename": "Lieferschein",
   "back": "Zurück",
   "public_viewer": {
-    "loading": "Lieferschein wird geladen...",
-    "error_title": "Hoppla!",
-    "error_cancelled": "Dieser Lieferschein ist nicht mehr gültig.",
-    "error_not_found": "Lieferschein nicht gefunden oder Link abgelaufen."
-  }
+  "loading": "Lieferschein wird geladen...",
+  "error_title": "Hoppla!",
+  "error_cancelled": "Dieser Lieferschein ist nicht mehr gültig.",
+  "error_not_found": "Lieferschein nicht gefunden oder Link abgelaufen.",
+  "preparing": "Manifest wird geöffnet...",
+  "view_full_pdf": "Lieferschein anzeigen",
+  "mobile_hint": "Optimiert für Mobilgeräte. PDF wird geöffnet..."
 }
+}
+ 
