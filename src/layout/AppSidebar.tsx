@@ -169,7 +169,7 @@ const AppSidebar: React.FC = () => {
       bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-xl 
       border-r border-gray-200/50 dark:border-white/5 
       text-gray-900 dark:text-gray-100
-      transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] z-40 flex flex-col 
+      transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] z-50 flex flex-col 
       ${showFullSidebar ? "w-[280px]" : "w-[90px]"}
       ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
