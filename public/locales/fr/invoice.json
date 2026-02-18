@@ -2,7 +2,7 @@
   "list": {
     "title": "Factures",
     "meta_desc": "Gérer la facturation et les factures de l'entreprise",
-    "breadcrumb": "Facturation & Factures",
+    "breadcrumb": "Factures",
     "syncing": "Synchronisation du grand livre...",
     "new_invoice": "Nouvelle facture",
     "empty": {

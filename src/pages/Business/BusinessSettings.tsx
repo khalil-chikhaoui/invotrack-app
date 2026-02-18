@@ -90,14 +90,14 @@ export default function BusinessSettings() {
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         <BusinessMetaCard
           business={businessData}
           refresh={fetchBusiness}
           setAlert={triggerAlert}
         />
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 items-start">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 items-start">
           <BusinessAddressCard
             business={businessData}
             refresh={fetchBusiness}

@@ -1,8 +1,6 @@
 /**
  * @fileoverview AppLayout Component
  * Defines the high-level structural grid of the application.
- * Manages the relationship between the Sidebar, Header, and the dynamic
- * Content Area (Outlet), including responsive spacing and background aesthetics.
  */
 
 import React from "react";
@@ -14,26 +12,23 @@ import AppSidebar from "./AppSidebar";
 
 /**
  * LayoutContent handles the conditional styling based on Sidebar state.
- * It must be a child of SidebarProvider to access the context.
  */
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   return (
-    // 1. Updated Base Background Colors & Added relative positioning for children
-    <div className="h-[100dvh] w-full overflow-hidden xl:flex bg-transparent relative ">
+    <div className="h-[100dvh] w-full overflow-hidden xl:flex bg-transparent relative">
       {/* --- Sidebar & Mobile Overlay --- */}
-      {/* Added relative z-20 to ensure Sidebar sits ABOVE the background blobs */}
       <div className="relative z-20">
         <AppSidebar />
         <Backdrop />
       </div>
 
       {/* --- Main Content Area --- */}
-      {/* Added relative z-10 to ensure content sits ABOVE background */}
       <div
         id="main-content"
-        className={`relative z-10 flex-1 h-full overflow-y-auto transition-all duration-300 ease-in-out 
+        // 1. Added 'flex flex-col': This stacks the Header and Content vertically
+        className={`relative z-10 flex-1 h-full overflow-y-auto transition-all duration-300 ease-in-out flex flex-col
           ${isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"} 
           ${isMobileOpen ? "ml-0" : ""}
         `}
@@ -42,7 +37,12 @@ const LayoutContent: React.FC = () => {
         <AppHeader />
 
         {/* Dynamic Page Content */}
-        <div className="py-4 pb-24 md:pb-8 safe-area-bottom px-4 md:px-2">
+        {/* 2. Added 'flex-1 flex flex-col': 
+               - 'flex-1' forces this div to consume all remaining height (pushing footer down).
+               - 'flex flex-col' ensures the <Outlet>'s child (your Members page) 
+                 can successfully use 'flex-1' or 'h-full'.
+        */}
+        <div className="flex-1 flex flex-col py-4 pb-24 md:pb-8 safe-area-bottom p-1 md:px-3">
           <Outlet />
         </div>
       </div>
@@ -51,8 +51,7 @@ const LayoutContent: React.FC = () => {
 };
 
 /**
- * AppLayout encapsulates the SidebarProvider to ensure all layout
- * components share the same navigational state.
+ * AppLayout encapsulates the SidebarProvider.
  */
 const AppLayout: React.FC = () => {
   return (

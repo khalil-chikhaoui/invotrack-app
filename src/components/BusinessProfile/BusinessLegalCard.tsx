@@ -64,7 +64,7 @@ export default function BusinessLegalCard({
         {isAdmin && (
           <button
             onClick={openModal}
-            className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400  tracking-widest transition-all"
+            className="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700  hover:bg-gray-50 dark:border-gray-700 dark:bg-transparent dark:text-gray-300  tracking-widest transition-all"
           >
             {t("settings.general.form.edit")}
           </button>
@@ -73,7 +73,7 @@ export default function BusinessLegalCard({
 
       <div className="space-y-5">
         <div className="flex justify-between items-center pb-4 border-b border-gray-50 dark:border-gray-800">
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          <span className="text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             {t("settings.general.cards.tax_label")}
           </span>
           <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
@@ -82,7 +82,7 @@ export default function BusinessLegalCard({
         </div>
 
         <div className="flex justify-between items-center pb-4 border-b border-gray-50 dark:border-gray-800">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             {t("settings.general.cards.reg_label")}
           </span>
           <span className="text-sm font-medium text-gray-800 dark:text-white">
@@ -92,7 +92,7 @@ export default function BusinessLegalCard({
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             {t("settings.general.cards.billing_email_label")}
           </span>
           <span className="text-sm font-semibold text-brand-500 dark:text-brand-300 hover:underline cursor-pointer">
@@ -152,7 +152,7 @@ export default function BusinessLegalCard({
                   setFormData({ ...formData, email: e.target.value })
                 }
               />
-              <p className="mt-2 text-[10px] text-gray-400 font-medium italic">
+              <p className="mt-2 text-[10px] text-gray-600 dark:text-gray-300 font-medium italic">
                 {t("settings.general.cards.billing_help")}
               </p>
             </div>

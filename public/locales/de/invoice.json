@@ -2,7 +2,7 @@
   "list": {
     "title": "Rechnungen",
     "meta_desc": "Geschäftsabrechnung und Rechnungen verwalten",
-    "breadcrumb": "Abrechnung & Rechnungen",
+    "breadcrumb": "Rechnungen",
     "syncing": "Hauptbuch wird synchronisiert...",
     "new_invoice": "Neue Rechnung",
     "empty": {

@@ -218,10 +218,18 @@ export default function Members() {
       />
       <PageBreadcrumb pageTitle={t("list.title")} />
 
-      <div className="w-full space-y-8">
-        <div className="overflow-hidden rounded-2xl border border-gray-300 dark:border-white/[0.05]">
+      {/* Changed: Added h-full to the outer wrapper to allow growth */}
+      <div className="w-full h-full space-y-8">
+        
+        {/* Changed: 
+          1. Removed 'rounded-2xl'
+          2. Removed 'border' and 'border-gray-300...' 
+          3. Added 'flex flex-col h-full' to make it a flex container that fills height
+        */}
+        <div className="flex flex-col h-full overflow-hidden">
+          
           {/* --- Filters Header --- */}
-          <div className="p-5 sm:p-6 border-b border-gray-300 dark:border-white/[0.05]">
+          <div className="pb-5 sm:pb-6  border-b border-gray-300 dark:border-white/[0.05]">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end text-start">
               <div className="flex-1 text-start">
                 <Input
@@ -259,8 +267,11 @@ export default function Members() {
             </div>
           </div>
 
-          {/* --- Personnel Registry Table --- */}
-          <div className="max-w-full overflow-x-auto text-start">
+          {/* --- Personnel Registry Table --- 
+            Changed: Added 'flex-1' to force this div to take up all remaining vertical space
+            This ensures the table container stretches to the bottom even with 1 item.
+          */}
+          <div className="flex-1 max-w-full overflow-x-auto text-start">
             <Table>
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>

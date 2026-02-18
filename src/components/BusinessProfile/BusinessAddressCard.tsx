@@ -23,7 +23,7 @@ import PhoneInput from "../form/group-input/PhoneInput";
 
 function SectionEditButton() {
   return (
-    <div className="flex items-center justify-center w-8 h-8 text-gray-400 group-hover:text-brand-500 group-hover:bg-brand-50 dark:group-hover:bg-brand-500/10 rounded-full transition-all">
+    <div className="flex items-center justify-center w-8 h-8 text-gray-600 dark:text-gray-300group-hover:text-brand-500 group-hover:bg-brand-50 dark:group-hover:bg-brand-500/10 rounded-full transition-all">
       <HiOutlinePencil className="size-4" />
     </div>
   );
@@ -103,18 +103,20 @@ export default function BusinessAddressCard({
             <div className="flex items-center justify-center w-12 h-12 bg-brand-50/50 text-brand-500 rounded-xl dark:bg-brand-500/10 flex-shrink-0  border border-brand-100 dark:border-brand-500/20">
               <HiOutlineLocationMarker className="size-6" />
             </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-800 dark:text-white uppercase leading-snug">
-                {business.address?.street || "Street Unset"}
-              </p>
-              <p className="text-xs text-gray-500 font-medium mt-1">
-                {business.address?.city}, {business.address?.state}{" "}
-                {business.address?.zipCode}
-              </p>
-              <p className="text-[10px] font-semibold text-gray-400 mt-1 uppercase tracking-widest">
-                {business.address?.country || "International"}
-              </p>
-            </div>
+            {business.address?.street  ? (
+              <div>
+                <p className="text-sm font-semibold text-gray-800 dark:text-white  leading-snug">
+                  {business.address?.street || "Street Unset"}
+                </p>
+                <p className="text-xs text-gray-800 dark:text-white font-medium mt-1">
+                  {business.address?.city} {business.address?.state}{" "}
+                  {business.address?.zipCode}
+                </p>
+                <p className="text-[10px] font-semibold text-gray-800  dark:text-gray-300 mt-1 uppercase tracking-widest">
+                  {business.address?.country || "International"}
+                </p></div>)
+              : <p>-</p>
+            }
           </div>
           {canEdit && <SectionEditButton />}
         </div>
@@ -129,10 +131,10 @@ export default function BusinessAddressCard({
               <HiOutlinePhone className="size-6" />
             </div>
             <div>
-              <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">
+              <span className="text-[11px] font-semibold text-gray-600 dark:text-gray-300 tracking-widest block mb-1">
                 {t("settings.general.cards.official_contact")}
               </span>
-              <p className="text-sm font-semibold text-gray-800 dark:text-white">
+              <p className="text-xs font-medium text-gray-800 dark:text-white tracking-widest">
                 {(business.phoneNumber as any)?.number ||
                   t("settings.general.cards.no_phone")}
               </p>
@@ -152,7 +154,7 @@ export default function BusinessAddressCard({
                 <HiOutlineGlobeAlt className="size-6" />
               </div>
               <div>
-                <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-widest block mb-1">
+                <span className="text-[11px] font-semibold text-gray-600 dark:text-gray-300uppercase tracking-widest block mb-1">
                   {t("settings.general.cards.online_presence")}
                 </span>
                 {business.website ? (
@@ -170,7 +172,7 @@ export default function BusinessAddressCard({
                     {business.website}
                   </a>
                 ) : (
-                  <p className="text-sm text-gray-400 italic">
+                  <p className="text-sm text-gray-600 dark:text-gray-300italic">
                     {t("settings.general.cards.no_website")}
                   </p>
                 )}
@@ -277,7 +279,10 @@ export default function BusinessAddressCard({
                   onChange={(countryData) =>
                     setFormData({
                       ...formData,
-                      address: { ...formData.address, country: countryData.code },
+                      address: {
+                        ...formData.address,
+                        country: countryData.code,
+                      },
                     })
                   }
                   placeholder={t("create.form.country_label")}
