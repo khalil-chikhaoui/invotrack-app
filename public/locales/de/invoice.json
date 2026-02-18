@@ -146,7 +146,7 @@
       "modals": {
         "remove_title": "Artikel entfernen?",
         "remove_desc": "Diesen Artikel aus der aktuellen Rechnung löschen?",
-        "edit_title": "Rechnungsposition bearbeiten",
+        "edit_title": "Rechnungsposition bearbeiten", 
         "edit_desc": "Details aktualisieren für",
         "qty": "Menge",
         "selling_price": "Verkaufspreis",
@@ -162,9 +162,12 @@
     "change": "Ändern"
   },
   "public_viewer": {
-    "loading": "Rechnung wird geladen...",
-    "error_title": "Hoppla!",
-    "error_cancelled": "Diese Rechnung ist nicht mehr gültig (Storniert).",
-    "error_not_found": "Rechnung nicht gefunden oder Link abgelaufen."
-  }
+  "loading": "Rechnung wird geladen...",
+  "error_title": "Hoppla!",
+  "error_cancelled": "Diese Rechnung ist nicht mehr gültig (Storniert).",
+  "error_not_found": "Rechnung nicht gefunden oder Link abgelaufen.",
+  "view_full_pdf": "Vollständige Rechnung anzeigen",
+  "preparing": "PDF wird erstellt...",
+  "mobile_hint": "Optimiert für Mobilgeräte. Tippen, um das hochwertige PDF zu öffnen."
+}
 }

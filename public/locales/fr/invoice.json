@@ -140,7 +140,7 @@
         "nomenclature": "Nomenclature",
         "qty": "Qté",
         "rate": "Taux",
-        "total": "Total",
+        "total": "Total", 
         "control": "Contrôle"
       },
       "modals": {
@@ -162,9 +162,12 @@
     "change": "Changer"
   },
   "public_viewer": {
-    "loading": "Chargement de la facture...",
-    "error_title": "Oups !",
-    "error_cancelled": "Cette facture n'est plus valide (Annulée).",
-    "error_not_found": "Facture introuvable ou lien expiré."
-  }
+  "loading": "Chargement de la facture...",
+  "error_title": "Oups !",
+  "error_cancelled": "Cette facture n'est plus valide (Annulée).",
+  "error_not_found": "Facture introuvable ou lien expiré.",
+  "view_full_pdf": "Voir la facture complète",
+  "preparing": "Génération du PDF...",
+  "mobile_hint": "Optimisé pour mobile. Appuyez pour ouvrir le PDF en haute qualité."
+}
 }

@@ -139,7 +139,7 @@
         "nomenclature": "Nomenclature",
         "qty": "Qty",
         "rate": "Rate",
-        "total": "Total",
+        "total": "Total", 
         "control": "Control"
       },
       "modals": {
@@ -161,9 +161,12 @@
     "change": "Change"
   },
   "public_viewer": {
-    "loading": "Loading Invoice...",
-    "error_title": "Oops!",
-    "error_cancelled": "This invoice is no longer valid (Cancelled).",
-    "error_not_found": "Invoice not found or link expired."
-  }
+  "loading": "Loading Invoice...",
+  "error_title": "Oops!",
+  "error_cancelled": "This invoice is no longer valid (Cancelled).",
+  "error_not_found": "Invoice not found or link expired.",
+  "view_full_pdf": "View Full Invoice",
+  "preparing": "Generating PDF...",
+  "mobile_hint": "Optimized for mobile viewing. Tap to open the high-quality PDF."
+}
 }

@@ -193,7 +193,7 @@ export default function InvoicePDF({
       t,
       locale: selectedLocale,
       generatedAt,
-    };
+    }; 
 
     switch (settings.template) {
       case "Minimal":
