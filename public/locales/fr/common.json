@@ -45,7 +45,8 @@
     "categories": {
       "clients": "Clients",
       "inventory": "Inventaire",
-      "invoices": "Factures"
+      "invoices": "Factures",
+      "deliveries": "Bons de Livraison"
     },
     "no_matches": "Aucun résultat trouvé dans les dossiers."
   },

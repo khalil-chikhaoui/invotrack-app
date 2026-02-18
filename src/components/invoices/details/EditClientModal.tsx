@@ -66,7 +66,7 @@ export default function EditClientModal({
         phone: formData.phone,
         address: {
           street: formData.street,
-          city: formData.city,
+          city: formData.city, 
           state: formData.state,
           zipCode: formData.zipCode,
           country: formData.country,
@@ -81,7 +81,7 @@ export default function EditClientModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="max-w-5xl">
+    <Modal isOpen={isOpen} onClose={onClose} className="max-w-4xl ml-0 lg:ml-8 z-[999]">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 rounded-full bg-brand-50 dark:bg-brand-500/10 text-brand-500">

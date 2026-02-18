@@ -156,7 +156,7 @@ export default function ClientSelector({
             <div className="p-1 rounded-lg bg-gray-100 dark:bg-white/5">
               <HiOutlineUser className="size-3.5 text-gray-500" />
             </div>
-            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-400">
+            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-600 dark:text-gray-300">
               {t("create.sections.bill_to")}
             </h3>
           </div>

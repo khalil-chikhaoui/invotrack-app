@@ -14,7 +14,7 @@ import TemplateReceipt from "./TemplateReceipt";
 import { format } from "date-fns";
 
 const DATE_LOCALES: Record<string, any> = {
-  en: enUS, 
+  en: enUS,
   de: de,
   fr: fr,
 };
@@ -42,6 +42,7 @@ const PDF_TRANSLATIONS: any = {
     receiptNo: "NO",
     dateLabel: "DATE",
     clientLabel: "CLIENT",
+    clientAddress: "ADDRESS",
     preview: {
       client_name: "Acme Corp Ltd.",
       items: {
@@ -77,6 +78,7 @@ const PDF_TRANSLATIONS: any = {
     receiptNo: "NR",
     dateLabel: "DATUM",
     clientLabel: "KUNDE",
+    clientAddress: "ADDRESSE",
     preview: {
       client_name: "Musterfirma GmbH",
       items: {
@@ -107,20 +109,21 @@ const PDF_TRANSLATIONS: any = {
     notes: "Notes",
     page: "Page",
     of: "sur",
-    delivery: "Frais de livraison", 
+    delivery: "Frais de livraison",
     receiptNo: "N°",
     dateLabel: "DATE",
     clientLabel: "CLIENT",
+    clientAddress: "ADDRESSE",
     preview: {
       client_name: "Société Acme SAS",
       items: {
         consulting: "Conseil Stratégique",
         ui_ux: "Phase de Design UI/UX",
         maintenance: "Maintenance Serveur",
-        product: "Design Produit", 
+        product: "Design Produit",
         development: "Développement Web",
       },
-      notes: 
+      notes:
         "Cette section affiche les remarques spécifiques ou les instructions de paiement fournies lors de la création de cette facture. Si aucune note n'est ajoutée, cette zone restera vide.",
     },
   },
@@ -133,6 +136,8 @@ export interface InvoiceTemplateProps {
   t: (key: string) => string;
   locale: any;
   generatedAt: string;
+  businessAddress: string;
+  clientAddress: string;
 }
 
 export default function InvoicePDF({
@@ -142,6 +147,20 @@ export default function InvoicePDF({
   invoice: InvoiceData;
   business: BusinessData;
 }) {
+  const formatAddressLine = (addr: any) => {
+    if (!addr.street) return "";
+    const street = addr.street || "";
+    const city = addr.city || "";
+    const zip = addr.zipCode || "";
+    const country = addr.country || "";
+
+    // Join with spaces, filter out empty strings, and trim
+    return [street, city, zip, country].filter(Boolean).join(", ");
+  };
+
+  const businessAddress = formatAddressLine(business.address);
+  const clientAddress = formatAddressLine(invoice.clientSnapshot.address);
+
   /**
    * Settings Normalization
    */
@@ -184,10 +203,12 @@ export default function InvoicePDF({
   /**
    * Template Dispatcher
    */
-    const selectedLocale = DATE_LOCALES[langCode] || enUS;
-    const generatedAt = format(new Date(), "dd-MM-yyyy HH:mm:ss", { locale: selectedLocale });
-  
-    const renderTemplate = () => {
+  const selectedLocale = DATE_LOCALES[langCode] || enUS;
+  const generatedAt = format(new Date(), "dd-MM-yyyy HH:mm:ss", {
+    locale: selectedLocale,
+  });
+
+  const renderTemplate = () => {
     const props: InvoiceTemplateProps = {
       invoice,
       business,
@@ -195,7 +216,9 @@ export default function InvoicePDF({
       t,
       locale: selectedLocale,
       generatedAt,
-    }; 
+      businessAddress,
+      clientAddress,
+    };
 
     switch (settings.template) {
       case "Minimal":
@@ -214,4 +237,4 @@ export default function InvoicePDF({
       {renderTemplate()}
     </Document>
   );
-} 
+}

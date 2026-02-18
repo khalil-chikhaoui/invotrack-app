@@ -115,6 +115,7 @@ export default function TemplateReceipt({
   t,
   locale,
   generatedAt,
+  businessAddress,clientAddress
 }: InvoiceTemplateProps) {
   const format = (amt: number) =>
     formatMoney(amt, business.currency, business.currencyFormat);
@@ -157,9 +158,8 @@ export default function TemplateReceipt({
     <Page size={[PAGE_WIDTH, pageHeight]} style={styles.page}>
       <View style={styles.centered}>
         <Text style={styles.brandName}>{business.name}</Text>
-        <Text style={styles.addressText}>{business.address?.street}</Text>
         <Text style={styles.addressText}>
-          {business.address?.city} {business.address?.zipCode}
+         {businessAddress}
         </Text>
       </View>
 
@@ -183,6 +183,9 @@ export default function TemplateReceipt({
 
         <Text style={styles.infoRow}>
           {t("clientLabel") || "Client"}: {invoice.clientSnapshot.name}
+        </Text>
+          <Text style={styles.infoRow}>
+          {t("clientAddress")}: {clientAddress}
         </Text>
       </View>
 

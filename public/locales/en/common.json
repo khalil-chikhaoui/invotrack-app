@@ -45,7 +45,8 @@
     "categories": {
       "clients": "Clients",
       "inventory": "Inventory",
-      "invoices": "Invoices"
+      "invoices": "Invoices",
+      "deliveries": "Delivery Notes"
     },
     "no_matches": "No matches found in records."
   },

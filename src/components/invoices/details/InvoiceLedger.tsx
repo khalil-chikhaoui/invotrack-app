@@ -17,7 +17,7 @@ import {
 import { formatMoney } from "../../../hooks/formatMoney";
 import { InvoiceData } from "../../../apis/invoices";
 import { BusinessData } from "../../../apis/business";
-import { ItemData } from "../../../apis/items";
+import { itemApi, ItemData } from "../../../apis/items";
 
 interface InvoiceLedgerProps {
   invoice: InvoiceData;
@@ -52,6 +52,10 @@ export default function InvoiceLedger({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // --- Search Logic Fix ---
+  const [searchResults, setSearchResults] = useState<ItemData[]>([]);
+  const [searching, setSearching] = useState(false);
+
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [notes, setNotes] = useState(invoice.notes || "");
   const [savingNotes, setSavingNotes] = useState(false);
@@ -60,6 +64,7 @@ export default function InvoiceLedger({
     setNotes(invoice.notes || "");
   }, [invoice.notes]);
 
+  // Handle outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (
@@ -71,6 +76,29 @@ export default function InvoiceLedger({
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  // --- API Search Effect (Fix for filtering) ---
+  useEffect(() => {
+    if (search.trim().length < 1) {
+      setSearchResults([]);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      if (!businessId) return;
+      setSearching(true);
+      try {
+        const data = await itemApi.pickerSearch(businessId, search);
+        setSearchResults(data);
+      } catch (err) {
+        console.error("Search failed", err);
+      } finally {
+        setSearching(false);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [search, businessId]);
+
+  const itemsToDisplay = search.trim().length > 0 ? searchResults : availableItems;
 
   const handleSelect = (item: ItemData) => {
     onSelectProduct(item);
@@ -144,7 +172,7 @@ export default function InvoiceLedger({
         <div className="p-3 sm:p-4 bg-gray-50/30 dark:bg-transparent border-b border-gray-100 dark:border-white/5">
           <div className="relative group">
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-              <HiOutlineMagnifyingGlass className="size-4 text-gray-400" />
+              <HiOutlineMagnifyingGlass className={`size-4 ${searching ? 'text-brand-500' : 'text-gray-400'}`} />
             </div>
             <input
               type="text"
@@ -155,16 +183,20 @@ export default function InvoiceLedger({
               className="w-full h-11 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 pl-11 pr-10 text-sm font-medium focus:ring-4 focus:ring-brand-500/5 focus:border-brand-500 transition-all text-gray-900 dark:text-white placeholder:text-gray-400"
             />
             <div className="absolute right-4 top-1/2 -translate-y-1/2">
-              <HiChevronDown
-                className={`size-4 text-gray-300 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-              />
+              {searching ? (
+                <div className="w-4 h-4 border-2 border-brand-500/20 border-t-brand-500 rounded-full animate-spin" />
+              ) : (
+                <HiChevronDown
+                  className={`size-4 text-gray-300 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                />
+              )}
             </div>
 
-            {isOpen && search && (
-              <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-2xl  overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+            {isOpen && (
+              <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="max-h-[280px] overflow-y-auto custom-scrollbar">
-                  {availableItems.length > 0 ? (
-                    availableItems.map((i) => (
+                  {itemsToDisplay.length > 0 ? (
+                    itemsToDisplay.map((i) => (
                       <div
                         key={i._id}
                         onClick={() => handleSelect(i)}
@@ -216,23 +248,13 @@ export default function InvoiceLedger({
         ) : (
           <table className="w-full text-start">
             <thead>
-              <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 dark:border-white/5">
-                <th className="px-6 py-3 text-start">
-                  {t("ledger.headers.nomenclature")}
-                </th>
-                <th className="px-6 py-3 text-center">
-                  {t("ledger.headers.qty")}
-                </th>
-                <th className="px-6 py-3 text-end">
-                  {t("ledger.headers.rate")}
-                </th>
-                <th className="px-6 py-3 text-end">
-                  {t("ledger.headers.total")}
-                </th>
+              <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">
+                <th className="px-6 py-3 text-start">{t("ledger.headers.nomenclature")}</th>
+                <th className="px-6 py-3 text-center">{t("ledger.headers.qty")}</th>
+                <th className="px-6 py-3 text-end">{t("ledger.headers.rate")}</th>
+                <th className="px-6 py-3 text-end">{t("ledger.headers.total")}</th>
                 {isEditable && (
-                  <th className="px-6 py-3 text-end">
-                    {t("ledger.headers.control")}
-                  </th>
+                  <th className="px-6 py-3 text-end">{t("ledger.headers.control")}</th>
                 )}
               </tr>
             </thead>

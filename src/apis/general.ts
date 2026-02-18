@@ -41,10 +41,17 @@ export interface SearchInvoice {
   issueDate: string;
 }
 
+export interface SearchDelivery {
+  _id: string;
+  deliveryNumber: string;
+  createdAt: string;
+}
+
 export interface SearchResults {
   clients: SearchClient[];
   items: SearchItem[];
   invoices: SearchInvoice[];
+  deliveries: SearchDelivery[]; 
 }
 
 // ==========================================

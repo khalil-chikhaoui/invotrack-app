@@ -203,6 +203,8 @@ export default function TemplateModern({
   t,
   locale,
   generatedAt,
+  businessAddress,
+  clientAddress,
 }: InvoiceTemplateProps) {
   const primary = settings.color.primary || DEFAULT_COLORS.primary;
   const accent = settings.color.accent || DEFAULT_COLORS.accent;
@@ -253,11 +255,8 @@ export default function TemplateModern({
             >
               {business.name}
             </Text>
-            <Text style={styles.businessText}>{business.address?.street}</Text>
-            <Text style={styles.businessText}>
-              {business.address?.city} {business.address?.zipCode}{" "}
-              {business.address?.country}
-            </Text>
+            <Text style={styles.businessText}>{businessAddress}</Text>
+            
           </View>
         </View>
         <View style={styles.headerRight}>
@@ -317,11 +316,7 @@ export default function TemplateModern({
             {invoice.clientSnapshot.name}
           </Text>
           <Text style={{ fontSize: 10 }}>
-            {invoice.clientSnapshot.address?.street}
-          </Text>
-          <Text style={{ fontSize: 10 }}>
-            {invoice.clientSnapshot.address?.city}{" "}
-            {invoice.clientSnapshot.address?.zipCode}
+            {clientAddress}
           </Text>
         </View>
       </View>

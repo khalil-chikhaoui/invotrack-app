@@ -105,7 +105,7 @@ const createStyles = (primaryColor: string) =>
     colQty: { width: "15%", textAlign: "center" },
     colRate: { width: "20%", textAlign: "right" },
     colTotal: { width: "20%", textAlign: "right", paddingRight: 8 },
-    summaryBox: { width: "48%", padding: 10, backgroundColor: "#F9FAFB" },
+    summaryBox: { width: "48%", padding: 10, paddingTop:5, backgroundColor: "#F9FAFB" },
     totalRow: {
       flexDirection: "row",
       justifyContent: "space-between",
@@ -153,10 +153,12 @@ const createStyles = (primaryColor: string) =>
 export default function TemplateClassic({
   invoice,
   business,
-  settings, 
+  settings,
   t,
   locale,
   generatedAt,
+  clientAddress,
+  businessAddress,
 }: InvoiceTemplateProps) {
   const styles = useMemo(
     () => createStyles(settings.color.primary),
@@ -216,11 +218,7 @@ export default function TemplateClassic({
                 {business.name}
               </Text>
             )}
-            <Text style={styles.text}>{business.address?.street}</Text>
-            <Text style={styles.text}>
-              {business.address?.city} {business.address?.zipCode}
-            </Text>
-            <Text style={styles.text}>{business.address?.country}</Text>
+            <Text style={styles.text}>{businessAddress}</Text>
           </View>
         </View>
 
@@ -248,10 +246,7 @@ export default function TemplateClassic({
         <Text style={[styles.text, { fontWeight: 700, fontSize: 11 }]}>
           {invoice.clientSnapshot.name}
         </Text>
-        <Text style={styles.text}>
-          {invoice.clientSnapshot.address?.street}
-        </Text>
-        <Text style={styles.text}>{invoice.clientSnapshot.address?.city}</Text>
+        <Text style={[styles.text,{marginTop:5}]}>{clientAddress}</Text>
       </View>
 
       {/* Table Section */}
@@ -285,20 +280,24 @@ export default function TemplateClassic({
             <Text>{t("subtotal")}</Text>
             <Text>{format(invoice.subTotal)}</Text>
           </View>
-          
+
           {settings.visibility.showDiscount && invoice.totalDiscount > 0 && (
             <View style={styles.totalRow}>
-              <Text style={{ color: settings.color.accent || "#ef4444" }}>{t("discount")}</Text>
+              <Text style={{ color: settings.color.accent || "#ef4444" }}>
+                {t("discount")}
+              </Text>
               <Text>-{format(invoice.totalDiscount)}</Text>
             </View>
           )}
 
-          {invoice.totalTax > 0 && <View style={styles.totalRow}>
-            <Text>
-              {t("tax")} ({invoice.taxRate}%)
-            </Text>
-            <Text>{format(invoice.totalTax)}</Text>
-          </View>}
+          {invoice.totalTax > 0 && (
+            <View style={styles.totalRow}>
+              <Text>
+                {t("tax")} ({invoice.taxRate}%)
+              </Text>
+              <Text>{format(invoice.totalTax)}</Text>
+            </View>
+          )}
 
           {/* Delivery Fee Row: Non-taxable, added after tax calculation */}
           {invoice.deliveryFee > 0 && (
@@ -309,7 +308,9 @@ export default function TemplateClassic({
           )}
 
           <View style={styles.grandTotal}>
-            <Text style={{ fontSize: 14,fontWeight: 700 }}>{t("totalDue")}</Text>
+            <Text style={{ fontSize: 14, fontWeight: 700 }}>
+              {t("totalDue")}
+            </Text>
             <Text style={{ fontSize: 14, fontWeight: 800 }}>
               {format(invoice.grandTotal)}
             </Text>
@@ -339,9 +340,7 @@ export default function TemplateClassic({
 
       {/* Footer Elements */}
       {settings.visibility.showFooter && settings.footerNote && (
-        <Text style={styles.footerNote} >
-          {settings.footerNote}
-        </Text>
+        <Text style={styles.footerNote}>{settings.footerNote}</Text>
       )}
 
       <View style={styles.qrFooterLeft}>

@@ -45,7 +45,8 @@
     "categories": {
       "clients": "Kunden",
       "inventory": "Inventar",
-      "invoices": "Rechnungen"
+      "invoices": "Rechnungen",
+      "deliveries": "Lieferscheine"
     },
     "no_matches": "Keine Treffer in den Datensätzen gefunden."
   },

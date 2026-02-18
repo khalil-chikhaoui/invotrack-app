@@ -258,11 +258,39 @@ const AppHeader: React.FC = () => {
                       </div>
                     )}
 
+                    {/* Category: Deliveries (Bons de Livraison) */}
+                    {results.deliveries && results.deliveries.length > 0 && (
+                      <div className="mb-2">
+                        <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-brand-600 dark:text-brand-300">
+                          {t("header.categories.deliveries")}
+                        </p>
+                        {results.deliveries.map((d) => (
+                          <button
+                            key={d._id}
+                            onClick={() =>
+                              handleNavigate(
+                                `/business/${businessId}/delivery/${d._id}`,
+                              )
+                            }
+                            className="flex w-full items-center px-3 py-2 text-xs font-semibold hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg text-left dark:text-gray-300 transition-colors"
+                          >
+                            <span className="font-medium">
+                              {d.deliveryNumber}
+                            </span>
+                            <span className="ml-auto text-[9px] text-gray-400 font-medium">
+                              {new Date(d.createdAt).toLocaleDateString()}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
                     {/* Empty State within Search */}
                     {!results.clients.length &&
                       !results.items.length &&
-                      !results.invoices.length && (
-                        <div className="p-4 text-center text-xs text-gray-400 font-medium italic">
+                      !results.invoices.length &&
+                      (!results.deliveries || !results.deliveries.length) && (
+                        <div className="p-4 text-center text-xs text-gray-600 dark:text-gray-3000 font-medium italic">
                           {t("header.no_matches")}
                         </div>
                       )}

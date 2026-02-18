@@ -152,6 +152,8 @@ export default function TemplateMinimal({
   business,
   settings,
   generatedAt,
+  businessAddress,
+  clientAddress,
   t,
 }: InvoiceTemplateProps) {
   const styles = useMemo(
@@ -201,11 +203,7 @@ export default function TemplateMinimal({
             {business.logo && settings.visibility.showLogo && (
               <Text style={styles.businessName}>{business.name}</Text>
             )}
-            <Text style={styles.value}>{business.address?.street}</Text>
-            <Text style={styles.value}>
-              {business.address?.city} {business.address?.zipCode}
-            </Text>
-            <Text style={styles.value}>{business.address?.country}</Text>
+            <Text style={styles.value}>{businessAddress}</Text>
           </View>
         </View>
 
@@ -238,13 +236,10 @@ export default function TemplateMinimal({
           <Text style={styles.clientName}>
             {t("billTo")}: {invoice.clientSnapshot.name}
           </Text>
-          <Text style={styles.value}>
-            {invoice.clientSnapshot.address?.street}
+          <Text style={[styles.value,{marginTop:5}]}>
+           {clientAddress}
           </Text>
-          <Text style={styles.value}>
-            {invoice.clientSnapshot.address?.city}{" "}
-            {invoice.clientSnapshot.address?.zipCode}
-          </Text>
+       
         </View>
       </View>
 
