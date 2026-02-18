@@ -73,7 +73,7 @@ export default function BusinessLegalCard({
 
       <div className="space-y-5">
         <div className="flex justify-between items-center pb-4 border-b border-gray-50 dark:border-gray-800">
-          <span className="text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-300  tracking-wider">
             {t("settings.general.cards.tax_label")}
           </span>
           <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
@@ -82,7 +82,7 @@ export default function BusinessLegalCard({
         </div>
 
         <div className="flex justify-between items-center pb-4 border-b border-gray-50 dark:border-gray-800">
-          <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-300  tracking-wider">
             {t("settings.general.cards.reg_label")}
           </span>
           <span className="text-sm font-medium text-gray-800 dark:text-white">
@@ -92,7 +92,7 @@ export default function BusinessLegalCard({
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-300  tracking-wider">
             {t("settings.general.cards.billing_email_label")}
           </span>
           <span className="text-sm font-semibold text-brand-500 dark:text-brand-300 hover:underline cursor-pointer">
@@ -103,10 +103,10 @@ export default function BusinessLegalCard({
 
       <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[500px] m-4">
         <div className="p-6 lg:p-11 bg-white dark:bg-gray-900 rounded-3xl text-start">
-          <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
+          <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white  tracking-tight">
             {t("settings.general.cards.legal_update_title")}
           </h4>
-          <p className="text-xs font-medium text-gray-500 mb-8 uppercase tracking-widest">
+          <p className="text-xs font-medium text-gray-500 mb-8  tracking-widest">
             {t("settings.general.cards.legal_subtitle")}
           </p>
 
@@ -162,14 +162,14 @@ export default function BusinessLegalCard({
                 type="button"
                 variant="outline"
                 onClick={closeModal}
-                className="text-[10px] font-semibold uppercase tracking-widest"
+                className="text-[10px] font-semibold  tracking-widest"
               >
                 {t("settings.general.form.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
-                className="text-[10px] font-semibold uppercase tracking-widest"
+                className="text-[10px] font-semibold  tracking-widest"
               >
                 {loading
                   ? t("settings.general.form.synchronizing")

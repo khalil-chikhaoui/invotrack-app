@@ -38,14 +38,12 @@ export default function InvoiceTable({
   loading,
   meta,
   onPageChange,
-
   showClient = true,
 }: InvoiceTableProps) {
   const { t } = useTranslation("invoice");
   const { t: tCommon } = useTranslation("common");
 
   const dateLocale = useDateLocale();
-
   const navigate = useNavigate();
   const { businessId } = useParams();
 
@@ -53,43 +51,44 @@ export default function InvoiceTable({
     navigate(`/business/${businessId}/invoices/${id}`);
   };
 
-  const baseColSpan = showClient ? 6 : 5;
+  const baseColSpan = showClient ? 5 : 4;
 
   return (
     <div className="flex flex-col w-full">
-      <div className="max-w-full overflow-x-auto text-start">
-        <Table>
+      <div className="max-w-full overflow-x-auto">
+        <Table className="w-full">
           <TableHeader className="bg-gray-50/50 dark:bg-white/[0.01] border-b border-gray-100 dark:border-white/[0.05]">
             <TableRow>
+              {/* Added min-width to ensure "good width" and pr-6 for right padding only */}
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[150px]"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[220px] whitespace-nowrap"
               >
                 {t("list.columns.details")}
               </TableCell>
               {showClient && (
                 <TableCell
                   isHeader
-                  className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                  className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[180px] whitespace-nowrap"
                 >
                   {t("list.columns.client")}
                 </TableCell>
               )}
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.amount")}
               </TableCell>
               <TableCell
                 isHeader
-                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.payment")}
               </TableCell>
               <TableCell
                 isHeader
-                className=" px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.logistics")}
               </TableCell>
@@ -101,10 +100,7 @@ export default function InvoiceTable({
               <TableRow>
                 <td colSpan={baseColSpan} className="p-0 border-none">
                   <div className="min-h-[300px] flex items-center justify-center">
-                    <LoadingState
-                      message={t("list.syncing")}
-                      minHeight="200px"
-                    />
+                    <LoadingState message={t("list.syncing")} minHeight="200px" />
                   </div>
                 </td>
               </TableRow>
@@ -118,9 +114,7 @@ export default function InvoiceTable({
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {t("list.empty.title")}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {t("list.empty.desc")}
-                    </p>
+                    <p className="text-xs text-gray-500 mt-1">{t("list.empty.desc")}</p>
                   </div>
                 </td>
               </TableRow>
@@ -135,7 +129,7 @@ export default function InvoiceTable({
                     onClick={() => handleViewInvoice(inv._id)}
                     className="group hover:bg-gray-50/80 dark:hover:bg-white/[0.02] transition-all cursor-pointer"
                   >
-                    <TableCell className="px-5 py-4 text-start min-w-[200px]">
+                    <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-white/[0.05] text-gray-500 group-hover:bg-brand-50 group-hover:text-brand-500 dark:group-hover:bg-brand-500/20 dark:group-hover:text-brand-400 transition-colors">
                           <HiOutlineDocumentText className="size-5" />
@@ -145,67 +139,47 @@ export default function InvoiceTable({
                             {inv.invoiceNumber}
                           </span>
                           <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">
-                            {" "}
-                            {formatDate(
-                              new Date(inv.issueDate),
-                              "MMM do, yyyy",
-                              { locale: dateLocale },
-                            )}
+                            {formatDate(new Date(inv.issueDate), "MMM do, yyyy", { locale: dateLocale })}
                           </span>
                         </div>
                       </div>
                     </TableCell>
 
                     {showClient && (
-                      <TableCell className="px-5 py-4 text-start">
+                      <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                         <div className="flex flex-col text-start leading-tight">
                           <span className="text-theme-sm font-medium text-gray-800 dark:text-white/90">
                             {inv.clientSnapshot.name}
                           </span>
-                          <span className="text-[10px] text-gray-400 font-regular mt-0.5 truncate max-w-[120px]">
+                          <span className="text-[10px] text-gray-400 font-regular mt-0.5">
                             {inv.clientSnapshot.email || "—"}
                           </span>
                         </div>
                       </TableCell>
                     )}
 
-                    <TableCell className="px-5 py-4 text-start whitespace-nowrap">
+                    <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <span className="text-theme-sm font-medium text-gray-800 dark:text-white font-mono tracking-tight">
-                        {formatMoney(
-                          inv.grandTotal,
-                          business?.currency,
-                          business?.currencyFormat,
-                        )}
+                        {formatMoney(inv.grandTotal, business?.currency, business?.currencyFormat)}
                       </span>
                     </TableCell>
 
-                    <TableCell className=" px-5 py-4 text-start">
+                    <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <Badge size="sm" color={statusColor}>
                         <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                          {tCommon(`status.${displayStatus.toLowerCase()}`, {
-                            defaultValue: displayStatus,
-                          })}
+                          {tCommon(`status.${displayStatus.toLowerCase()}`, { defaultValue: displayStatus })}
                         </div>
                       </Badge>
                     </TableCell>
 
-                    <TableCell className=" px-5 py-4 text-start">
+                    <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <Badge
                         size="sm"
                         variant="light"
-                        color={
-                          inv.deliveryStatus === "Delivered"
-                            ? "success"
-                            : inv.deliveryStatus === "Shipped"
-                              ? "info"
-                              : "light"
-                        }
+                        color={inv.deliveryStatus === "Delivered" ? "success" : inv.deliveryStatus === "Shipped" ? "info" : "light"}
                       >
                         <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                          {tCommon(
-                            `status.${inv.deliveryStatus.toLowerCase()}`,
-                            { defaultValue: inv.deliveryStatus },
-                          )}
+                          {tCommon(`status.${inv.deliveryStatus.toLowerCase()}`, { defaultValue: inv.deliveryStatus })}
                         </div>
                       </Badge>
                     </TableCell>

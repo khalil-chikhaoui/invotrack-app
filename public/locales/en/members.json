@@ -4,8 +4,10 @@
     "subtitle": "Manage access and roles for your organization.",
     "search_placeholder": "Search by name or email...",
     "add_button": "Invite Member",
+    "default_title": "Staff",
     "columns": {
       "member": "Member",
+      "title": "Title",
       "role": "Role",
       "status": "Status",
       "actions": "Actions"
@@ -23,6 +25,7 @@
   },
   "status": {
     "active": "Active",
+    "accepted": "Accepted",
     "pending": "Pending",
     "expired": "Expired",
     "expires_today": "Expires today",
@@ -48,7 +51,13 @@
     "Admin": "Admin",
     "Manager": "Manager",
     "Viewer": "Viewer",
-    "Deliver": "Deliver"
+    "Deliver": "Deliver",
+    "descriptions": {
+      "Admin": "Full system control.",
+      "Manager": "Manage items & billing.",
+      "Deliver": "Routes & logistics.",
+      "Viewer": "Read-only access."
+    }
   },
   "modals": {
     "remove_title": "Remove Member?",
@@ -75,7 +84,11 @@
     "restricted_desc": "Only Administrators can invite new members."
   },
   "actions": {
-    "back": "Back"
+    "back": "Back",
+    "update": "Update",
+    "sign_out": "Sign Out",
+    "change_password": "Change Password",
+    "sending_link": "Sending Link..."
   },
   "errors": {
     "BUSINESS_NOT_FOUND": "Business context not found.",

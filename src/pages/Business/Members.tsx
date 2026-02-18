@@ -219,9 +219,7 @@ export default function Members() {
       <PageBreadcrumb pageTitle={t("list.title")} />
 
       <div className="w-full h-full space-y-8">
-        
         <div className="flex flex-col h-full overflow-hidden">
-          
           {/* --- Filters Header --- */}
           <div className="pb-4">
             <div className="flex flex-col gap-2 xl:flex-row xl:items-end text-start">
@@ -239,7 +237,7 @@ export default function Members() {
                     onClick={() =>
                       navigate(`/business/${businessId}/add-member`)
                     }
-                    className="h-11 flex items-center gap-2 text-[10px] font-semibold  tracking-widest px-6"
+                    className="h-11 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest px-6"
                   >
                     <PlusIcon className="fill-current size-5" />{" "}
                     {t("list.add_button")}
@@ -250,18 +248,18 @@ export default function Members() {
                   variant="outline"
                   onClick={fetchData}
                   disabled={loading}
-                  className="h-11 flex items-center gap-2 text-[10px] font-semibold  tracking-widest px-4 border-gray-200 dark:border-white/10"
+                  className="h-11 flex items-center gap-2 text-[10px] font-semibold uppercase  tracking-widest px-4 border-gray-200 dark:border-white/10"
                 >
                   <HiOutlineArrowPath
                     className={`size-5 ${loading ? "animate-spin" : ""}`}
                   />
-                  {t("status.refresh", { defaultValue: "Refresh" })}
+                  {t("status.refresh")}
                 </Button>
               </div>
             </div>
           </div>
 
-          <div className="flex-1   text-start">
+          <div className="flex-1 text-start">
             <Table>
               <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                 <TableRow>
@@ -275,7 +273,8 @@ export default function Members() {
                     isHeader
                     className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
                   >
-                    Title
+                    {/* TRANSLATED: Was "Title" */}
+                    {t("list.columns.title", "Title")}
                   </TableCell>
                   <TableCell
                     isHeader
@@ -371,7 +370,8 @@ export default function Members() {
 
                         {/* Title */}
                         <TableCell className="pr-5 py-4 text-theme-sm font-semibold text-gray-500 dark:text-gray-400  text-[10px] tracking-tight whitespace-nowrap">
-                          {member.title || "Staff"}
+                          {/* TRANSLATED: Was "Staff" fallback */}
+                          {member.title || t("list.default_title", "Staff")}
                         </TableCell>
 
                         {/* Access Status */}
@@ -500,7 +500,7 @@ export default function Members() {
             <HiOutlineShieldCheck className="size-6 text-brand-500" />
           </div>
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white  tracking-tight mb-1">
-            {t("list.columns.role")} {/* Reusing "Role" label */}
+            {t("list.columns.role")}
           </h4>
           <p className="text-[10px] text-gray-500 font-semibold  tracking-widest mb-6">
             {memberToUpdate?.name}
@@ -519,14 +519,23 @@ export default function Members() {
                     {translateRole(role)}
                   </span>
                   <span className="text-[10px] text-gray-400 font-medium leading-tight">
-                    {/* Role Descriptions - Consider adding these to translation file later if needed */}
+                    {/* TRANSLATED: Role descriptions wrapped in t() */}
                     {role === "Admin"
-                      ? "Full system control."
+                      ? t("roles.descriptions.Admin", "Full system control.")
                       : role === "Manager"
-                        ? "Manage items/billing."
+                        ? t(
+                            "roles.descriptions.Manager",
+                            "Manage items/billing.",
+                          )
                         : role === "Deliver"
-                          ? "Routes & logistics."
-                          : "Read-only access."}
+                          ? t(
+                              "roles.descriptions.Deliver",
+                              "Routes & logistics.",
+                            )
+                          : t(
+                              "roles.descriptions.Viewer",
+                              "Read-only access.",
+                            )}
                   </span>
                 </div>
                 <div
@@ -555,7 +564,8 @@ export default function Members() {
               onClick={handleConfirmRoleChange}
               disabled={updatingRole}
             >
-              Update
+              {/* TRANSLATED: Was "Update" */}
+              {t("actions.update", "Update")}
             </Button>
           </div>
         </div>

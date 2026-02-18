@@ -264,10 +264,10 @@ export default function InvoiceFilters({
     "h-11 w-full pl-9 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-xs text-gray-700 dark:text-white font-medium outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 hover:border-gray-400 dark:hover:border-gray-600 transition-all cursor-pointer placeholder-gray-500";
 
   return (
-    <div className="p-4 xl:p-5 border-b border-gray-200 dark:border-white/[0.05] bg-transparent">
+    <div className="border-b border-gray-200 dark:border-white/[0.05] pb-6 bg-transparent">
       <div className="flex flex-col gap-4">
         {/* ROW 1: Search + Actions */}
-        <div className="flex flex-col xl:flex-row gap-4 xl:items-end justify-between">
+        <div className="flex flex-col xl:flex-row gap-2 xl:items-end justify-between">
           <div className="flex-1 flex gap-2 items-end w-full">
             <div className="flex-1 w-full">
               <label className="hidden xl:block text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 uppercase tracking-widest">

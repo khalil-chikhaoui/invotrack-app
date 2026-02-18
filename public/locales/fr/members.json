@@ -1,11 +1,13 @@
 {
   "list": {
     "title": "Membres de l'équipe",
-    "subtitle": "Gérez l'accès et les rôles de votre organisation.",
+    "subtitle": "Gérez les accès et les rôles de votre organisation.",
     "search_placeholder": "Rechercher par nom ou e-mail...",
-    "add_button": "Inviter",
+    "add_button": "Inviter un membre",
+    "default_title": "Personnel",
     "columns": {
       "member": "Membre",
+      "title": "Titre",
       "role": "Rôle",
       "status": "Statut",
       "actions": "Actions"
@@ -18,11 +20,12 @@
     },
     "empty": {
       "title": "Aucun membre trouvé",
-      "desc": "Essayez d'ajuster votre recherche ou invitez un nouveau membre."
+      "desc": "Essayez de modifier votre recherche ou invitez un nouveau membre."
     }
   },
   "status": {
     "active": "Actif",
+    "accepted": "Accepté",
     "pending": "En attente",
     "expired": "Expiré",
     "expires_today": "Expire aujourd'hui",
@@ -32,29 +35,35 @@
   },
   "invite": {
     "title": "Inviter un nouveau membre",
-    "subtitle": "Envoyer une invitation par e-mail pour rejoindre votre équipe.",
+    "subtitle": "Envoyez une invitation par e-mail pour rejoindre votre équipe.",
     "email_label": "Adresse e-mail",
     "email_placeholder": "collegue@entreprise.com",
-    "name_label": "Nom (Facultatif)",
+    "name_label": "Nom (Optionnel)",
     "name_placeholder": "Jean Dupont",
     "role_label": "Rôle",
-    "title_label": "Titre du poste (Facultatif)",
-    "title_placeholder": "ex: Chef de projet",
+    "title_label": "Intitulé du poste (Optionnel)",
+    "title_placeholder": "ex : Chef de projet",
     "submit": "Envoyer l'invitation",
-    "sending": "Envoi en cours...",
+    "sending": "Envoi...",
     "cancel": "Annuler"
   },
   "roles": {
     "Admin": "Admin",
     "Manager": "Manager",
     "Viewer": "Observateur",
-    "Deliver": "Livreur"
+    "Deliver": "Livreur",
+    "descriptions": {
+      "Admin": "Contrôle total du système.",
+      "Manager": "Gestion des articles et facturation.",
+      "Deliver": "Itinéraires et logistique.",
+      "Viewer": "Accès en lecture seule."
+    }
   },
   "modals": {
     "remove_title": "Supprimer le membre ?",
-    "remove_desc": "Êtes-vous sûr de vouloir retirer {{name}} de l'équipe ? Il perdra l'accès immédiatement.",
+    "remove_desc": "Êtes-vous sûr de vouloir supprimer {{name}} de l'équipe ? Il perdra immédiatement son accès.",
     "cancel_invite_title": "Annuler l'invitation ?",
-    "cancel_invite_desc": "Ceci invalidera le lien envoyé à {{email}}.",
+    "cancel_invite_desc": "Cela invalidera le lien envoyé à {{email}}.",
     "confirm_remove": "Supprimer",
     "confirm_cancel": "Annuler l'invitation",
     "leave_title": "Quitter l'organisation ?",
@@ -75,16 +84,20 @@
     "restricted_desc": "Seuls les administrateurs peuvent inviter de nouveaux membres."
   },
   "actions": {
-    "back": "Retour"
+    "back": "Retour",
+    "update": "Mettre à jour",
+    "sign_out": "Se déconnecter",
+    "change_password": "Changer le mot de passe",
+    "sending_link": "Envoi du lien..."
   },
   "errors": {
-    "BUSINESS_NOT_FOUND": "Contexte commercial introuvable.",
+    "BUSINESS_NOT_FOUND": "Contexte de l'entreprise introuvable.",
     "MEMBER_ALREADY_EXISTS": "Cet utilisateur est déjà membre.",
     "INVITATION_FAILED": "Échec de l'envoi de l'e-mail d'invitation.",
     "INVALID_ROLE": "Rôle sélectionné invalide.",
     "MEMBER_NOT_FOUND": "Membre ou invitation introuvable.",
     "MEMBER_NOT_IN_BUSINESS": "L'utilisateur n'est pas membre de cette entreprise.",
-    "CANNOT_LEAVE_AS_LAST_ADMIN": "Vous ne pouvez pas partir en tant que seul administrateur. Désignez d'abord un autre administrateur.",
+    "CANNOT_LEAVE_AS_LAST_ADMIN": "Vous ne pouvez pas partir en tant que seul Admin. Désignez d'abord un autre Admin.",
     "GENERIC_ERROR": "Une erreur s'est produite. Veuillez réessayer."
   }
 }

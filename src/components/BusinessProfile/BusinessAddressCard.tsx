@@ -105,14 +105,14 @@ export default function BusinessAddressCard({
             </div>
             {business.address?.street  ? (
               <div>
-                <p className="text-sm font-semibold text-gray-800 dark:text-white  leading-snug">
+                <p className="text-xs font-medium text-gray-800 dark:text-white  leading-snug">
                   {business.address?.street || "Street Unset"}
                 </p>
                 <p className="text-xs text-gray-800 dark:text-white font-medium mt-1">
                   {business.address?.city} {business.address?.state}{" "}
                   {business.address?.zipCode}
                 </p>
-                <p className="text-[10px] font-semibold text-gray-800  dark:text-gray-300 mt-1 uppercase tracking-widest">
+                <p className="text-xs font-medium text-gray-800  dark:text-gray-300 mt-1 uppercase tracking-widest">
                   {business.address?.country || "International"}
                 </p></div>)
               : <p>-</p>
