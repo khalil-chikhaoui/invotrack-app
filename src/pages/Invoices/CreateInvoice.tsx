@@ -39,7 +39,7 @@ export default function CreateInvoice() {
   const [business, setBusiness] = useState<BusinessData | null>(null);
   const [clients, setClients] = useState<ClientData[]>([]);
   const [availableItems, setAvailableItems] = useState<ItemData[]>([]);
-  const [deliveryFee, setDeliveryFee] = useState(0);
+  
   const [selectedClient, setSelectedClient] = useState<ClientData | null>(null);
   const [invoiceItems, setInvoiceItems] = useState<any[]>([]);
   const [issueDate, setIssueDate] = useState(
@@ -56,6 +56,7 @@ export default function CreateInvoice() {
   );
   const [discountValue, setDiscountValue] = useState(0);
   const [taxRate, setTaxRate] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(0);
 
   const [clientSearch, setClientSearch] = useState("");
 
@@ -109,30 +110,28 @@ export default function CreateInvoice() {
     loadData();
   }, [businessId, queryClientId, canManage]);
 
-  if (!canManage) {
-    return (
-      <PermissionDenied
-        title={t("errors.ACCESS_RESTRICTED")}
-        description={t("errors.ACCESS_RESTRICTED_DESC")}
-        actionText={t("create.actions.back")}
-      />
-    );
-  }
-
+  // --- CALCULATION LOGIC ---
   const totals = useMemo(() => {
-  const subTotal = invoiceItems.reduce((sum, item) => sum + item.total, 0);
-  const totalDiscount =
-    discountType === "percentage"
-      ? subTotal * (discountValue / 100)
-      : discountValue;
-  const taxableAmount = Math.max(0, subTotal - totalDiscount);
-  const totalTax = taxableAmount * (taxRate / 100);
-  
-  // Logic: Add deliveryFee after tax
-  const grandTotal = taxableAmount + totalTax + deliveryFee;
-  
-  return { subTotal, totalDiscount, totalTax, grandTotal, deliveryFee };
-}, [invoiceItems, discountType, discountValue, taxRate, deliveryFee]);
+    const subTotal = invoiceItems.reduce((sum, item) => sum + item.total, 0);
+    
+    // Calculate Discount
+    const totalDiscount =
+      discountType === "percentage"
+        ? subTotal * (discountValue / 100)
+        : discountValue;
+    
+    // Calculate Taxable Amount (Subtotal - Discount)
+    const taxableAmount = Math.max(0, subTotal - totalDiscount);
+    
+    // Calculate Tax
+    const totalTax = taxableAmount * (taxRate / 100);
+    
+    // Calculate Grand Total (Taxable + Tax + Delivery)
+    const grandTotal = taxableAmount + totalTax + deliveryFee;
+    
+    return { subTotal, totalDiscount, totalTax, grandTotal, deliveryFee };
+  }, [invoiceItems, discountType, discountValue, taxRate, deliveryFee]);
+
 
   // --- ITEM HANDLERS ---
 
@@ -257,6 +256,16 @@ export default function CreateInvoice() {
     }
   };
 
+  if (!canManage) {
+    return (
+      <PermissionDenied
+        title={t("errors.ACCESS_RESTRICTED")}
+        description={t("errors.ACCESS_RESTRICTED_DESC")}
+        actionText={t("create.actions.back")}
+      />
+    );
+  }
+
   if (initialLoading) {
     return <LoadingState message={t("create.loading")} minHeight="60vh" />;
   }
@@ -281,6 +290,7 @@ export default function CreateInvoice() {
 
         {/* --- MAIN GRID LAYOUT --- */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
+          
           {/* --- LEFT COLUMN (Content) --- */}
           <div className="xl:col-span-8 flex flex-col gap-4">
             <ClientSelector
@@ -302,11 +312,11 @@ export default function CreateInvoice() {
               currency={business?.currency}
               currencyFormat={business?.currencyFormat as any}
             />
-             
-            {/* IMPRESSIVE MOVE: 
-              Notes are now nested here, filling the gap on the left of the summary.
-            */}
-            <InvoiceNotes notes={notes} setNotes={setNotes} />
+            
+            {/* DESKTOP NOTES: Visible only on xl+ screens */}
+            <div className="hidden xl:block">
+              <InvoiceNotes notes={notes} setNotes={setNotes} />
+            </div>
           </div>
 
           {/* --- RIGHT COLUMN (Meta & Totals) --- */}
@@ -325,8 +335,14 @@ export default function CreateInvoice() {
               taxRate={taxRate}
               setTaxRate={setTaxRate}
               deliveryFee={deliveryFee}
-  setDeliveryFee={setDeliveryFee}
+              setDeliveryFee={setDeliveryFee}
             />
+            
+            {/* MOBILE NOTES: Visible only on smaller screens (before summary) */}
+            <div className="block xl:hidden">
+              <InvoiceNotes notes={notes} setNotes={setNotes} />
+            </div>
+            
             <InvoiceSummary 
               totals={totals}
               taxRate={taxRate}
@@ -341,13 +357,13 @@ export default function CreateInvoice() {
         </div>
       </div>
 
+      {/* --- MODALS --- */}
       <ClientFormModal
         isOpen={clientModal.isOpen}
         onClose={clientModal.closeModal}
         businessId={businessId!}
         onSuccess={handleClientSuccess}
         setAlert={setAlert}
-        // Prioritize phone country, fall back to address country, fall back to US
         defaultCountry={
           (business?.phoneNumber as any)?.country || 
           business?.address?.country || 

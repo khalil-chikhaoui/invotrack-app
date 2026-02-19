@@ -22,6 +22,8 @@ import {
   subMonths,
   isSameDay,
 } from "date-fns";
+import { French } from "flatpickr/dist/l10n/fr.js";
+import { German } from "flatpickr/dist/l10n/de.js";
 
 export interface DashboardDateRange {
   start: Date;
@@ -37,7 +39,7 @@ export default function HomeHeader({
   dateRange,
   setDateRange,
 }: HomeHeaderProps) {
-  const { t } = useTranslation("home");
+const { t, i18n } = useTranslation("home");
   const pickerRef = useRef<HTMLInputElement>(null);
   const fpInstance = useRef<flatpickr.Instance | null>(null);
 
@@ -104,11 +106,17 @@ export default function HomeHeader({
   useEffect(() => {
     if (!pickerRef.current) return;
 
+    // Determine the locale object based on current language
+    let locale: any = "default";
+    if (i18n.language === "fr") locale = French;
+    if (i18n.language === "de") locale = German;
+
     fpInstance.current = flatpickr(pickerRef.current, {
       mode: "range",
       dateFormat: "M d, Y",
       defaultDate: [dateRange.start, dateRange.end],
       static: true,
+      locale: locale, // <--- ADD THIS
       onChange: (selectedDates) => {
         if (selectedDates.length === 2) {
           setDateRange({
@@ -120,7 +128,7 @@ export default function HomeHeader({
     });
 
     return () => fpInstance.current?.destroy();
-  }, []);
+  }, [i18n.language]);
 
   //  Sync Flatpickr
   useEffect(() => {

@@ -171,7 +171,6 @@ export default function InvoicePDF({
       color: { primary: "#231f70", secondary: "#5c16b1" },
       visibility: {
         showLogo: true,
-        showTaxId: true,
         showDueDate: true,
         showNotes: false,
         showFooter: false,

@@ -182,7 +182,7 @@ export default function TemplateReceipt({
         )}
 
         <Text style={styles.infoRow}>
-          {t("clientLabel") || "Client"}: {invoice.clientSnapshot.name}
+          {t("clientLabel") || "Client"}: {t(invoice.clientSnapshot.name)}
         </Text>
           <Text style={styles.infoRow}>
           {t("clientAddress")}: {clientAddress}

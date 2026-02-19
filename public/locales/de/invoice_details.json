@@ -1,6 +1,6 @@
 {
   "meta_title": "{{number}} | Details",
-  "meta_desc": "Rechnungsregister-Details",
+  "meta_desc": "Rechnungsdetails",
   "tabs": {
     "general": "Allgemeine Informationen",
     "stats": "Leistungsstatistiken"
@@ -8,157 +8,151 @@
   "header": {
     "back": "Zurück",
     "directory": "Rechnungsverzeichnis",
-    "export_pdf": "Standard-PDF",
+    "export_pdf": "Standard PDF",
     "export_alt": "Alternativen Stil exportieren",
-    "loading_pdf": "Lädt...",
+    "loading_pdf": "Wird geladen...",
     "styles": {
       "classic": "Klassisch",
       "classic_desc": "Traditionell & Professionell.",
-      "minimal": "Minimalistisch",
+      "minimal": "Minimal",
       "minimal_desc": "Klare Linien, datenfokussiert.",
       "modern": "Modern",
-      "modern_desc": "Auffälliges visuelles Design.",
-      "receipt": "Quittung",
+      "modern_desc": "Visuell ansprechendes Design.",
+      "receipt": "Kassenbon",
       "receipt_desc": "Thermodrucker-Stil (80mm)"
     }
   },
   "identity_card": {
-    "edit_record": "Datensatz bearbeiten",
     "issued": "Ausgestellt:",
     "due": "Fällig:",
     "edit": "Bearbeiten",
+    "edit_status": "Zahlungsstatus aktualisieren",
+    "edit_delivery": "Lieferstatus aktualisieren",
     "created_on": "Rechnung erstellt am {{date}} von {{user}}",
     "valuation": "Bewertung"
   },
   "parties": {
-    "recipient": "Empfängerregister",
+    "recipient": "Empfängerverzeichnis",
     "edit": "Bearbeiten"
   },
   "ledger": {
-    "title": "Hauptbuchpositionen",
-    "quick_item": "Schnellartikel",
-    "search_placeholder": "Produkte oder Dienste zum Hinzufügen suchen...",
+    "title": "Rechnungsposten",
+    "quick_item": "Schnell-Position",
+    "search_placeholder": "Produkte oder Dienstleistungen suchen...",
     "empty": "Leeres Hauptbuch",
     "no_results": "Keine Produkte gefunden",
     "headers": {
-      "nomenclature": "Nomenklatur",
+      "nomenclature": "Bezeichnung",
       "qty": "Menge",
-      "rate": "Satz",
+      "rate": "Preis",
       "total": "Gesamt",
       "control": "Steuerung"
     },
     "notes": {
-      "title": "Notizen & Anweisungen",
+      "title": "Anmerkungen & Hinweise",
       "edit": "Bearbeiten",
       "placeholder": "Zahlungsbedingungen oder Notizen eingeben...",
       "save": "Notizen speichern",
-      "saving": "Speichern...",
+      "saving": "Speichere...",
       "empty": "Keine zusätzlichen Notizen vorhanden."
     },
     "totals": {
-      "adjust": "Finanzdaten anpassen",
+      "adjust": "Finanzen anpassen",
       "subtotal": "Zwischensumme",
       "discount": "Rabatt",
       "tax": "Steuer",
       "grand_total": "Gesamtsumme",
-      "delivery_fee": "Liefergebühr"
+      "delivery_fee": "Versandkosten"
     }
-  },
-  "sidebar": {
-    "lifecycle_title": "Lebenszyklus-Management",
-    "payment_state": "Zahlungsstatus",
-    "logistics": "Logistik",
-    "notes_title": "Interne Notizen",
-    "notes_placeholder": "Private Notizen hier hinzufügen..."
   },
   "stats": {
     "profit": "Nettogewinn",
     "profit_desc": "Umsatz minus Warenkosten",
     "margin": "Gewinnspanne",
-    "margin_desc": "Prozentsatz des verbleibenden Umsatzes",
+    "margin_desc": "Prozentsatz des behaltenen Umsatzes",
     "cost": "Gesamtkosten (COGS)",
     "cost_desc": "Gesamtausgaben für Artikel",
     "velocity": "Zahlungsgeschwindigkeit",
-    "velocity_desc": "Zeit von Ausstellung bis zum Ausgleich",
+    "velocity_desc": "Zeit von Ausstellung bis Begleichung",
     "days": "Tage"
   },
   "modals": {
     "payment": {
       "title": "Zahlungsstatus",
       "confirm_void": "Stornierung bestätigen",
-      "apply": "Sync anwenden"
+      "apply": "Synchronisierung anwenden"
     },
     "delivery": {
-      "title": "Logistik-Status",
+      "title": "Logistikstatus",
       "update": "Hauptbuch aktualisieren"
     },
     "client": {
       "title": "Empfänger bearbeiten",
-      "subtitle": "Kundendetails für diesen spezifischen Datensatz ändern.",
+      "subtitle": "Ändern Sie die Kundendaten für diesen spezifischen Datensatz.",
       "fields": {
         "name": "Kundenname",
         "email": "E-Mail-Adresse",
         "phone": "Telefonnummer",
         "billing": "Rechnungsadresse",
-        "street": "Straße & Hausnr.",
+        "street": "Straße",
         "city": "Stadt",
-        "state": "Bundesland",
+        "state": "Bundesland / Kanton",
         "zip": "Postleitzahl",
         "country": "Land"
       },
       "actions": {
         "cancel": "Abbrechen",
         "save": "Änderungen speichern",
-        "saving": "Speichern..."
+        "saving": "Speichere..."
       }
     },
     "dates": {
       "title": "Zeitplan aktualisieren",
-      "desc": "Ausstellungs- und Fälligkeitsdatum anpassen.",
+      "desc": "Passen Sie das Ausstellungs- und Fälligkeitsdatum an.",
       "actions": {
         "cancel": "Abbrechen",
         "save": "Neue Daten speichern",
-        "saving": "Speichern..."
+        "saving": "Speichere Änderungen..."
       }
     },
     "financials": {
       "title": "Finanzielle Anpassungen",
-      "desc": "Steuersätze und Rabattmodelle für diese Rechnung konfigurieren.",
+      "desc": "Konfigurieren Sie Steuersätze und Rabattmodelle für diese Rechnung.",
       "actions": {
         "cancel": "Abbrechen",
         "apply": "Anpassungen anwenden",
-        "calculating": "Berechnung läuft..."
+        "calculating": "Berechne..."
       }
     },
     "delete_item": {
-      "title": "Artikel entfernen?",
-      "desc": "Dies entfernt den Artikel aus dem Hauptbuch. Aktion kann nicht rückgängig gemacht werden.",
+      "title": "Position entfernen?",
+      "desc": "Dies entfernt den Artikel aus der Rechnung. Diese Aktion kann nicht rückgängig gemacht werden.",
       "confirm": "Entfernen"
     }
   },
   "messages": {
-    "SYNC_ERROR": "Synchronisationsfehler",
+    "SYNC_ERROR": "Synchronisierungsfehler",
     "LEDGER_UPDATED": "Hauptbuch aktualisiert.",
-    "ITEM_REMOVED": "Artikel aus Hauptbuch entfernt.",
+    "ITEM_REMOVED": "Position aus Hauptbuch entfernt.",
     "NOTES_UPDATED": "Rechnungsnotizen aktualisiert.",
     "FINANCIALS_UPDATED": "Steuer und Rabatt aktualisiert.",
     "STATUS_SYNCED": "Transaktionsstatus aktualisiert.",
     "DATES_UPDATED": "Daten erfolgreich aktualisiert.",
-    "EXPORT_SUCCESS": "Version {{style}} exportiert.",
-    "EXPORT_ERROR": "Stil konnte nicht generiert werden.",
-    "CLIENT_UPDATED": "Kundendetails aktualisiert."
+    "EXPORT_SUCCESS": "{{style}} Version exportiert.",
+    "EXPORT_ERROR": "Fehler beim Generieren des Stils.",
+    "CLIENT_UPDATED": "Kundendaten aktualisiert."
   },
   "errors": {
     "FAILED": "Fehlgeschlagen",
-    "UPDATE_FAILED": "Update fehlgeschlagen",
+    "UPDATE_FAILED": "Aktualisierung fehlgeschlagen",
     "RESTRICTED_ACCESS": "Geschütztes Dokument",
-    "RESTRICTED_DESC": "Keine Berechtigung zur Ansicht dieses Finanzdatensatzes.",
+    "RESTRICTED_DESC": "Sie haben keine Berechtigung, die Details dieses Finanzdatensatzes einzusehen.",
     "NOT_FOUND_TITLE": "Rechnung nicht gefunden",
-    "NOT_FOUND_DESC": "Diese Rechnung existiert nicht oder wurde dauerhaft entfernt."
+    "NOT_FOUND_DESC": "Dieser Rechnungsdatensatz existiert nicht oder wurde dauerhaft entfernt."
   },
-  "loading": "Finanzdatensatz wird entschlüsselt...",
+  "loading": "Entschlüssele Finanzdatensatz...",
   "actions": {
-    "return": "zurückkehren",
+    "return": "Zurückkehren",
     "back": "Zurück"
   }
 }

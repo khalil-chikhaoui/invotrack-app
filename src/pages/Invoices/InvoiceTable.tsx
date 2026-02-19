@@ -100,7 +100,10 @@ export default function InvoiceTable({
               <TableRow>
                 <td colSpan={baseColSpan} className="p-0 border-none">
                   <div className="min-h-[300px] flex items-center justify-center">
-                    <LoadingState message={t("list.syncing")} minHeight="200px" />
+                    <LoadingState
+                      message={t("list.syncing")}
+                      minHeight="200px"
+                    />
                   </div>
                 </td>
               </TableRow>
@@ -114,7 +117,9 @@ export default function InvoiceTable({
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {t("list.empty.title")}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">{t("list.empty.desc")}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {t("list.empty.desc")}
+                    </p>
                   </div>
                 </td>
               </TableRow>
@@ -139,7 +144,11 @@ export default function InvoiceTable({
                             {inv.invoiceNumber}
                           </span>
                           <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">
-                            {formatDate(new Date(inv.issueDate), "MMM do, yyyy", { locale: dateLocale })}
+                            {formatDate(
+                              new Date(inv.issueDate),
+                              "MMM do, yyyy",
+                              { locale: dateLocale },
+                            )}
                           </span>
                         </div>
                       </div>
@@ -148,11 +157,25 @@ export default function InvoiceTable({
                     {showClient && (
                       <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                         <div className="flex flex-col text-start leading-tight">
+                          {/* Client Name */}
                           <span className="text-theme-sm font-medium text-gray-800 dark:text-white/90">
                             {inv.clientSnapshot.name}
                           </span>
+
+                          {/* Client Phone with validation logic */}
                           <span className="text-[10px] text-gray-400 font-regular mt-0.5">
-                            {inv.clientSnapshot.email || "—"}
+                            {(() => {
+                              const phoneNumber =
+                                inv.clientSnapshot.phone?.number;
+                              if (!phoneNumber) return "—";
+
+                              // Strip non-numeric to check if it's a real number or just a prefix
+                              const cleanPhone = phoneNumber.replace(
+                                /[^\d+]/g,
+                                "",
+                              );
+                              return cleanPhone.length > 4 ? phoneNumber : "—";
+                            })()}
                           </span>
                         </div>
                       </TableCell>
@@ -160,14 +183,20 @@ export default function InvoiceTable({
 
                     <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <span className="text-theme-sm font-medium text-gray-800 dark:text-white font-mono tracking-tight">
-                        {formatMoney(inv.grandTotal, business?.currency, business?.currencyFormat)}
+                        {formatMoney(
+                          inv.grandTotal,
+                          business?.currency,
+                          business?.currencyFormat,
+                        )}
                       </span>
                     </TableCell>
 
                     <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <Badge size="sm" color={statusColor}>
                         <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                          {tCommon(`status.${displayStatus.toLowerCase()}`, { defaultValue: displayStatus })}
+                          {tCommon(`status.${displayStatus.toLowerCase()}`, {
+                            defaultValue: displayStatus,
+                          })}
                         </div>
                       </Badge>
                     </TableCell>
@@ -176,10 +205,19 @@ export default function InvoiceTable({
                       <Badge
                         size="sm"
                         variant="light"
-                        color={inv.deliveryStatus === "Delivered" ? "success" : inv.deliveryStatus === "Shipped" ? "info" : "light"}
+                        color={
+                          inv.deliveryStatus === "Delivered"
+                            ? "success"
+                            : inv.deliveryStatus === "Shipped"
+                              ? "info"
+                              : "light"
+                        }
                       >
                         <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
-                          {tCommon(`status.${inv.deliveryStatus.toLowerCase()}`, { defaultValue: inv.deliveryStatus })}
+                          {tCommon(
+                            `status.${inv.deliveryStatus.toLowerCase()}`,
+                            { defaultValue: inv.deliveryStatus },
+                          )}
                         </div>
                       </Badge>
                     </TableCell>

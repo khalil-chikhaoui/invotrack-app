@@ -236,7 +236,7 @@ export default function ItemManager({
             )}
           </div>
         </div>
-
+ 
         <div className="overflow-x-auto rounded-b-[2rem]">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
@@ -249,19 +249,20 @@ export default function ItemManager({
             <table className="w-full text-start border-t border-gray-100 dark:border-white/5">
               <thead>
                 <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400">
-                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-start">
+                  {/* Added whitespace-nowrap to headers */}
+                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-start whitespace-nowrap">
                     {t("create.item_manager.headers.nomenclature")}
                   </th>
-                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-center">
+                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-center whitespace-nowrap">
                     {t("create.item_manager.headers.qty")}
                   </th>
-                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end">
+                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end whitespace-nowrap">
                     {t("create.item_manager.headers.rate")}
                   </th>
-                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end">
+                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end whitespace-nowrap">
                     {t("create.item_manager.headers.total")}
                   </th>
-                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end">
+                  <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-end whitespace-nowrap">
                     {t("create.item_manager.headers.control")}
                   </th>
                 </tr>
@@ -272,27 +273,28 @@ export default function ItemManager({
                     key={idx}
                     className="text-sm hover:bg-gray-50/30 hover:dark:bg-brand-500/10 transition-colors group"
                   >
-                    <td className="px-6 py-4">
+                    {/* Added whitespace-nowrap to cells */}
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className="font-semibold text-gray-800 dark:text-white uppercase text-xs tracking-tight">
                         {item.name}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-6 py-4 text-center whitespace-nowrap">
                       <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                         {item.quantity}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-end">
+                    <td className="px-6 py-4 text-end whitespace-nowrap">
                       <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                         {formatMoney(item.price, currency, currencyFormat)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-end">
+                    <td className="px-6 py-4 text-end whitespace-nowrap">
                       <span className="font-black text-gray-600 dark:text-gray-300 text-xs">
                         {formatMoney(item.total, currency, currencyFormat)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-end">
+                    <td className="px-6 py-4 text-end whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1">
                         <button
                           type="button"

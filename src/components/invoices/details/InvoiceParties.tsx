@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import { HiOutlinePencil, HiOutlineUser } from "react-icons/hi2";
 import { InvoiceData } from "../../../apis/invoices";
 import ClipboardButton from "../../common/ClipboardButton";
@@ -16,13 +16,13 @@ export default function InvoiceParties({
   onEditClient,
 }: InvoicePartiesProps) {
   const { t } = useTranslation("invoice_details");
-  
+
   // Logic check: only show if function exists AND invoice is active
   const showEditButton = !!onEditClient && !invoice.isDeleted;
 
   // Helper to format address for clipboard
   const address = invoice.clientSnapshot.address;
-  const fullAddress = address 
+  const fullAddress = address
     ? `${address.street}, ${address.city}, ${address.zipCode}, ${address.country}`
     : "";
 
@@ -65,19 +65,39 @@ export default function InvoiceParties({
             <p className="text-xs text-gray-600 dark:text-gray-300 font-medium tracking-wide">
               {invoice.clientSnapshot.email}
             </p>
-            <ClipboardButton text={invoice.clientSnapshot.email} label="Email" />
+            <ClipboardButton
+              text={invoice.clientSnapshot.email}
+              label="Email"
+            />
           </div>
         )}
 
         {/* --- Phone Row --- */}
-        {invoice.clientSnapshot.phone?.number && (
-          <div className="flex items-center gap-2 mb-2 group">
-            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium tracking-wide">
-              {invoice.clientSnapshot.phone?.number}
-            </p>
-            <ClipboardButton text={invoice.clientSnapshot.phone?.number} label="Phone" />
-          </div>
-        )}
+        {invoice.clientSnapshot.phone?.number &&
+          (() => {
+            // Logic: Strip all non-numeric characters except '+'
+            const cleanPhone = invoice.clientSnapshot.phone.number.replace(
+              /[^\d+]/g,
+              "",
+            );
+
+            // Check if it's actually a full number (more than 4 digits)
+            const isActuallyAPhoneNumber = cleanPhone.length > 4;
+
+            if (!isActuallyAPhoneNumber) return null;
+
+            return (
+              <div className="flex items-center gap-2 mb-2 group">
+                <p className="text-xs text-gray-600 dark:text-gray-300 font-medium tracking-wide">
+                  {invoice.clientSnapshot.phone.number}
+                </p>
+                <ClipboardButton
+                  text={invoice.clientSnapshot.phone.number}
+                  label="Phone"
+                />
+              </div>
+            );
+          })()}
 
         {/* --- Address Row --- */}
         {address?.street && (
@@ -87,7 +107,11 @@ export default function InvoiceParties({
               <br />
               {address.zipCode}, {address.country}
             </div>
-            <ClipboardButton text={fullAddress} label="Address" className="mt-1" />
+            <ClipboardButton
+              text={fullAddress}
+              label="Address"
+              className="mt-1"
+            />
           </div>
         )}
       </div>

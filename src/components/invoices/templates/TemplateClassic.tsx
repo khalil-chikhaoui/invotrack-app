@@ -244,7 +244,7 @@ export default function TemplateClassic({
       <View style={styles.section}>
         <Text style={styles.h2}>{t("billTo")}</Text>
         <Text style={[styles.text, { fontWeight: 700, fontSize: 11 }]}>
-          {invoice.clientSnapshot.name}
+          {t(invoice.clientSnapshot.name)}
         </Text>
         <Text style={[styles.text,{marginTop:5}]}>{clientAddress}</Text>
       </View>
@@ -281,7 +281,7 @@ export default function TemplateClassic({
             <Text>{format(invoice.subTotal)}</Text>
           </View>
 
-          {settings.visibility.showDiscount && invoice.totalDiscount > 0 && (
+          {invoice.totalDiscount > 0 && (
             <View style={styles.totalRow}>
               <Text style={{ color: settings.color.accent || "#ef4444" }}>
                 {t("discount")}

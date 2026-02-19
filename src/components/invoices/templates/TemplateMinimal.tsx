@@ -234,7 +234,7 @@ export default function TemplateMinimal({
       <View style={styles.row}>
         <View style={styles.colHalf}>
           <Text style={styles.clientName}>
-            {t("billTo")}: {invoice.clientSnapshot.name}
+            {t("billTo")}: {t(invoice.clientSnapshot.name)}
           </Text>
           <Text style={[styles.value,{marginTop:5}]}>
            {clientAddress}
@@ -280,7 +280,7 @@ export default function TemplateMinimal({
             <Text style={styles.value}>{format(invoice.subTotal)}</Text>
           </View>
 
-          {settings.visibility.showDiscount && invoice.totalDiscount > 0 && (
+          {invoice.totalDiscount > 0 && (
             <View style={styles.summaryRow}>
               <Text style={[styles.value, styles.textAccent]}>
                 {t("discount")}

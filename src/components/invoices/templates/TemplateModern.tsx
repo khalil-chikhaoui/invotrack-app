@@ -313,7 +313,7 @@ export default function TemplateModern({
         <View style={{ width: "100%" }}>
           <Text style={styles.sectionLabel}>{t("billTo")}</Text>
           <Text style={{ fontWeight: 700, fontSize: 13, marginBottom: 5 }}>
-            {invoice.clientSnapshot.name}
+            {t(invoice.clientSnapshot.name)}
           </Text>
           <Text style={{ fontSize: 10 }}>
             {clientAddress}
@@ -371,7 +371,7 @@ export default function TemplateModern({
                 {format(invoice.subTotal)}
               </Text>
             </View>
-            {settings.visibility.showDiscount && invoice.totalDiscount > 0 && (
+            { invoice.totalDiscount > 0 && (
               <View style={styles.summaryRow}>
                 <Text style={{ color: accent }}>{t("discount")}</Text>
                 <Text style={{ fontWeight: 700, color: accent }}>

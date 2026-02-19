@@ -57,11 +57,8 @@ export interface InvoiceSettings {
   logoSize: "Small" | "Medium" | "Large";
   visibility: {
     showLogo: boolean;
-    showTaxId: boolean;
     showDueDate: boolean;
-    showDiscount: boolean;
     showNotes: boolean;
-    showPaymentTerms: boolean;
     showFooter: boolean;
   };
   paymentTerms: string;

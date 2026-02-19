@@ -18,7 +18,6 @@ import PermissionDenied from "../../components/common/PermissionDenied";
 import InvoiceIdentityCard from "../../components/invoices/details/InvoiceIdentityCard";
 import InvoiceParties from "../../components/invoices/details/InvoiceParties";
 import InvoiceLedger from "../../components/invoices/details/InvoiceLedger";
-import InvoiceSidebar from "../../components/invoices/details/InvoiceSidebar";
 import InvoiceModals from "../../components/invoices/details/InvoiceModals";
 import InvoiceHeader from "../../components/invoices/details/InvoiceHeader";
 import EditClientModal from "../../components/invoices/details/EditClientModal";
@@ -81,7 +80,6 @@ export default function InvoiceDetails() {
   const [updating, setUpdating] = useState(false);
 
   const [isStyleDropdownOpen, setIsStyleDropdownOpen] = useState(false);
-  // removed downloadingStyle state as it is no longer used
 
   const fetchData = async () => {
     if (!invoiceId || !businessId || !canViewFinancials) return;
@@ -120,7 +118,6 @@ export default function InvoiceDetails() {
     }
   };
 
-  // Whenever 'alert' changes and is not null, scroll to top
   useEffect(() => {
     if (alert) {
       scrollToTopAppLayout();
@@ -275,29 +272,29 @@ export default function InvoiceDetails() {
   };
 
   const handleTaxUpdate = async (data: {
-  taxRate: number;
-  discountValue: number;
-  discountType: "percentage" | "fixed";
-  deliveryFee: number; // Add this line
-}) => {
-  if (!invoice) return;
-  try {
-    await invoiceApi.updateInvoice(invoice._id, {
-      taxRate: data.taxRate,
-      discountValue: data.discountValue,
-      discountType: data.discountType,
-      deliveryFee: data.deliveryFee, // Add this line
-    });
-    setAlert({
-      type: "success",
-      title: "Updated",
-      message: t("messages.FINANCIALS_UPDATED"),
-    });
-    fetchData(); // This refreshes the UI with the new totals
-  } catch (e: any) {
-    throw new Error(e.message);
-  }
-};
+    taxRate: number;
+    discountValue: number;
+    discountType: "percentage" | "fixed";
+    deliveryFee: number;
+  }) => {
+    if (!invoice) return;
+    try {
+      await invoiceApi.updateInvoice(invoice._id, {
+        taxRate: data.taxRate,
+        discountValue: data.discountValue,
+        discountType: data.discountType,
+        deliveryFee: data.deliveryFee,
+      });
+      setAlert({
+        type: "success",
+        title: "Updated",
+        message: t("messages.FINANCIALS_UPDATED"),
+      });
+      fetchData();
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  };
 
   const handleUpdate = async (payload: {
     status?: string;
@@ -413,16 +410,19 @@ export default function InvoiceDetails() {
         handleSmartBack={handleSmartBack}
         isStyleDropdownOpen={isStyleDropdownOpen}
         setIsStyleDropdownOpen={setIsStyleDropdownOpen}
-        />
+      />
 
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
+      {/* Identity Card: Now handles Status & Delivery edits internally */}
       <InvoiceIdentityCard
         invoice={invoice}
         business={business}
         canManage={canManage}
         businessId={businessId}
         onEditDates={canManage ? dateEditModal.openModal : undefined}
+        onEditStatus={canManage ? statusModal.openModal : undefined}
+        onEditDelivery={canManage ? deliveryModal.openModal : undefined}
       />
 
       <div className="flex gap-6 border-b border-gray-200 dark:border-white/5 mb-8 overflow-x-auto w-full no-scrollbar">
@@ -448,34 +448,27 @@ export default function InvoiceDetails() {
       </div>
 
       {activeTab === "general" ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start text-start animate-in fade-in slide-in-from-bottom-2 duration-300">
-          <div className="lg:col-span-2 space-y-8 order-last lg:order-none">
-            <InvoiceParties
-              invoice={invoice}
-              businessId={businessId}
-              onEditClient={canManage ? clientEditModal.openModal : undefined}
-            />
-
-            <InvoiceLedger
-              invoice={invoice}
-              business={business}
-              businessId={businessId}
-              availableItems={availableItems}
-              isEditable={canManage && !invoice.isDeleted && !invoice.isPaid}
-              onEditItem={canManage ? handleEditItemRequest : () => {}}
-              onSelectProduct={handleSelectProduct}
-              onAddItem={() => {}}
-              onDeleteItem={handleDeleteItem}
-              onNewItem={itemCreateModal.openModal}
-              onEditTaxDiscount={taxModal.openModal}
-              onSaveNotes={handleSaveNotes}
-            />
-          </div>
-
-          <InvoiceSidebar
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          {/* Main Content Stack - Sidebar Removed */}
+          <InvoiceParties
             invoice={invoice}
-            openStatusModal={statusModal.openModal}
-            openDeliveryModal={deliveryModal.openModal}
+            businessId={businessId}
+            onEditClient={canManage ? clientEditModal.openModal : undefined}
+          />
+
+          <InvoiceLedger
+            invoice={invoice}
+            business={business}
+            businessId={businessId}
+            availableItems={availableItems}
+            isEditable={canManage && !invoice.isDeleted && !invoice.isPaid}
+            onEditItem={canManage ? handleEditItemRequest : () => {}}
+            onSelectProduct={handleSelectProduct}
+            onAddItem={() => {}}
+            onDeleteItem={handleDeleteItem}
+            onNewItem={itemCreateModal.openModal}
+            onEditTaxDiscount={taxModal.openModal}
+            onSaveNotes={handleSaveNotes}
           />
         </div>
       ) : (
@@ -539,7 +532,7 @@ export default function InvoiceDetails() {
         onSave={handleTaxUpdate}
       />
 
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={isConfirmDeleteOpen}
         onClose={() => setIsConfirmDeleteOpen(false)}
         onConfirm={confirmDeleteItem}

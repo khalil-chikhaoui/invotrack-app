@@ -27,22 +27,29 @@ export const DEFAULT_COLORS = {
   secondary: "#5c16b1",
   accent: "#bc1010",
 };
+
+// STRIPPED DOWN DEFAULTS
 const DEFAULT_VISIBILITY = {
   showLogo: true,
-  showTaxId: true,
   showDueDate: true,
-  showDiscount: true,
   showNotes: false,
-  showPaymentTerms: true,
   showFooter: false,
 };
+
+// THE ONLY KEYS ALLOWED TO RENDER
+const ALLOWED_VISIBILITY_KEYS = [
+  "showLogo",
+  "showDueDate",
+  "showNotes",
+  "showFooter",
+];
 
 const DUMMY_LOGO_URL =
   "https://placehold.co/200x200/231f70/FFFFFF.png?text=LOGO";
 
 const ResetButton = ({
   onClick,
-  label, 
+  label,
 }: {
   onClick: () => void;
   label: string;
@@ -183,7 +190,7 @@ export default function InvoiceSettings() {
       taxRate: 10,
       totalTax: 558,
       deliveryFee: 42,
-      grandTotal: 6180, 
+      grandTotal: 6180,
       isPaid: false,
       isDeleted: false,
       deliveryStatus: "Pending",
@@ -208,7 +215,7 @@ export default function InvoiceSettings() {
             ...prev,
             ...data.invoiceSettings,
             visibility: {
-              ...prev.visibility,
+              ...DEFAULT_VISIBILITY, // Force baseline
               ...(data.invoiceSettings?.visibility || {}),
             },
           }));
@@ -265,13 +272,15 @@ export default function InvoiceSettings() {
     setSettings({ ...settings, color: { ...settings.color, [key]: value } });
   };
   const saveColorFinal = () => saveSettings(settings);
-  const toggleVisibility = (field: keyof IInvoiceSettings["visibility"]) => {
+
+  const toggleVisibility = (field: string) => {
     const newVisibility = {
       ...settings.visibility,
-      [field]: !settings.visibility[field],
+      [field]: !settings.visibility[field as keyof typeof settings.visibility],
     };
-    saveSettings({ ...settings, visibility: newVisibility });
+    saveSettings({ ...settings, visibility: newVisibility as any });
   };
+
   const handleFooterChange = (val: string) => {
     if (val.length <= 100) setSettings({ ...settings, footerNote: val });
   };
@@ -447,30 +456,29 @@ export default function InvoiceSettings() {
                   />
                 </div>
                 <div className="space-y-2">
-                  {Object.keys(settings.visibility)
-                    .filter((k) => k !== "showSignature")
-                    .map((key) => (
-                      <div
-                        key={key}
-                        className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors"
+                  {/* HARDCODED ITERATION OVER ALLOWED KEYS ONLY */}
+                  {ALLOWED_VISIBILITY_KEYS.map((key) => (
+                    <div
+                      key={key}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors"
+                    >
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase truncate pr-2">
+                        {getVisibilityLabel(key)}
+                      </span>
+                      <button
+                        onClick={() => toggleVisibility(key)}
+                        className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
                       >
-                        <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase truncate pr-2">
-                          {getVisibilityLabel(key)}
-                        </span>
-                        <button
-                          onClick={() => toggleVisibility(key as any)}
-                          className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
-                        >
-                          {settings.visibility[
-                            key as keyof typeof settings.visibility
-                          ] ? (
-                            <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
-                          ) : (
-                            <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
-                          )}
-                        </button>
-                      </div>
-                    ))}
+                        {settings.visibility[
+                          key as keyof typeof settings.visibility
+                        ] ? (
+                          <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                        ) : (
+                          <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                        )}
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </>

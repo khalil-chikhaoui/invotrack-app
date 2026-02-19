@@ -12,7 +12,7 @@ import {
   HiOutlineDocumentText,
   HiCheck,
   HiXMark,
-  HiChevronDown,
+  HiChevronDown, 
 } from "react-icons/hi2";
 import { formatMoney } from "../../../hooks/formatMoney";
 import { InvoiceData } from "../../../apis/invoices";
@@ -249,12 +249,13 @@ export default function InvoiceLedger({
           <table className="w-full text-start">
             <thead>
               <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">
-                <th className="px-6 py-3 text-start">{t("ledger.headers.nomenclature")}</th>
-                <th className="px-6 py-3 text-center">{t("ledger.headers.qty")}</th>
-                <th className="px-6 py-3 text-end">{t("ledger.headers.rate")}</th>
-                <th className="px-6 py-3 text-end">{t("ledger.headers.total")}</th>
+                {/* Added whitespace-nowrap to headers */}
+                <th className="px-6 py-3 text-start whitespace-nowrap">{t("ledger.headers.nomenclature")}</th>
+                <th className="px-6 py-3 text-center whitespace-nowrap">{t("ledger.headers.qty")}</th>
+                <th className="px-6 py-3 text-end whitespace-nowrap">{t("ledger.headers.rate")}</th>
+                <th className="px-6 py-3 text-end whitespace-nowrap">{t("ledger.headers.total")}</th>
                 {isEditable && (
-                  <th className="px-6 py-3 text-end">{t("ledger.headers.control")}</th>
+                  <th className="px-6 py-3 text-end whitespace-nowrap">{t("ledger.headers.control")}</th>
                 )}
               </tr>
             </thead>
@@ -264,7 +265,8 @@ export default function InvoiceLedger({
                   key={idx}
                   className="text-sm hover:bg-gray-50/30 hover:dark:bg-brand-500/10 transition-colors group"
                 >
-                  <td className="px-6 py-4">
+                  {/* Added whitespace-nowrap to cells */}
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <Link
                       to={`/business/${businessId}/items/${item.itemId}`}
                       className="font-semibold text-gray-800 dark:text-white uppercase text-xs tracking-tight hover:text-brand-500 transition-colors"
@@ -272,12 +274,12 @@ export default function InvoiceLedger({
                       {item.name}
                     </Link>
                   </td>
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6 py-4 text-center whitespace-nowrap">
                     <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                       {item.quantity}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-end">
+                  <td className="px-6 py-4 text-end whitespace-nowrap">
                     <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
                       {formatMoney(
                         item.price,
@@ -286,7 +288,7 @@ export default function InvoiceLedger({
                       )}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-end">
+                  <td className="px-6 py-4 text-end whitespace-nowrap">
                     <span className="font-black text-gray-800 dark:text-white text-xs">
                       {formatMoney(
                         item.total,
@@ -296,7 +298,7 @@ export default function InvoiceLedger({
                     </span>
                   </td>
                   {isEditable && (
-                    <td className="px-6 py-4 text-end">
+                    <td className="px-6 py-4 text-end whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => onEditItem(item)}

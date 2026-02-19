@@ -23,10 +23,11 @@
     }
   },
   "identity_card": {
-    "edit_record": "Edit Record",
     "issued": "Issued:",
     "due": "Due:",
     "edit": "Edit",
+    "edit_status": "Update Payment Status",
+    "edit_delivery": "Update Delivery Status",
     "created_on": "Invoice created on {{date}} by {{user}}",
     "valuation": "Valuation"
   },
@@ -63,13 +64,6 @@
       "grand_total": "Grand Total",
       "delivery_fee": "Delivery Fee"
     }
-  },
-  "sidebar": {
-    "lifecycle_title": "Lifecycle Management",
-    "payment_state": "Payment State",
-    "logistics": "Logistics",
-    "notes_title": "Internal Notes",
-    "notes_placeholder": "Add private notes here..."
   },
   "stats": {
     "profit": "Net Profit",
@@ -158,7 +152,7 @@
   },
   "loading": "Decrypting Financial Record...",
   "actions": {
-    "return": "return",
+    "return": "Return",
     "back": "Back"
   }
 }

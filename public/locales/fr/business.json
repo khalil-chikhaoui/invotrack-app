@@ -178,7 +178,7 @@
       "total_amount_label": "Montant total",
       "actions": {
         "saving": "Enregistrement des modifications...",
-        "update": "Mettre à jour la configuration"
+        "update": "Mettre à jour"
       },
       "options": {
         "comma": "Virgule",
