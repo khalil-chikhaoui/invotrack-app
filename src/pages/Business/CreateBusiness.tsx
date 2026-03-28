@@ -449,8 +449,8 @@ export default function CreateBusiness() {
               </div>
             </div>
 
-            {/* Form Section */}
-            <div className="flex-1 w-full max-w-2xl bg-white dark:bg-gray-900/50 p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-xl shadow-gray-200/50 dark:shadow-none">
+            {/* Form Section - UPDATED RESPONSIVE CLASSES HERE */}
+            <div className="flex-1 w-full max-w-2xl lg:max-w-4xl xl:max-w-5xl bg-white dark:bg-gray-900/50 p-4 sm:p-8 lg:p-12 rounded-3xl border border-gray-100 dark:border-white/5 shadow-xl shadow-gray-200/50 dark:shadow-none">
               <form onSubmit={handleSubmit} className="relative">
                 {generalError && (
                   <div className="mb-6 p-4 text-sm font-semibold text-white bg-error-500 rounded-xl shadow-sm">

@@ -73,7 +73,7 @@ export default function SelectBusiness() {
               values={{ name: user.name?.split(" ")[0] }}
               components={{
                 1: (
-                  <span className="text-brand-500 bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-indigo-600" />
+                  <span className="text-brand-500 bg-clip-text bg-gradient-to-r from-brand-500 to-indigo-600" />
                 ),
               }}
             />
@@ -99,14 +99,14 @@ export default function SelectBusiness() {
                 onClick={() => handleSelect(business._id)}
                 onMouseEnter={() => setHoveredId(business._id)}
                 onMouseLeave={() => setHoveredId(null)}
-                // REDUCED HEIGHT: Changed h-64 to h-48
+               
                 className={`
                   group relative flex flex-col p-5 h-48 rounded-[1.5rem] text-left transition-all duration-300 ease-out
                   border border-transparent
                   ${
                     isActive
-                      ? "bg-white dark:bg-slate-800 ring-2 ring-brand-500 ring-offset-4 ring-offset-slate-50 dark:ring-offset-[#0B1120] shadow-xl shadow-brand-500/10"
-                      : "bg-white dark:bg-slate-800 hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-black/50 hover:-translate-y-1"
+                      ? "bg-brand-600/9 dark:bg-slate-800 ring-2 ring-brand-500 ring-offset-4 ring-offset-slate-50 dark:ring-offset-[#0B1120] shadow-xl shadow-brand-500/10"
+                      : "bg-brand-600/9 dark:bg-slate-800 hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-black/50 hover:-translate-y-1"
                   }
                 `}
               >
@@ -187,16 +187,28 @@ export default function SelectBusiness() {
 
         {/* --- Footer Profile Bar --- */}
         <div className="mt-12 flex justify-center w-full animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
-          <div className="flex items-center gap-2 p-1.5 pr-4 bg-white dark:bg-slate-900 rounded-full shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 max-w-[90vw]">
+          <div
+            className="
+    flex items-center gap-2 p-1.5 pr-4 
+    bg-white dark:bg-slate-900 
+    border border-slate-100 dark:border-slate-800
+    shadow-lg shadow-slate-200/50 dark:shadow-none 
+    /* MOBILE: Full width and slightly squarer corners */
+    w-full rounded-2xl
+    /* DESKTOP: Back to auto-width and pill shape */
+    sm:w-auto sm:rounded-full
+  "
+          >
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-400 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-md shrink-0">
               {user.name?.charAt(0)}
             </div>
 
-            <div className="flex flex-col px-1 overflow-hidden">
+            {/* Using flex-1 to push the signout button to the right on mobile */}
+            <div className="flex flex-col px-1 overflow-hidden flex-1 sm:flex-none">
               <span className="text-sm font-bold text-slate-700 dark:text-slate-200 leading-tight truncate">
                 {user.name}
               </span>
-              <span className="text-[10px] text-slate-400 font-medium truncate max-w-[120px] sm:max-w-[150px]">
+              <span className="text-[10px] text-slate-400 font-medium truncate">
                 {user.email}
               </span>
             </div>
@@ -209,7 +221,6 @@ export default function SelectBusiness() {
               title={t("select.sign_out")}
             >
               <HiOutlineLogout className="size-4" />
-              {/* HIDDEN TEXT ON SMALL SCREENS */}
               <span className="hidden sm:inline">{t("select.sign_out")}</span>
             </button>
           </div>

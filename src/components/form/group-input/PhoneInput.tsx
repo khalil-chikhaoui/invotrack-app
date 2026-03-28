@@ -16,7 +16,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   country,
   value,
   onChange,
-  placeholder,
+  placeholder, 
   className = "",
   required = false,
 }) => {

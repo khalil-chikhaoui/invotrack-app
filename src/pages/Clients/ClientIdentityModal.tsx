@@ -144,7 +144,7 @@ export default function ClientIdentityModal({
           </div>
           <div>
             <Label>{t("modals.identity.fields.phone")}</Label>
-            <PhoneInput
+            <PhoneInput 
               country={formData.phone.country}
               value={formData.phone.number}
               onChange={(data) => setFormData({ ...formData, phone: data })}

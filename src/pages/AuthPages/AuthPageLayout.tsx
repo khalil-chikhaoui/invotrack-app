@@ -35,17 +35,14 @@ export default function AuthLayout({
         </div>
 
         {/* Right Sidebar (Desktop only) */}
-        <div className="items-center hidden w-full lg:w-1/2 bg-brand-950 dark:bg-white/5 lg:grid">
+        <div className="items-center hidden w-full lg:w-1/2 bg-brand-950 dark:bg-white/2 lg:grid">
           <div className="relative flex items-center justify-center z-1">
             <GridShape />
             <div className="flex flex-col items-center max-w-md">
               <Link to="/" className="block mb-4">
-                <img
-                  width={231}
-                  height={48}
-                  src="/images/logo/auth-logo.svg"
-                  alt="Logo"
-                />
+                <div className="font-black text-3xl text-gray-900 dark:text-white">
+                  InvoTrack
+                </div>
               </Link>
               <p className="text-center text-gray-400 dark:text-white/60">
                 {t("layout.tagline")}
