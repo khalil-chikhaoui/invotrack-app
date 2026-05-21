@@ -54,7 +54,7 @@ export default function SignInForm() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-start sm:justify-center sm:pt-0">
+      <div className="flex flex-col flex-1 w-full max-w-lg mx-auto justify-start sm:justify-center sm:pt-0">
         <div>
           {/* --- Form Header --- */}
           <div className="mb-5 sm:mb-8">

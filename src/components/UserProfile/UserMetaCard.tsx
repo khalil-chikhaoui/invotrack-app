@@ -20,7 +20,7 @@ import Button from "../ui/button/Button";
 export default function UserMetaCard({
   setAlert,
 }: {
-  setAlert: (alert: any) => void;
+  setAlert: (alert: any) => void; 
 }) {
   const { t } = useTranslation("user");
   const { user, login, token } = useAuth();

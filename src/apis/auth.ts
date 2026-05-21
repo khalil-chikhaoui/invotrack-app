@@ -5,7 +5,7 @@
  */
 
 const API_ROOT =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
+  import.meta.env.VITE_API_BASE_URL ||  "http://localhost:3040/api";
 
 /**
  * Base endpoint for user-related authentication and profile actions.

@@ -124,7 +124,7 @@ export default function EditClientModal({
             </div>
             <div>
               <Label>{t("modals.client.fields.phone")}</Label>
-              <PhoneInput
+              <PhoneInput 
                 country={formData.phone.country}
                 value={formData.phone.number}
                 onChange={(data) => setFormData({ ...formData, phone: data })}

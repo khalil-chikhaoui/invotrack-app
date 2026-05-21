@@ -176,33 +176,31 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* --- TOP: LOGO & BUSINESS SWITCHER --- */}
-      <div className="shrink-0 flex flex-col border-b border-gray-100 dark:border-white/5 z-10">
+      <div className="shrink-0 flex flex-col border-b pt-2 border-gray-100 dark:border-white/5 z-10">
         <div
           className={`h-16 flex items-center transition-all duration-300 ${
             !showFullSidebar ? "justify-center px-0" : "px-6"
           }`}
         >
-          {/*<Link
+          <Link
             to={getScopedPath("/")}
             onClick={handleLinkClick}
-            className={`flex items-center justify-center transition-all duration-500 ${
-              !showFullSidebar
-                ? "w-0 opacity-0 overflow-hidden"
-                : "w-auto opacity-100"
+            className={`flex items-center group transition-all duration-300 w-full ${
+              !showFullSidebar ? "justify-center" : ""
             }`}
           >
-            <img
-              src="/images/logo/logo.svg"
-              className="dark:hidden w-32"
-              alt="Logo"
-            />
-            <img
-              src="/images/logo/logo-dark.svg"
-              className="hidden dark:block w-32"
-              alt="Logo"
-            />
-          </Link>*/}
-          {!showFullSidebar && <div className="w-0 h-8"></div>}
+            <div className="w-9 h-9 shrink-0 bg-brand-600 dark:bg-white rounded-xl flex items-center justify-center text-white dark:text-brand-950 font-bold text-xl shadow-lg shadow-brand-500/20 dark:shadow-white/10 group-hover:scale-105 transition-transform">
+              I
+            </div>
+            
+            <div
+              className={`font-black text-xl text-gray-900 dark:text-white whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                !showFullSidebar ? "w-0 opacity-0 ml-0" : "w-auto opacity-100 ml-3"
+              }`}
+            >
+              InvoTrack
+            </div>
+          </Link>
         </div>
 
         <div className="p-2">

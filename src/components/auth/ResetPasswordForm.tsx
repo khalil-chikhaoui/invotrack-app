@@ -42,7 +42,7 @@ export default function ResetPasswordForm() {
   };
 
   return (
-    <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-start lg:justify-center">
+    <div className="flex flex-col flex-1 w-full max-w-xl mx-auto justify-start lg:justify-center">
       {/* --- Navigation Backlink --- */}
       <div className="w-full mb-4 mt-2 sm:mt-10 animate-in fade-in duration-500">
         <button

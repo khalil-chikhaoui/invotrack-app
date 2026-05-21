@@ -4,7 +4,6 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
-import { ScrollToTop } from "./components/common/ScrollToTop";
 
 // --- IMPORTS ---
 import SignIn from "./pages/AuthPages/SignIn";
@@ -42,6 +41,7 @@ import CreateDeliveryNote from "./pages/Delivery/CreateDeliveryNote";
 import DeliveryHistory from "./pages/Delivery/DeliveryHistory";
 import PublicDeliveryNoteViewer from "./pages/Delivery/PublicDeliveryNoteViewer";
 import DeliveryDetails from "./pages/Delivery/DeliveryDetails";
+import { ScrollToTop } from "./hooks/scrollToTop"; // <-- Import it
 
 // --- GLOBAL BACKGROUND COMPONENT ---
 // This sits behind the entire app

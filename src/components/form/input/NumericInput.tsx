@@ -71,7 +71,6 @@ const NumericInput: FC<NumericInputProps> = ({
       <input
         type="text"
         inputMode="decimal"
-        // 👇 FIXED: Added dot (.) to the allowed pattern so forms don't complain
         pattern="[0-9.]*" 
         id={id}
         name={name}

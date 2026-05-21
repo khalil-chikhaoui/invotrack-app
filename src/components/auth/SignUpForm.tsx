@@ -66,7 +66,7 @@ export default function SignUpForm() {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex flex-col w-full max-w-md mx-auto lg:justify-center lg:flex-1">
+      <div className="flex flex-col w-full max-w-lg mx-auto lg:justify-center lg:flex-1">
         <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
           {/* --- Header --- */}
           <div className="mb-6 sm:mb-8 mt-2">

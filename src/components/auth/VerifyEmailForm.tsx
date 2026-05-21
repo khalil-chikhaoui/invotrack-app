@@ -83,7 +83,7 @@ export default function VerifyEmailForm() {
   };
 
   return (
-    <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-start lg:justify-center">
+    <div className="flex flex-col flex-1 w-full max-w-lg mx-auto justify-start lg:justify-center">
       {/* Back Link */}
       <div className="w-full mb-4 mt-2 sm:mt-10 animate-in fade-in duration-500">
         <Link

@@ -132,7 +132,7 @@ export default function AcceptInvitationForm() {
   // Error State (e.g. Expired Token)
   if (error && !inviteData) {
     return (
-      <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-center">
+      <div className="flex flex-col flex-1 w-full max-w-lg mx-auto justify-center">
         <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 animate-in zoom-in duration-300">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-error-50 dark:bg-error-900/30 mb-6">
             <svg
@@ -169,7 +169,7 @@ export default function AcceptInvitationForm() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 w-full max-w-md mx-auto justify-start pt-10 sm:justify-center sm:pt-0">
+      <div className="flex flex-col flex-1 w-full max-w-lg mx-auto justify-start pt-10 sm:justify-center sm:pt-0">
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           {/* Header & Org Identity */}
           <div className="mb-5 sm:mb-8">

@@ -26,7 +26,7 @@ export default function UserInfoCard({
 
   const nameParts = user.name ? user.name.split(" ") : ["", ""];
   const [formData, setFormData] = useState({
-    firstName: nameParts[0] || "",
+    firstName: nameParts[0] || "", 
     lastName: nameParts.slice(1).join(" ") || "",
   });
 
