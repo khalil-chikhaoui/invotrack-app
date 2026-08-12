@@ -79,7 +79,7 @@ const CountryInput: FC<CountryInputProps> = ({
   return (
     <div className="relative w-full group">
       {/* Icon Prefix */}
-      <div className="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-gray-400 transition-colors pointer-events-none group-focus-within:text-brand-500 dark:text-gray-400 dark:group-focus-within:text-brand-400">
+      <div className="absolute inset-y-0 left-0 z-10 flex items-center pl-3.5 text-gray-500 transition-colors pointer-events-none group-focus-within:text-brand-500 dark:text-gray-300 dark:group-focus-within:text-brand-400">
         <HiOutlineMapPin className="size-5" />
       </div>
 
@@ -106,7 +106,7 @@ const CountryInput: FC<CountryInputProps> = ({
       {showSuggestions && (
         <>
           {/* List */}
-          <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl dark:bg-gray-900 dark:border-gray-700 max-h-56 overflow-y-auto custom-scrollbar animate-in fade-in zoom-in-95 duration-100">
+          <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:border-gray-700 max-h-56 overflow-y-auto custom-scrollbar animate-in fade-in zoom-in-95 duration-100">
             {filteredCountries.length > 0 ? (
               filteredCountries.map((c) => (
                 <div
@@ -124,11 +124,11 @@ const CountryInput: FC<CountryInputProps> = ({
                 >
                   <span className="font-medium">{c.name}</span>
                   {/* Optional: Show ISO code lightly on the right */}
-                  <span className="text-xs text-gray-400 font-mono opacity-50">{c.code}</span>
+                  <span className="text-xs text-gray-500 font-mono opacity-50">{c.code}</span>
                 </div>
               ))
             ) : (
-              <div className="px-4 py-3 text-sm italic text-center text-gray-400 dark:text-gray-500">
+              <div className="px-4 py-3 text-sm italic text-center text-gray-500 dark:text-gray-400">
                 No countries found
               </div>
             )}
@@ -137,7 +137,7 @@ const CountryInput: FC<CountryInputProps> = ({
       )}
 
       {/* Helper Text */}
-      {hint && <p className="mt-1.5 text-xs text-gray-500">{hint}</p>}
+      {hint && <p className="mt-1.5 text-xs text-gray-600">{hint}</p>}
     </div>
   );
 };

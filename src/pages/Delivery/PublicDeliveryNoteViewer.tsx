@@ -7,7 +7,10 @@ import { useState, useEffect, useMemo } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { PDFViewer, BlobProvider } from "@react-pdf/renderer";
 import { useTranslation } from "react-i18next";
-import { HiOutlineExclamationTriangle, HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import {
+  HiOutlineExclamationTriangle,
+  HiOutlineDocumentArrowDown,
+} from "react-icons/hi2";
 
 // APIs
 import { deliveryApi, DeliveryNoteData } from "../../apis/deliveries";
@@ -17,6 +20,7 @@ import { InvoiceData } from "../../apis/invoices";
 // Components
 import DeliveryNotePDF from "../../components/delivery/DeliveryNotePDF";
 import LoadingState from "../../components/common/LoadingState";
+import Alert from "../../components/ui/alert/Alert";
 
 export default function PublicDeliveryNoteViewer() {
   const { t } = useTranslation("delivery");
@@ -40,7 +44,7 @@ export default function PublicDeliveryNoteViewer() {
         const noteData = await deliveryApi.getDeliveryNoteById(id);
         setNote(noteData);
         setBusiness(noteData.businessId as unknown as BusinessData);
-      } catch (err: any) {
+      } catch (err) {
         console.error(err);
         setError(t("public_viewer.error_not_found"));
       } finally {
@@ -61,7 +65,10 @@ export default function PublicDeliveryNoteViewer() {
     } as BusinessData;
   }, [business, searchParams]);
 
-  if (loading) return <LoadingState message={t("public_viewer.loading")} minHeight="100vh" />;
+  if (loading)
+    return (
+      <LoadingState message={t("public_viewer.loading")} minHeight="100vh" />
+    );
 
   if (error || !note || !displayBusiness) {
     return (
@@ -70,7 +77,7 @@ export default function PublicDeliveryNoteViewer() {
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
           {t("public_viewer.error_title") || "Error"}
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 text-lg max-w-md mx-auto">{error}</p>
+        <Alert variant="error" message={error} />
       </div>
     );
   }
@@ -109,7 +116,7 @@ export default function PublicDeliveryNoteViewer() {
               <h2 className="mt-8 text-xl font-bold text-gray-900 dark:text-white">
                 {t("public_viewer.preparing")}
               </h2>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
                 {note.deliveryNumber} • {displayBusiness.name}
               </p>
             </div>

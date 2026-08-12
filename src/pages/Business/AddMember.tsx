@@ -61,10 +61,10 @@ export default function AddMember() {
       setTimeout(() => {
         navigate(`/business/${businessId}/members`);
       }, 1800);
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.INVITATION_FAILED"),
       );
 
@@ -99,7 +99,7 @@ export default function AddMember() {
         {/* Navigation Control */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 mb-6 text-[10px] font-semibold text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400 transition-colors uppercase tracking-widest"
+          className="flex items-center gap-2 mb-6 text-[10px] font-semibold text-gray-600 hover:text-brand-500 dark:text-gray-300 dark:hover:text-brand-400 transition-colors uppercase tracking-widest"
         >
           <HiOutlineArrowLeft className="size-4" />
           {t("actions.back")}
@@ -109,7 +109,7 @@ export default function AddMember() {
         <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
         <div className="mb-4 border-b border-gray-100 dark:border-gray-800 pb-6">
-          <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-300">
+          <p className="mt-1 text-sm font-medium text-gray-600 dark:text-gray-300">
             {t("invite.subtitle")}
           </p>
         </div>
@@ -182,7 +182,7 @@ export default function AddMember() {
                   <option value="Manager">{t("roles.Manager")}</option>
                   <option value="Admin">{t("roles.Admin")}</option>
                 </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                   <svg
                     width="18"
                     height="18"

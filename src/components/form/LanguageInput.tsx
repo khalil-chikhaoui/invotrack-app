@@ -28,7 +28,7 @@ export default function LanguageInput({
       <div className="relative group">
         {/* Left Icon */}
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <HiGlobeAlt className="h-5 w-5 text-gray-400 group-focus-within:text-brand-500 transition-colors" />
+          <HiGlobeAlt className="h-5 w-5 text-gray-500 group-focus-within:text-brand-500 transition-colors" />
         </div>
 
         {/* Select Input */}
@@ -44,7 +44,7 @@ export default function LanguageInput({
 
         {/* Right Chevron */}
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-          <HiChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400 group-focus-within:text-brand-500 transition-colors" />
+          <HiChevronDown className="h-4 w-4 text-gray-600 dark:text-gray-300 group-focus-within:text-brand-500 transition-colors" />
         </div>
       </div>
     </div>

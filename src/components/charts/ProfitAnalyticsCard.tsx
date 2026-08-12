@@ -37,8 +37,8 @@ export default function ProfitAnalyticsCard({
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const LIGHT_COLORS = ["#465FFF", "#10B981"];
-  const DARK_COLORS = ["#465FFF", "#34D399"];
+  const LIGHT_COLORS = ["#f97316", "#10B981"];
+  const DARK_COLORS = ["#f97316", "#34D399"];
 
   const hasData = useMemo(
     () => data.length > 0 && data.some((b) => b.profit > 0 || b.cost > 0),
@@ -124,7 +124,7 @@ const options: ApexOptions = {
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {title}
           </h3>
-          <p className="text-[11px] font-medium text-gray-600 dark:text-gray-300  tracking-wider">
+          <p className="text-[11px] font-medium text-gray-700 dark:text-gray-300  tracking-wider">
             {subtitle}
           </p>
         </div>
@@ -139,11 +139,11 @@ const options: ApexOptions = {
           <LoadingState message="Calculating margins..." minHeight="full" />
         ) : !hasData ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-xl bg-gray-50/50 dark:bg-white/[0.01]">
-            <HiOutlineCurrencyDollar className="size-10 text-gray-400 mb-3" />
+            <HiOutlineCurrencyDollar className="size-10 text-gray-500 mb-3" />
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white  tracking-widest">
               {emptyTitle}
             </h4>
-            <p className="text-xs text-gray-500 mt-1">{emptyDescription}</p>
+            <p className="text-xs text-gray-600 mt-1">{emptyDescription}</p>
           </div>
         ) : (
           <div className="absolute inset-0 w-full h-full">

@@ -55,7 +55,7 @@ export default function SelectField({
   return (
     <div className={`relative ${className}`} ref={containerRef}>
       {label && (
-        <label className="text-[10px] font-semibold text-gray-600 dark:text-gray-300  mb-1.5 flex items-center uppercase tracking-wide">
+        <label className="text-[10px] font-semibold text-gray-700 dark:text-gray-300  mb-1.5 flex items-center uppercase tracking-wide">
           {label} {isActive && <PulseDot />}
         </label>
       )}
@@ -77,7 +77,7 @@ export default function SelectField({
           </span>
           <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
             <HiChevronDown
-              className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+              className={`h-4 w-4 text-gray-600 transition-transform duration-200 ${
                 isOpen ? "rotate-180 text-brand-500" : ""
               }`}
             />
@@ -85,7 +85,7 @@ export default function SelectField({
         </button>
 
         {isOpen && (
-          <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-xl shadow-gray-200/50 dark:shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
+          <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg dark:shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
             <ul className="max-h-60 overflow-auto py-1 custom-scrollbar">
               {options.map((option) => {
                 const isSelected = value === option.value;

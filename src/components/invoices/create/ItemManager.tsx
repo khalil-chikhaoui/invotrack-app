@@ -15,7 +15,7 @@ import { CurrencyFormat } from "../../../apis/business";
 import ConfirmModal from "../../common/ConfirmModal";
 
 interface ItemManagerProps {
-  items: any[];
+  items: InvoiceItem[];
   availableItems: ItemData[];
   onSelectProduct: (item: ItemData) => void;
   onEditItem: (index: number) => void;
@@ -144,13 +144,13 @@ export default function ItemManager({
 
   return (
     <div className="relative" ref={containerRef} onKeyDown={handleKeyDown}>
-      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-md shadow-sm flex flex-col transition-all">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-md flex flex-col transition-all">
         <div className="px-6 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-white dark:bg-gray-900/50 rounded-t-md">
           <div className="flex items-center gap-2">
             <div className="p-1 rounded-lg bg-gray-100 dark:bg-white/5">
-              <HiOutlineCubeTransparent className="size-3.5 text-gray-600 dark:text-gray-300" />
+              <HiOutlineCubeTransparent className="size-3.5 text-gray-700 dark:text-gray-300" />
             </div>
-            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-600 dark:text-gray-300">
+            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-700 dark:text-gray-300">
               {t("create.sections.items")}
             </h3>
           </div>
@@ -167,7 +167,7 @@ export default function ItemManager({
           <div className="relative group">
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
               <HiOutlineMagnifyingGlass
-                className={`size-4 transition-colors ${searching ? "text-brand-500" : "text-gray-400"}`}
+                className={`size-4 transition-colors ${searching ? "text-brand-500" : "text-gray-500"}`}
               />
             </div>
             <input
@@ -190,7 +190,7 @@ export default function ItemManager({
             </div>
 
             {isOpen && (
-              <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl shadow-brand-500/10 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                 <div
                   ref={scrollParentRef}
                   className="max-h-[240px] overflow-y-auto custom-scrollbar"
@@ -211,13 +211,13 @@ export default function ItemManager({
                           <span className="text-sm font-medium text-gray-800 dark:text-white truncate  tracking-tight leading-tight">
                             <HighlightText text={i.name} highlight={search} />
                           </span>
-                          <span className="text-[10px] text-gray-600 dark:text-gray-300 truncate font-medium mt-0.5">
+                          <span className="text-[10px] text-gray-700 dark:text-gray-300 truncate font-medium mt-0.5">
                             {i.itemType} {i.sku ? `• ${i.sku}` : ""}
                           </span>
                         </div>
 
                         <div className="flex items-center gap-3 shrink-0">
-                          <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">
+                          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
                             {formatMoney(i.price, currency, currencyFormat)}
                           </span>
                           <HiPlus className="size-4 text-brand-500" />
@@ -226,7 +226,7 @@ export default function ItemManager({
                     ))
                   ) : (
                     <div className="p-6 text-center">
-                      <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
+                      <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         {t("create.item_manager.no_products")}
                       </p>
                     </div>
@@ -239,7 +239,7 @@ export default function ItemManager({
  
         <div className="overflow-x-auto rounded-b-[2rem]">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
+            <div className="flex flex-col items-center justify-center py-16 text-gray-700 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
               <HiOutlineCubeTransparent className="size-8 mb-2 " />
               <span className="text-[10px] font-semibold uppercase tracking-[0.1em] ">
                 {t("create.item_manager.empty_ledger")}
@@ -248,7 +248,7 @@ export default function ItemManager({
           ) : (
             <table className="w-full text-start border-t border-gray-100 dark:border-white/5">
               <thead>
-                <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-500">
                   {/* Added whitespace-nowrap to headers */}
                   <th className="px-6 py-3 text-gray-700 dark:text-gray-300 text-start whitespace-nowrap">
                     {t("create.item_manager.headers.nomenclature")}
@@ -280,17 +280,17 @@ export default function ItemManager({
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center whitespace-nowrap">
-                      <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
+                      <span className="font-semibold text-gray-700 dark:text-gray-300 text-xs">
                         {item.quantity}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-end whitespace-nowrap">
-                      <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
+                      <span className="font-semibold text-gray-700 dark:text-gray-300 text-xs">
                         {formatMoney(item.price, currency, currencyFormat)}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-end whitespace-nowrap">
-                      <span className="font-black text-gray-600 dark:text-gray-300 text-xs">
+                      <span className="font-black text-gray-700 dark:text-gray-300 text-xs">
                         {formatMoney(item.total, currency, currencyFormat)}
                       </span>
                     </td>

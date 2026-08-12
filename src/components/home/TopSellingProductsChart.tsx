@@ -43,7 +43,7 @@ export default function TopSellingProductsChart({
   const [internalLoading, setInternalLoading] = useState(true);
 
   // Colors
-  const LIGHT_COLORS = ["#465FFF", "#34D399", "#F59E0B", "#EF4444", "#8B5CF6"];
+  const LIGHT_COLORS = ["#f97316", "#34D399", "#F59E0B", "#EF4444", "#8B5CF6"];
   const DARK_COLORS = ["#818CF8", "#6EE7B7", "#FCD34D", "#F87171", "#A78BFA"];
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export default function TopSellingProductsChart({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {t("charts.products.title")}
           </h3>
-          <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider">
+          <p className="mt-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300  tracking-wider">
             {t("charts.products.subtitle", { range: formattedDateRange })}
           </p>
         </div>
@@ -163,12 +163,12 @@ export default function TopSellingProductsChart({
         {!hasData ? (
           <div className="flex flex-col items-center justify-center text-center">
             <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3">
-              <HiOutlineShoppingBag className="size-6 text-gray-600 dark:text-gray-400" />
+              <HiOutlineShoppingBag className="size-6 text-gray-700 dark:text-gray-300" />
             </div>
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white  tracking-widest">
               {t("charts.products.no_data_title")}
             </h4>
-            <p className="text-[12px] text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-[12px] text-gray-700 dark:text-gray-300 mt-1">
               {t("charts.products.no_data_desc")}
             </p>
           </div>

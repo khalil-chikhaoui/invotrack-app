@@ -77,7 +77,7 @@ export default function ItemAnalyticsTab({
           />
         </div>
         <div className="hidden xl:flex h-full min-h-[350px] rounded-2xl border border-dashed border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.01] items-center justify-center">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">
+          <span className="text-xs font-medium text-gray-500 uppercase tracking-widest">
             TODO MORE :D
           </span>
         </div>

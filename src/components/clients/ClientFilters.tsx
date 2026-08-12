@@ -128,7 +128,7 @@ export default function ClientFilters({
         {/* Search + Mobile Controls */}
         <div className="flex flex-1 items-end gap-2">
           <div className="flex-1">
-            <label className="hidden xl:block text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 uppercase tracking-widest">
+            <label className="hidden xl:block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-widest">
               {t("filters.search_label")}
             </label>
             <Input
@@ -243,7 +243,7 @@ export default function ClientFilters({
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight leading-none">
                       {t("filters.modal_title")}
                     </h3>
-                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mt-1">
                       {t("filters.modal_desc")}
                     </p>
                   </div>
@@ -253,7 +253,7 @@ export default function ClientFilters({
                   onClick={() => setIsFilterModalOpen(false)}
                   className="group p-2 -mr-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"
                 >
-                  <HiOutlineXMark className="size-5 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors" />
+                  <HiOutlineXMark className="size-5 text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors" />
                 </button>
               </div>
             </div>
@@ -275,8 +275,8 @@ export default function ClientFilters({
                   className={`w-full sm:w-auto px-4 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all duration-200 border border-transparent
                     ${
                       hasActiveFilters
-                        ? "text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer"
-                        : "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                        ? "text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer"
+                        : "text-gray-300 dark:text-gray-400 cursor-not-allowed"
                     }
                   `}
                 >

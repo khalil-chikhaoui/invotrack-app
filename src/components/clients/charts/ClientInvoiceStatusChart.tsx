@@ -67,12 +67,12 @@ export default function ClientInvoiceStatusChart({
       dark:bg-white/[0.03] min-w-0 items-center justify-center text-center"
       >
         <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-          <HiOutlineDocumentText className="size-6 text-gray-400 dark:text-gray-500" />
+          <HiOutlineDocumentText className="size-6 text-gray-500 dark:text-gray-400" />
         </div>
         <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
           {t("analytics.status.no_data_title")}
         </h4>
-        <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
+        <p className="text-[10px] text-gray-600 dark:text-gray-300 mt-1">
           {t("analytics.status.no_data_desc")}
         </p>
       </div>
@@ -148,7 +148,7 @@ export default function ClientInvoiceStatusChart({
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
           {t("analytics.status.title")}
         </h3>
-        <p className="mt-1 text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+        <p className="mt-1 text-[11px] font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
           {t("analytics.status.subtitle")}
         </p>
       </div>

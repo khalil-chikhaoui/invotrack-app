@@ -16,7 +16,7 @@ interface ItemHistoryTabProps {
   meta: InvoicePaginationMeta | null;
   setPage: (p: number) => void;
 
-  filterProps: any;
+  filterProps: Record<string, unknown>;
 }
 
 export default function ItemHistoryTab({
@@ -43,7 +43,7 @@ export default function ItemHistoryTab({
       </div>
 
       {/* 2. THE MASTER CARD */}
-      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl overflow-hidden">
         <InvoiceFilters placeholder="Invoice # ..." {...filterProps} />
 
         {showTable ? (
@@ -59,9 +59,9 @@ export default function ItemHistoryTab({
           /* Empty State  */
           <div className="flex flex-col items-center justify-center py-20 bg-gray-50/30 dark:bg-white/[0.01]">
             <div className="p-4 rounded-full bg-gray-100 dark:bg-white/5 mb-3">
-              <HiOutlineInformationCircle className="size-8 text-gray-300 dark:text-gray-600" />
+              <HiOutlineInformationCircle className="size-8 text-gray-300 dark:text-gray-400" />
             </div>
-            <p className="text-xs font-semibold text-center text-gray-400 uppercase tracking-widest">
+            <p className="text-xs font-semibold text-center text-gray-500 uppercase tracking-widest">
               {filterProps.statusFilter
                 ? t("history_tab.empty_filter")
                 : t("history_tab.empty_item")}

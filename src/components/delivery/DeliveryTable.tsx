@@ -37,7 +37,7 @@ interface DeliveryTableProps {
   loading?: boolean;
   onPageChange: (page: number) => void;
   onDelete: (id: string) => void;
-  business: BusinessData | null 
+  business: BusinessData | null;
 }
 
 export default function DeliveryTable({
@@ -50,7 +50,7 @@ export default function DeliveryTable({
 }: DeliveryTableProps) {
   const { t } = useTranslation("delivery");
   const { t: tCommon } = useTranslation("common");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleReprint = (noteId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -62,7 +62,7 @@ export default function DeliveryTable({
 
   const handleRowClick = (noteId: string) => {
     if (business?._id) {
-       navigate(`/business/${business._id}/delivery/${noteId}`);
+      navigate(`/business/${business._id}/delivery/${noteId}`);
     }
   };
 
@@ -74,35 +74,35 @@ export default function DeliveryTable({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[150px]"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start min-w-[150px] whitespace-nowrap"
               >
                 {t("list.columns.details")}
               </TableCell>
 
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.status")}
               </TableCell>
 
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.invoices")}
               </TableCell>
 
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.value")}
               </TableCell>
 
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-end"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-end whitespace-nowrap"
               >
                 {t("list.columns.actions")}
               </TableCell>
@@ -123,7 +123,7 @@ export default function DeliveryTable({
                 <TableCell colSpan={5} className="p-0 border-none">
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <div className="p-4 rounded-full bg-gray-50 dark:bg-white/5 mb-3">
-                      <HiOutlineInbox className="size-8 text-gray-300 dark:text-gray-600" />
+                      <HiOutlineInbox className="size-8 text-gray-300 dark:text-gray-400" />
                     </div>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {t("list.empty_history")}
@@ -144,16 +144,16 @@ export default function DeliveryTable({
                     className="group hover:bg-gray-50/80 dark:hover:bg-white/[0.02] transition-all cursor-pointer"
                   >
                     {/* 1. MANIFEST INFO  */}
-                    <TableCell className="px-5 py-4 text-start">
+                    <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-white/[0.05] text-gray-500 group-hover:bg-brand-50 group-hover:text-brand-500 dark:group-hover:bg-brand-500/20 dark:group-hover:text-brand-400 transition-colors">
+                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-white/[0.05] text-gray-600 group-hover:bg-brand-50 group-hover:text-brand-500 dark:group-hover:bg-brand-500/20 dark:group-hover:text-brand-400 transition-colors">
                           <HiOutlineTruck className="size-5" />
                         </div>
                         <div className="flex flex-col text-start">
                           <span className="font-semibold text-theme-sm text-gray-800 dark:text-white leading-tight">
                             {note.deliveryNumber}
                           </span>
-                          <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">
+                          <span className="text-[10px] text-gray-600 dark:text-gray-300 font-medium tracking-wide mt-0.5">
                             {format(new Date(note.createdAt), "MMM do, yyyy")}
                           </span>
                         </div>
@@ -161,7 +161,7 @@ export default function DeliveryTable({
                     </TableCell>
 
                     {/* 2. LOGISTICS HEALTH  */}
-                    <TableCell className="px-5 py-4 text-start">
+                    <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                       <div className="flex flex-wrap gap-2">
                         {note.statusCounts.Pending > 0 && (
                           <Badge
@@ -207,7 +207,7 @@ export default function DeliveryTable({
                     </TableCell>
 
                     {/* 3. QUANTITY */}
-                    <TableCell className="px-5 py-4 text-start">
+                    <TableCell className="px-5 py-4 text-start whitespace-nowrap">
                       <div className="flex flex-col text-start leading-tight">
                         <span className="text-theme-sm font-medium text-gray-800 dark:text-white/90">
                           {note.invoices.length}
@@ -232,12 +232,12 @@ export default function DeliveryTable({
                     </TableCell>
 
                     {/* 5. ACTIONS  */}
-                    <TableCell className="px-5 py-4 text-end">
+                    <TableCell className="px-5 py-4 text-end whitespace-nowrap">
                       <div className="flex justify-end items-center gap-1">
                         {/* REPRINT BUTTON  */}
                         <button
                           onClick={(e) => handleReprint(note._id, e)}
-                          className="p-2 text-gray-600 dark:text-gray-400 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 rounded-lg transition-all"
+                          className="p-2 text-gray-800 dark:text-white/90 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 rounded-lg transition-all"
                           title={t("actions.reprint")}
                         >
                           <HiOutlinePrinter className="size-5" />

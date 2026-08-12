@@ -108,7 +108,7 @@ const TRANSLATIONS = {
   },
 };
 
-const DATE_LOCALES: Record<string, any> = { en: enUS, de: de, fr: fr };
+const DATE_LOCALES: Record<string, Record<string, string>> = { en: enUS, de: de, fr: fr };
 
 const createStyles = (primaryColor: string) =>
   StyleSheet.create({
@@ -347,7 +347,7 @@ export default function DeliveryNotePDF({
                     { backgroundColor: theme.bg, color: theme.text },
                   ]}
                 >
-                  {(t as any)[
+                  {(t as (key: string) => string)[
                     `status_${(inv.deliveryStatus || "pending").toLowerCase()}`
                   ] || inv.deliveryStatus}
                 </Text>

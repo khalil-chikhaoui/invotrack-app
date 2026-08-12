@@ -31,7 +31,7 @@ export default function BusinessMetaCard({
 }: {
   business: BusinessData;
   refresh: () => void;
-  setAlert: (alert: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }) {
   const { t } = useTranslation("business");
   const { businessId } = useParams();
@@ -76,7 +76,7 @@ export default function BusinessMetaCard({
   // --- Helpers ---
   const updateGlobalUserLogo = (newLogo: string) => {
     if (!user) return;
-    const updatedMemberships = user.memberships.map((m: any) => {
+    const updatedMemberships = user.memberships.map((m: { businessId?: { _id: string; name: string; logo?: string } }) => {
       if (m.businessId._id === businessId) {
         return { ...m, businessId: { ...m.businessId, logo: newLogo } };
       }
@@ -110,7 +110,7 @@ export default function BusinessMetaCard({
     fd.append("image", file);
 
     try {
-      const data: any = await businessApi.uploadLogo(businessId, fd);
+      const data = await businessApi.uploadLogo(businessId, fd);
       updateGlobalUserLogo(data.logo);
       setAlert({
         type: "success",
@@ -118,13 +118,13 @@ export default function BusinessMetaCard({
         message: t("messages.LOGO_UPLOADED"),
       });
       refresh();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.SYNC_FAILED"),
         message: t(
-          `errors.${errorCode}` as any,
+          `errors.${errorCode}`,
           t("errors.LOGO_UPLOAD_FAILED"),
         ),
       });
@@ -147,12 +147,12 @@ export default function BusinessMetaCard({
       });
       refresh();
       closeDeleteModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.REMOVAL_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setDeleting(false);
@@ -170,7 +170,7 @@ export default function BusinessMetaCard({
         message: t("messages.LANGUAGE_UPDATED"),
       });
       refresh();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
@@ -192,12 +192,12 @@ export default function BusinessMetaCard({
       });
       refresh();
       closeEditModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -210,7 +210,7 @@ export default function BusinessMetaCard({
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     {/* LOGO DISPLAY */}
           <div className="relative shrink-0">
-            <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-white dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-black/20 bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
+            <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-white dark:border-gray-700 dark:shadow-black/20 bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
               {uploading ? (
                 <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
               ) : business.logo ? (
@@ -220,7 +220,7 @@ export default function BusinessMetaCard({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-3xl font-semibold text-gray-300 dark:text-gray-500 uppercase">
+                <span className="text-3xl font-semibold text-gray-300 dark:text-gray-400 uppercase">
                   {business.name?.charAt(0)}
                 </span>
               )}
@@ -238,7 +238,7 @@ export default function BusinessMetaCard({
               </span>
             </div>
 
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300 max-w-2xl">
               {business.legalName || business.name}
             </p>
 
@@ -305,7 +305,7 @@ export default function BusinessMetaCard({
             </div>
             {/* Helper text  */}
             <div className="pb-3">
-              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300 ">
+              <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300 ">
                 {t("settings.general.form.language_helper")}
               </p>
               {langUpdating && (

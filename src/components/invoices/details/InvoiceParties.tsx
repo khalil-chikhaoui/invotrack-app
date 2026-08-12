@@ -62,7 +62,7 @@ export default function InvoiceParties({
         {/* --- Email Row --- */}
         {invoice.clientSnapshot.email && (
           <div className="flex items-center gap-2 my-2 group">
-            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium tracking-wide">
+            <p className="text-xs text-gray-700 dark:text-gray-300 font-medium tracking-wide">
               {invoice.clientSnapshot.email}
             </p>
             <ClipboardButton
@@ -88,7 +88,7 @@ export default function InvoiceParties({
 
             return (
               <div className="flex items-center gap-2 mb-2 group">
-                <p className="text-xs text-gray-600 dark:text-gray-300 font-medium tracking-wide">
+                <p className="text-xs text-gray-700 dark:text-gray-300 font-medium tracking-wide">
                   {invoice.clientSnapshot.phone.number}
                 </p>
                 <ClipboardButton
@@ -102,7 +102,7 @@ export default function InvoiceParties({
         {/* --- Address Row --- */}
         {address?.street && (
           <div className="flex items-start justify-between group mt-2 pt-2 border-t border-gray-100 dark:border-white/5">
-            <div className="text-xs text-gray-600 dark:text-gray-300 font-medium leading-relaxed">
+            <div className="text-xs text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
               {address.street}, {address.city}
               <br />
               {address.zipCode}, {address.country}

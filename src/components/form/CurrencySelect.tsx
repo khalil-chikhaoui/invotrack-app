@@ -81,7 +81,7 @@ export default function CurrencySelect({
         ${
           selectedCurrency
             ? "text-gray-800 dark:text-white/90"
-            : "text-gray-400 dark:text-gray-500"
+            : "text-gray-500 dark:text-gray-400"
         }`}
       >
         <span className="truncate">
@@ -90,7 +90,7 @@ export default function CurrencySelect({
             : t("currency_select.placeholder")}
         </span>
         <svg
-          className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
+          className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
           fill="currentColor"
@@ -106,13 +106,13 @@ export default function CurrencySelect({
 
       {/* DROPDOWN CONTENT */}
       {isOpen && (
-        <div className="absolute z-50 mt-2 w-full rounded-xl border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900 overflow-hidden animate-fadeIn">
+        <div className="absolute z-50 mt-2 w-full rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 overflow-hidden animate-fadeIn">
           {/* Search Input Sticky at Top */}
           <div className="border-b border-gray-100 dark:border-gray-800 p-2 bg-white dark:bg-gray-900 sticky top-0 z-10">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
-                  className="h-4 w-4 text-gray-400"
+                  className="h-4 w-4 text-gray-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -162,7 +162,7 @@ export default function CurrencySelect({
                 </li>
               ))
             ) : (
-              <li className="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+              <li className="px-4 py-8 text-center text-sm text-gray-600 dark:text-gray-300">
                 {t("currency_select.no_results")}
               </li>
             )}

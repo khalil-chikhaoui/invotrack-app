@@ -155,7 +155,7 @@ const Calendar: React.FC = () => {
               <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
                 {selectedEvent ? "Edit Event" : "Add Event"}
               </h5>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 Plan your next big moment: schedule or edit an event to stay on
                 track
               </p>
@@ -163,7 +163,7 @@ const Calendar: React.FC = () => {
             <div className="mt-8">
               <div>
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Event Title
                   </label>
                   <input
@@ -176,7 +176,7 @@ const Calendar: React.FC = () => {
                 </div>
               </div>
               <div className="mt-6">
-                <label className="block mb-4 text-sm font-medium text-gray-700 dark:text-gray-400">
+                <label className="block mb-4 text-sm font-medium text-gray-700 dark:text-gray-300">
                   Event Color
                 </label>
                 <div className="flex flex-wrap items-center gap-4 sm:gap-5">
@@ -186,7 +186,7 @@ const Calendar: React.FC = () => {
                         className={`form-check form-check-${value} form-check-inline`}
                       >
                         <label
-                          className="flex items-center text-sm text-gray-700 form-check-label dark:text-gray-400"
+                          className="flex items-center text-sm text-gray-700 form-check-label dark:text-gray-300"
                           htmlFor={`modal${key}`}
                         >
                           <span className="relative">
@@ -216,7 +216,7 @@ const Calendar: React.FC = () => {
               </div>
 
               <div className="mt-6">
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Enter Start Date
                 </label>
                 <div className="relative">
@@ -231,7 +231,7 @@ const Calendar: React.FC = () => {
               </div>
 
               <div className="mt-6">
-                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Enter End Date
                 </label>
                 <div className="relative">
@@ -249,7 +249,7 @@ const Calendar: React.FC = () => {
               <button
                 onClick={closeModal}
                 type="button"
-                className="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
+                className="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.03] sm:w-auto"
               >
                 Close
               </button>
@@ -268,7 +268,7 @@ const Calendar: React.FC = () => {
   );
 };
 
-const renderEventContent = (eventInfo: any) => {
+const renderEventContent = (eventInfo: { event: { title: string; extendedProps?: Record<string, unknown> } }) => {
   const colorClass = `fc-bg-${eventInfo.event.extendedProps.calendar.toLowerCase()}`;
   return (
     <div

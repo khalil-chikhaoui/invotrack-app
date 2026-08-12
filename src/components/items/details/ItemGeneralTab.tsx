@@ -29,7 +29,7 @@ export default function ItemGeneralTab({
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300 text-start">
       {/* --- Specifications Block --- */}
       {/* Changed p-8 to p-6 to reduce outer bulk */}
-      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 shadow-sm">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6">
         
         {/* Header: Reduced mb-6 to mb-3 */}
         <div className="flex items-center gap-2 mb-3 text-brand-500">
@@ -40,14 +40,14 @@ export default function ItemGeneralTab({
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-4xl text-sm">
+        <p className="text-gray-700 dark:text-gray-300 font-medium leading-relaxed max-w-4xl text-sm">
           {item.description || t("general_tab.no_desc")}
         </p>
 
         {/* Info Grid: Reduced mt-10 pt-8 to mt-6 pt-6 */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6 pt-6 border-t border-gray-100 dark:border-white/5">
           <div>
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("general_tab.labels.unit_price")}
             </span>
             <p className="text-sm font-semibold text-gray-800 dark:text-white">
@@ -59,7 +59,7 @@ export default function ItemGeneralTab({
             </p>
           </div>
           <div>
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("general_tab.labels.sku")}
             </span>
             <p className="text-sm font-semibold text-gray-800 dark:text-white uppercase ">
@@ -67,13 +67,13 @@ export default function ItemGeneralTab({
             </p>
           </div>
           <div>
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("general_tab.labels.status")}
             </span>
             <p
               className={`text-sm font-semibold ${
                 item.itemType === "Service"
-                  ? "text-gray-400"
+                  ? "text-gray-500"
                   : item.currentStock > (item.lowStockThreshold || 0)
                     ? "text-emerald-500"
                     : "text-rose-500"
@@ -122,7 +122,7 @@ export default function ItemGeneralTab({
                     : t("general_tab.lifecycle.retire_title")}
                 </p>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium max-w-lg leading-relaxed">
+              <p className="text-xs text-gray-600 dark:text-gray-300 font-medium max-w-lg leading-relaxed">
                 {isArchived
                   ? t("general_tab.lifecycle.restore_desc")
                   : t("general_tab.lifecycle.retire_desc")}

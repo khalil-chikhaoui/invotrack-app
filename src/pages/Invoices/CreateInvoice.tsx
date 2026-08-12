@@ -41,7 +41,7 @@ export default function CreateInvoice() {
   const [availableItems, setAvailableItems] = useState<ItemData[]>([]);
   
   const [selectedClient, setSelectedClient] = useState<ClientData | null>(null);
-  const [invoiceItems, setInvoiceItems] = useState<any[]>([]);
+  const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
   const [issueDate, setIssueDate] = useState(
     () => new Date().toISOString().split("T")[0],
   );
@@ -60,7 +60,7 @@ export default function CreateInvoice() {
 
   const [clientSearch, setClientSearch] = useState("");
 
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<InvoiceItem | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const clientModal = useModal();
@@ -161,7 +161,7 @@ export default function CreateInvoice() {
     editItemModal.openModal();
   };
 
-  const handleItemModalSave = async (_ignoredId: string, data: any) => {
+  const handleItemModalSave = async (_ignoredId: string, data: Partial<InvoiceItem>) => {
     const quantity = Number(data.quantity);
     const price = Number(data.price);
     const costPrice = Number(data.costPrice);
@@ -222,7 +222,7 @@ export default function CreateInvoice() {
 
     setLoading(true);
     try {
-      const clientId = selectedClient._id || (selectedClient as any).clientId;
+      const clientId = selectedClient._id || (selectedClient as unknown as { clientId: string }).clientId;
       const payload = {
         businessId,
         clientSnapshot: {
@@ -244,7 +244,7 @@ export default function CreateInvoice() {
 
       const newInvoice = await invoiceApi.createInvoice(payload);
       navigate(`/business/${businessId}/invoices/${newInvoice._id}`);
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.GENERIC_ERROR"),
@@ -278,7 +278,7 @@ export default function CreateInvoice() {
       />
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center mt-2 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
+        className="flex items-center mt-2 gap-2 text-[10px] font-semibold uppercase text-gray-700 hover:text-brand-500 dark:text-gray-300 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" /> {t("create.actions.back")}
       </button>
@@ -310,7 +310,7 @@ export default function CreateInvoice() {
               onRemoveItem={removeItem}
               onNewItem={itemModal.openModal}
               currency={business?.currency}
-              currencyFormat={business?.currencyFormat as any}
+              currencyFormat={business?.currencyFormat}
             />
             
             {/* DESKTOP NOTES: Visible only on xl+ screens */}
@@ -365,7 +365,7 @@ export default function CreateInvoice() {
         onSuccess={handleClientSuccess}
         setAlert={setAlert}
         defaultCountry={
-          (business?.phoneNumber as any)?.country || 
+          (business?.phoneNumber as unknown as { country?: string })?.country || 
           business?.address?.country || 
           "US"
         }

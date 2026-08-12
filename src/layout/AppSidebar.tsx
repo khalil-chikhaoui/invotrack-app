@@ -12,7 +12,6 @@ import {
   HiOutlineBriefcase,
   HiChevronUpDown,
   HiOutlineUserGroup,
-  HiCalendar,
   HiOutlineTruck,
 } from "react-icons/hi2";
 import { useSidebar } from "../context/SidebarContext";
@@ -166,7 +165,7 @@ const AppSidebar: React.FC = () => {
   return (
     <aside
       className={`fixed top-0 left-0 h-[100dvh] 
-      bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-xl 
+      bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl 
       border-r border-gray-200/50 dark:border-white/5 
       text-gray-900 dark:text-gray-100
       transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] z-50 flex flex-col 
@@ -178,7 +177,7 @@ const AppSidebar: React.FC = () => {
       {/* --- TOP: LOGO & BUSINESS SWITCHER --- */}
       <div className="shrink-0 flex flex-col border-b pt-2 border-gray-100 dark:border-white/5 z-10">
         <div
-          className={`h-16 flex items-center transition-all duration-300 ${
+          className={`h-16 items-center transition-all duration-300 hidden lg:flex ${
             !showFullSidebar ? "justify-center px-0" : "px-6"
           }`}
         >
@@ -189,13 +188,17 @@ const AppSidebar: React.FC = () => {
               !showFullSidebar ? "justify-center" : ""
             }`}
           >
-            <div className="w-9 h-9 shrink-0 bg-brand-600 dark:bg-white rounded-xl flex items-center justify-center text-white dark:text-brand-950 font-bold text-xl shadow-lg shadow-brand-500/20 dark:shadow-white/10 group-hover:scale-105 transition-transform">
-              I
-            </div>
-            
+            <img
+              src="/images/logo/icon.svg"
+              className="w-9 h-9 shrink-0 group-hover:scale-105 transition-transform"
+              alt="InvoTrack Logo"
+            />
+
             <div
               className={`font-black text-xl text-gray-900 dark:text-white whitespace-nowrap overflow-hidden transition-all duration-300 ${
-                !showFullSidebar ? "w-0 opacity-0 ml-0" : "w-auto opacity-100 ml-3"
+                !showFullSidebar
+                  ? "w-0 opacity-0 ml-0"
+                  : "w-auto opacity-100 ml-3"
               }`}
             >
               InvoTrack
@@ -209,11 +212,11 @@ const AppSidebar: React.FC = () => {
             className={`w-full flex items-center gap-3 p-1.5 rounded-xl transition-all group 
             border border-gray-200/50 dark:border-white/5 
             bg-gray-50/50 dark:bg-white/[0.03] 
-            hover:bg-white hover:border-brand-200 hover:shadow-lg hover:shadow-brand-500/5 
+            hover:bg-white hover:border-brand-200 hover:shadow-brand-500/5 
             dark:hover:bg-white/[0.08] dark:hover:border-white/10
             ${!showFullSidebar ? "justify-center aspect-square p-0" : ""}`}
           >
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden shadow-sm">
+            <div className="w-9 h-9 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden">
               {currentBusiness?.logo ? (
                 <img
                   src={currentBusiness.logo}
@@ -227,7 +230,7 @@ const AppSidebar: React.FC = () => {
 
             {showFullSidebar && (
               <div className="flex-1 text-left overflow-hidden px-1 py-2">
-                <p className="text-[10px] font-medium text-gray-600  dark:text-gray-300 uppercase tracking-widest mb-0.5">
+                <p className="text-[10px] font-medium text-gray-700  dark:text-gray-300 uppercase tracking-widest mb-0.5">
                   {t("sidebar.workspace.label")}
                 </p>
                 <p className="text-sm font-semibold truncate text-gray-700 dark:text-gray-200 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
@@ -236,7 +239,7 @@ const AppSidebar: React.FC = () => {
               </div>
             )}
             {showFullSidebar && (
-              <HiChevronUpDown className="size-4 text-gray-400 group-hover:text-brand-500" />
+              <HiChevronUpDown className="size-4 text-gray-500 group-hover:text-brand-500" />
             )}
           </button>
         </div>
@@ -250,9 +253,9 @@ const AppSidebar: React.FC = () => {
 
             // Refined Active State
             const activeClasses =
-              "bg-brand-100/80 dark:bg-brand-400/15 text-brand-600 dark:text-brand-300 shadow-sm shadow-brand-500/5 font-semibold";
+              "bg-brand-100/80 dark:bg-brand-400/15 text-brand-600 dark:text-brand-300 font-semibold";
             const inactiveClasses =
-              "text-gray-600 hover:bg-gray-100/80 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-100 font-medium";
+              "text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-100 font-medium";
 
             return (
               <div key={nav.name}>
@@ -270,7 +273,7 @@ const AppSidebar: React.FC = () => {
                         className={`transition-colors duration-200 ${
                           isMainActive
                             ? "text-brand-600 dark:text-brand-300"
-                            : "text-gray-400 group-hover:text-gray-600 dark:text-gray-500 dark:group-hover:text-gray-300"
+                            : "text-gray-500 group-hover:text-gray-600 dark:text-gray-400 dark:group-hover:text-gray-300"
                         }`}
                       >
                         {nav.icon}
@@ -312,13 +315,13 @@ const AppSidebar: React.FC = () => {
                                   className={`block py-2 px-3 rounded-lg text-sm transition-all duration-200 relative ${
                                     isSubActive
                                       ? "text-brand-600 dark:text-brand-300 font-semibold bg-brand-50/50 dark:bg-brand-500/10 translate-x-1"
-                                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-white/5"
+                                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-white/5"
                                   }`}
                                 >
                                   <div className="flex items-center gap-2">
                                     <span>{subItem.name}</span>
                                     {subItem.pro && (
-                                      <span className="text-[9px] bg-gradient-to-r from-brand-500 to-indigo-500 text-white px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide shadow-sm shadow-brand-500/20">
+                                      <span className="text-[9px] bg-brand-500 text-white px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide">
                                         {t("sidebar.badges.pro")}
                                       </span>
                                     )}
@@ -343,7 +346,7 @@ const AppSidebar: React.FC = () => {
                       className={`transition-colors duration-200 ${
                         isActive(nav.path!)
                           ? "text-brand-600 dark:text-brand-300"
-                          : "text-gray-400 group-hover:text-gray-600 dark:text-gray-500 dark:group-hover:text-gray-300"
+                          : "text-gray-500 group-hover:text-gray-600 dark:text-gray-400 dark:group-hover:text-gray-300"
                       }`}
                     >
                       {nav.icon}
@@ -373,7 +376,7 @@ const AppSidebar: React.FC = () => {
               !showFullSidebar ? "justify-center w-full" : ""
             }`}
           >
-            <div className="w-10 h-10 shrink-0 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 text-gray-600 dark:text-gray-200 flex items-center justify-center font-bold text-sm overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm group-hover:border-brand-300 transition-colors">
+            <div className="w-10 h-10 shrink-0 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 flex items-center justify-center font-bold text-sm overflow-hidden border-2 border-white dark:border-gray-700 group-hover:border-brand-300 transition-colors">
               {user?.profileImage ? (
                 <img
                   src={user.profileImage}
@@ -389,7 +392,7 @@ const AppSidebar: React.FC = () => {
                 <p className="text-sm font-bold text-gray-800 dark:text-white truncate group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                   {user?.name}
                 </p>
-                <p className="text-[11px] text-gray-400 font-medium truncate">
+                <p className="text-[11px] text-gray-500 font-medium truncate">
                   {user?.email}
                 </p>
               </div>
@@ -398,7 +401,7 @@ const AppSidebar: React.FC = () => {
 
           <button
             onClick={handleSignOut}
-            className={`text-gray-400 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 ${
+            className={`text-gray-500 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 ${
               !showFullSidebar ? "mt-2" : ""
             }`}
             title={t("sidebar.actions.sign_out")}

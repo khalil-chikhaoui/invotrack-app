@@ -106,12 +106,12 @@ export default function BusinessCurrency() {
       });
 
       setTimeout(() => setAlert(null), 4000);
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setSaving(false);
@@ -337,12 +337,12 @@ export default function BusinessCurrency() {
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                 {t("settings.currency_settings.live_preview_title")}
               </h3>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-gray-600 mb-6">
                 {t("settings.currency_settings.live_preview_desc")}
               </p>
 
               <div className=" rounded-xl p-6 flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-gray-700">
-                <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
                   {t("settings.currency_settings.total_amount_label")}
                 </span>
                 <div className="text-3xl font-semibold text-gray-900 dark:text-white">

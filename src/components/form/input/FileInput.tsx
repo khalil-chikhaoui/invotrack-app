@@ -37,7 +37,7 @@ const FileInput: FC<FileInputProps> = ({
         className={`
           /* --- Base Structural Styling --- */
           h-11 w-full overflow-hidden rounded-lg border border-gray-300 
-          bg-transparent text-sm text-gray-500 shadow-theme-xs transition-all
+          bg-transparent text-sm text-gray-600 shadow-theme-xs transition-all
           placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-brand-500/10 
           focus:border-brand-500 cursor-pointer
 
@@ -48,7 +48,7 @@ const FileInput: FC<FileInputProps> = ({
           file:text-gray-700 hover:file:bg-gray-100 transition-colors
 
           /* --- Dark Mode Overrides --- */
-          dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400 
+          dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 
           dark:file:border-gray-800 dark:file:bg-white/[0.03] dark:file:text-gray-400 
           dark:hover:file:bg-white/[0.05]
           

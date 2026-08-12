@@ -81,7 +81,7 @@ export default function RevenueChart({
       fontSize: "12px",
       itemMargin: { horizontal: 10 },
     },
-    colors: ["#465FFF", "#10B981"],
+    colors: ["#f97316", "#10B981"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "area",
@@ -141,7 +141,7 @@ export default function RevenueChart({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {t("charts.revenue.title")}
           </h3>
-          <p className="mt-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider">
+          <p className="mt-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300  tracking-wider">
             {t("charts.revenue.subtitle", { range: rangeLabel })}
           </p>
         </div>
@@ -153,12 +153,12 @@ export default function RevenueChart({
         {!hasData ? (
           <div className="flex flex-col items-center justify-center text-center p-4">
             <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <HiOutlinePresentationChartLine className="size-6 text-gray-600 dark:text-gray-400" />
+              <HiOutlinePresentationChartLine className="size-6 text-gray-700 dark:text-gray-300" />
             </div>
             <h4 className="text-[12px] font-semibold text-gray-800 dark:text-white  tracking-widest">
               {t("charts.revenue.no_data_title")}
             </h4>
-            <p className="text-[12px] text-gray-600 dark:text-gray-400 mt-1 max-w-[200px] leading-relaxed">
+            <p className="text-[12px] text-gray-700 dark:text-gray-300 mt-1 max-w-[200px] leading-relaxed">
               {t("charts.revenue.no_data_desc")}
             </p>
           </div>

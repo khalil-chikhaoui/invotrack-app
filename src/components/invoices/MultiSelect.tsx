@@ -77,7 +77,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
           `}
         >
           <div className="flex flex-wrap items-center gap-2 flex-1 overflow-hidden">
-            <HiMagnifyingGlass className="size-5 text-gray-400 shrink-0" />
+            <HiMagnifyingGlass className="size-5 text-gray-500 shrink-0" />
             
             {value.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
@@ -102,7 +102,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 })}
               </div>
             ) : (
-              <span className="text-sm text-gray-400 dark:text-gray-500 truncate">
+              <span className="text-sm text-gray-500 dark:text-gray-400 truncate">
                 {placeholder}
               </span>
             )}
@@ -112,13 +112,13 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
              {loading && (
                <div className="size-3 border-2 border-brand-500 border-t-transparent rounded-full animate-spin mr-1" />
              )}
-             <HiChevronDown className={`size-4 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+             <HiChevronDown className={`size-4 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""}`} />
           </div>
         </div>
 
         {/* --- DROPDOWN --- */}
         {isOpen && (
-          <div className="absolute left-0 z-50 mt-2 w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-950 animate-in slide-in-from-top-2 duration-200">
+          <div className="absolute left-0 z-50 mt-2 w-full overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950 animate-in slide-in-from-top-2 duration-200">
             <div className="p-2 space-y-1 border-b border-gray-100 dark:border-gray-800">
               <input
                 ref={searchInputRef}
@@ -151,7 +151,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                   );
                 })
               ) : (
-                <div className="p-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                <div className="p-8 text-center text-sm text-gray-600 dark:text-gray-300">
                   {loading ? t("form.searching") : t("form.no_results")}
                 </div>
               )}

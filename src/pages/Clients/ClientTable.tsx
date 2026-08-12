@@ -47,26 +47,26 @@ export default function ClientsTable({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[250px]"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start min-w-[250px]"
               >
                 {t("list.columns.info")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.contact")}
               </TableCell>
               
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.revenue")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.outstanding")}
               </TableCell>
@@ -90,12 +90,12 @@ export default function ClientsTable({
                 <td colSpan={4} className="p-0 border-none">
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <div className="p-4 rounded-full bg-gray-50 dark:bg-white/5 mb-3">
-                      <HiOutlineUsers className="size-8 text-gray-300 dark:text-gray-600" />
+                      <HiOutlineUsers className="size-8 text-gray-300 dark:text-gray-400" />
                     </div>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {t("list.empty.title")}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-600 mt-1">
                       {t("list.empty.desc")}
                     </p>
                   </div>
@@ -118,9 +118,9 @@ export default function ClientsTable({
                             alt={client.name}
                           />
                         ) : client.clientType === "Business" ? (
-                          <HiOutlineBuildingOffice2 className="size-5 text-gray-400 group-hover:text-brand-500 transition-colors" />
+                          <HiOutlineBuildingOffice2 className="size-5 text-gray-500 group-hover:text-brand-500 transition-colors" />
                         ) : (
-                          <HiOutlineUser className="size-5 text-gray-400 group-hover:text-brand-500 transition-colors" />
+                          <HiOutlineUser className="size-5 text-gray-500 group-hover:text-brand-500 transition-colors" />
                         )}
                       </div>
                       <div className="flex flex-col text-start">
@@ -139,7 +139,7 @@ export default function ClientsTable({
                             className="text-[8px] px-1.5 py-0 tracking-widest font-bold"
                           >
                             {t(
-                              `form.options.${client.clientType.toLowerCase()}` as any,
+                              `form.options.${client.clientType.toLowerCase()}`,
                               client.clientType
                             )}
                           </Badge>
@@ -160,19 +160,19 @@ export default function ClientsTable({
                   <TableCell className="px-5 py-3 text-start whitespace-nowrap">
                     <div className="flex flex-col gap-1 text-start">
                       {client.email ? (
-                        <div className="flex items-center gap-2 text-xs font-medium text-gray-600 dark:text-gray-300">
+                        <div className="flex items-center gap-2 text-xs font-medium text-gray-700 dark:text-gray-300">
                           <HiMiniPaperAirplane className="size-3.5 text-brand-500" />
                           <span className="truncate max-w-[180px]">
                             {client.email}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-gray-400 text-[10px] italic pl-5">
+                        <span className="text-gray-500 text-[10px] italic pl-5">
                           {t("list.no_email")}
                         </span>
                       )}
                       {client.phone?.number && (
-                        <div className="flex items-center gap-2 text-xs font-medium text-gray-600 dark:text-gray-300">
+                        <div className="flex items-center gap-2 text-xs font-medium text-gray-700 dark:text-gray-300">
                           <HiOutlinePhone className="size-3.5 text-brand-500" />
                           {client.phone.number}
                         </div>
@@ -188,7 +188,7 @@ export default function ClientsTable({
                         className={`text-theme-sm font-medium font-mono tracking-tight ${
                           client.metrics?.paidTotal
                             ? "text-success-700 dark:text-success-400"
-                            : "text-gray-600 dark:text-gray-300"
+                            : "text-gray-700 dark:text-gray-300"
                         }`}
                       >
                         {formatMoney(
@@ -197,7 +197,7 @@ export default function ClientsTable({
                           business?.currencyFormat
                         )}
                       </span>
-                      <span className="text-[10px] font-medium text-gray-500 mt-0.5">
+                      <span className="text-[10px] font-medium text-gray-600 mt-0.5">
                         {t("list.lifetime_paid")}
                       </span>
                     </div>
@@ -208,7 +208,7 @@ export default function ClientsTable({
                         className={`text-theme-sm font-medium font-mono tracking-tight ${
                           client.metrics?.unpaidTotal
                             ? "text-error-600 dark:text-error-400"
-                            : "text-gray-600 dark:text-gray-300"
+                            : "text-gray-700 dark:text-gray-300"
                         }`}
                       >
                         {formatMoney(
@@ -218,7 +218,7 @@ export default function ClientsTable({
                         )}
                       </span>
                       {client.metrics?.unpaidCount ? (
-                        <span className="text-[10px] font-medium text-gray-500 mt-0.5">
+                        <span className="text-[10px] font-medium text-gray-600 mt-0.5">
                           {client.metrics.unpaidCount} {t("list.open_inv")}
                         </span>
                       ) : null}

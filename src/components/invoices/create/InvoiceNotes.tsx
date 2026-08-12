@@ -13,7 +13,7 @@ export default function InvoiceNotes({
   return (
     <div className="p-4  rounded-md border border-gray-200 dark:border-white/5">
       <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-white/5 pb-3">
-        <Label className="uppercase tracking-widest text-[10px] font-semibold text-gray-600 dark:text-gray-400 !mb-0">
+        <Label className="uppercase tracking-widest text-[10px] font-semibold text-gray-700 dark:text-gray-300 !mb-0">
           {t("create.sections.notes")}
         </Label>
       </div>

@@ -23,7 +23,7 @@ interface ClientIdentityCardProps {
   isArchived: boolean;
   onEdit: () => void;
   refresh: () => void;
-  setAlert: (a: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }
 
 export default function ClientIdentityCard({
@@ -67,7 +67,7 @@ export default function ClientIdentityCard({
         message: t("messages.LOGO_UPDATED"),
       });
       refresh();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPLOAD_FAILED"),
@@ -91,7 +91,7 @@ export default function ClientIdentityCard({
       });
       refresh();
       closeDeleteModal();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.REMOVAL_FAILED"),
@@ -106,13 +106,13 @@ export default function ClientIdentityCard({
     <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 overflow-hidden relative text-start">
       {/* Background Icon Decoration */}
       <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-        <HiOutlineBuildingOffice2 className="size-32 text-gray-400" />
+        <HiOutlineBuildingOffice2 className="size-32 text-gray-500" />
       </div>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
         {/* --- LEFT: LOGO --- */}
         <div className="flex-shrink-0">
-          <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+          <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden">
             {uploading ? (
               <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
             ) : client.logo ? (
@@ -122,9 +122,9 @@ export default function ClientIdentityCard({
                 alt="Client Logo"
               />
             ) : client.clientType === "Business" ? (
-              <HiOutlineBuildingOffice2 className="size-12 text-gray-400" />
+              <HiOutlineBuildingOffice2 className="size-12 text-gray-500" />
             ) : (
-              <HiOutlineUser className="size-12 text-gray-400" />
+              <HiOutlineUser className="size-12 text-gray-500" />
             )}
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function ClientIdentityCard({
               <Button
                 size="sm"
                 variant="primary"
-                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 shadow-lg shadow-brand-500/20"
+                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4"
                 onClick={onEdit}
               >
                 <HiOutlinePencilSquare className="size-4" />
@@ -179,7 +179,7 @@ export default function ClientIdentityCard({
           </div>
 
           {/* --- CONTACT DETAILS --- */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-y-3 mt-4 gap-x-6 text-gray-500 dark:text-gray-400">
+          <div className="flex flex-wrap justify-center md:justify-start gap-y-3 mt-4 gap-x-6 text-gray-600 dark:text-gray-300">
             {client.email && (
               <div className="flex items-center gap-1 group transition-all">
                 <div className="flex items-center gap-2 text-xs text-brand-600 dark:text-brand-400 font-semibold  ">

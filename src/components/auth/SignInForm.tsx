@@ -7,6 +7,7 @@ import Button from "../ui/button/Button";
 import { useAuth } from "../../context/AuthContext";
 import { authApi } from "../../apis/auth";
 import { useTranslation } from "react-i18next";
+import Alert from "../ui/alert/Alert";
 
 export default function SignInForm() {
   // --- UI Logic State ---
@@ -29,12 +30,14 @@ export default function SignInForm() {
       const data = await authApi.signIn({ email, password });
       login(data.token, data.user);
       navigate("/select-business");
-    } catch (err: any) {
+    } catch (err) {
       // Detect if the browser couldn't reach the server (Failed to fetch)
       const errorCode =
-        err.message === "Failed to fetch"
-          ? "SERVER_UNREACHABLE"
-          : (err.message as string);
+        err instanceof Error
+          ? err.message === "Failed to fetch"
+            ? "SERVER_UNREACHABLE"
+            : err.message
+          : "GENERIC_ERROR";
 
       if (errorCode === "AUTH_NOT_VERIFIED") {
         navigate("/verify-email", { state: { email } });
@@ -44,8 +47,10 @@ export default function SignInForm() {
       /** * 2. Cast the template literal to 'any' or the specific TFunction type
        * to bypass the strict key check.
        */
-      const translatedError =
-        t(`errors.${errorCode}` as any) || t("errors.GENERIC_ERROR" as any);
+      const translatedError = t(
+        `errors.${errorCode}`,
+        t("errors.GENERIC_ERROR"),
+      );
       setError(translatedError);
     } finally {
       setIsLoading(false);
@@ -61,7 +66,7 @@ export default function SignInForm() {
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
               {t("signin.title")}
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               {t("signin.subtitle")}
             </p>
           </div>
@@ -69,11 +74,7 @@ export default function SignInForm() {
           <div>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Error Feedback */}
-              {error && (
-                <div className="p-3 text-sm text-white bg-red-500 rounded-lg animate-in fade-in duration-300">
-                  {error}
-                </div>
-              )}
+              {error && <Alert variant="error" message={error} />}
 
               {/* Email Input */}
               <div>
@@ -140,7 +141,7 @@ export default function SignInForm() {
 
             {/* Footer Links */}
             <div className="mt-5">
-              <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
+              <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-300 sm:text-start">
                 {t("signin.no_account")}{" "}
                 <Link
                   to="/signup"

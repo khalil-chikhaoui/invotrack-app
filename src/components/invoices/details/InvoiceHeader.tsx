@@ -50,7 +50,7 @@ export default function InvoiceHeader({
       {/* Return Button */}
       <button
         onClick={handleSmartBack}
-        className="flex items-center gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
+        className="flex items-center gap-2 text-[10px] font-semibold uppercase text-gray-700 hover:text-brand-500 dark:text-gray-300 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" /> {t("header.back")}
       </button>
@@ -74,7 +74,7 @@ export default function InvoiceHeader({
           <div className="relative inline-block">
             <button
               onClick={() => setIsStyleDropdownOpen(!isStyleDropdownOpen)}
-              className={`p-2 rounded-md hover:bg-gray-50 dark:hover:bg-white/5 text-gray-500 transition-colors ${
+              className={`p-2 rounded-md hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 transition-colors ${
                 isStyleDropdownOpen
                   ? "bg-gray-100 dark:bg-white/10 text-brand-500"
                   : ""
@@ -87,7 +87,7 @@ export default function InvoiceHeader({
               onClose={() => setIsStyleDropdownOpen(false)}
               className="w-64 p-2 right-0 origin-top-right absolute z-50 mt-2"
             >
-              <div className="px-3 py-2 text-[10px] font-semibold uppercase text-gray-400 tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
+              <div className="px-3 py-2 text-[10px] font-semibold uppercase text-gray-500 tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
                 {t("header.export_alt")}
               </div>
               <DropdownItem
@@ -97,7 +97,7 @@ export default function InvoiceHeader({
                 <span className="text-sm font-semibold text-gray-800 dark:text-white">
                   {t("header.styles.classic")}
                 </span>
-                <span className="text-[10px] text-gray-500 font-medium">
+                <span className="text-[10px] text-gray-600 font-medium">
                   {t("header.styles.classic_desc")}
                 </span>
               </DropdownItem>
@@ -108,7 +108,7 @@ export default function InvoiceHeader({
                 <span className="text-sm font-semibold text-gray-800 dark:text-white">
                   {t("header.styles.minimal")}
                 </span>
-                <span className="text-[10px] text-gray-500 font-medium">
+                <span className="text-[10px] text-gray-600 font-medium">
                   {t("header.styles.minimal_desc")}
                 </span>
               </DropdownItem>
@@ -120,7 +120,7 @@ export default function InvoiceHeader({
                   <HiOutlineSparkles className="size-3 text-brand-500" />{" "}
                   {t("header.styles.modern")}
                 </span>
-                <span className="text-[10px] text-gray-500 font-medium">
+                <span className="text-[10px] text-gray-600 font-medium">
                   {t("header.styles.modern_desc")}
                 </span>
               </DropdownItem>
@@ -133,7 +133,7 @@ export default function InvoiceHeader({
                   <HiOutlinePrinter className="size-3 text-brand-500" />{" "}
                   {t("header.styles.receipt")}
                 </span>
-                <span className="text-[10px] text-gray-500 font-medium">
+                <span className="text-[10px] text-gray-600 font-medium">
                   {t("header.styles.receipt_desc")}
                 </span>
               </DropdownItem>

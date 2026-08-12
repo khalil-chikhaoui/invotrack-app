@@ -13,7 +13,7 @@ interface ClientIdentityModalProps {
   client: ClientData | null;
   businessId: string;
   refresh: () => void;
-  setAlert: (a: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }
 
 export default function ClientIdentityModal({
@@ -67,7 +67,7 @@ export default function ClientIdentityModal({
         message: t("messages.PROFILE_SAVED"),
       });
       refresh();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
@@ -86,7 +86,7 @@ export default function ClientIdentityModal({
           <h4 className="text-xl font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
             {t("modals.identity.title")}
           </h4>
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-1">
+          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mt-1">
             {t("modals.identity.subtitle")}
           </p>
         </div>

@@ -13,7 +13,7 @@ interface ClientAddressModalProps {
   onClose: () => void;
   client: ClientData | null;
   refresh: () => void;
-  setAlert: (a: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }
 
 export default function ClientAddressModal({
@@ -57,7 +57,7 @@ export default function ClientAddressModal({
         message: t("messages.ADDRESS_UPDATED"),
       });
       refresh();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),

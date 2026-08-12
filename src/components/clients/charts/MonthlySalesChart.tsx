@@ -58,7 +58,7 @@ export default function MonthlySalesChart({
   }) as string[];
 
   const options: ApexOptions = {
-    colors: ["#465fff"],
+    colors: ["#f97316"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "bar",
@@ -111,7 +111,7 @@ export default function MonthlySalesChart({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {t("analytics.monthly.title")}
           </h3>
-          <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+          <p className="text-[11px] font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             {t("analytics.monthly.subtitle", { year: selectedYear })}
           </p>
         </div>
@@ -136,7 +136,7 @@ export default function MonthlySalesChart({
             className="w-32 right-0 mt-2 p-1"
           >
             <div
-              className="px-3 py-2 text-[9px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 
+              className="px-3 py-2 text-[9px] font-semibold text-gray-500 uppercase tracking-widest border-b border-gray-100 
             dark:border-white/5 mb-1"
             >
               {t("analytics.monthly.select_year")}
@@ -152,7 +152,7 @@ export default function MonthlySalesChart({
                   className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${
                     selectedYear === year
                       ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
-                      : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
                   }`}
                 >
                   {year}
@@ -174,12 +174,12 @@ export default function MonthlySalesChart({
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center p-6 border border-dashed border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01]">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-              <HiOutlinePresentationChartLine className="size-6 text-gray-400 dark:text-gray-500" />
+              <HiOutlinePresentationChartLine className="size-6 text-gray-500 dark:text-gray-400" />
             </div>
             <h4 className="text-[10px] font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
               {t("analytics.monthly.no_data_title")}
             </h4>
-            <p className="text-[10px] text-gray-500 dark:text-gray-400 max-w-[150px] mt-1 leading-relaxed">
+            <p className="text-[10px] text-gray-600 dark:text-gray-300 max-w-[150px] mt-1 leading-relaxed">
               {t("analytics.monthly.no_data_desc", { year: selectedYear })}
             </p>
           </div>

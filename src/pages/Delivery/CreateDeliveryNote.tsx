@@ -106,7 +106,7 @@ export default function CreateDeliveryNote() {
 
     try {
       // 1. Call API and expect it to return the new Manifest/Note object
-      const response: any = await invoiceApi.batchUpdateStatus(
+      const response = await invoiceApi.batchUpdateStatus(
         selectedIds,
         "Shipped",
         businessId,
@@ -145,7 +145,7 @@ export default function CreateDeliveryNote() {
         setManifestNotes("");
         await initData(false);
       }, 1000);
-    } catch (error: any) {
+    } catch (error) {
       triggerAlert({
         type: "error",
         title: t("messages.error_title"),
@@ -165,7 +165,7 @@ export default function CreateDeliveryNote() {
       {canGoBack && (
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
+          className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-700 hover:text-brand-500 dark:text-gray-300 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
         >
           <HiOutlineArrowLeft className="size-4" />
           {t("back")}

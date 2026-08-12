@@ -10,16 +10,17 @@ import TemplateMinimal from "./TemplateMinimal";
 import TemplateModern from "./TemplateModern";
 import TemplateClassic from "./TemplateClassic";
 import { enUS, de, fr } from "date-fns/locale";
+import type { Locale } from "date-fns";
 import TemplateReceipt from "./TemplateReceipt";
 import { format } from "date-fns";
 
-const DATE_LOCALES: Record<string, any> = {
+const DATE_LOCALES: Record<string, Locale> = {
   en: enUS,
   de: de,
   fr: fr,
 };
 
-const PDF_TRANSLATIONS: any = {
+const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
   en: {
     invoice: "INVOICE",
     billTo: "Bill To",
@@ -134,7 +135,7 @@ export interface InvoiceTemplateProps {
   business: BusinessData;
   settings: InvoiceSettings;
   t: (key: string) => string;
-  locale: any;
+  locale: string | object;
   generatedAt: string;
   businessAddress: string;
   clientAddress: string;
@@ -147,7 +148,7 @@ export default function InvoicePDF({
   invoice: InvoiceData;
   business: BusinessData;
 }) {
-  const formatAddressLine = (addr: any) => {
+  const formatAddressLine = (addr: Record<string, string | undefined>) => {
     if (!addr.street) return "";
     const street = addr.street || "";
     const city = addr.city || "";

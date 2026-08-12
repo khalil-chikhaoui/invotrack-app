@@ -7,6 +7,7 @@ import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import { ChevronLeftIcon } from "../../icons";
+import Alert from "../ui/alert/Alert";
 
 interface LocationState {
   email?: string;
@@ -47,10 +48,10 @@ export default function VerifyEmailForm() {
       } else {
         navigate("/select-business");
       }
-    } catch (err: any) {
-      const errorCode = err.message;
+    } catch (err) {
+      const errorCode = err instanceof Error ? err.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.AUTH_INVALID_CODE"),
       );
       setError(translatedError);
@@ -70,10 +71,10 @@ export default function VerifyEmailForm() {
     try {
       await authApi.resendVerification(email);
       setSuccessMsg(t("verify_email.success_resend"));
-    } catch (err: any) {
-      const errorCode = err.message;
+    } catch (err) {
+      const errorCode = err instanceof Error ? err.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.GENERIC_ERROR"),
       );
       setError(translatedError);
@@ -88,7 +89,7 @@ export default function VerifyEmailForm() {
       <div className="w-full mb-4 mt-2 sm:mt-10 animate-in fade-in duration-500">
         <Link
           to="/signin"
-          className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
+          className="inline-flex items-center text-sm font-medium text-gray-600 transition-colors hover:text-brand-500 dark:text-gray-300 dark:hover:text-brand-400"
         >
           <ChevronLeftIcon className="size-5 mr-1" />
           {t("verify_email.back_to_signin")}
@@ -100,7 +101,7 @@ export default function VerifyEmailForm() {
           <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
             {t("verify_email.title")}
           </h1>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-300 leading-relaxed">
             <Trans
               i18nKey="verify_email.subtitle"
               t={t}
@@ -115,11 +116,7 @@ export default function VerifyEmailForm() {
         </div>
 
         <form onSubmit={handleVerify} className="space-y-5">
-          {error && (
-            <div className="p-4 text-sm font-medium text-white bg-error-600 rounded-xl">
-              {error}
-            </div>
-          )}
+          {error && <Alert variant="error" message={error} />}
           {successMsg && (
             <div className="p-4 text-sm font-medium text-white bg-green-600 rounded-lg">
               {successMsg}

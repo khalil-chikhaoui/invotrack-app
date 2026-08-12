@@ -25,7 +25,7 @@ interface InvoiceLedgerProps {
   businessId: string | undefined;
   availableItems: ItemData[];
   isEditable: boolean;
-  onEditItem: (item: any) => void;
+  onEditItem: (item: InvoiceItem) => void;
   onSelectProduct: (item: ItemData) => void;
   onAddItem: (item: ItemData) => void;
   onDeleteItem: (itemId: string) => void;
@@ -172,7 +172,7 @@ export default function InvoiceLedger({
         <div className="p-3 sm:p-4 bg-gray-50/30 dark:bg-transparent border-b border-gray-100 dark:border-white/5">
           <div className="relative group">
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-              <HiOutlineMagnifyingGlass className={`size-4 ${searching ? 'text-brand-500' : 'text-gray-400'}`} />
+              <HiOutlineMagnifyingGlass className={`size-4 ${searching ? 'text-brand-500' : 'text-gray-500'}`} />
             </div>
             <input
               type="text"
@@ -206,12 +206,12 @@ export default function InvoiceLedger({
                           <span className="text-sm font-medium text-gray-800 dark:text-white truncate uppercase tracking-tight leading-tight">
                             <HighlightText text={i.name} highlight={search} />
                           </span>
-                          <span className="text-[10px] text-gray-600 dark:text-gray-300 truncate font-medium mt-0.5">
+                          <span className="text-[10px] text-gray-700 dark:text-gray-300 truncate font-medium mt-0.5">
                             {i.itemType} {i.sku ? `• ${i.sku}` : ""}
                           </span>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
-                          <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">
+                          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
                             {formatMoney(
                               i.price,
                               business.currency,
@@ -224,7 +224,7 @@ export default function InvoiceLedger({
                     ))
                   ) : (
                     <div className="p-6 text-center">
-                      <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
+                      <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         {t("ledger.no_results")}
                       </p>
                     </div>
@@ -239,7 +239,7 @@ export default function InvoiceLedger({
       {/* Ledger Table */}
       <div className="overflow-x-auto flex-1 min-h-[150px]">
         {invoice.items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-gray-600 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
+          <div className="flex flex-col items-center justify-center py-16 text-gray-700 dark:text-gray-300 bg-gray-50/30 dark:bg-transparent">
             <HiOutlineCubeTransparent className="size-8 mb-2 " />
             <span className="text-[10px] font-semibold uppercase tracking-[0.1em] ">
               {t("ledger.empty")}
@@ -248,7 +248,7 @@ export default function InvoiceLedger({
         ) : (
           <table className="w-full text-start">
             <thead>
-              <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">
+              <tr className="bg-gray-50/50 dark:bg-white/[0.02] text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">
                 {/* Added whitespace-nowrap to headers */}
                 <th className="px-6 py-3 text-start whitespace-nowrap">{t("ledger.headers.nomenclature")}</th>
                 <th className="px-6 py-3 text-center whitespace-nowrap">{t("ledger.headers.qty")}</th>
@@ -275,12 +275,12 @@ export default function InvoiceLedger({
                     </Link>
                   </td>
                   <td className="px-6 py-4 text-center whitespace-nowrap">
-                    <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300 text-xs">
                       {item.quantity}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-end whitespace-nowrap">
-                    <span className="font-semibold text-gray-600 dark:text-gray-300 text-xs">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300 text-xs">
                       {formatMoney(
                         item.price,
                         business?.currency,
@@ -328,7 +328,7 @@ export default function InvoiceLedger({
           {/* Notes Section */}
           <div className="w-full lg:w-1/2 p-6 lg:border-r border-gray-100 dark:border-white/5">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+              <h4 className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest flex items-center gap-2">
                 <HiOutlineDocumentText className="size-3.5 text-brand-500" />{" "}
                 {t("ledger.notes.title")}
               </h4>
@@ -354,7 +354,7 @@ export default function InvoiceLedger({
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={() => setIsEditingNotes(false)}
-                    className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors"
+                    className="p-2 text-gray-500 hover:text-gray-600 dark:hover:text-white transition-colors"
                   >
                     <HiXMark className="size-4" />
                   </button>
@@ -374,7 +374,7 @@ export default function InvoiceLedger({
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-normal whitespace-pre-wrap">
+              <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed font-normal whitespace-pre-wrap">
                 {notes || (
                   <span className="opacity-70 ">{t("ledger.notes.empty")}</span>
                 )}
@@ -396,9 +396,9 @@ export default function InvoiceLedger({
               )}
             </div>
 
-            <div className="flex justify-between text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
+            <div className="flex justify-between text-[10px] font-semibold text-gray-500 uppercase tracking-widest">
               <span>{t("ledger.totals.subtotal")}</span>
-              <span className="text-gray-600 dark:text-gray-300">
+              <span className="text-gray-700 dark:text-gray-300">
                 {formatMoney(
                   invoice.subTotal,
                   business?.currency,
@@ -422,11 +422,11 @@ export default function InvoiceLedger({
                 </span>
               </div>
             )}
-            <div className="flex justify-between text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
+            <div className="flex justify-between text-[10px] font-semibold text-gray-500 uppercase tracking-widest">
               <span>
                 {t("ledger.totals.tax")} ({invoice.taxRate}%)
               </span>
-              <span className="text-gray-600 dark:text-gray-300">
+              <span className="text-gray-700 dark:text-gray-300">
                 {formatMoney(
                   invoice.totalTax,
                   business?.currency,

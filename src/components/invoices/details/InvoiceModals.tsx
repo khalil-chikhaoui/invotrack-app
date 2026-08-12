@@ -16,7 +16,7 @@ interface InvoiceModalsProps {
   isDeliveryOpen: boolean;
   closeDeliveryModal: () => void;
 
-  handleUpdate: (payload: any) => void;
+  handleUpdate: (payload: Partial<InvoiceData>) => void;
   updating: boolean;
 }
 

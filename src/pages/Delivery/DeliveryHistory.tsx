@@ -62,7 +62,7 @@ export default function DeliveryHistory() {
       setNotes(delRes.notes);
       setMeta(delRes.meta);
       setBusiness(bizRes);
-    } catch (error) {
+    } catch {
       setAlert({
         type: "error",
         title: t("errors.SYNC_ERROR"),
@@ -97,7 +97,7 @@ export default function DeliveryHistory() {
       });
       fetchData(); // Refresh list
       closeDeleteModal();
-    } catch (e) {
+    } catch {
       setAlert({
         type: "error",
         title: t("messages.error_title"),

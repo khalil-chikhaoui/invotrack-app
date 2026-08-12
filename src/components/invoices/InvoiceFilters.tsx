@@ -21,9 +21,9 @@ interface InvoiceFiltersProps {
   searchTerm: string;
   setSearchTerm: (val: string) => void;
   statusFilter: string;
-  setStatusFilter: (val: any) => void;
+  setStatusFilter: (val: string) => void;
   deliveryFilter: string;
-  setDeliveryFilter: (val: any) => void;
+  setDeliveryFilter: (val: string) => void;
   sortConfig: string;
   setSortConfig: (val: string) => void;
   dateRange: string;
@@ -151,7 +151,7 @@ export default function InvoiceFilters({
     if (mobilePickerRef.current) activeRefs.push(mobilePickerRef.current);
 
     if (dateRange === "custom" && activeRefs.length > 0) {
-      let locale: any = "default";
+      let locale: string | object = "default";
       if (i18n.language === "fr") locale = French;
       if (i18n.language === "de") locale = German;
 
@@ -270,7 +270,7 @@ export default function InvoiceFilters({
         <div className="flex flex-col xl:flex-row gap-2 xl:items-end justify-between">
           <div className="flex-1 flex gap-2 items-end w-full">
             <div className="flex-1 w-full">
-              <label className="hidden xl:block text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 uppercase tracking-widest">
+              <label className="hidden xl:block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5 uppercase tracking-widest">
                 {t("filters.search_label")}
               </label>
               <Input
@@ -345,11 +345,11 @@ export default function InvoiceFilters({
           {dateRange === "custom" && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300 z-50">
               <div className="relative w-64">
-                <label className="text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5 flex items-center uppercase tracking-wide">
+                <label className="text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center uppercase tracking-wide">
                   {t("filters.select_dates")}
                 </label>
                 <div className="relative">
-                  <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 z-10" />
+                  <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500 z-10" />
                   <input
                     ref={desktopPickerRef}
                     className={inputClassName}
@@ -382,7 +382,7 @@ export default function InvoiceFilters({
         {dateRange === "custom" && (
           <div className="xl:hidden flex pt-2 border-t border-gray-100 dark:border-white/5 animate-in fade-in slide-in-from-top-2">
             <div className="relative w-full">
-              <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 z-10" />
+              <CalenderIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500 z-10" />
               <input
                 ref={mobilePickerRef}
                 className={inputClassName}
@@ -408,7 +408,7 @@ export default function InvoiceFilters({
                 {t("filters.modal_title")}
               </h3>
               <button onClick={() => setIsModalOpen(false)}>
-                <HiOutlineXMark className="size-6 text-gray-400" />
+                <HiOutlineXMark className="size-6 text-gray-500" />
               </button>
             </div>
 

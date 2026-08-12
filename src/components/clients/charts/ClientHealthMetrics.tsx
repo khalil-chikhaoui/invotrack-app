@@ -30,7 +30,7 @@ export default function ClientHealthMetrics({
   business,
 }: ClientHealthMetricsProps) {
   const { t } = useTranslation("client_details");
-  const [healthData, setHealthData] = useState<any>(null);
+  const [healthData, setHealthData] = useState<Record<string, number> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -119,13 +119,13 @@ export default function ClientHealthMetrics({
 
         {/* Content */}
         <div className={contentWrapperClass}>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 block truncate">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 block truncate">
             {t("analytics.health.lifetime_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white truncate">
             {formatMoney(safeLifetime, business?.currency, business?.currencyFormat)}
           </h4>
-          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-400 uppercase tracking-wider font-semibold truncate">
+          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-500 uppercase tracking-wider font-semibold truncate">
             {t("analytics.health.lifetime_desc")}
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function ClientHealthMetrics({
         </div>
 
         <div className={contentWrapperClass}>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 block truncate pr-16 sm:pr-0">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 block truncate pr-16 sm:pr-0">
             {t("analytics.health.balance_title")}
           </span>
           <h4
@@ -159,7 +159,7 @@ export default function ClientHealthMetrics({
           >
             {formatMoney(safeOpenBalance, business?.currency, business?.currencyFormat)}
           </h4>
-          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-400 uppercase tracking-wider font-semibold truncate">
+          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-500 uppercase tracking-wider font-semibold truncate">
             {t("analytics.health.balance_desc")}
           </p>
         </div>
@@ -181,13 +181,13 @@ export default function ClientHealthMetrics({
         </div>
 
         <div className={contentWrapperClass}>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 block truncate pr-24 sm:pr-0">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 block truncate pr-24 sm:pr-0">
             {t("analytics.health.score_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white truncate">
             {healthData.healthScore}/100
           </h4>
-          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-400 uppercase tracking-wider font-semibold truncate">
+          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-500 uppercase tracking-wider font-semibold truncate">
             {t("analytics.health.score_desc")}
           </p>
         </div>
@@ -202,13 +202,13 @@ export default function ClientHealthMetrics({
         </div>
 
         <div className={contentWrapperClass}>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 block truncate">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 block truncate">
             {t("analytics.health.freq_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-2xl font-semibold text-gray-800 dark:text-white truncate">
             {healthData.avgFrequency} {t("analytics.health.days")}
           </h4>
-          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-400 uppercase tracking-wider font-semibold truncate">
+          <p className="mt-0.5 sm:mt-1 text-[10px] text-gray-500 uppercase tracking-wider font-semibold truncate">
             {t("analytics.health.days_ago", { days: healthData.daysSinceLast })}
           </p>
         </div>

@@ -31,7 +31,7 @@ export default function ClientProductPieChart({
   const [loading, setLoading] = useState(true);
   const [isYearOpen, setIsYearOpen] = useState(false);
 
-  const LIGHT_COLORS = ["#465FFF", "#34D399", "#F59E0B", "#EF4444", "#8B5CF6"];
+  const LIGHT_COLORS = ["#f97316", "#34D399", "#F59E0B", "#EF4444", "#8B5CF6"];
   const DARK_COLORS = ["#818CF8", "#6EE7B7", "#FCD34D", "#F87171", "#A78BFA"];
 
   const fallbackYearOptions = useMemo(() => {
@@ -99,7 +99,7 @@ export default function ClientProductPieChart({
               color: isDark ? "#FFFFFF" : "#6B7280",
               formatter: function (w) {
                 const total = w.globals.seriesTotals.reduce(
-                  (a: any, b: any) => a + b,
+                  (a: number, b: number) => a + b,
                   0,
                 );
                 return formatMoney(total, currency, { digits: 0 });
@@ -146,7 +146,7 @@ export default function ClientProductPieChart({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {t("analytics.products.title")}
           </h3>
-          <p className="mt-1 text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+          <p className="mt-1 text-[11px] font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             {t("analytics.products.subtitle", { year: getYearLabel() })}
           </p>
         </div>
@@ -174,7 +174,7 @@ export default function ClientProductPieChart({
               className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${
                 selectedYear === -1
                   ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
-                  : "text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5"
+                  : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5"
               }`}
             >
               {t("analytics.products.year_all")}
@@ -190,7 +190,7 @@ export default function ClientProductPieChart({
                 className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${
                   selectedYear === year
                     ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
-                    : "text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5"
+                    : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5"
                 }`}
               >
                 {year}
@@ -209,12 +209,12 @@ export default function ClientProductPieChart({
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-              <HiOutlineShoppingBag className="size-6 text-gray-400 dark:text-gray-500" />
+              <HiOutlineShoppingBag className="size-6 text-gray-500 dark:text-gray-400" />
             </div>
             <h4 className="text-xs font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
               {t("analytics.products.no_data_title")}
             </h4>
-            <p className="text-[10px] text-gray-500 dark:text-gray-400 max-w-xs mt-1">
+            <p className="text-[10px] text-gray-600 dark:text-gray-300 max-w-xs mt-1">
               {t("analytics.products.no_data_desc")}
             </p>
           </div>

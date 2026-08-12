@@ -40,7 +40,7 @@ export default function GenericStatsChart({
   currency = "USD",
   title = "Performance",
   subtitle = "Revenue & Trends",
-  colors = ["#465FFF", "#34D399"],
+  colors = ["#f97316", "#34D399"],
   secondaryLabel = "Count",
   formatSecondaryAsCurrency = false,
 }: GenericStatsChartProps) {
@@ -80,7 +80,7 @@ export default function GenericStatsChart({
     if (!datePickerRef.current) return;
 
     // Determine Flatpickr Locale based on i18next language
-    let locale: any = "default";
+    let locale: string | object = "default";
     if (i18n.language === "fr") locale = French;
     if (i18n.language === "de") locale = German;
 
@@ -191,7 +191,7 @@ export default function GenericStatsChart({
           <h3 className="text-xl mt-1 font-semibold text-gray-800 dark:text-white tracking-tight">
             {title}
           </h3>
-          <p className="text-[11px] font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-[0.15em]">
+          <p className="text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-[0.15em]">
             {subtitle}
           </p>
         </div>
@@ -206,11 +206,11 @@ export default function GenericStatsChart({
           />
           <div className="relative inline-flex items-center">
             <HiOutlineCalendar
-              className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400 pointer-events-none z-10
+              className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500 pointer-events-none z-10
                 ${
                   mode === "custom"
                     ? "  text-brand-600  dark:text-brand-400"
-                    : " text-gray-800 dark:text-gray-400 "
+                    : " text-gray-800 dark:text-gray-300 "
                 }
                 `}
             />
@@ -221,7 +221,7 @@ export default function GenericStatsChart({
                 ${
                   mode === "custom"
                     ? "border-brand-500 bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"
-                    : "border-gray-200 bg-white text-gray-800 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:lg:text-gray-400"
+                    : "border-gray-200 bg-white text-gray-800 dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:lg:text-gray-400"
                 }`}
               placeholder={t("charts.custom_date")}
             />
@@ -237,12 +237,12 @@ export default function GenericStatsChart({
         ) : !hasData ? (
           <div className="flex flex-col items-center justify-center text-center p-8 border border-dashed border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01]">
             <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
-              <HiOutlinePresentationChartLine className="size-6 text-gray-400 dark:text-gray-500" />
+              <HiOutlinePresentationChartLine className="size-6 text-gray-500 dark:text-gray-400" />
             </div>
             <h4 className="text-[10px] font-semibold text-gray-800 dark:text-white uppercase tracking-widest">
               {t("charts.no_data_title")}
             </h4>
-            <p className="text-[10px] text-gray-600 dark:text-gray-300 mt-1 max-w-[180px] leading-relaxed">
+            <p className="text-[10px] text-gray-700 dark:text-gray-300 mt-1 max-w-[180px] leading-relaxed">
               {t("charts.no_data_desc")}
             </p>
           </div>

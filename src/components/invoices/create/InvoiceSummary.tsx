@@ -52,7 +52,7 @@ export default function InvoiceSummary({
       {/* --- Breakdown Section --- */}
       <div className="space-y-4 mb-8">
         {/* Subtotal */}
-        <div className="flex justify-between items-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+        <div className="flex justify-between items-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-widest">
           <span>{t("create.summary.subtotal")}</span>
           <span className="text-sm text-gray-900 dark:text-white font-semibold">
             {formatMoney(totals.subTotal, currency, currencyFormat)}
@@ -70,7 +70,7 @@ export default function InvoiceSummary({
         )}
 
         {/* Taxation */}
-        <div className="flex justify-between items-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+        <div className="flex justify-between items-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-widest">
           <span className="flex items-center gap-1">
             {t("create.summary.taxation")}
             <span className="text-[10px] lowercase font-medium opacity-60">

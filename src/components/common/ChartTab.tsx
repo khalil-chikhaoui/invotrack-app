@@ -7,7 +7,7 @@ const ChartTab: React.FC<ChartTabProps> = ({ selected, onChange }) => {
   const getButtonClass = (option: string) =>
     selected === option
       ? " text-gray-900 dark:text-white bg-white dark:bg-gray-800"
-      : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400";
+      : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300";
 
   return (
     <div className="flex items-center gap-1 rounded-lg bg-transparent  p-0.5 ">

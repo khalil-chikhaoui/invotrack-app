@@ -141,12 +141,12 @@ export default function ClientFormModal({
       } else {
         navigate(`/business/${businessId}/clients/${result._id}`);
       }
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.GENERIC_ERROR"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -163,14 +163,14 @@ export default function ClientFormModal({
           className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
             step >= 1
               ? "border-brand-500 bg-brand-500 text-white"
-              : "border-gray-300 text-gray-400"
+              : "border-gray-300 text-gray-500"
           }`}
         >
           <span className="text-xs font-semibold">1</span>
         </div>
         <span
           className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${
-            step >= 1 ? "text-brand-500" : "text-gray-400"
+            step >= 1 ? "text-brand-500" : "text-gray-500"
           }`}
         >
           {t("form.steps.identity")}
@@ -191,14 +191,14 @@ export default function ClientFormModal({
           className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
             step >= 2
               ? "border-brand-500 bg-brand-500 text-white"
-              : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400"
+              : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500"
           }`}
         >
           <span className="text-xs font-semibold">2</span>
         </div>
         <span
           className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${
-            step >= 2 ? "text-brand-500" : "text-gray-400"
+            step >= 2 ? "text-brand-500" : "text-gray-500"
           }`}
         >
           {t("form.steps.contact")}
@@ -219,14 +219,14 @@ export default function ClientFormModal({
           className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
             step === 3
               ? "border-brand-500 bg-brand-500 text-white "
-              : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-400"
+              : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500"
           }`}
         >
           <span className="text-xs font-semibold">3</span>
         </div>
         <span
           className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${
-            step === 3 ? "text-brand-500" : "text-gray-400"
+            step === 3 ? "text-brand-500" : "text-gray-500"
           }`}
         >
           {t("form.steps.location")}
@@ -257,7 +257,7 @@ export default function ClientFormModal({
             <h4 className="text-xl font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
               {t("form.title")}
             </h4>
-            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+            <p className="text-xs text-gray-700 dark:text-gray-300 font-medium">
               {step === 1 && t("form.subtitle_1")}
               {step === 2 && t("form.subtitle_2")}
               {step === 3 && t("form.subtitle_3")}
@@ -276,7 +276,7 @@ export default function ClientFormModal({
           <div className={step === 1 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.name")}{" "}
                   <span className="text-red-500 dark:text-red-400">*</span>
                 </Label>
@@ -300,14 +300,14 @@ export default function ClientFormModal({
                   label={t("form.fields.classification")}
                   value={formData.clientType}
                   onChange={(val) =>
-                    setFormData({ ...formData, clientType: val as any })
+                    setFormData({ ...formData, clientType: val as "Individual" | "Business" })
                   }
                   options={clientTypeOptions}
                 />
               </div>
 
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.tax_id")}
                 </Label>
                 <Input
@@ -325,7 +325,7 @@ export default function ClientFormModal({
           <div className={step === 2 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.email")}
                 </Label>
                 <Input
@@ -340,7 +340,7 @@ export default function ClientFormModal({
               </div>
 
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.phone")}
                 </Label>
                 <PhoneInput
@@ -352,7 +352,7 @@ export default function ClientFormModal({
               </div>
 
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.website")}
                 </Label>
                 <Input
@@ -370,7 +370,7 @@ export default function ClientFormModal({
           <div className={step === 3 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.street")}
                 </Label>
                 <Input
@@ -387,7 +387,7 @@ export default function ClientFormModal({
               </div>
 
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.city")}
                 </Label>
                 <Input
@@ -403,7 +403,7 @@ export default function ClientFormModal({
               </div>
 
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.state")}
                 </Label>
                 <Input
@@ -419,7 +419,7 @@ export default function ClientFormModal({
               </div>
 
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.zip")}
                 </Label>
                 <Input
@@ -435,7 +435,7 @@ export default function ClientFormModal({
               </div>
 
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.country")}
                 </Label>
                 <CountryInput

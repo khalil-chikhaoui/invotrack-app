@@ -60,7 +60,7 @@ export default function CreateDeliveryHeader({
       <div className="flex items-center gap-4">
         {/* Animated Icon: Bounces when the manifest is being generated */}
         <div
-          className={`size-12 rounded-2xl flex items-center justify-center transition-all duration-700 shadow-sm
+          className={`size-12 rounded-2xl flex items-center justify-center transition-all duration-700
           ${isUpdating ? "bg-orange-500 text-white animate-bounce" : "bg-brand-500/10 text-brand-500"}`}
         >
           <HiOutlineTruck className="size-7" />
@@ -69,7 +69,7 @@ export default function CreateDeliveryHeader({
           <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
             {t("header.title")}
           </h1>
-          <p className="text-sm text-gray-500 mt-0.5">{t("header.subtitle")}</p>
+          <p className="text-sm text-gray-600 mt-0.5">{t("header.subtitle")}</p>
         </div>
       </div>
 

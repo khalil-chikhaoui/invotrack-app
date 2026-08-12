@@ -60,7 +60,7 @@ export default function Pagination({
         bg-white/50 dark:bg-transparent backdrop-blur-sm transition-all"
       >
         {/* Left: Info Text (Hidden on mobile to declutter, shown on sm+) */}
-        <div className="hidden sm:block text-xs font-medium text-gray-500 dark:text-gray-400 tracking-wider">
+        <div className="hidden sm:block text-xs font-medium text-gray-600 dark:text-gray-300 tracking-wider">
           Showing Page{" "}
           <span className="font-bold text-gray-900 dark:text-white">
             {currentPage}
@@ -80,7 +80,7 @@ export default function Pagination({
             onClick={() => onPageChange(currentPage - 1)}
             className="sm:hidden group flex items-center justify-center w-10 h-10 rounded-lg 
             bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
-            text-gray-600 dark:text-gray-300 shadow-sm
+            text-gray-700 dark:text-gray-300
             active:scale-95 active:bg-gray-50 transition-all duration-200
             disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
             aria-label="Previous Page"
@@ -95,7 +95,7 @@ export default function Pagination({
             onClick={() => onPageChange(currentPage - 1)}
             className="hidden sm:flex group items-center justify-center w-8 h-8 rounded-full 
             bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
-            text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/[0.1] 
+            text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/[0.1] 
             hover:text-gray-900 dark:hover:text-white transition-all duration-200
             disabled:opacity-40 disabled:cursor-not-allowed"
             title="Previous Page"
@@ -105,7 +105,7 @@ export default function Pagination({
 
           {/* Mobile: Center Info Badge (Replaces the pill) */}
           <div className="sm:hidden flex flex-col items-center">
-            <span className="text-[10px] text-gray-400 tracking-widest font-semibold">
+            <span className="text-[10px] text-gray-500 tracking-widest font-semibold">
               Page
             </span>
             <span className="text-sm font-bold text-gray-800 dark:text-gray-100 font-mono">
@@ -116,7 +116,7 @@ export default function Pagination({
           {/* Desktop: Number Pill */}
           <div
             className="hidden sm:flex items-center gap-1  px-1.5 py-1 rounded-full 
-            border border-gray-200 dark:border-white/[0.1] shadow-sm ring-1 ring-gray-900/5 dark:ring-white/5"
+            border border-gray-200 dark:border-white/[0.1] ring-1 ring-gray-900/5 dark:ring-white/5"
           >
             {pages.map((pageNum, idx) => (
               <button
@@ -131,10 +131,10 @@ export default function Pagination({
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-500
                   ${
                     typeof pageNum !== "number"
-                      ? "cursor-default text-gray-400 dark:text-gray-600"
+                      ? "cursor-default text-gray-500 dark:text-gray-400"
                       : currentPage === pageNum
-                        ? "bg-brand-500 text-white shadow-md shadow-brand-500/25 scale-105"
-                        : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white hover:scale-110 active:scale-95"
+                        ? "bg-brand-500 text-white scale-105"
+                        : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/[0.1] hover:text-gray-900 dark:hover:text-white hover:scale-110 active:scale-95"
                   }
                 `}
               >
@@ -154,7 +154,7 @@ export default function Pagination({
             onClick={() => onPageChange(currentPage + 1)}
             className="sm:hidden group flex items-center justify-center w-10 h-10 rounded-lg 
             bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
-            text-gray-600 dark:text-gray-300 shadow-sm
+            text-gray-700 dark:text-gray-300
             active:scale-95 active:bg-gray-50 transition-all duration-200
             disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
             aria-label="Next Page"
@@ -169,7 +169,7 @@ export default function Pagination({
             onClick={() => onPageChange(currentPage + 1)}
             className="hidden sm:flex group items-center justify-center w-8 h-8 rounded-full 
             bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.1] 
-            text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/[0.1] 
+            text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/[0.1] 
             hover:text-gray-900 dark:hover:text-white transition-all duration-200
             disabled:opacity-40 disabled:cursor-not-allowed"
             title="Next Page"

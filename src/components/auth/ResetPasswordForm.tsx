@@ -12,6 +12,7 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import { authApi } from "../../apis/auth";
 import { ChevronLeftIcon } from "../../icons";
+import Alert from "../ui/alert/Alert";
 
 export default function ResetPasswordForm() {
   const { t } = useTranslation("auth");
@@ -29,10 +30,10 @@ export default function ResetPasswordForm() {
     try {
       await authApi.forgotPassword(email);
       openModal();
-    } catch (err: any) {
-      const errorCode = err.message;
+    } catch (err) {
+      const errorCode = err instanceof Error ? err.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.GENERIC_ERROR"),
       );
       setError(translatedError);
@@ -47,7 +48,7 @@ export default function ResetPasswordForm() {
       <div className="w-full mb-4 mt-2 sm:mt-10 animate-in fade-in duration-500">
         <button
           onClick={() => navigate("/signin")}
-          className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
+          className="inline-flex items-center text-sm font-medium text-gray-600 transition-colors hover:text-brand-500 dark:text-gray-300 dark:hover:text-brand-400"
         >
           <ChevronLeftIcon className="size-5 mr-1" />
           {t("reset_password.back_to_signin")}
@@ -60,18 +61,14 @@ export default function ResetPasswordForm() {
           <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
             {t("reset_password.title")}
           </h1>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-300 leading-relaxed">
             {t("reset_password.subtitle")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Error Messenger */}
-          {error && (
-            <div className="p-4 text-sm font-semibold text-white bg-error-500 rounded-xl">
-              {error}
-            </div>
-          )}
+          {error && <Alert variant="error" message={error} />}
 
           {/* Email Input Field */}
           <div>
@@ -101,9 +98,9 @@ export default function ResetPasswordForm() {
       <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[450px] m-4">
         <div className="relative w-full overflow-y-auto rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-11 text-center">
           <div className="flex justify-center mb-6">
-            <div className="flex items-center justify-center w-16 h-16 bg-success-50 rounded-full dark:bg-success-500/10">
+            <div className="flex items-center justify-center w-16 h-16 bg-success-100 rounded-full dark:bg-success-500/10">
               <svg
-                className="w-8 h-8 text-success-500"
+                className="w-8 h-8 text-success-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -121,7 +118,7 @@ export default function ResetPasswordForm() {
           <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90  tracking-tight">
             {t("reset_password.modal.title")}
           </h4>
-          <p className="mb-8 text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
+          <p className="mb-8 text-sm font-medium text-gray-600 dark:text-gray-300 leading-relaxed">
             {t("reset_password.modal.body")} <br />
             <span className="font-semibold text-gray-900 dark:text-white">
               {email}
@@ -141,7 +138,7 @@ export default function ResetPasswordForm() {
             <button
               type="button"
               onClick={closeModal}
-              className="text-xs font-MEDIUM text-gray-400 my-2 tracking-widest hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+              className="text-xs font-MEDIUM text-gray-600 my-2 tracking-widest hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
             >
               {t("reset_password.modal.dismiss")}
             </button>

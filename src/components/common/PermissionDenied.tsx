@@ -64,7 +64,7 @@ export default function PermissionDenied({
         }}
         className="space-y-4"
       >
-        <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-8 leading-relaxed">
+        <p className="text-sm text-gray-600 dark:text-gray-300 max-w-sm mx-auto mb-8 leading-relaxed">
           {description}
         </p>
 

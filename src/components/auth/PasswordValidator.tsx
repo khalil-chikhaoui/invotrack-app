@@ -24,7 +24,7 @@ export default function PasswordValidator({ password }: { password: string }) {
       
       {/* Strength Bar Header */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[10px] font-medium uppercase tracking-widest text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+        <span className="text-[10px] font-medium uppercase tracking-widest text-gray-600 dark:text-gray-300 flex items-center gap-1.5">
           {metCount === 4 ? (
             <HiMiniShieldCheck className="size-3.5 text-success-500" />
           ) : (
@@ -32,7 +32,7 @@ export default function PasswordValidator({ password }: { password: string }) {
           )}
           {t("signup.password_strength")}
         </span>
-        <span className="text-[10px] font-medium text-gray-400">{metCount}/4</span>
+        <span className="text-[10px] font-medium text-gray-500">{metCount}/4</span>
       </div>
 
       {/* The Visual Strength Bar */}
@@ -53,7 +53,7 @@ export default function PasswordValidator({ password }: { password: string }) {
           <div 
             key={idx}
             className={`flex items-center gap-2 text-[11px] transition-all duration-300 ${
-              rule.met ? "text-success-600 dark:text-success-400" : "text-gray-400 dark:text-gray-500"
+              rule.met ? "text-success-600 dark:text-success-400" : "text-gray-500 dark:text-gray-400"
             }`}
           >
             <HiCheckCircle className={`size-3.5 transition-transform duration-300 ${rule.met ? "scale-110" : "scale-100 opacity-20"}`} />

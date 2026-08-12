@@ -37,8 +37,8 @@ const Radio: React.FC<RadioProps> = ({
       className={`relative flex items-center gap-3 text-sm font-medium select-none transition-colors
         ${
           disabled
-            ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
-            : "text-gray-700 dark:text-gray-400 cursor-pointer hover:text-gray-900 dark:hover:text-gray-200"
+            ? "text-gray-300 dark:text-gray-400 cursor-not-allowed"
+            : "text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-gray-200"
         } 
         ${className}`}
     >

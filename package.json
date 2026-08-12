@@ -1,7 +1,7 @@
 {
   "name": "invotrack-app",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -75,5 +75,18 @@
       "react": "^16.8.0 || ^17 || ^18 || ^19",
       "react-dom": "^16.8.0 || ^17 || ^18 || ^19"
     }
-  }
+  },
+  "description": "TailAdmin is a free and open-source admin dashboard template built on **React and Tailwind CSS**, providing developers with everything they need to create a comprehensive, data-driven back-end, dashboard, or admin panel solution for upcoming web projects.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://khalil-chikhaoui@github.com/khalil-chikhaoui/invotrack-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khalil-chikhaoui/invotrack-app/issues"
+  },
+  "homepage": "https://github.com/khalil-chikhaoui/invotrack-app#readme"
 }

@@ -135,7 +135,7 @@ export const clientApi = {
   /**
    * Registers a new client for the business.
    */
-  createClient: async (payload: any): Promise<ClientData> => {
+  createClient: async (payload: Partial<ClientData>): Promise<ClientData> => {
     const response = await fetch(`${BASE_URL}`, {
       method: "POST",
       headers: getAuthHeaders(),
@@ -150,7 +150,7 @@ export const clientApi = {
   /**
    * Updates an existing client's information.
    */
-  updateClient: async (id: string, payload: any): Promise<ClientData> => {
+  updateClient: async (id: string, payload: Partial<ClientData>): Promise<ClientData> => {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "PUT",
       headers: getAuthHeaders(),

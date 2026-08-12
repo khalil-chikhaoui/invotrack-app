@@ -61,8 +61,8 @@ const Switch: React.FC<SwitchProps> = ({
       className={`flex items-center gap-3 text-sm font-medium select-none transition-colors
         ${
           disabled
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-gray-700 dark:text-gray-400 cursor-pointer hover:text-gray-900 dark:hover:text-gray-200"
+            ? "text-gray-500 cursor-not-allowed"
+            : "text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-gray-200"
         }`}
     >
       <div className="relative inline-flex items-center">
@@ -83,7 +83,7 @@ const Switch: React.FC<SwitchProps> = ({
 
         {/* Knob */}
         <div
-          className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ease-in-out transform
+          className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform duration-200 ease-in-out transform
             ${isChecked ? "translate-x-5" : "translate-x-0"}
           `}
         />

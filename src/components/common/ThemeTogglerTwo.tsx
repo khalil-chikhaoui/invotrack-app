@@ -12,7 +12,7 @@ export default function ThemeTogglerTwo() {
       onClick={toggleTheme}
       type="button"
       aria-label="Toggle theme"
-      className="inline-flex items-center justify-center text-white transition-all duration-300 rounded-full size-14 bg-brand-500 hover:bg-brand-600 hover:scale-105 active:scale-95 shadow-lg"
+      className="inline-flex items-center justify-center text-white transition-all duration-300 rounded-full size-13 bg-brand-500 hover:bg-brand-600 hover:scale-105 active:scale-95"
     >
       {/* Sun Icon: Shown only when the .dark class is present on a parent (usually <html>) */}
       <svg

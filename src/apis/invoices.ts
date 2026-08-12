@@ -4,6 +4,8 @@
  * and email dispatch for invoice documents.
  */
 
+import { BusinessData } from "./business";
+
 const API_ROOT =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3040/api";
 
@@ -373,7 +375,7 @@ export const invoiceApi = {
 
   // --- Analytics Methods ---
 
-  getClientStats: async (clientId: string, mode: string, customRange?: any) => {
+  getClientStats: async (clientId: string, mode: string, customRange?: { start: Date; end: Date }) => {
     const url = new URL(`${API_ROOT}/client-stats/${clientId}`);
     url.searchParams.append("mode", mode);
     if (mode === "custom" && customRange) {
@@ -387,7 +389,7 @@ export const invoiceApi = {
     return response.json();
   },
 
-  updateClientSnapshot: async (id: string, data: any) => {
+  updateClientSnapshot: async (id: string, data: Partial<ClientSnapshot>) => {
     const response = await fetch(`${BASE_URL}/${id}/client`, {
       method: "PATCH",
       headers: getAuthHeaders(),
@@ -412,7 +414,7 @@ export const invoiceApi = {
   getItemStats: async (
     itemId: string,
     mode: string,
-    customRange?: any,
+    customRange?: { start: Date; end: Date },
   ): Promise<ClientStatPoint[]> => {
     const url = new URL(`${API_ROOT}/item-stats/${itemId}`);
     url.searchParams.append("mode", mode);
@@ -524,7 +526,7 @@ export const invoiceApi = {
    * Fetches public invoice data without authentication.
    * The backend populates 'businessId', so it returns the Business object inside.
    */
-  getPublicInvoice: async (id: string): Promise<any> => {
+  getPublicInvoice: async (id: string): Promise<InvoiceData & { businessId: BusinessData }> => {
     const response = await fetch(`${BASE_URL}/public/${id}`, {
       method: "GET",
       headers: {

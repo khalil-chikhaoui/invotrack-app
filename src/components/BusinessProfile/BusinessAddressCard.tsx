@@ -23,7 +23,7 @@ import PhoneInput from "../form/group-input/PhoneInput";
 
 function SectionEditButton() {
   return (
-    <div className="flex items-center justify-center w-8 h-8 text-gray-600 dark:text-gray-300group-hover:text-brand-500 group-hover:bg-brand-50 dark:group-hover:bg-brand-500/10 rounded-full transition-all">
+    <div className="flex items-center justify-center w-8 h-8 text-gray-700 dark:text-gray-300group-hover:text-brand-500 group-hover:bg-brand-50 dark:group-hover:bg-brand-500/10 rounded-full transition-all">
       <HiOutlinePencil className="size-4" />
     </div>
   );
@@ -36,7 +36,7 @@ export default function BusinessAddressCard({
 }: {
   business: BusinessData;
   refresh: () => void;
-  setAlert: (alert: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }) {
   const { t } = useTranslation("business");
   const { canManageSettings } = usePermissions();
@@ -50,7 +50,7 @@ export default function BusinessAddressCard({
 
   const [formData, setFormData] = useState({
     address: { ...business.address },
-    phone: (business.phoneNumber as any) || { country: "US", number: "" },
+    phone: (business.phoneNumber as unknown as { country: string; number: string }) || { country: "US", number: "" },
     website: business.website || "",
     socialLinks: { ...business.socialLinks },
   });
@@ -58,13 +58,13 @@ export default function BusinessAddressCard({
   useEffect(() => {
     setFormData({
       address: { ...business.address },
-      phone: (business.phoneNumber as any) || { country: "US", number: "" },
+      phone: (business.phoneNumber as unknown as { country: string; number: string }) || { country: "US", number: "" },
       website: business.website || "",
       socialLinks: { ...business.socialLinks },
     });
   }, [business]);
 
-  const handleSave = async (data: any, modal: any) => {
+  const handleSave = async (data: Record<string, unknown>, modal: { close: () => void }) => {
     setLoading(true);
     try {
       await businessApi.updateBusiness(business._id, data);
@@ -75,12 +75,12 @@ export default function BusinessAddressCard({
       });
       refresh();
       modal.closeModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -131,11 +131,11 @@ export default function BusinessAddressCard({
               <HiOutlinePhone className="size-6" />
             </div>
             <div>
-              <span className="text-[11px] font-semibold text-gray-600 dark:text-gray-300 tracking-widest block mb-1">
+              <span className="text-[11px] font-semibold text-gray-700 dark:text-gray-300 tracking-widest block mb-1">
                 {t("settings.general.cards.official_contact")}
               </span>
               <p className="text-xs font-medium text-gray-800 dark:text-white tracking-widest">
-                {(business.phoneNumber as any)?.number ||
+                {(business.phoneNumber as unknown as { country: string; number: string })?.number ||
                   t("settings.general.cards.no_phone")}
               </p>
             </div>
@@ -154,7 +154,7 @@ export default function BusinessAddressCard({
                 <HiOutlineGlobeAlt className="size-6" />
               </div>
               <div>
-                <span className="text-[11px] font-semibold text-gray-600 dark:text-gray-300uppercase tracking-widest block mb-1">
+                <span className="text-[11px] font-semibold text-gray-700 dark:text-gray-300uppercase tracking-widest block mb-1">
                   {t("settings.general.cards.online_presence")}
                 </span>
                 {business.website ? (
@@ -172,7 +172,7 @@ export default function BusinessAddressCard({
                     {business.website}
                   </a>
                 ) : (
-                  <p className="text-sm text-gray-600 dark:text-gray-300italic">
+                  <p className="text-sm text-gray-700 dark:text-gray-300italic">
                     {t("settings.general.cards.no_website")}
                   </p>
                 )}

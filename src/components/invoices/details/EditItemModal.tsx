@@ -15,7 +15,7 @@ import { CurrencyFormat } from "../../../apis/business";
 interface EditItemModalProps {
   isOpen: boolean;
   onClose: () => void;
-  item: any;
+  item: InvoiceItem;
   onSave: (
     itemId: string,
     data: { quantity: number; price: number; costPrice: number },
@@ -86,7 +86,7 @@ export default function EditItemModal({
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
               {t("create.item_manager.modals.edit_title")}
             </h3>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-600">
               {t("create.item_manager.modals.edit_desc")}{" "}
               <span className="font-semibold">{item?.name}</span>
             </p>
@@ -96,7 +96,7 @@ export default function EditItemModal({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 mb-1.5">
+              <Label className="text-[10px] uppercase font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
                 {t("create.item_manager.modals.qty")}
               </Label>
               <NumericInput
@@ -108,7 +108,7 @@ export default function EditItemModal({
               />
             </div>
             <div>
-              <Label className="text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-300 mb-1.5">
+              <Label className="text-[10px] uppercase font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
                 {t("create.item_manager.modals.selling_price")}
               </Label>
               <NumericInput
@@ -125,8 +125,8 @@ export default function EditItemModal({
 
           <div className="p-4 rounded-xl border border-gray-100 dark:border-white/5 ">
             <div className="flex items-center gap-2 mb-3">
-              <HiOutlineLockClosed className="size-3 text-gray-500 dark:text-gray-300" />
-              <Label className="text-[10px] uppercase  text-gray-500 dark:text-gray-300 !mb-0 font-medium">
+              <HiOutlineLockClosed className="size-3 text-gray-600 dark:text-gray-300" />
+              <Label className="text-[10px] uppercase  text-gray-600 dark:text-gray-300 !mb-0 font-medium">
                 {t("create.item_manager.modals.internal_costing")}
               </Label>
             </div>
@@ -138,11 +138,11 @@ export default function EditItemModal({
                   onChange={(val: string) =>
                     setFormData({ ...formData, costPrice: val })
                   }
-                  className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-500"
+                  className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-600"
                 />
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-gray-500 dark:text-gray-300 uppercase font-semibold">
+                <p className="text-[10px] text-gray-600 dark:text-gray-300 uppercase font-semibold">
                   {t("create.item_manager.modals.margin")}
                 </p>
                 <p

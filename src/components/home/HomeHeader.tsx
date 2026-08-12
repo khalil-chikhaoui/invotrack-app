@@ -107,7 +107,7 @@ const { t, i18n } = useTranslation("home");
     if (!pickerRef.current) return;
 
     // Determine the locale object based on current language
-    let locale: any = "default";
+    let locale: string | object = "default";
     if (i18n.language === "fr") locale = French;
     if (i18n.language === "de") locale = German;
 
@@ -158,7 +158,7 @@ const { t, i18n } = useTranslation("home");
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl tracking-tight">
               {t("header.title")}
             </h2>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
               {t("header.subtitle")}
             </p>
           </div>
@@ -191,7 +191,7 @@ const { t, i18n } = useTranslation("home");
         {/* Right Section: Date Input */}
         <div className="w-full md:flex md:justify-end xl:block xl:w-auto">
           <div className="relative w-full md:w-80">
-            <HiOutlineCalendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 z-10" />
+            <HiOutlineCalendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 z-10" />
 
             <input
               ref={pickerRef}
@@ -203,7 +203,7 @@ const { t, i18n } = useTranslation("home");
               placeholder={t("header.select_range")}
             />
 
-            <HiChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-400" />
+            <HiChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-500" />
           </div>
         </div>
       </div>
@@ -217,6 +217,6 @@ const getChipStyle = (isActive: boolean) => `
     ${
       isActive
         ? "bg-brand-600  text-white border-brand-600 "
-        : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50 hover:border-gray-300 dark:bg-white/5 dark:text-gray-300 dark:border-white/10 dark:hover:bg-white/10"
+        : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300 dark:bg-white/5 dark:text-gray-300 dark:border-white/10 dark:hover:bg-white/10"
     }
   `;

@@ -18,7 +18,7 @@ interface ClientHistoryTabProps {
   setPage: (p: number) => void;
   navigate: (path: string) => void;
 
-  filterProps: any;
+  filterProps: Record<string, unknown>;
 }
 
 export default function ClientHistoryTab({
@@ -90,9 +90,9 @@ export default function ClientHistoryTab({
         ) : (
           <div className="flex flex-col items-center justify-center py-20 bg-gray-50/30 dark:bg-white/[0.01]">
             <div className="p-4 rounded-full bg-gray-100 dark:bg-white/5 mb-3">
-              <HiOutlineDocumentText className="size-8 text-gray-300 dark:text-gray-600" />
+              <HiOutlineDocumentText className="size-8 text-gray-300 dark:text-gray-400" />
             </div>
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest">
               {filterProps.statusFilter === "Cancelled"
                 ? t("history_tab.empty_cancelled")
                 : t("history_tab.empty_generic")}

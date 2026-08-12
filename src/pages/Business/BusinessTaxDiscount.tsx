@@ -75,12 +75,12 @@ export default function BusinessTaxDiscount() {
         message: t("messages.BUSINESS_UPDATED"),
       });
       setTimeout(() => setAlert(null), 4000);
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setSaving(false);
@@ -143,7 +143,7 @@ export default function BusinessTaxDiscount() {
               <div>
                 <Label className="flex items-center gap-2 mb-3">
                   <HiOutlineReceiptPercent className="text-brand-500 size-5" />
-                  <span className="text-gray-600 dark:text-gray-300">{t("settings.tax_discount.tax_label")}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{t("settings.tax_discount.tax_label")}</span>
                 </Label>
                 <div className="max-w-xs relative">
                   <NumericInput
@@ -152,11 +152,11 @@ export default function BusinessTaxDiscount() {
                     onChange={(val) => setTaxRate(Number(val))}
                     className="pr-10 bg-gray-50 dark:bg-gray-800/50"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-semibold pointer-events-none">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-semibold pointer-events-none">
                     %
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-gray-600 dark:text-gray-300 font-medium italic">
+                <p className="mt-2 text-xs text-gray-700 dark:text-gray-300 font-medium italic">
                   {t("settings.tax_discount.tax_help")}
                 </p>
               </div>
@@ -167,11 +167,11 @@ export default function BusinessTaxDiscount() {
               <div>
                 <Label className="flex items-center gap-2 mb-4">
                   <HiOutlineTicket className="text-brand-500 size-5" />
-                  <span className="text-gray-600 dark:text-gray-300">{t("settings.tax_discount.discount_label")}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{t("settings.tax_discount.discount_label")}</span>
                 </Label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <Label className="text-gray-600 dark:text-gray-300">{t("settings.tax_discount.value_label")}</Label>
+                    <Label className="text-gray-700 dark:text-gray-300">{t("settings.tax_discount.value_label")}</Label>
                     <NumericInput
                       variant={
                         discountType === "percentage" ? "quantity" : "currency"
@@ -182,7 +182,7 @@ export default function BusinessTaxDiscount() {
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-600 dark:text-gray-300">{t("settings.tax_discount.mode_label")}</Label>
+                    <Label className="text-gray-700 dark:text-gray-300">{t("settings.tax_discount.mode_label")}</Label>
                     <Select
                       options={[
                         {
@@ -194,7 +194,7 @@ export default function BusinessTaxDiscount() {
                           label: t("settings.tax_discount.mode_fixed"),
                         },
                       ]}
-                      onChange={(val) => setDiscountType(val as any)}
+                      onChange={(val) => setDiscountType(val as "percentage" | "fixed")}
                       defaultValue={discountType}
                     />
                   </div>
@@ -223,7 +223,7 @@ export default function BusinessTaxDiscount() {
               <h3 className="text-lg font-semibold dark:text-white mb-2 uppercase tracking-tight">
                 {t("settings.tax_discount.sandbox.title")}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 italic">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-6 italic">
                 {t("settings.tax_discount.sandbox.desc", {
                   amount: formattedSample,
                 })}
@@ -231,7 +231,7 @@ export default function BusinessTaxDiscount() {
 
               <div className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">
                     {t("settings.tax_discount.sandbox.subtotal")}
                   </span>
                   <span className="font-semibold text-gray-800 dark:text-white">
@@ -243,7 +243,7 @@ export default function BusinessTaxDiscount() {
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">
                     {t("settings.tax_discount.sandbox.discount")} (
                     {discountType === "percentage"
                       ? `${discountValue}%`
@@ -260,7 +260,7 @@ export default function BusinessTaxDiscount() {
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">
                     {t("settings.tax_discount.sandbox.tax")} ({taxRate}%)
                   </span>
                   <span className="font-semibold text-gray-800 dark:text-white">
@@ -273,7 +273,7 @@ export default function BusinessTaxDiscount() {
                   </span>
                 </div>
                 <div className="pt-5 border-t border-gray-100 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
+                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-1">
                     {t("settings.tax_discount.sandbox.estimated_total")}
                   </span>
                   <div className="text-3xl font-black text-brand-600 dark:text-brand-400">

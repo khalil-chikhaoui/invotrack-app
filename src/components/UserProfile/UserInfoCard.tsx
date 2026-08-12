@@ -15,7 +15,11 @@ import { authApi } from "../../apis/auth";
 export default function UserInfoCard({
   setAlert,
 }: {
-  setAlert: (alert: any) => void;
+  setAlert: (alert: {
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+    message: string;
+  }) => void;
 }) {
   const { t } = useTranslation("user");
   const { user, login, token } = useAuth();
@@ -47,10 +51,10 @@ export default function UserInfoCard({
         message: t("messages.details_saved_body"),
       });
       closeModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.UPDATE_FAILED"),
       );
 
@@ -74,7 +78,7 @@ export default function UserInfoCard({
           </h4>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 xl:gap-7">
             <div>
-              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mb-2 text-xs text-gray-600 dark:text-gray-300">
                 {t("info_card.full_name")}
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
@@ -82,7 +86,7 @@ export default function UserInfoCard({
               </p>
             </div>
             <div>
-              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mb-2 text-xs text-gray-600 dark:text-gray-300">
                 {t("info_card.email")}
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
@@ -94,7 +98,7 @@ export default function UserInfoCard({
 
         <button
           onClick={openModal}
-          className="flex items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 lg:inline-flex"
+          className="flex items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 lg:inline-flex"
         >
           {t("info_card.edit_button")}
         </button>
@@ -136,7 +140,7 @@ export default function UserInfoCard({
                   disabled
                   className="opacity-70 cursor-not-allowed bg-gray-50 dark:bg-white/[0.03]"
                 />
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-gray-500">
                   {t("info_card.modal.email_help")}
                 </p>
               </div>

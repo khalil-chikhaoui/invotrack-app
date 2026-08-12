@@ -43,7 +43,7 @@ export default function ConfirmModal({
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           {title}
         </h3>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 mt-10 leading-relaxed">
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 mt-10 leading-relaxed">
           {description}
         </p>
         <div className="flex justify-end gap-3">

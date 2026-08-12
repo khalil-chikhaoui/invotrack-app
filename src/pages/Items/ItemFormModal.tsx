@@ -22,7 +22,7 @@ interface ItemFormModalProps {
   item: ItemData | null;
   businessId: string;
   refresh: (newItem?: ItemData) => void;
-  setAlert: (a: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
   onSuccess?: (newItem: ItemData) => void;
 }
 
@@ -154,12 +154,12 @@ export default function ItemFormModal({
         }
       }
       onClose();
-    } catch (err: any) {
-      const errorCode = err.message;
+    } catch (err) {
+      const errorCode = err instanceof Error ? err.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: "Error",
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -173,12 +173,12 @@ export default function ItemFormModal({
         <React.Fragment key={s}>
           <div className="flex items-center gap-2">
             <div
-              className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${step >= s ? "border-brand-500 bg-brand-500 text-white " : "border-gray-300 text-gray-400"}`}
+              className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${step >= s ? "border-brand-500 bg-brand-500 text-white " : "border-gray-300 text-gray-500"}`}
             >
               <span className="text-xs font-semibold">{s}</span>
             </div>
             <span
-              className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${step >= s ? "text-brand-500" : "text-gray-400"}`}
+              className={`text-[10px] font-semibold uppercase tracking-widest hidden sm:block ${step >= s ? "text-brand-500" : "text-gray-500"}`}
             >
               {s === 1
                 ? t("form.steps.general")
@@ -220,7 +220,7 @@ export default function ItemFormModal({
             <h4 className="text-xl font-semibold text-gray-900 dark:text-white uppercase tracking-tight">
               {isEdit ? t("form.title_edit") : t("form.title_new")}
             </h4>
-            <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+            <p className="text-xs text-gray-700 dark:text-gray-300 font-medium">
               {step === 1 && t("form.subtitle_1")}
               {step === 2 && t("form.subtitle_2")}
               {step === 3 && t("form.subtitle_3")}
@@ -238,7 +238,7 @@ export default function ItemFormModal({
           <div className={step === 1 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.name")}{" "}
                   <span className="text-red-500 dark:text-red-400">*</span>
                 </Label>
@@ -256,7 +256,7 @@ export default function ItemFormModal({
                 />
               </div>
               <div className={isEdit ? "md:col-span-2" : ""}>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.sku")}
                 </Label>
                 <Input
@@ -274,7 +274,7 @@ export default function ItemFormModal({
                     label={t("form.fields.type")}
                     value={formData.itemType}
                     onChange={(val) =>
-                      setFormData({ ...formData, itemType: val as any })
+                      setFormData({ ...formData, itemType: val as "Product" | "Service" })
                     }
                     options={itemTypeOptions}
                   />
@@ -287,7 +287,7 @@ export default function ItemFormModal({
           <div className={step === 2 ? "block fade-in" : "hidden"}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2 mt-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.price")}{" "}
                   <span className="text-red-500 dark:text-red-400">*</span>
                 </Label>
@@ -300,14 +300,14 @@ export default function ItemFormModal({
                   hint={errors.price}
                   onChange={(val) => {
                     const newPrice = val === "" ? undefined : Number(val);
-                    setFormData({ ...formData, price: newPrice as any });
+                    setFormData({ ...formData, price: Number(newPrice) });
                     if (errors.price)
                       setErrors({ ...errors, price: undefined });
                   }}
                 />
               </div>
               <div className="md:col-span-2">
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.cost")}
                 </Label>
                 <NumericInput
@@ -317,7 +317,7 @@ export default function ItemFormModal({
                     setFormData({ ...formData, cost: Number(val) })
                   }
                 />
-                <p className="text-[11px] text-gray-600 dark:text-gray-300 mt-2">
+                <p className="text-[11px] text-gray-700 dark:text-gray-300 mt-2">
                   Used to calculate profit margins.
                 </p>
               </div>
@@ -329,7 +329,7 @@ export default function ItemFormModal({
             <div className="space-y-5">
               {!isEdit && formData.itemType === "Product" && (
                 <div>
-                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                  <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                     {t("form.fields.stock")}
                   </Label>
                   <NumericInput
@@ -344,7 +344,7 @@ export default function ItemFormModal({
                 </div>
               )}
               <div>
-                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-600 dark:text-gray-300 mb-1.5">
+                <Label className="uppercase tracking-wide text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {t("form.fields.desc")}
                 </Label>
                 <TextArea

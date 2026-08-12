@@ -14,7 +14,7 @@ interface EditClientModalProps {
   isOpen: boolean;
   onClose: () => void;
   invoice: InvoiceData | null;
-  onSave: (data: any) => Promise<void>;
+  onSave: (data: Partial<ClientSnapshot>) => Promise<void>;
 }
 
 export default function EditClientModal({
@@ -38,7 +38,7 @@ export default function EditClientModal({
 
   useEffect(() => {
     if (invoice && isOpen) {
-      const phoneSnapshot = (invoice.clientSnapshot as any).phone || {};
+      const phoneSnapshot = (invoice.clientSnapshot as unknown as { phone?: { country: string; number: string } }).phone || {};
 
       setFormData({
         name: invoice.clientSnapshot.name || "",
@@ -91,7 +91,7 @@ export default function EditClientModal({
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white uppercase tracking-tight">
               {t("modals.client.title")}
             </h3>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-600">
               {t("modals.client.subtitle")}
             </p>
           </div>

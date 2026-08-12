@@ -59,7 +59,7 @@ export default function EditDatesModal({
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
             {t("modals.dates.title")}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-xs mx-auto">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 max-w-xs mx-auto">
             {t("modals.dates.desc")}
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function EditDatesModal({
           <Button
             type="submit"
             disabled={saving}
-            className="h-10 px-6 text-xs uppercase tracking-wider font-semibold shadow-lg shadow-brand-500/20"
+            className="h-10 px-6 text-xs uppercase tracking-wider font-semibold"
           >
             {saving
               ? t("modals.dates.actions.saving")

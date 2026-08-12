@@ -59,7 +59,7 @@ export default function NotificationsPage() {
           <h1 className="text-2xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
             <HiOutlineBellAlert className="text-orange-500" /> Notifications
           </h1>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-600 text-sm">
             Stay updated with your latest business activity
           </p>
         </div>
@@ -76,13 +76,13 @@ export default function NotificationsPage() {
         )}
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700">
         {notifications.length === 0 && !loading ? (
           <div className="p-20 text-center flex flex-col items-center">
             <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-full mb-4">
               <HiOutlineBellAlert className="size-8 text-gray-300" />
             </div>
-            <p className="text-gray-400">No notifications yet.</p>
+            <p className="text-gray-500">No notifications yet.</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -111,13 +111,13 @@ export default function NotificationsPage() {
                     <span className="font-semibold text-gray-900 dark:text-white text-base">
                       {n.sender.name}
                     </span>
-                    <span className="text-xs text-gray-400 font-medium">
+                    <span className="text-xs text-gray-500 font-medium">
                       Just now
                       {/* {formatDistanceToNow(new Date(n.createdAt), { addSuffix: true })} */}
                     </span>
                   </div>
 
-                  <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 mb-3 text-sm leading-relaxed">
                     {n.text}
                   </p>
 
@@ -125,7 +125,7 @@ export default function NotificationsPage() {
                     <Badge
                       variant="light"
                       size="sm"
-                      className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+                      className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                     >
                       {n.project?.name || "System"}
                     </Badge>

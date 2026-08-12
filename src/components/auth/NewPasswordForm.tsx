@@ -13,6 +13,7 @@ import Button from "../ui/button/Button";
 import { authApi } from "../../apis/auth";
 import { useAuth } from "../../context/AuthContext";
 import PasswordValidator from "./PasswordValidator";
+import Alert from "../ui/alert/Alert";
 
 export default function NewPasswordForm() {
   const { t } = useTranslation("auth");
@@ -32,7 +33,7 @@ export default function NewPasswordForm() {
   const [error, setError] = useState("");
 
   /**
-   * Complexity Logic: 
+   * Complexity Logic:
    * Validates: 8+ chars, 1 Uppercase, 1 Lowercase, 1 Symbol.
    */
   const isPasswordValid = useMemo(() => {
@@ -51,7 +52,8 @@ export default function NewPasswordForm() {
 
     // Secondary safety checks
     if (!passwordsMatch) return setError(t("errors.PASSWORDS_DO_NOT_MATCH"));
-    if (!isPasswordValid) return setError(t("errors.PASSWORD_REQUIREMENTS_NOT_MET"));
+    if (!isPasswordValid)
+      return setError(t("errors.PASSWORD_REQUIREMENTS_NOT_MET"));
 
     setError("");
     setIsLoading(true);
@@ -60,10 +62,10 @@ export default function NewPasswordForm() {
       const data = await authApi.resetPassword({ token, password });
       login(data.token, data.user);
       navigate("/select-business");
-    } catch (err: any) {
-      const errorCode = err.message;
+    } catch (err) {
+      const errorCode = err instanceof Error ? err.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.AUTH_TOKEN_INVALID"),
       );
       setError(translatedError);
@@ -78,7 +80,7 @@ export default function NewPasswordForm() {
       <div className="w-full mb-4 mt-2 sm:mt-10 animate-in fade-in duration-500">
         <Link
           to="/signin"
-          className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
+          className="inline-flex items-center text-sm font-medium text-gray-600 transition-colors hover:text-brand-500 dark:text-gray-300 dark:hover:text-brand-400"
         >
           <ChevronLeftIcon className="size-5 mr-1" />
           {t("new_password.back_to_signin")}
@@ -91,18 +93,14 @@ export default function NewPasswordForm() {
           <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
             {t("new_password.title")}
           </h1>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 leading-relaxed">
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-300 leading-relaxed">
             {t("new_password.subtitle")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Error Messenger */}
-          {error && (
-            <div className="p-4 text-sm font-semibold text-white bg-error-500 rounded-xl animate-in shake duration-300">
-              {error}
-            </div>
-          )}
+          {error && <Alert variant="error" message={error} />}
 
           {/* Primary Password Input */}
           <div>
@@ -175,9 +173,9 @@ export default function NewPasswordForm() {
 
           {/* Submit Action */}
           <div className="pt-2 pb-20 lg:pb-0">
-            <Button 
-              type="submit" 
-              className="w-full shadow-lg shadow-brand-500/20" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={isLoading || !isPasswordValid || !passwordsMatch}
             >
               {isLoading

@@ -20,7 +20,11 @@ import Button from "../ui/button/Button";
 export default function UserMetaCard({
   setAlert,
 }: {
-  setAlert: (alert: any) => void; 
+  setAlert: (alert: {
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+    message: string;
+  }) => void; 
 }) {
   const { t } = useTranslation("user");
   const { user, login, token } = useAuth();
@@ -69,12 +73,12 @@ export default function UserMetaCard({
         title: t("messages.photo_updated_title"),
         message: t("messages.photo_updated_body"),
       });
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: "Error",
-        message: t(`errors.${errorCode}` as any, t("errors.UPLOAD_FAILED")),
+        message: t(`errors.${errorCode}`, t("errors.UPLOAD_FAILED")),
       });
     } finally {
       setUploading(false);
@@ -94,12 +98,12 @@ export default function UserMetaCard({
         message: t("messages.photo_removed_body"),
       });
       closeDeleteModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: "Error",
-        message: t(`errors.${errorCode}` as any, t("errors.DELETE_FAILED")),
+        message: t(`errors.${errorCode}`, t("errors.DELETE_FAILED")),
       });
     } finally {
       setDeleting(false);
@@ -107,7 +111,7 @@ export default function UserMetaCard({
   };
 
   const activeMembership = user.memberships?.find(
-    (m: any) => m.businessId?._id === businessId,
+    (m: { businessId?: { _id: string } }) => m.businessId?._id === businessId,
   );
 
   return (
@@ -117,7 +121,7 @@ export default function UserMetaCard({
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* --- AVATAR DISPLAY (Static & Clean) --- */}
           <div className="relative shrink-0">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-black/20 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 dark:shadow-black/20 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
               {uploading ? (
                 <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
               ) : user.profileImage ? (
@@ -127,7 +131,7 @@ export default function UserMetaCard({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <HiOutlineUser className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+                <HiOutlineUser className="w-10 h-10 text-gray-500 dark:text-gray-400" />
               )}
             </div>
             {/* Status Indicator (Optional) */}
@@ -143,7 +147,7 @@ export default function UserMetaCard({
               {user.name}
             </h4>
 
-            <div className="mt-1 flex flex-col sm:flex-row items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+            <div className="mt-1 flex flex-col sm:flex-row items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <span>{user.email}</span>
               {activeMembership && (
                 <>

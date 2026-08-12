@@ -114,12 +114,12 @@ const getAuthHeaders = () => {
 export const businessApi = {
   /**
    * Creates a new business and associates it with the current user.
-   * @param {any} payload - Initial business data.
-   * @returns {Promise<{ business: BusinessData, user: any }>}
+   * @param {Partial<BusinessData>} payload - Initial business data.
+   * @returns {Promise<{ business: BusinessData, user: Record<string, unknown> }>}
    */
   createBusiness: async (
-    payload: any,
-  ): Promise<{ business: BusinessData; user: any }> => {
+    payload: Partial<BusinessData>,
+  ): Promise<{ business: BusinessData; user: Record<string, unknown> }> => {
     const response = await fetch(`${BASE_URL}`, {
       method: "POST",
       headers: getAuthHeaders(),
@@ -193,9 +193,9 @@ export const businessApi = {
   /**
    * Allows the current user to leave a business organization.
    * @param {string} businessId - ID of the business to leave.
-   * @returns {Promise<any>}
+   * @returns {Promise<{ message: string }>}
    */
-  leaveBusiness: async (businessId: string): Promise<any> => {
+  leaveBusiness: async (businessId: string): Promise<{ message: string }> => {
     const response = await fetch(`${BASE_URL}/${businessId}/leave`, {
       method: "POST",
       headers: getAuthHeaders(),

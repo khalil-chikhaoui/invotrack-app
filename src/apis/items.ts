@@ -136,7 +136,7 @@ export const itemApi = {
   /**
    * Registers a new item in the catalog.
    */
-  createItem: async (payload: any): Promise<ItemData> => {
+  createItem: async (payload: Partial<ItemData>): Promise<ItemData> => {
     const response = await fetch(`${BASE_URL}`, {
       method: "POST",
       headers: getAuthHeaders(),
@@ -150,7 +150,7 @@ export const itemApi = {
   /**
    * Updates an existing item's profile or pricing.
    */
-  updateItem: async (id: string, payload: any): Promise<ItemData> => {
+  updateItem: async (id: string, payload: Partial<ItemData>): Promise<ItemData> => {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "PUT",
       headers: getAuthHeaders(),

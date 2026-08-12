@@ -102,13 +102,13 @@ export default function InvoiceStatsTab({
 
             {/* Text Content */}
             <div>
-              <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 block">
+              <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 block">
                 {card.label}
               </span>
               <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
                 {card.value}
               </h4>
-              <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+              <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
                 {card.description}
               </p>
             </div>

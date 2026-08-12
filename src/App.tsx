@@ -46,18 +46,7 @@ import { ScrollToTop } from "./hooks/scrollToTop"; // <-- Import it
 // --- GLOBAL BACKGROUND COMPONENT ---
 // This sits behind the entire app
 const GlobalBackground = () => (
-  <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-white dark:bg-[#0B1120] transition-colors duration-500">
-    {/* UPDATED: Added 'hidden dark:block' to the blobs.
-      In Light mode: They are removed from the DOM layout (Pure White).
-      In Dark mode: They appear exactly as before.
-    */}
-    
-    {/* Top Right Blob */}
-    <div className="hidden dark:block absolute top-[-10%] right-[-5%] w-[500px] h-[500px] dark:bg-brand-500/20 rounded-full blur-[100px] opacity-70 animate-pulse" />
-    
-    {/* Bottom Left Blob */}
-    <div className="hidden dark:block absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] dark:bg-indigo-500/10 rounded-full blur-[120px] opacity-70" />
-  </div>
+  <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-white dark:bg-gray-950 transition-colors duration-500" />
 );
 
 export default function App() {

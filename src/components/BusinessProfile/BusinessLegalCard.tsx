@@ -19,7 +19,7 @@ export default function BusinessLegalCard({
 }: {
   business: BusinessData;
   refresh: () => void;
-  setAlert: (alert: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }) {
   const { t } = useTranslation("business");
   const { isOpen, openModal, closeModal } = useModal();
@@ -43,12 +43,12 @@ export default function BusinessLegalCard({
       });
       refresh();
       closeModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.SYNC_FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.UPDATE_FAILED")),
+        message: t(`errors.${errorCode}`, t("errors.UPDATE_FAILED")),
       });
     } finally {
       setLoading(false);
@@ -73,7 +73,7 @@ export default function BusinessLegalCard({
 
       <div className="space-y-5">
         <div className="flex justify-between items-center pb-4 border-b border-gray-50 dark:border-gray-800">
-          <span className="text-xs font-medium text-gray-600 dark:text-gray-300  tracking-wider">
+          <span className="text-xs font-medium text-gray-700 dark:text-gray-300  tracking-wider">
             {t("settings.general.cards.tax_label")}
           </span>
           <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
@@ -82,7 +82,7 @@ export default function BusinessLegalCard({
         </div>
 
         <div className="flex justify-between items-center pb-4 border-b border-gray-50 dark:border-gray-800">
-          <span className="text-xs font-medium text-gray-600 dark:text-gray-300  tracking-wider">
+          <span className="text-xs font-medium text-gray-700 dark:text-gray-300  tracking-wider">
             {t("settings.general.cards.reg_label")}
           </span>
           <span className="text-sm font-medium text-gray-800 dark:text-white">
@@ -92,7 +92,7 @@ export default function BusinessLegalCard({
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="text-xs font-medium text-gray-600 dark:text-gray-300  tracking-wider">
+          <span className="text-xs font-medium text-gray-700 dark:text-gray-300  tracking-wider">
             {t("settings.general.cards.billing_email_label")}
           </span>
           <span className="text-sm font-semibold text-brand-500 dark:text-brand-300 hover:underline cursor-pointer">
@@ -106,7 +106,7 @@ export default function BusinessLegalCard({
           <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white  tracking-tight">
             {t("settings.general.cards.legal_update_title")}
           </h4>
-          <p className="text-xs font-medium text-gray-500 mb-8  tracking-widest">
+          <p className="text-xs font-medium text-gray-600 mb-8  tracking-widest">
             {t("settings.general.cards.legal_subtitle")}
           </p>
 
@@ -152,7 +152,7 @@ export default function BusinessLegalCard({
                   setFormData({ ...formData, email: e.target.value })
                 }
               />
-              <p className="mt-2 text-[10px] text-gray-600 dark:text-gray-300 font-medium italic">
+              <p className="mt-2 text-[10px] text-gray-700 dark:text-gray-300 font-medium italic">
                 {t("settings.general.cards.billing_help")}
               </p>
             </div>

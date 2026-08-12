@@ -41,13 +41,13 @@ export default function InvoiceIdentityCard({
   const displayStatus = getInvoiceDisplayStatus(invoice);
 
   return (
-    <div className="border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 relative overflow-hidden text-start shadow-sm bg-white dark:bg-gray-900">
+    <div className="border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 relative overflow-hidden text-start bg-white dark:bg-gray-900">
       <div className="absolute top-0 right-0 p-8 opacity-5">
         <HiOutlineDocumentText className="size-32" />
       </div>
       <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
         {/* Icon Box */}
-        <div className="w-28 h-28 rounded-3xl bg-brand-50 dark:bg-brand-500/10 flex items-center justify-center border border-brand-100 dark:border-brand-500/20 shadow-inner">
+        <div className="w-28 h-28 rounded-3xl bg-brand-50 dark:bg-brand-500/10 flex items-center justify-center border border-brand-100 dark:border-brand-500/20">
           <HiOutlineDocumentText className="size-12 text-brand-500" />
         </div>
 
@@ -114,7 +114,7 @@ export default function InvoiceIdentityCard({
           </h2>
 
           {/** DATES ROW */}
-          <div className="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-300">
+          <div className="flex flex-wrap items-center gap-4 text-gray-700 dark:text-gray-300">
             <div className="flex items-center gap-2 text-xs font-semibold tracking-normal">
               <HiOutlineCalendarDays className="size-4 text-brand-600 dark:text-brand-300" />{" "}
               {t("identity_card.issued")}{" "}
@@ -145,8 +145,8 @@ export default function InvoiceIdentityCard({
             )}
           </div>
 
-          <span className="text-[11px] text-gray-500 dark:text-gray-400 mt-3 font-medium tracking-widest flex items-center gap-1.5">
-            <HiOutlineInformationCircle className="size-4 text-gray-400 dark:text-gray-500" />
+          <span className="text-[11px] text-gray-600 dark:text-gray-300 mt-3 font-medium tracking-widest flex items-center gap-1.5">
+            <HiOutlineInformationCircle className="size-4 text-gray-500 dark:text-gray-400" />
             {t("identity_card.created_on", {
               date: formatDate(new Date(invoice.createdAt), "MMMM dd, yyyy", {
                 locale: dateLocale,
@@ -157,7 +157,7 @@ export default function InvoiceIdentityCard({
         </div>
 
         <div className="bg-gray-50/[0.02] dark:bg-white/[0.02] border border-gray-100 dark:border-white/[0.05] p-6 rounded-2xl text-center min-w-[180px]">
-          <span className="text-[9px] font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-widest block mb-1">
+          <span className="text-[9px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-widest block mb-1">
             {t("identity_card.valuation")}
           </span>
           <span className="text-2xl font-semibold text-gray-800 dark:text-gray-200">

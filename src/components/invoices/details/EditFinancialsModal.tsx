@@ -70,7 +70,7 @@ export default function EditFinancialsModal({
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-[#0B1120] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+        className="bg-white dark:bg-gray-950 rounded-2xl overflow-hidden flex flex-col"
       >
         {/* --- Compact Header --- */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02]">
@@ -87,7 +87,7 @@ export default function EditFinancialsModal({
           <button
             type="button"
             onClick={onClose}
-            className="ml-auto p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-200/50 dark:hover:bg-white/5"
+            className="ml-auto p-2 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-200/50 dark:hover:bg-white/5"
           >
             <HiX className="w-5 h-5" />
           </button>
@@ -126,7 +126,7 @@ export default function EditFinancialsModal({
             variant="outline"
             onClick={onClose}
             disabled={saving}
-            className="h-9 px-4 bg-transparent border-0 text-xs font-bold uppercase tracking-wide transition-colors text-gray-900  dark:text-gray-400  "
+            className="h-9 px-4 bg-transparent border-0 text-xs font-bold uppercase tracking-wide transition-colors text-gray-900  dark:text-gray-300  "
           >
             {t("modals.financials.actions.cancel")}
           </Button>
@@ -134,7 +134,7 @@ export default function EditFinancialsModal({
           <Button
             type="submit"
             disabled={saving}
-            className="h-9 px-6 text-xs font-bold uppercase tracking-wide shadow-lg shadow-brand-500/20"
+            className="h-9 px-6 text-xs font-bold uppercase tracking-wide"
           >
             {saving
               ? t("modals.financials.actions.calculating")

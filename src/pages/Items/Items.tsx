@@ -75,14 +75,14 @@ export default function Items() {
           limit: 10,
           search: searchTerm,
           sort: sortConfig,
-          type: typeFilter === "all" ? undefined : (typeFilter as any),
+          type: typeFilter === "all" ? undefined : (typeFilter as "Product" | "Service"),
           isArchived: statusFilter === "archived",
         }),
       ]);
       setBusiness(biz);
       setItems(res.items);
       setMeta(res.meta);
-    } catch (error: any) {
+    } catch (error) {
       triggerAlert({
         type: "error",
         title: t("errors.SYNC_ERROR"),
@@ -110,7 +110,7 @@ export default function Items() {
     if (!selectedItem) return;
     setDeleting(true);
     try {
-      const res: any = await itemApi.deleteItem(selectedItem._id);
+      const res = await itemApi.deleteItem(selectedItem._id);
 
       // Determine correct translation keys based on backend action
       const titleKey =
@@ -129,12 +129,12 @@ export default function Items() {
       });
       fetchData();
       closeDeleteModal();
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       triggerAlert({
         type: "error",
         title: t("errors.FAILED"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setDeleting(false);
@@ -161,7 +161,7 @@ export default function Items() {
       <CustomAlert data={alert} onClose={() => setAlert(null)} />
 
       {/* --- MASTER UNIFIED CARD --- */}
-      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+      <div className=" border border-gray-200 dark:border-white/[0.05] rounded-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
         {/*  Filters Header */}
         <ItemFilters
           searchTerm={searchTerm}

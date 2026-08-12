@@ -154,9 +154,9 @@ export default function ClientSelector({
         <div className="px-6 py-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-white dark:bg-gray-900/50 rounded-t-md">
           <div className="flex items-center gap-2">
             <div className="p-1 rounded-lg bg-gray-100 dark:bg-white/5">
-              <HiOutlineUser className="size-3.5 text-gray-500" />
+              <HiOutlineUser className="size-3.5 text-gray-600" />
             </div>
-            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-600 dark:text-gray-300">
+            <h3 className="font-semibold text-[10px] tracking-widest uppercase text-gray-700 dark:text-gray-300">
               {t("create.sections.bill_to")}
             </h3>
           </div>
@@ -177,7 +177,7 @@ export default function ClientSelector({
             <div className="relative group">
               <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                 <HiOutlineMagnifyingGlass
-                  className={`size-4 transition-colors ${searching ? "text-brand-500" : "text-gray-400"}`}
+                  className={`size-4 transition-colors ${searching ? "text-brand-500" : "text-gray-500"}`}
                 />
               </div>
               <input
@@ -201,7 +201,7 @@ export default function ClientSelector({
               </div>
 
               {isOpen && (
-                <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl shadow-brand-500/10 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                   <div
                     ref={scrollParentRef}
                     className="max-h-[240px] overflow-y-auto custom-scrollbar"
@@ -225,7 +225,7 @@ export default function ClientSelector({
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <span className="text-xs font-semibold text-gray-400">
+                              <span className="text-xs font-semibold text-gray-500">
                                 {c.name.charAt(0)}
                               </span>
                             )}
@@ -234,7 +234,7 @@ export default function ClientSelector({
                             <span className="text-sm font-medium text-gray-800 dark:text-white truncate uppercase tracking-tight leading-tight">
                               <HighlightText text={c.name} highlight={search} />
                             </span>
-                            <span className="text-[10px] text-gray-600 dark:text-gray-300 truncate font-medium">
+                            <span className="text-[10px] text-gray-700 dark:text-gray-300 truncate font-medium">
                               <HighlightText
                                 text={c.email || t("create.no_email")}
                                 highlight={search}
@@ -245,7 +245,7 @@ export default function ClientSelector({
                       ))
                     ) : (
                       <div className="p-6 text-center">
-                        <p className="text-xs font-medium text-gray-600 dark:text-gray-300">
+                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
                           {t("create.no_results")}
                         </p>
                       </div>
@@ -272,7 +272,7 @@ export default function ClientSelector({
                   <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-tight truncate leading-none mb-1">
                     {selectedClient.name}
                   </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium truncate leading-none">
+                  <p className="text-[10px] text-gray-600 dark:text-gray-300 font-medium truncate leading-none">
                     {selectedClient.email}
                   </p>
                 </div>
@@ -280,7 +280,7 @@ export default function ClientSelector({
               <button
                 type="button"
                 onClick={handleChangeClient} // 4. Updated Click Handler
-                className="flex items-center gap-1.5 text-[9px] font-semibold text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-300 uppercase tracking-widest transition-all hover:bg-red-50 dark:hover:bg-red-500/10 px-3 py-1.5 rounded-lg group"
+                className="flex items-center gap-1.5 text-[9px] font-semibold text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-300 uppercase tracking-widest transition-all hover:bg-red-50 dark:hover:bg-red-500/10 px-3 py-1.5 rounded-lg group"
               >
                 <HiOutlineXMark className="size-3.5" />
                 {t("create.change")}

@@ -34,7 +34,7 @@ export default function DeliveryFilters({
         <div className="flex-1 flex flex-col md:flex-row gap-2 md:gap-3 items-stretch md:items-end w-full">
           {/* Search Input*/}
           <div className="flex-1 w-full text-start">
-            <label className="text-[10px] font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest mb-1 md:mb-1.5 block px-1">
+            <label className="text-[10px] font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest mb-1 md:mb-1.5 block px-1">
               {t("filters.search_label")}
             </label>
             <Input
@@ -84,13 +84,13 @@ export default function DeliveryFilters({
             className="h-11 px-3 bg-white dark:bg-transparent border-gray-200 dark:border-white/10"
           >
             <HiOutlineArrowPath
-              className={`size-5 text-gray-500 dark:text-gray-400 ${loading ? "animate-spin" : ""}`}
+              className={`size-5 text-gray-600 dark:text-gray-300 ${loading ? "animate-spin" : ""}`}
             />
           </Button>
 
           <Button
             onClick={onAdd}
-            className="h-11 flex-1 md:flex-none flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6 shadow-lg shadow-brand-500/10"
+            className="h-11 flex-1 md:flex-none flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-6"
           >
             <PlusIcon className="size-4 fill-current" />
             <span>{t("actions.generate")}</span>

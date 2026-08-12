@@ -62,33 +62,33 @@ export default function InvoiceTable({
               {/* Added min-width to ensure "good width" and pr-6 for right padding only */}
               <TableCell
                 isHeader
-                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[220px] whitespace-nowrap"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start min-w-[220px] whitespace-nowrap"
               >
                 {t("list.columns.details")}
               </TableCell>
               {showClient && (
                 <TableCell
                   isHeader
-                  className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[180px] whitespace-nowrap"
+                  className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start min-w-[180px] whitespace-nowrap"
                 >
                   {t("list.columns.client")}
                 </TableCell>
               )}
               <TableCell
                 isHeader
-                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start whitespace-nowrap"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.amount")}
               </TableCell>
               <TableCell
                 isHeader
-                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start whitespace-nowrap"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.payment")}
               </TableCell>
               <TableCell
                 isHeader
-                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start whitespace-nowrap"
+                className="pr-6 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start whitespace-nowrap"
               >
                 {t("list.columns.logistics")}
               </TableCell>
@@ -112,12 +112,12 @@ export default function InvoiceTable({
                 <td colSpan={baseColSpan} className="p-0 border-none">
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <div className="p-4 rounded-full bg-gray-50 dark:bg-white/5 mb-3">
-                      <HiOutlineInbox className="size-8 text-gray-300 dark:text-gray-600" />
+                      <HiOutlineInbox className="size-8 text-gray-300 dark:text-gray-400" />
                     </div>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {t("list.empty.title")}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-600 mt-1">
                       {t("list.empty.desc")}
                     </p>
                   </div>
@@ -136,14 +136,14 @@ export default function InvoiceTable({
                   >
                     <TableCell className="pr-6 py-4 text-start whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-white/[0.05] text-gray-500 group-hover:bg-brand-50 group-hover:text-brand-500 dark:group-hover:bg-brand-500/20 dark:group-hover:text-brand-400 transition-colors">
+                        <div className="p-2.5 rounded-lg bg-gray-50 dark:bg-white/[0.05] text-gray-600 group-hover:bg-brand-50 group-hover:text-brand-500 dark:group-hover:bg-brand-500/20 dark:group-hover:text-brand-400 transition-colors">
                           <HiOutlineDocumentText className="size-5" />
                         </div>
                         <div className="flex flex-col text-start">
                           <span className="font-semibold text-theme-sm text-gray-800 dark:text-white leading-tight">
                             {inv.invoiceNumber}
                           </span>
-                          <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide mt-0.5">
+                          <span className="text-[10px] text-gray-600 dark:text-gray-300 font-medium tracking-wide mt-0.5">
                             {formatDate(
                               new Date(inv.issueDate),
                               "MMM do, yyyy",
@@ -163,7 +163,7 @@ export default function InvoiceTable({
                           </span>
 
                           {/* Client Phone with validation logic */}
-                          <span className="text-[10px] text-gray-400 font-regular mt-0.5">
+                          <span className="text-[10px] text-gray-500 font-regular mt-0.5">
                             {(() => {
                               const phoneNumber =
                                 inv.clientSnapshot.phone?.number;

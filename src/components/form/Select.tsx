@@ -49,7 +49,7 @@ const Select: React.FC<SelectProps> = ({
         className={`h-11 w-full cursor-pointer appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-10 text-sm shadow-theme-xs transition-all focus:outline-none focus:ring-4 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:focus:border-brand-500 ${
           selectedValue
             ? "text-gray-800 dark:text-white/90"
-            : "text-gray-400 dark:text-gray-500"
+            : "text-gray-500 dark:text-gray-400"
         } ${className}`}
         value={selectedValue}
         onChange={handleChange}
@@ -61,7 +61,7 @@ const Select: React.FC<SelectProps> = ({
           <option
             key={option.value}
             value={option.value}
-            className="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
+            className="text-gray-700 dark:bg-gray-900 dark:text-gray-300"
           >
             {option.label}
           </option>
@@ -69,7 +69,7 @@ const Select: React.FC<SelectProps> = ({
       </select>
 
       {/* Custom Chevron Arrow - Since appearance-none hides the default one */}
-      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
         <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
           <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
         </svg>

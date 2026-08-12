@@ -17,6 +17,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useAlert } from "../../hooks/useAlert";
 import { authApi } from "../../apis/auth";
 import { scrollToTopAppLayout } from "../../layout/AppLayout";
+import { version } from "../../../package.json";
 
 export default function UserProfiles() {
   const { t, i18n } = useTranslation("user");
@@ -81,10 +82,11 @@ export default function UserProfiles() {
         title: t("messages.email_sent_title"),
         message: t("messages.email_sent_body", { email: user.email }),
       });
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode =
+        error instanceof Error ? error.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.RESET_LINK_FAILED"),
       );
 
@@ -153,6 +155,13 @@ export default function UserProfiles() {
                 {t("actions.sign_out")}
               </span>
             </button>
+          </div>
+
+          {/* App Version Info */}
+          <div className="pt-10 pb-4 flex items-center justify-center">
+            <span className="text-[12px] font-semibold text-gray-500 dark:text-gray-400 select-none">
+              InvoTrack - Version {version}
+            </span>
           </div>
         </div>
       </div>

@@ -42,21 +42,21 @@ export default function NotFound() {
             className="hidden dark:block mx-auto"
           />
 
-          <p className="mt-10 mb-6 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
+          <p className="mt-10 mb-6 text-base text-gray-700 dark:text-gray-300 sm:text-lg">
             {t("not_found.message")}
           </p>
 
           {/* Returns user to the safe entry point */}
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3.5 text-sm font-medium text-gray-700  hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 transition-colors"
+            className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3.5 text-sm font-medium text-gray-700  hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 transition-colors"
           >
             {t("not_found.back")}
           </Link>
         </div>
 
         {/* --- Footer Copyright --- */}
-        <p className="absolute text-sm text-center text-gray-500 -translate-x-1/2 bottom-6 left-1/2 dark:text-gray-400">
+        <p className="absolute text-sm text-center text-gray-600 -translate-x-1/2 bottom-6 left-1/2 dark:text-gray-300">
           &copy; {new Date().getFullYear()} - Invotrack
         </p>
       </div>

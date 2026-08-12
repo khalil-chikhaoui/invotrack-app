@@ -93,7 +93,7 @@ export default function DeliveryDetails() {
         message: t("messages.delete_success"),
       });
       setTimeout(() => navigate(`/business/${businessId}/delivery`), 1000);
-    } catch (e: any) {
+    } catch (e) {
       setAlert({
         type: "error",
         title: t("messages.error_title"),
@@ -130,7 +130,7 @@ export default function DeliveryDetails() {
 
       fetchData(); // Refresh the list
       removeInvoiceModal.closeModal();
-    } catch (e: any) {
+    } catch (e) {
       setAlert({
         type: "error",
         title: t("messages.error_title"),
@@ -175,7 +175,7 @@ export default function DeliveryDetails() {
         title: t("messages.success_title"),
         message: t("messages.notes_updated") || "Notes updated successfully",
       });
-    } catch (e: any) {
+    } catch (e) {
       setAlert({
         type: "error",
         title: t("messages.error_title"),

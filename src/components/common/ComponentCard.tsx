@@ -21,7 +21,7 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
           {title}
         </h3>
         {desc && (
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
             {desc}
           </p>
         )}

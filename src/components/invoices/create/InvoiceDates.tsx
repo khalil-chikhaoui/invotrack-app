@@ -24,7 +24,7 @@ export default function InvoiceDates({
   const { t, i18n } = useTranslation("invoice");
 
   // 3. Determine the locale object based on current language
-  let locale: any = "default";
+  let locale: string | object = "default";
   const currentLang = i18n.language?.split("-")[0]; // Handles "fr-FR" -> "fr"
 
   if (currentLang === "fr") locale = French;
@@ -37,7 +37,7 @@ export default function InvoiceDates({
   }, [issueDate, dueDate, setDueDate]);
 
   return (
-    <div className="p-5 bg-white dark:bg-gray-900 rounded-md border border-gray-200 dark:border-white/[0.05] shadow-sm">
+    <div className="p-5 bg-white dark:bg-gray-900 rounded-md border border-gray-200 dark:border-white/[0.05]">
       <div className="flex items-center gap-2 mb-4">
         <HiOutlineCalendarDays className="text-brand-500 size-5" />
         <h3 className="font-semibold text-gray-800 dark:text-white text-sm">

@@ -170,7 +170,7 @@ export default function HomeMetrics({
               <span className="block mt-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
                 {item.title}
               </span>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+              <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5">
                 {item.description}
               </p>
             </div>
@@ -196,7 +196,7 @@ export default function HomeMetrics({
               )}
               {item.metric.change}%
             </div>
-            <span className="text-xs text-gray-600 truncate dark:text-gray-300">
+            <span className="text-xs text-gray-700 truncate dark:text-gray-300">
               {comparisonLabel}
             </span>
           </div>

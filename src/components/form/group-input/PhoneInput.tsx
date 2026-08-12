@@ -117,7 +117,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                 : t("phone_input.select_placeholder")}
             </span>
             <HiChevronDown
-              className={`size-3 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${
+              className={`size-3 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${
                 isOpen ? "rotate-180" : ""
               }`}
             />
@@ -140,12 +140,12 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
       
       */}
       {isOpen && (
-        <div className="absolute top-full left-0 z-50 mt-2 w-[300px] rounded-xl border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute top-full left-0 z-50 mt-2 w-[300px] rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 overflow-hidden animate-in fade-in zoom-in-95 duration-100">
           {/* Sticky Search Bar */}
           <div className="border-b border-gray-100 dark:border-gray-800 p-2 bg-white dark:bg-gray-900 sticky top-0 z-10">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <HiMagnifyingGlass className="size-4 text-gray-400" />
+                <HiMagnifyingGlass className="size-4 text-gray-500" />
               </div>
               <input
                 ref={searchInputRef}
@@ -177,13 +177,13 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                     {c.name}{" "}
                     <span className="text-xs opacity-70">({c.code})</span>
                   </span>
-                  <span className="text-xs font-mono text-gray-400 dark:text-gray-500">
+                  <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
                     {c.dial_code}
                   </span>
                 </li>
               ))
             ) : (
-              <li className="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400 italic">
+              <li className="px-4 py-8 text-center text-sm text-gray-600 dark:text-gray-300 italic">
                 {t("phone_input.no_results")}
               </li>
             )}

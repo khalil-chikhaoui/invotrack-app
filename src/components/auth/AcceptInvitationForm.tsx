@@ -16,6 +16,7 @@ import {
 } from "../../apis/invitations";
 import LoadingState from "../common/LoadingState";
 import LanguageSelector from "../../components/common/LanguageSelector";
+import Alert from "../ui/alert/Alert";
 
 export default function AcceptInvitationForm() {
   const { t } = useTranslation("auth");
@@ -67,7 +68,7 @@ export default function AcceptInvitationForm() {
           // PRO ERROR HANDLING
           const errorCode = err.message;
           const translatedError = t(
-            `errors.${errorCode}` as any,
+            `errors.${errorCode}`,
             t("errors.INVITATION_INVALID"),
           );
           setError(translatedError);
@@ -105,11 +106,11 @@ export default function AcceptInvitationForm() {
 
       login(response.token, response.user);
       navigate("/select-business");
-    } catch (err: any) {
+    } catch (err) {
       // PRO ERROR HANDLING
-      const errorCode = err.message;
+      const errorCode = err instanceof Error ? err.message : "GENERIC_ERROR";
       const translatedError = t(
-        `errors.${errorCode}` as any,
+        `errors.${errorCode}`,
         t("errors.GENERIC_ERROR"),
       );
       setError(translatedError);
@@ -152,7 +153,7 @@ export default function AcceptInvitationForm() {
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2 uppercase tracking-tight">
             {t("accept_invitation.error_screen.title")}
           </h2>
-          <p className="text-sm text-gray-500 font-medium mb-8 leading-relaxed">
+          <p className="text-sm text-gray-600 font-medium mb-8 leading-relaxed">
             {error}
           </p>
           <Button
@@ -185,7 +186,7 @@ export default function AcceptInvitationForm() {
                 businessName: inviteData?.business.name,
               })}
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-gray-300 font-medium leading-relaxed">
               {/* Dynamic Subtitle using Trans for Bold text */}
               <Trans
                 i18nKey={
@@ -205,11 +206,7 @@ export default function AcceptInvitationForm() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="p-4 text-sm font-semibold text-white bg-error-500 rounded-xl">
-                {error}
-              </div>
-            )}
+            {error && <Alert variant="error" message={error} />}
 
             {/* Email (Locked) */}
             <div>

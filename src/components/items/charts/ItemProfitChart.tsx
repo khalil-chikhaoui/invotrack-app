@@ -79,7 +79,7 @@ export default function ItemProfitChart({
           onClose={() => setIsMonthOpen(false)}
           className="w-32 right-0 mt-2 p-1"
         >
-          <div className="px-3 py-2 text-[9px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
+          <div className="px-3 py-2 text-[9px] font-semibold text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
             {t("analytics.profit.select_month")}
           </div>
           <div className="max-h-40 overflow-y-auto custom-scrollbar">
@@ -88,7 +88,7 @@ export default function ItemProfitChart({
                 setSelectedMonth(-1);
                 setIsMonthOpen(false);
               }}
-              className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedMonth === -1 ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+              className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedMonth === -1 ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
             >
               {t("analytics.profit.all_months")}
             </DropdownItem>
@@ -99,7 +99,7 @@ export default function ItemProfitChart({
                   setSelectedMonth(idx);
                   setIsMonthOpen(false);
                 }}
-                className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedMonth === idx ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+                className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedMonth === idx ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
               >
                 {m}
               </DropdownItem>
@@ -124,7 +124,7 @@ export default function ItemProfitChart({
           onClose={() => setIsYearOpen(false)}
           className="w-32 right-0 mt-2 p-1"
         >
-          <div className="px-3 py-2 text-[9px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
+          <div className="px-3 py-2 text-[9px] font-semibold text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-white/5 mb-1">
             {t("analytics.profit.select_year")}
           </div>
           <div className="max-h-40 overflow-y-auto custom-scrollbar">
@@ -134,7 +134,7 @@ export default function ItemProfitChart({
                 setSelectedMonth(-1);
                 setIsYearOpen(false);
               }}
-              className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedYear === -1 ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+              className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedYear === -1 ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
             >
               {t("analytics.profit.all_time")}
             </DropdownItem>
@@ -145,7 +145,7 @@ export default function ItemProfitChart({
                   setSelectedYear(year);
                   setIsYearOpen(false);
                 }}
-                className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedYear === year ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
+                className={`flex w-full px-3 py-2 text-xs font-semibold rounded-md transition-colors ${selectedYear === year ? "bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"}`}
               >
                 {year}
               </DropdownItem>

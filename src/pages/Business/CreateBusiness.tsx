@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { businessApi } from "../../apis/business";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth, User, Membership } from "../../context/AuthContext";
 import PageMeta from "../../components/common/PageMeta";
 import Button from "../../components/ui/button/Button";
 import Label from "../../components/form/Label";
@@ -59,8 +59,8 @@ export default function CreateBusiness() {
       digits: 2,
       groupSep: ",",
       decimalSep: ".",
-      display: "symbol",
-      position: "left",
+      display: "symbol" as "symbol" | "code",
+      position: "left" as "left" | "right",
     },
   });
 
@@ -137,7 +137,7 @@ export default function CreateBusiness() {
       try {
         const { business: newBusiness, user: returnedUser } =
           await businessApi.createBusiness(formData);
-        const newMembership = {
+        const newMembership: Membership = {
           businessId: {
             _id: newBusiness._id,
             name: newBusiness.name,
@@ -146,16 +146,16 @@ export default function CreateBusiness() {
           role: "Admin",
           title: "Owner",
         };
-        const updatedUser = {
-          ...returnedUser,
+        const updatedUser: User = {
+          ...(returnedUser as unknown as User),
           memberships: [...(user?.memberships || []), newMembership],
         };
         if (setUser) setUser(updatedUser);
         navigate(`/business/${newBusiness._id}`);
-      } catch (err: any) {
-        const errorCode = err.message;
+      } catch (err) {
+        const errorCode = err instanceof Error ? err.message : String(err);
         const translatedError = t(
-          `create.errors.${errorCode}` as any,
+          `create.errors.${errorCode}`,
           t("create.errors.generic"),
         );
         setGeneralError(translatedError);
@@ -182,7 +182,7 @@ export default function CreateBusiness() {
           <div className="space-y-6 animate-fadeIn">
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <Label className="text-gray-600 dark:text-gray-300">
+                <Label className="text-gray-700 dark:text-gray-300">
                   {t("create.form.name_label")}{" "}
                   <span className="text-error-600 dark:text-error-500">*</span>
                 </Label>
@@ -201,7 +201,7 @@ export default function CreateBusiness() {
                 )}
               </div>
               <div className="sm:col-span-2">
-                <Label className="text-gray-600 dark:text-gray-300">
+                <Label className="text-gray-700 dark:text-gray-300">
                   {t("create.form.desc_label")}
                 </Label>
                 <textarea
@@ -220,7 +220,7 @@ export default function CreateBusiness() {
         return (
           <div className="space-y-6 animate-fadeIn">
             <div>
-              <Label className="text-gray-600 dark:text-gray-300">
+              <Label className="text-gray-700 dark:text-gray-300">
                 {t("create.form.email_label")}
               </Label>
               <Input
@@ -233,7 +233,7 @@ export default function CreateBusiness() {
               />
             </div>
             <div>
-              <Label className="text-gray-600 dark:text-gray-300">
+              <Label className="text-gray-700 dark:text-gray-300">
                 {t("create.form.phone_label")}
               </Label>
               <PhoneInput
@@ -246,7 +246,7 @@ export default function CreateBusiness() {
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <Label className="text-gray-600 dark:text-gray-300">
+                <Label className="text-gray-700 dark:text-gray-300">
                   {t("create.form.address_label")}
                 </Label>
                 <Input
@@ -259,7 +259,7 @@ export default function CreateBusiness() {
               </div>
               <div className="grid grid-cols-2 gap-4 sm:col-span-2">
                 <div>
-                  <Label className="text-gray-600 dark:text-gray-300">
+                  <Label className="text-gray-700 dark:text-gray-300">
                     {t("create.form.city_label")}
                   </Label>
                   <Input
@@ -270,7 +270,7 @@ export default function CreateBusiness() {
                   />
                 </div>
                 <div>
-                  <Label className="text-gray-600 dark:text-gray-300">
+                  <Label className="text-gray-700 dark:text-gray-300">
                     {t("create.form.zip_label")}
                   </Label>
                   <Input
@@ -320,7 +320,7 @@ export default function CreateBusiness() {
                   onChange={handleChange}
                   className={placeholderClass}
                 />
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-gray-500">
                   {t("create.form.tax_help")}
                 </p>
               </div>
@@ -362,43 +362,45 @@ export default function CreateBusiness() {
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      <nav className="fixed top-0 left-0 right-0 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
-          <div className="flex items-center gap-4">
-            {canGoBack && (
-              <button
-                type="button"
-                onClick={() => navigate("/select-business")}
-                className="flex items-center text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-brand-500"
-              >
-                <ChevronLeftIcon className="size-5 mr-1" />{" "}
-                {t("create.nav.back")}
-              </button>
-            )}
-            <div className="font-black text-xl text-gray-900 dark:text-white ml-4">
-              InvoTrack
-            </div>
-          </div>
+      {/* Main Layout Container */}
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 p-4 sm:p-6 lg:p-8">
+        
+        {/* Top Actions Row */}
+        <div className="w-full max-w-3xl flex items-center justify-between mb-8 lg:mb-12">
+          {canGoBack ? (
+            <button
+              type="button"
+              onClick={() => navigate("/select-business")}
+              className="flex items-center text-sm font-bold text-gray-500 hover:text-brand-500 transition-colors"
+            >
+              <ChevronLeftIcon className="size-5 mr-1" />
+              {t("create.nav.back")}
+            </button>
+          ) : (
+            <div />
+          )}
+
           <button
             type="button"
             onClick={() => {
               logout();
               navigate("/signin");
             }}
-            className="text-xs font-medium text-red-600 dark:text-red-400 tracking-widest"
+            className="text-xs font-bold text-error-500 hover:text-error-600 tracking-widest transition-colors uppercase"
           >
             {t("create.nav.sign_out")}
           </button>
         </div>
-      </nav>
 
-      <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 pt-24 lg:pt-32">
-        <div className="w-full max-w-7xl">
-          <div className="mb-8 lg:mb-12 text-center max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight sm:text-4xl mb-3">
+        {/* Central Card */}
+        <div className="w-full max-w-3xl bg-white dark:bg-gray-900 rounded-[2rem] border border-gray-200 dark:border-gray-800 p-6 sm:p-10 lg:p-12">
+          
+          {/* Header Title */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight sm:text-4xl mb-3">
               {STEPS[currentStep - 1].title}
             </h1>
-            <p className="text-sm sm:text-base font-medium text-gray-600 dark:text-gray-300">
+            <p className="text-sm sm:text-base font-medium text-gray-600 dark:text-gray-400">
               {currentStep === 1
                 ? t("create.steps.header_desc_1")
                 : currentStep === 2
@@ -407,90 +409,66 @@ export default function CreateBusiness() {
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start justify-center">
+          {/* Horizontal Stepper */}
+          <div className="flex items-center justify-between mb-12 relative px-2 sm:px-6">
+            <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-[2px] bg-gray-100 dark:bg-gray-800 rounded-full z-0" />
+            <div 
+              className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-brand-500 rounded-full z-0 transition-all duration-500" 
+              style={{ width: `calc(${((currentStep - 1) / (STEPS.length - 1)) * 100}% - 48px)` }}
+            />
             
-            {/* Steps Navigation */}
-            <div className="w-full lg:w-64 flex-shrink-0 lg:sticky lg:top-32">
-              <div className="flex flex-row lg:flex-col items-center lg:items-start justify-center lg:justify-start gap-4 lg:gap-8 overflow-x-auto no-scrollbar pb-4 lg:pb-0 lg:pl-4 lg:border-l-2 lg:border-gray-100 lg:dark:border-gray-800">
-                {STEPS.map((step) => {
-                  const isActive = step.id === currentStep;
-                  const isCompleted = step.id < currentStep;
-                  
-                  return (
-                    <div
-                      key={step.id}
-                      className={`relative flex flex-col items-center lg:items-start transition-all duration-300 shrink-0 
-                        ${isActive ? "opacity-100 scale-100" : isCompleted ? "opacity-60" : "opacity-40"}`}
-                    >
-                      {isActive && (
-                        <div className="hidden lg:block absolute left-[-18px] top-0 bottom-0 w-[2px] bg-brand-500 rounded-full" />
-                      )}
-                      
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className={`lg:hidden flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold 
-                          ${isActive ? "bg-brand-500 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-500"}`}>
-                          {step.id}
-                        </div>
-                        <div className={`text-[10px] lg:text-sm font-bold uppercase tracking-wider ${isActive ? "text-brand-500" : "text-gray-600 dark:text-gray-300"}`}>
-                          {t(`create.steps.step_label`, { step: step.id })}
-                        </div>
-                      </div>
-                      
-                      <div className="hidden lg:block text-sm font-semibold text-gray-900 dark:text-white">
-                        {step.title}
-                      </div>
-                      
-                      {isActive && (
-                        <div className="lg:hidden w-full h-[2px] bg-brand-500 mt-1 rounded-full" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Form Section - UPDATED RESPONSIVE CLASSES HERE */}
-            <div className="flex-1 w-full max-w-2xl lg:max-w-4xl xl:max-w-5xl bg-white dark:bg-gray-900/50 p-4 sm:p-8 lg:p-12 rounded-3xl border border-gray-100 dark:border-white/5 shadow-xl shadow-gray-200/50 dark:shadow-none">
-              <form onSubmit={handleSubmit} className="relative">
-                {generalError && (
-                  <div className="mb-6 p-4 text-sm font-semibold text-white bg-error-500 rounded-xl shadow-sm">
-                    {generalError}
+            {STEPS.map((step) => {
+              const isActive = step.id === currentStep;
+              const isCompleted = step.id < currentStep;
+              return (
+                <div key={step.id} className="relative z-10 flex flex-col items-center gap-3 bg-white dark:bg-gray-900 px-2">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300
+                    ${isActive ? "border-brand-500 bg-brand-500 text-white" : 
+                      isCompleted ? "border-brand-500 bg-white dark:bg-gray-900 text-brand-500" : 
+                      "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-400 dark:text-gray-500"}`}
+                  >
+                    {step.id}
                   </div>
-                )}
-                
-                <div className="min-h-[300px]">
-                   {renderStepContent()}
-                </div>
-
-                <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
-                  <button
-                    type="button"
-                    onClick={
-                      currentStep === 1
-                        ? () => navigate("/select-business")
-                        : handleBack
-                    }
-                    className="w-full sm:w-auto px-6 py-3 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                  <span className={`hidden sm:block text-xs font-bold uppercase tracking-wider
+                    ${isActive || isCompleted ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-600"}`}
                   >
-                    {currentStep === 1
-                      ? t("create.actions.cancel")
-                      : t("create.actions.back")}
-                  </button>
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full sm:w-auto px-10 h-12 shadow-lg shadow-brand-500/25"
-                  >
-                    {currentStep < 3
-                      ? t("create.actions.next")
-                      : loading
-                        ? t("create.actions.loading")
-                        : t("create.actions.submit")}
-                  </Button>
+                    {step.title}
+                  </span>
                 </div>
-              </form>
-            </div>
+              );
+            })}
           </div>
+
+          {/* Form Content */}
+          <form onSubmit={handleSubmit} className="relative">
+            {generalError && (
+              <div className="mb-8 p-4 text-sm font-semibold text-white bg-error-500 rounded-xl">
+                {generalError}
+              </div>
+            )}
+            
+            <div className="min-h-[250px]">
+               {renderStepContent()}
+            </div>
+
+            {/* Footer Actions */}
+            <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-3 sm:gap-6">
+              <button
+                type="button"
+                onClick={currentStep === 1 ? () => navigate("/select-business") : handleBack}
+                className="w-full sm:w-auto py-3 sm:px-2 sm:py-2 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+              >
+                {currentStep === 1 ? t("create.actions.cancel") : t("create.actions.back")}
+              </button>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full sm:w-auto px-10 h-12"
+              >
+                {currentStep < 3 ? t("create.actions.next") : loading ? t("create.actions.loading") : t("create.actions.submit")}
+              </Button>
+            </div>
+          </form>
         </div>
         
         <div className="fixed z-50 bottom-8 right-8">

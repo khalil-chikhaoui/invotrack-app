@@ -47,7 +47,7 @@ export default function ItemHealthMetrics({
           <HiOutlineBanknotes className="text-emerald-500 size-5 sm:size-6" />
         </div>
         <div>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
             {t("analytics.health.revenue_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
@@ -57,7 +57,7 @@ export default function ItemHealthMetrics({
               business?.currencyFormat,
             )}
           </h4>
-          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
             {t("analytics.health.revenue_subtitle")}
           </p>
         </div>
@@ -69,13 +69,13 @@ export default function ItemHealthMetrics({
           <HiOutlineShoppingCart className="text-blue-500 size-5 sm:size-6" />
         </div>
         <div>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
             {t("analytics.health.sold_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
             {stats.totalSold}
           </h4>
-          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
             {t("analytics.health.sold_subtitle")}
           </p>
         </div>
@@ -98,13 +98,13 @@ export default function ItemHealthMetrics({
                </div>
             )}
 
-            <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+            <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
               {t("analytics.health.inventory_title")}
             </span>
             <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
               {stats.currentStock || "0"}
             </h4>
-            <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+            <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
               {t("analytics.health.inventory_subtitle")}
             </p>
           </div>
@@ -117,7 +117,7 @@ export default function ItemHealthMetrics({
           <HiOutlineTag className="text-purple-500 size-5 sm:size-6" />
         </div>
         <div>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
             {t("analytics.health.price_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
@@ -127,7 +127,7 @@ export default function ItemHealthMetrics({
               business?.currencyFormat,
             )}
           </h4>
-          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
             {t("analytics.health.price_subtitle")}
           </p>
         </div>
@@ -139,16 +139,16 @@ export default function ItemHealthMetrics({
           <HiOutlineBolt className="text-amber-500 size-5 sm:size-6" />
         </div>
         <div>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+          <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
             {t("analytics.health.velocity_title")}
           </span>
           <h4 className="mt-0.5 sm:mt-1 text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">
             {stats.salesVelocity}{" "}
-            <span className="text-xs font-normal text-gray-400">
+            <span className="text-xs font-normal text-gray-500">
               {t("analytics.health.velocity_unit")}
             </span>
           </h4>
-          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+          <p className="mt-0.5 sm:mt-2 text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
             {t("analytics.health.velocity_subtitle")}
           </p>
         </div>

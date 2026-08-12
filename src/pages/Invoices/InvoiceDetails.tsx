@@ -73,7 +73,7 @@ export default function InvoiceDetails() {
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [isDeletingItem, setIsDeletingItem] = useState(false);
 
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<InvoiceItem | null>(null);
 
   const [tempStatus, setTempStatus] = useState<string>("Open");
   const [tempDelivery, setTempDelivery] = useState<DeliveryStatus>("Pending");
@@ -95,7 +95,7 @@ export default function InvoiceDetails() {
       setAvailableItems(itemsData.items);
       setTempStatus(getInvoiceDisplayStatus(invData));
       setTempDelivery(invData.deliveryStatus);
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("messages.SYNC_ERROR"),
@@ -124,7 +124,7 @@ export default function InvoiceDetails() {
     }
   }, [alert]);
 
-  const areIdsEqual = (id1: any, id2: any) => String(id1) === String(id2);
+  const areIdsEqual = (id1: string | number, id2: string | number) => String(id1) === String(id2);
 
   const handleSelectProduct = (item: ItemData) => {
     if (!invoice) return;
@@ -155,12 +155,12 @@ export default function InvoiceDetails() {
     itemEditModal.openModal();
   };
 
-  const handleEditItemRequest = (item: any) => {
+  const handleEditItemRequest = (item: InvoiceItem) => {
     setSelectedItem(item);
     itemEditModal.openModal();
   };
 
-  const handleItemModalSave = async (_ignoredId: string, data: any) => {
+  const handleItemModalSave = async (_ignoredId: string, data: Partial<InvoiceItem>) => {
     if (!invoice || !selectedItem) return;
 
     try {
@@ -206,7 +206,7 @@ export default function InvoiceDetails() {
         message: t("messages.LEDGER_UPDATED"),
       });
       fetchData();
-    } catch (e: any) {
+    } catch (e) {
       setAlert({
         type: "error",
         title: t("errors.FAILED"),
@@ -236,7 +236,7 @@ export default function InvoiceDetails() {
       fetchData();
       setIsConfirmDeleteOpen(false);
       setItemToDelete(null);
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.FAILED"),
@@ -262,7 +262,7 @@ export default function InvoiceDetails() {
         message: t("messages.NOTES_UPDATED"),
       });
       setInvoice({ ...invoice, notes: newNotes });
-    } catch (e: any) {
+    } catch (e) {
       setAlert({
         type: "error",
         title: t("errors.FAILED"),
@@ -291,7 +291,7 @@ export default function InvoiceDetails() {
         message: t("messages.FINANCIALS_UPDATED"),
       });
       fetchData();
-    } catch (e: any) {
+    } catch (e) {
       throw new Error(e.message);
     }
   };
@@ -325,7 +325,7 @@ export default function InvoiceDetails() {
       fetchData();
       statusModal.closeModal();
       deliveryModal.closeModal();
-    } catch (e: any) {
+    } catch (e) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
@@ -352,7 +352,7 @@ export default function InvoiceDetails() {
         message: t("messages.DATES_UPDATED"),
       });
       fetchData();
-    } catch (e: any) {
+    } catch (e) {
       throw new Error(e.message);
     }
   };
@@ -432,11 +432,11 @@ export default function InvoiceDetails() {
             ref={(el) => {
               tabsRef.current[tab.id] = el;
             }}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as typeof activeTab)}
             className={`pb-4 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest transition-all relative whitespace-nowrap shrink-0 ${
               activeTab === tab.id
                 ? "text-brand-500 dark:text-brand-300"
-                : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
+                : "text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100"
             }`}
           >
             {tab.icon} {tab.label}
@@ -480,7 +480,7 @@ export default function InvoiceDetails() {
         isStatusOpen={statusModal.isOpen}
         closeStatusModal={statusModal.closeModal}
         tempStatus={tempStatus}
-        setTempStatus={setTempStatus as any}
+        setTempStatus={setTempStatus as (status: string) => void}
         isDeliveryOpen={deliveryModal.isOpen}
         closeDeliveryModal={deliveryModal.closeModal}
         tempDelivery={tempDelivery}

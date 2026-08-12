@@ -19,7 +19,7 @@ export default function ClientAOVChart({
   const { t } = useTranslation("client_details");
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<{ label: string; value: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function ClientAOVChart({
       background: "transparent",
     },
     theme: { mode: isDark ? "dark" : "light" },
-    colors: ["#465FFF", "#10B981"], // Blue for Vol, Green for AOV
+    colors: ["#f97316", "#10B981"], // Blue for Vol, Green for AOV
     stroke: { width: [0, 3], curve: "smooth" },
     plotOptions: { bar: { columnWidth: "40%", borderRadius: 4 } },
     dataLabels: { enabled: false },
@@ -72,7 +72,7 @@ export default function ClientAOVChart({
       {
         title: {
           text: t("analytics.aov.series.revenue"),
-          style: { color: "#465FFF", fontSize: "10px" },
+          style: { color: "#f97316", fontSize: "10px" },
         },
         labels: {
           style: { colors: "var(--chart-axis-text)", fontSize: "10px" },
@@ -109,7 +109,7 @@ export default function ClientAOVChart({
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
           {t("analytics.aov.title")}
         </h3>
-        <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+        <p className="text-[11px] font-medium text-gray-600 uppercase tracking-wider">
           {t("analytics.aov.subtitle")}
         </p>
       </div>

@@ -89,7 +89,7 @@ export default function Invoices() {
           page,
           limit: 10,
           search: searchTerm,
-          status: statusFilter as any,
+          status: statusFilter as "Paid" | "Unpaid" | "Cancelled" | "",
           deliveryStatus: deliveryFilter || undefined,
           sort: sortConfig,
           dateRange,
@@ -101,12 +101,12 @@ export default function Invoices() {
       setInvoices(invRes.invoices);
       setMeta(invRes.meta);
       setBusiness(bizRes);
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       setAlert({
         type: "error",
         title: t("errors.SYNC_ERROR"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);

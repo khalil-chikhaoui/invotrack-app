@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import GridShape from "../../components/common/GridShape";
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
@@ -30,40 +29,34 @@ export default function AuthLayout({
               />
             </div>
           )}
-          
+
           {children}
         </div>
 
         {/* Right Sidebar (Desktop only) */}
-       <div className="items-center hidden w-full lg:w-1/2 bg-brand-950 dark:bg-white/2 lg:grid">
-  <div className="relative flex items-center justify-center z-1">
-    <GridShape />
-    <div className="flex flex-col items-center max-w-md">
-      
-      {/* Added 'group' and 'flex-col items-center' here */}
-      <div className="flex flex-col items-center mb-4 group">
-        
-        {/* The White Logo */}
-        <div className="w-10 h-10 mb-3 bg-white rounded-xl flex items-center justify-center text-brand-950 font-bold text-xl shadow-lg shadow-white/10 group-hover:scale-105 transition-transform">
-          I
-        </div>
+        <div className="items-center hidden w-full lg:w-1/2  lg:grid">
+          <div className="relative flex items-center justify-center z-1">
+            <GridShape />
+            <div className="flex flex-col items-center max-w-md">
+              {/* Added 'group' and 'flex-col items-center' here */}
+              <div className="flex flex-col items-center mb-4 group">
+                {/* The White Logo */}
 
-        {/* Brand Text */}
-        <div className="font-black text-3xl text-white">
-          InvoTrack
+                {/* Brand Text */}
+                <div className="font-black text-4xl text-brand-600 dark:text-white ">
+                  InvoTrack
+                </div>
+              </div>
+
+              <p className="text-center text-gray-500 font-semibold dark:text-white/60">
+                {t("layout.tagline")}
+              </p>
+            </div>
+          </div>
         </div>
-        
-      </div>
-      
-      <p className="text-center text-gray-400 dark:text-white/60">
-        {t("layout.tagline")}
-      </p>
-    </div>
-  </div>
-</div>
 
         {/* Theme Toggler (Fixed at bottom right) */}
-        <div className="fixed z-50 bottom-4 right-4">
+        <div className="fixed z-50 bottom-5 right-5">
           <ThemeTogglerTwo />
         </div>
       </div>

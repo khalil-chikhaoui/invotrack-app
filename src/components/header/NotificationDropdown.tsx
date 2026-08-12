@@ -97,7 +97,7 @@ export default function NotificationDropdown() {
   return (
     <div className="relative">
       <button
-        className="relative flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full h-11 w-11 hover:text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+        className="relative flex items-center justify-center text-gray-600 transition-colors bg-white border border-gray-200 rounded-full h-11 w-11 hover:text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
         onClick={() => setIsOpen(!isOpen)}
       >
         {unreadCount > 0 && (
@@ -131,7 +131,7 @@ export default function NotificationDropdown() {
 
         <ul className="flex flex-col overflow-y-auto custom-scrollbar">
           {notifications.length === 0 && (
-            <div className="text-center py-10 text-gray-400">
+            <div className="text-center py-10 text-gray-500">
               All caught up!
             </div>
           )}
@@ -165,7 +165,7 @@ export default function NotificationDropdown() {
                 </div>
 
                 <div className="block flex-1 min-w-0">
-                  <span className="mb-1 block text-theme-sm text-gray-500 dark:text-gray-400 leading-snug">
+                  <span className="mb-1 block text-theme-sm text-gray-600 dark:text-gray-300 leading-snug">
                     <span className="font-semibold text-gray-800 dark:text-white">
                       {n.sender?.name}
                     </span>{" "}
@@ -177,7 +177,7 @@ export default function NotificationDropdown() {
                     </span>
                   </span>
 
-                  <span className="flex items-center gap-2 text-gray-400 text-theme-xs">
+                  <span className="flex items-center gap-2 text-gray-500 text-theme-xs">
                     <span className="truncate max-w-[100px]">
                       {n.project?.name}
                     </span>
@@ -198,7 +198,7 @@ export default function NotificationDropdown() {
           <Link
             to={`/org/${orgId}/notifications`}
             onClick={() => setIsOpen(false)}
-            className="block px-4 py-2 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 transition-colors"
+            className="block px-4 py-2 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
           >
             View All Notifications
           </Link>

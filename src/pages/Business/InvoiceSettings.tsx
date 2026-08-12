@@ -56,7 +56,7 @@ const ResetButton = ({
 }) => (
   <button
     onClick={onClick}
-    className="group flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-brand-500 transition-colors cursor-pointer"
+    className="group flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-gray-500 hover:text-brand-500 transition-colors cursor-pointer"
     title={label}
   >
     <HiArrowPath className="size-3.5 group-hover:rotate-180 transition-transform duration-500" />
@@ -71,8 +71,8 @@ const MemoizedPDFPreview = memo(
     loadingText,
     errorText,
   }: {
-    business: any;
-    invoice: any;
+    business: string;
+    invoice: string;
     loadingText: string;
     errorText: string;
   }) => {
@@ -225,7 +225,7 @@ export default function InvoiceSettings() {
         setAlert({
           type: "error",
           title: t("errors.GENERIC_ERROR"),
-          message: t(`errors.${err.message}` as any, t("errors.GENERIC_ERROR")),
+          message: t(`errors.${err.message}`, t("errors.GENERIC_ERROR")),
         });
       })
       .finally(() => setInitialLoading(false));
@@ -252,18 +252,18 @@ export default function InvoiceSettings() {
         message: t("messages.INVOICE_SETTINGS_UPDATED"),
       });
       setTimeout(() => setAlert(null), 1500);
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
-        message: t(`errors.${error.message}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${error instanceof Error ? error.message : "GENERIC_ERROR"}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setSaving(false);
     }
   };
 
-  const handleTemplateChange = (template: any) =>
+  const handleTemplateChange = (template: string) =>
     saveSettings({ ...settings, template });
   const handleColorChange = (
     key: "primary" | "secondary" | "accent",
@@ -278,7 +278,7 @@ export default function InvoiceSettings() {
       ...settings.visibility,
       [field]: !settings.visibility[field as keyof typeof settings.visibility],
     };
-    saveSettings({ ...settings, visibility: newVisibility as any });
+    saveSettings({ ...settings, visibility: newVisibility as InvoiceSettings["visibility"] });
   };
 
   const handleFooterChange = (val: string) => {
@@ -308,7 +308,7 @@ export default function InvoiceSettings() {
 
   const getVisibilityLabel = (key: string) => {
     const cleanKey = key.replace("show", "");
-    return t(`settings.invoice_design.visibility.${cleanKey}` as any, cleanKey);
+    return t(`settings.invoice_design.visibility.${cleanKey}`, cleanKey);
   };
 
   return (
@@ -347,10 +347,10 @@ export default function InvoiceSettings() {
                     }`}
                   >
                     <span
-                      className={`text-sm font-semibold ${settings.template === templateName ? "text-brand-600 dark:text-brand-400" : "text-gray-600 dark:text-gray-300"}`}
+                      className={`text-sm font-semibold ${settings.template === templateName ? "text-brand-600 dark:text-brand-400" : "text-gray-700 dark:text-gray-300"}`}
                     >
                       {t(
-                        `settings.invoice_design.templates.${templateName}` as any,
+                        `settings.invoice_design.templates.${templateName}`,
                         templateName,
                       )}
                     </span>
@@ -422,7 +422,7 @@ export default function InvoiceSettings() {
                     {t("settings.invoice_design.footer_title")}
                   </h3>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${(settings.footerNote?.length || 0) >= 100 ? "bg-red-50 text-red-600 border-red-100" : "bg-gray-100 text-gray-500 border-gray-200 dark:bg-gray-800 dark:text-gray-400"}`}
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${(settings.footerNote?.length || 0) >= 100 ? "bg-red-50 text-red-600 border-red-100" : "bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-300"}`}
                   >
                     {settings.footerNote?.length || 0} / 100
                   </span>
@@ -439,7 +439,7 @@ export default function InvoiceSettings() {
                   )}
                   error={(settings.footerNote?.length || 0) >= 100}
                 />
-                <p className="mt-1.5 text-[10px] text-gray-400">
+                <p className="mt-1.5 text-[10px] text-gray-500">
                   {t("settings.invoice_design.footer_helper")}
                 </p>
               </div>
@@ -462,12 +462,12 @@ export default function InvoiceSettings() {
                       key={key}
                       className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors"
                     >
-                      <span className="text-xs font-medium text-gray-600 dark:text-gray-300 uppercase truncate pr-2">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300 uppercase truncate pr-2">
                         {getVisibilityLabel(key)}
                       </span>
                       <button
                         onClick={() => toggleVisibility(key)}
-                        className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-400 dark:bg-white/10"}`}
+                        className={`shrink-0 p-1.5 rounded-md transition-colors ${settings.visibility[key as keyof typeof settings.visibility] ? "bg-brand-100 text-brand-600 dark:bg-brand-500/20 dark:text-brand-400" : "bg-gray-100 text-gray-500 dark:bg-white/10"}`}
                       >
                         {settings.visibility[
                           key as keyof typeof settings.visibility

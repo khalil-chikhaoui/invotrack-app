@@ -55,31 +55,31 @@ export default function ItemsTable({
             <TableRow>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start min-w-[200px]"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start min-w-[200px]"
               >
                 {t("list.columns.details")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.type")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.price")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-start"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-start"
               >
                 {t("list.columns.stock")}
               </TableCell>
               <TableCell
                 isHeader
-                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-600 dark:text-gray-300 uppercase text-end"
+                className="px-5 py-3 text-[10px] font-medium tracking-widest text-gray-700 dark:text-gray-300 uppercase text-end"
               >
                 {t("list.columns.actions")}
               </TableCell>
@@ -103,12 +103,12 @@ export default function ItemsTable({
                 <td colSpan={5} className="p-0 border-none">
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <div className="p-4 rounded-full bg-gray-50 dark:bg-white/5 mb-3">
-                      <HiOutlineCube className="size-8 text-gray-300 dark:text-gray-600" />
+                      <HiOutlineCube className="size-8 text-gray-300 dark:text-gray-400" />
                     </div>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
                       {t("list.empty.title")}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-600 mt-1">
                       {t("list.empty.desc")}
                     </p>
                   </div>
@@ -131,7 +131,7 @@ export default function ItemsTable({
                             alt={item.name}
                           />
                         ) : (
-                          <HiOutlineCube className="size-5 text-gray-400 group-hover:text-brand-500 transition-colors" />
+                          <HiOutlineCube className="size-5 text-gray-500 group-hover:text-brand-500 transition-colors" />
                         )}
                       </div>
                       <div className="flex flex-col text-start">
@@ -139,7 +139,7 @@ export default function ItemsTable({
                           {item.name}
                         </span>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide">
+                          <span className="text-[10px] text-gray-600 dark:text-gray-300 font-medium tracking-wide">
                             {item.sku || "—"}
                           </span>
                           {item.isArchived && (
@@ -166,7 +166,7 @@ export default function ItemsTable({
                     >
                       <div className="flex items-center gap-1.5 uppercase font-medium text-[10px] tracking-wider px-1">
                         {t(
-                          `form.options.${item.itemType.toLowerCase()}` as any,
+                          `form.options.${item.itemType.toLowerCase()}`,
                           item.itemType
                         )}
                       </div>
@@ -189,16 +189,16 @@ export default function ItemsTable({
                         className={`text-theme-sm font-medium whitespace-nowrap ${
                           item.currentStock <= (item.lowStockThreshold || 0)
                             ? "text-error-600 dark:text-error-400"
-                            : "text-gray-600 dark:text-gray-300"
+                            : "text-gray-700 dark:text-gray-300"
                         }`}
                       >
                         {item.currentStock}{" "}
-                        <span className="text-[10px] text-gray-600 dark:text-gray-300">
+                        <span className="text-[10px] text-gray-700 dark:text-gray-300">
                           {item.unit}
                         </span>
                       </span>
                     ) : (
-                      <span className="text-[8px] text-gray-600 dark:text-gray-300">
+                      <span className="text-[8px] text-gray-700 dark:text-gray-300">
                         —
                       </span>
                     )}
@@ -214,7 +214,7 @@ export default function ItemsTable({
                         !item.isArchived && (
                           <button
                             onClick={() => onOpenStock(item)}
-                            className="p-1.5 rounded-md text-gray-600 dark:text-gray-300 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 dark:hover:text-brand-400 transition-all"
+                            className="p-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 dark:hover:text-brand-400 transition-all"
                             title={t("stock_modal.title")}
                           >
                             <HiOutlineArrowsRightLeft className="size-4" />
@@ -226,7 +226,7 @@ export default function ItemsTable({
                           {!item.isArchived && (
                             <button
                               onClick={() => onOpenEdit(item)}
-                              className="p-1.5 rounded-md text-gray-600 dark:text-gray-300 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 dark:hover:text-brand-400 transition-all"
+                              className="p-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 dark:hover:text-brand-400 transition-all"
                               title={t("form.title_edit")}
                             >
                               <HiOutlinePencil className="size-4" />
@@ -236,7 +236,7 @@ export default function ItemsTable({
                           {!item.isArchived && (
                             <button
                               onClick={() => onOpenDelete(item)}
-                              className="p-1.5 rounded-md text-gray-600 dark:text-gray-300 hover:text-error-600 hover:bg-error-50 dark:hover:bg-error-500/10 dark:hover:text-error-400 transition-all"
+                              className="p-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:text-error-600 hover:bg-error-50 dark:hover:bg-error-500/10 dark:hover:text-error-400 transition-all"
                               title={t("modals.delete_title")}
                             >
                               <HiOutlineTrash className="size-4" />
@@ -247,7 +247,7 @@ export default function ItemsTable({
 
                       <button
                         onClick={() => handleViewItem(item._id)}
-                        className="p-1.5 rounded-md text-gray-600 dark:text-gray-300 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 dark:hover:text-brand-400 transition-all"
+                        className="p-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 dark:hover:text-brand-400 transition-all"
                         title={t("list.columns.details")}
                       >
                         <HiOutlineEye className="size-4" />

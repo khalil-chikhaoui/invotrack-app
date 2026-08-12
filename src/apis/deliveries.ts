@@ -102,7 +102,7 @@ export const deliveryApi = {
   /**
    * Remove a single invoice from the manifest
    */
-  removeInvoiceFromDelivery: async (noteId: string, invoiceId: string): Promise<any> => {
+  removeInvoiceFromDelivery: async (noteId: string, invoiceId: string): Promise<{ message: string }> => {
     const response = await fetch(`${BASE_URL}/${noteId}/invoices/${invoiceId}`, {
       method: "DELETE",
       headers: getAuthHeaders(),

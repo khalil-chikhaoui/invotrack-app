@@ -23,7 +23,7 @@ interface ItemIdentityCardProps {
   canManage: boolean;
   onEdit: () => void;
   refresh: () => void;
-  setAlert: (a: any) => void;
+  setAlert: (alert: { type: string; title: string; message: string }) => void;
 }
 
 export default function ItemIdentityCard({
@@ -67,7 +67,7 @@ export default function ItemIdentityCard({
         message: t("messages.IMAGE_UPDATED_DESC"),
       });
       refresh();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPLOAD_FAILED"),
@@ -91,7 +91,7 @@ export default function ItemIdentityCard({
       });
       refresh();
       closeDeleteModal();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.REMOVAL_FAILED"),
@@ -103,17 +103,17 @@ export default function ItemIdentityCard({
   };
 
   return (
-    <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 shadow-sm relative overflow-hidden text-start">
+    <div className=" border border-gray-200 dark:border-white/[0.05] rounded-3xl p-6 mb-8 relative overflow-hidden text-start">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-        <HiOutlineCube className="size-32 text-gray-400" />
+        <HiOutlineCube className="size-32 text-gray-500" />
       </div>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
         
         {/* --- LEFT: IMAGE --- */}
         <div className="flex-shrink-0">
-          <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden shadow-inner">
+          <div className="relative w-28 h-28 rounded-3xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-200 dark:border-gray-700 overflow-hidden">
             {uploading ? (
               <div className="w-8 h-8 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
             ) : item.image ? (
@@ -123,7 +123,7 @@ export default function ItemIdentityCard({
                 alt={item.name}
               />
             ) : (
-              <HiOutlineCube className="size-12 text-gray-400" />
+              <HiOutlineCube className="size-12 text-gray-500" />
             )}
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function ItemIdentityCard({
               className="font-semibold text-[10px] tracking-widest px-3 uppercase"
             >
               {t(
-                `identity_card.type_${item.itemType.toLowerCase()}` as any,
+                `identity_card.type_${item.itemType.toLowerCase()}`,
                 item.itemType,
               )}
             </Badge>
@@ -166,7 +166,7 @@ export default function ItemIdentityCard({
                 size="sm"
                 variant="primary"
                 onClick={onEdit}
-                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 shadow-lg shadow-brand-500/20"
+                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4"
               >
                 <HiOutlinePencilSquare className="size-4" />
                 {t("identity_card.edit")}
@@ -175,7 +175,7 @@ export default function ItemIdentityCard({
           </div>
 
           {/* Details Grid */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-y-3 mt-4 gap-x-6 text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-white/5 pt-2">
+          <div className="flex flex-wrap justify-center md:justify-start gap-y-3 mt-4 gap-x-6 text-gray-600 dark:text-gray-300 border-t border-gray-100 dark:border-white/5 pt-2">
             {/* SKU Section with Clipboard */}
             <div className="flex items-center gap-1 group">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-tight">

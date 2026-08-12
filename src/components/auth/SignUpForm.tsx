@@ -12,6 +12,7 @@ import Button from "../ui/button/Button";
 import { authApi } from "../../apis/auth";
 import LanguageSelector from "../../components/common/LanguageSelector";
 import PasswordValidator from "./PasswordValidator";
+import Alert from "../ui/alert/Alert";
 
 export default function SignUpForm() {
   // 1. Get i18n instance from the hook
@@ -57,8 +58,8 @@ export default function SignUpForm() {
     try {
       await authApi.signUp({ name, email, password, language });
       navigate("/verify-email", { state: { email } });
-    } catch (err: any) {
-      setError(t(`errors.${err.message}`, t("errors.GENERIC_ERROR")));
+    } catch (err) {
+      setError(t(`errors.${err instanceof Error ? err.message : "GENERIC_ERROR"}`, t("errors.GENERIC_ERROR")));
     } finally {
       setIsLoading(false);
     }
@@ -73,18 +74,14 @@ export default function SignUpForm() {
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md tracking-tight">
               {t("signup.title")}
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+            <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
               {t("signup.subtitle")}
             </p>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div className="space-y-4 sm:space-y-5">
-              {error && (
-                <div className="p-4 text-sm font-semibold text-white bg-error-500 rounded-xl">
-                  {error}
-                </div>
-              )}
+              {error && <Alert variant="error" message={error} />}
 
               {/* Full Name */}
               <div>
@@ -172,7 +169,7 @@ export default function SignUpForm() {
 
           {/* Footer Links */}
           <div className="mt-6 pb-8 lg:pb-0">
-            <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
+            <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-300 sm:text-start">
               {t("signup.already_member")}{" "}
               <Link
                 to="/signin"

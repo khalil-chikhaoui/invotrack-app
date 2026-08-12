@@ -100,7 +100,7 @@ export default function ClientDetails() {
       ]);
       setClient(clientData);
       setBusiness(bizData);
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.PROFILE_LOAD_FAILED"),
@@ -141,7 +141,7 @@ export default function ClientDetails() {
         setClientInvoices(invRes.invoices);
         setFinancialStats(invRes.stats);
         setMeta(invRes.meta);
-      } catch (error: any) {
+      } catch (error) {
         console.error("Invoice history fetch failed:", error);
         setAlert({
           type: "error",
@@ -188,7 +188,7 @@ export default function ClientDetails() {
       setRefreshKey((k) => k + 1);
       fetchProfile();
       lifecycleModal.closeModal();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
@@ -209,7 +209,7 @@ export default function ClientDetails() {
         message: t("messages.CLIENT_RESTORED"),
       });
       fetchProfile();
-    } catch (error: any) {
+    } catch (error) {
       setAlert({
         type: "error",
         title: t("errors.UPDATE_FAILED"),
@@ -302,11 +302,11 @@ export default function ClientDetails() {
             ref={(el) => {
               tabsRef.current[tab.id] = el;
             }}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as typeof activeTab)}
             className={`pb-4 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest transition-all relative whitespace-nowrap shrink-0 ${
               activeTab === tab.id
                 ? "text-brand-500 dark:text-brand-300"
-                : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
+                : "text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100"
             }`}
           >
             {tab.icon} {tab.label}

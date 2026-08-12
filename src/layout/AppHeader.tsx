@@ -96,12 +96,12 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex w-full bg-white/80 dark:bg-[#0B1120]/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5">
+    <header className="sticky top-0 z-40 flex w-full relative bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5">
       <div className="flex items-center justify-between w-full py-3  pl-2 pr-4 lg:py-4">
         {/* --- Left Section: Toggle, Logo, Search --- */}
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-8">
           <button
-            className="flex items-center justify-center w-10 h-10 text-gray-500 border-gray-200 rounded-lg dark:border-gray-800 dark:text-gray-400 lg:h-11 lg:w-11 lg:border bg-transparent"
+            className="flex items-center justify-center w-10 h-10 text-gray-600 border-gray-200 rounded-lg dark:border-gray-800 dark:text-gray-300 lg:h-11 lg:w-11 lg:border bg-transparent"
             onClick={handleToggle}
             aria-label="Toggle Sidebar"
           >
@@ -126,18 +126,17 @@ const AppHeader: React.FC = () => {
             )}
           </button>
 
-         {/* <Link to="/" className="lg:hidden">
+          {/* Mobile Centered Logo */}
+          <Link
+            to="/"
+            className="absolute left-1/2 -translate-x-1/2 lg:hidden flex items-center justify-center group"
+          >
             <img
-              className="dark:hidden"
-              src="/images/logo/logo.svg"
-              alt="Logo"
+              src="/images/logo/icon.svg"
+              className="w-8 h-8 shrink-0 group-hover:scale-105 transition-transform"
+              alt="InvoTrack Logo"
             />
-            <img
-              className="hidden dark:block"
-              src="/images/logo/logo-dark.svg"
-              alt="Logo"
-            />
-          </Link>*/}
+          </Link>
 
           {/* --- Desktop Search Engine --- */}
           <div className="hidden lg:block relative" ref={dropdownRef}>
@@ -157,7 +156,7 @@ const AppHeader: React.FC = () => {
                   {loading ? (
                     <div className="w-4 h-4 border-2 border-brand-600 dark:border-brand-300 border-t-transparent dark:border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    <div className="inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-[10px] font-bold -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
+                    <div className="inline-flex items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-[10px] font-bold -tracking-[0.2px] text-gray-600 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">
                       <span> ⌘ </span>
                       <span> K </span>
                     </div>
@@ -168,7 +167,7 @@ const AppHeader: React.FC = () => {
 
             {/* --- Results Dropdown --- */}
             {showDropdown && results && (
-              <div className="absolute left-0 right-0 top-full mt-2 max-h-[480px] overflow-y-auto rounded-xl border border-gray-200 bg-white p-2 shadow-2xl dark:border-gray-800 dark:bg-gray-900 animate-in fade-in zoom-in-95 duration-200">
+              <div className="absolute left-0 right-0 top-full mt-2 max-h-[480px] overflow-y-auto rounded-xl border border-gray-200 bg-white p-2 dark:border-gray-800 dark:bg-gray-900 animate-in fade-in zoom-in-95 duration-200">
                 {/* Secondary Spinner for mid-search updates */}
                 {loading && (
                   <div className="py-6 flex justify-center items-center">
@@ -196,7 +195,7 @@ const AppHeader: React.FC = () => {
                             <span className="truncate font-medium">
                               {c.name}
                             </span>
-                            <span className="ml-auto text-[9px] text-gray-400 font-medium uppercase tracking-widest">
+                            <span className="ml-auto text-[9px] text-gray-500 font-medium uppercase tracking-widest">
                               {c.clientType}
                             </span>
                           </button>
@@ -223,7 +222,7 @@ const AppHeader: React.FC = () => {
                             <span className="truncate font-medium">
                               {i.name}
                             </span>
-                            <span className="ml-auto text-[9px] text-gray-400 font-medium">
+                            <span className="ml-auto text-[9px] text-gray-500 font-medium">
                               {i.sku || "NO SKU"}
                             </span>
                           </button>
@@ -250,7 +249,7 @@ const AppHeader: React.FC = () => {
                             <span className="font-medium">
                               {inv.invoiceNumber}
                             </span>
-                            <span className="ml-2 text-[10px] text-gray-400 truncate font-normal">
+                            <span className="ml-2 text-[10px] text-gray-500 truncate font-normal">
                               ({inv.clientSnapshot.name})
                             </span>
                           </button>
@@ -277,7 +276,7 @@ const AppHeader: React.FC = () => {
                             <span className="font-medium">
                               {d.deliveryNumber}
                             </span>
-                            <span className="ml-auto text-[9px] text-gray-400 font-medium">
+                            <span className="ml-auto text-[9px] text-gray-500 font-medium">
                               {new Date(d.createdAt).toLocaleDateString()}
                             </span>
                           </button>
@@ -290,7 +289,7 @@ const AppHeader: React.FC = () => {
                       !results.items.length &&
                       !results.invoices.length &&
                       (!results.deliveries || !results.deliveries.length) && (
-                        <div className="p-4 text-center text-xs text-gray-600 dark:text-gray-3000 font-medium italic">
+                        <div className="p-4 text-center text-xs text-gray-700 dark:text-gray-3000 font-medium italic">
                           {t("header.no_matches")}
                         </div>
                       )}

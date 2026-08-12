@@ -60,7 +60,7 @@ export default function ClientProfileTab({
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-6">
           <div className="col-span-2 sm:col-span-1"> 
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.street")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 break-words">
@@ -69,7 +69,7 @@ export default function ClientProfileTab({
           </div>
           
           <div>
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.city_state")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -79,7 +79,7 @@ export default function ClientProfileTab({
           </div>
           
           <div>
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.zip")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -88,7 +88,7 @@ export default function ClientProfileTab({
           </div>
           
           <div>
-            <span className="text-[9px] font-semibold text-gray-400 tracking-widest block mb-1 uppercase">
+            <span className="text-[9px] font-semibold text-gray-500 tracking-widest block mb-1 uppercase">
               {t("profile_tab.labels.country")}
             </span>
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -123,7 +123,7 @@ export default function ClientProfileTab({
                   ? t("profile_tab.lifecycle.restore_title")
                   : t("profile_tab.lifecycle.archive_title")}
               </p>
-              <p className="text-xs text-gray-500 font-medium max-w-md">
+              <p className="text-xs text-gray-600 font-medium max-w-md">
                 {isArchived
                   ? t("profile_tab.lifecycle.restore_desc")
                   : t("profile_tab.lifecycle.archive_desc")}

@@ -80,7 +80,7 @@ export default function LanguageSelector({
               className={`h-5 w-5 transition-colors ${
                 isOpen
                   ? "text-brand-500"
-                  : "text-gray-400 dark:text-gray-500 group-hover:text-gray-500"
+                  : "text-gray-500 dark:text-gray-400 group-hover:text-gray-500"
               }`}
             />
           </div>
@@ -91,7 +91,7 @@ export default function LanguageSelector({
 
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <HiChevronDown
-              className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
+              className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
                 isOpen ? "rotate-180 text-brand-500" : ""
               }`}
             />
@@ -100,7 +100,7 @@ export default function LanguageSelector({
 
         {/* The Custom Dropdown Menu */}
         {isOpen && (
-          <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl shadow-xl shadow-gray-200/50 dark:shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl dark:shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
             <ul className="py-1 max-h-60 overflow-auto scrollbar-none">
               {languages.map((lang) => {
                 const isSelected = safeValue === lang.code;

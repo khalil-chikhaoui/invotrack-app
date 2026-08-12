@@ -34,8 +34,8 @@ export default defineConfig({
         short_name: "InvoTrack",
         description:
           "Track invoices, expenses, and manage your business finances with InvoTrack.",
-        theme_color: "#4F46E5",
-        background_color: "#111827",
+        theme_color: "#f97316",
+        background_color: "#18181b",
         display: "standalone",
         scope: "/",
         start_url: "/",

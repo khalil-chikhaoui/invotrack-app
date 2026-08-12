@@ -30,7 +30,7 @@ export default function ItemHeader({
     <div className="flex items-center justify-between mb-6">
       <button
         onClick={handleSmartBack}
-        className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-600 hover:text-brand-500 dark:text-gray-400 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
+        className="flex items-center mt-4 gap-2 text-[10px] font-semibold uppercase text-gray-700 hover:text-brand-500 dark:text-gray-300 hover:dark:text-brand-400 transition-colors tracking-widest cursor-pointer"
       >
         <HiOutlineArrowLeft className="size-4" />
         {canGoBack ? t("header.back") : t("header.directory")}

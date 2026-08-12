@@ -36,7 +36,7 @@ export default function ClipboardButton({ text, label, className = "" }: Clipboa
           flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all duration-300
           ${copied 
             ? "bg-green-500/10 text-green-600 dark:bg-green-500/20 dark:text-green-400" 
-            : "bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 hover:text-brand-600 dark:hover:text-brand-400"
+            : "bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-brand-50 dark:hover:bg-brand-500/10 hover:text-brand-600 dark:hover:text-brand-400"
           }
           ${className}
         `}
@@ -58,7 +58,7 @@ export default function ClipboardButton({ text, label, className = "" }: Clipboa
                       invisible group-hover/tooltip:visible opacity-0 group-hover/tooltip:opacity-100
                       transition-all duration-200 translate-y-1 group-hover/tooltip:translate-y-0
                       pointer-events-none z-50 whitespace-nowrap
-                      text-[9px] font-bold   rounded-md shadow-xl
+                      text-[9px] font-bold   rounded-md
                     
                       bg-white text-gray-900 border border-gray-200/50
                     

@@ -37,7 +37,7 @@ export default function RecordNotFound({
         className="w-20 h-20 bg-gray-50 dark:bg-white/[0.03] rounded-3xl flex items-center justify-center mb-6 border 
       border-gray-100 dark:border-white/[0.05]"
       >
-        <HiOutlineDocumentSearch className="size-10 text-gray-600 dark:text-gray-400" />
+        <HiOutlineDocumentSearch className="size-10 text-gray-700 dark:text-gray-300" />
       </div>
 
       {/* Text Content */}
@@ -45,7 +45,7 @@ export default function RecordNotFound({
         {title}
       </h2>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-8 leading-relaxed">
+      <p className="text-sm text-gray-600 dark:text-gray-300 max-w-sm mx-auto mb-8 leading-relaxed">
         {description}
       </p>
 

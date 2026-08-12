@@ -71,21 +71,21 @@ export default function Clients() {
           limit: 10,
           search: searchTerm,
           sort: sortConfig,
-          clientType: typeFilter === "all" ? undefined : (typeFilter as any),
+          clientType: typeFilter === "all" ? undefined : (typeFilter as "Individual" | "Business"),
           isArchived: statusFilter === "archived" ? true : false,
-        } as any),
+        }),
         businessApi.getBusiness(businessId),
       ]);
 
       setClients(clientsRes.clients);
       setMeta(clientsRes.meta);
       setBusiness(businessRes);
-    } catch (error: any) {
-      const errorCode = error.message;
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
       triggerAlert({
         type: "error",
         title: t("errors.GENERIC_ERROR"),
-        message: t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")),
+        message: t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")),
       });
     } finally {
       setLoading(false);
@@ -175,7 +175,7 @@ export default function Clients() {
         setAlert={triggerAlert}
         // Prioritize phone country, fall back to address country, fall back to US
         defaultCountry={
-          (business?.phoneNumber as any)?.country ||
+          (business?.phoneNumber as unknown as { country?: string })?.country ||
           business?.address?.country ||
           "US"
         }

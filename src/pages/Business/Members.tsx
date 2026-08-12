@@ -131,9 +131,9 @@ export default function Members() {
         ),
       );
       closeRoleModal();
-    } catch (error: any) {
-      const errorCode = error.message;
-      alert(t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")));
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
+      alert(t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")));
     } finally {
       setUpdatingRole(false);
     }
@@ -147,9 +147,9 @@ export default function Members() {
       setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
       setMemberToDelete(null);
       closeDeleteModal();
-    } catch (error: any) {
-      const errorCode = error.message;
-      alert(t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")));
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
+      alert(t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")));
     } finally {
       setDeleting(false);
     }
@@ -162,9 +162,9 @@ export default function Members() {
       const response = await businessApi.leaveBusiness(businessId);
       if (setUser) setUser(response.user);
       navigate("/select-business");
-    } catch (error: any) {
-      const errorCode = error.message;
-      alert(t(`errors.${errorCode}` as any, t("errors.GENERIC_ERROR")));
+    } catch (error) {
+      const errorCode = error instanceof Error ? error.message : "GENERIC_ERROR";
+      alert(t(`errors.${errorCode}`, t("errors.GENERIC_ERROR")));
     } finally {
       setLeaving(false);
     }
@@ -207,7 +207,7 @@ export default function Members() {
 
   // Helper to translate roles safely
   const translateRole = (role: string) => {
-    return t(`roles.${role}` as any, role);
+    return t(`roles.${role}`, role);
   };
 
   return (
@@ -265,32 +265,32 @@ export default function Members() {
                 <TableRow>
                   <TableCell
                     isHeader
-                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-600 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.member")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-600 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {/* TRANSLATED: Was "Title" */}
                     {t("list.columns.title", "Title")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-600 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.status")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="pr-5 py-4 text-start font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="pr-5 py-4 text-start font-semibold text-gray-600 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.role")}
                   </TableCell>
                   <TableCell
                     isHeader
-                    className="py-4 text-end font-semibold text-gray-500 text-[10px]  tracking-widest whitespace-nowrap"
+                    className="py-4 text-end font-semibold text-gray-600 text-[10px]  tracking-widest whitespace-nowrap"
                   >
                     {t("list.columns.actions")}
                   </TableCell>
@@ -312,7 +312,7 @@ export default function Members() {
                   <TableRow>
                     <td
                       colSpan={5}
-                      className="p-10 text-center text-gray-500 text-theme-sm dark:text-gray-300 font-medium"
+                      className="p-10 text-center text-gray-600 text-theme-sm dark:text-gray-300 font-medium"
                     >
                       {t("list.empty.title")}
                     </td>
@@ -361,7 +361,7 @@ export default function Members() {
                                   </span>
                                 )}
                               </span>
-                              <span className="text-gray-400 text-[10px] font-semibold  tracking-widest mt-1">
+                              <span className="text-gray-500 text-[10px] font-semibold  tracking-widest mt-1">
                                 {member.email}
                               </span>
                             </div>
@@ -369,7 +369,7 @@ export default function Members() {
                         </TableCell>
 
                         {/* Title */}
-                        <TableCell className="pr-5 py-4 text-theme-sm font-semibold text-gray-500 dark:text-gray-400  text-[10px] tracking-tight whitespace-nowrap">
+                        <TableCell className="pr-5 py-4 text-theme-sm font-semibold text-gray-600 dark:text-gray-300  text-[10px] tracking-tight whitespace-nowrap">
                           {/* TRANSLATED: Was "Staff" fallback */}
                           {member.title || t("list.default_title", "Staff")}
                         </TableCell>
@@ -393,14 +393,14 @@ export default function Members() {
                                   </span>
                                 )}
                                 {t(
-                                  `status.${member.invitationStatus.toLowerCase()}` as any,
+                                  `status.${member.invitationStatus.toLowerCase()}`,
                                   member.invitationStatus,
                                 )}
                               </div>
                             </Badge>
                             {member.invitationStatus === "Pending" &&
                               daysLeft && (
-                                <div className="flex items-center gap-1 text-[9px] font-semibold text-gray-400  tracking-wide ml-1">
+                                <div className="flex items-center gap-1 text-[9px] font-semibold text-gray-500  tracking-wide ml-1">
                                   <HiOutlineClock className="size-3" />{" "}
                                   {daysLeft}
                                 </div>
@@ -452,7 +452,7 @@ export default function Members() {
                             {isCurrentUser && !isLastAdmin && (
                               <button
                                 onClick={openLeaveModal}
-                                className="text-gray-400 hover:text-error-500 flex items-center gap-1 transition-colors"
+                                className="text-gray-500 hover:text-error-500 flex items-center gap-1 transition-colors"
                               >
                                 <span className="text-[10px] font-semibold  tracking-widest">
                                   {t("modals.confirm_leave", {
@@ -472,7 +472,7 @@ export default function Members() {
                                   });
                                   openDeleteModal();
                                 }}
-                                className="text-gray-400 hover:text-error-500 transition-colors"
+                                className="text-gray-500 hover:text-error-500 transition-colors"
                               >
                                 <TrashBinIcon className="size-5" />
                               </button>
@@ -502,7 +502,7 @@ export default function Members() {
           <h4 className="text-lg font-semibold text-gray-800 dark:text-white  tracking-tight mb-1">
             {t("list.columns.role")}
           </h4>
-          <p className="text-[10px] text-gray-500 font-semibold  tracking-widest mb-6">
+          <p className="text-[10px] text-gray-600 font-semibold  tracking-widest mb-6">
             {memberToUpdate?.name}
           </p>
 
@@ -518,7 +518,7 @@ export default function Members() {
                   >
                     {translateRole(role)}
                   </span>
-                  <span className="text-[10px] text-gray-400 font-medium leading-tight">
+                  <span className="text-[10px] text-gray-500 font-medium leading-tight">
                     {/* TRANSLATED: Role descriptions wrapped in t() */}
                     {role === "Admin"
                       ? t("roles.descriptions.Admin", "Full system control.")

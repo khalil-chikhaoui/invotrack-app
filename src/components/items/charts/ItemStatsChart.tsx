@@ -20,7 +20,7 @@ export default function ItemStatsChart({
       fetchData={invoiceApi.getItemStats}
       title={t("analytics.stats.title")}
       subtitle={t("analytics.stats.subtitle")}
-      colors={["#465FFF", "#34D399"]}
+      colors={["#f97316", "#34D399"]}
       secondaryLabel={t("analytics.stats.secondary_label")}
     />
   );

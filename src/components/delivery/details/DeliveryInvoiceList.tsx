@@ -25,7 +25,7 @@ export default function DeliveryInvoiceList({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest px-1">
+      <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-widest px-1">
         {t("list.invoices") || "Linked Invoices"}
       </h3>
 
@@ -44,7 +44,7 @@ export default function DeliveryInvoiceList({
                 ${
                   inv.deliveryStatus === "Shipped"
                     ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
-                    : "bg-gray-50 text-gray-400 dark:bg-white/5"
+                    : "bg-gray-50 text-gray-500 dark:bg-white/5"
                 }`}
               >
                 <HiOutlineDocumentText className="size-5" />
@@ -61,11 +61,11 @@ export default function DeliveryInvoiceList({
                     className="text-[9px] px-2 py-0.5 font-bold uppercase tracking-wide"
                   >
                     {tCommon(
-                      `status.${inv.deliveryStatus.toLowerCase()}` as any,
+                      `status.${inv.deliveryStatus.toLowerCase()}`,
                     ) || inv.deliveryStatus}
                   </Badge>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-2">
                   {inv.clientSnapshot.name} 
                   {/*format(new Date(inv.issueDate), "dd MMM yyyy")*/}
                 </div>
@@ -86,7 +86,7 @@ export default function DeliveryInvoiceList({
                   e.stopPropagation();
                   onRemoveInvoice(inv._id);
                 }}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all  group-hover:opacity-100 focus:opacity-100"
+                className="p-2 text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all  group-hover:opacity-100 focus:opacity-100"
                 title="Remove from manifest"
               >
                 <HiOutlineTrash className="size-5" />

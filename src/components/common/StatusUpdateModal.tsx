@@ -10,7 +10,7 @@ interface StatusUpdateModalProps {
   type: "payment" | "delivery"; 
   options: string[];
   currentValue: string;
-  onValueChange: (val: any) => void;
+  onValueChange: (val: string) => void;
   onConfirm: () => void;
   isLoading: boolean;
   confirmLabel?: string;
@@ -46,7 +46,7 @@ export default function StatusUpdateModal({
       return base + "border-brand-500 bg-brand-50 dark:bg-brand-500/20 ring-1 ring-brand-500 text-brand-600 dark:text-brand-400";
     }
 
-    return base + "border-gray-100 dark:border-white/[0.08] text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5";
+    return base + "border-gray-100 dark:border-white/[0.08] text-gray-600 hover:bg-gray-50 dark:hover:bg-white/5";
   };
 
   return (

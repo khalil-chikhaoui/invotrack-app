@@ -46,7 +46,7 @@ export default function DeliveryAnalyticsCard({
   // 2. Chart Configuration
   const series = [successRate];
   const options: ApexOptions = {
-    colors: ["#465FFF"],
+    colors: ["#f97316"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "radialBar",
@@ -75,7 +75,7 @@ export default function DeliveryAnalyticsCard({
         },
       },
     },
-    fill: { type: "solid", colors: ["#465FFF"] },
+    fill: { type: "solid", colors: ["#f97316"] },
     stroke: { lineCap: "round" },
     labels: ["Success Rate"],
   };
@@ -89,19 +89,19 @@ export default function DeliveryAnalyticsCard({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {title}
           </h3>
-          <p className="mt-1 text-[11px] text-gray-600 dark:text-gray-300 font-semibold  tracking-wider">
+          <p className="mt-1 text-[11px] text-gray-700 dark:text-gray-300 font-semibold  tracking-wider">
             {subtitle}
           </p>
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center p-5 text-center">
           <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-            <HiOutlineTruck className="size-6 text-gray-400 dark:text-gray-500" />
+            <HiOutlineTruck className="size-6 text-gray-500 dark:text-gray-400" />
           </div>
           <h4 className="text-xs font-semibold text-gray-800 dark:text-white  tracking-widest">
             {emptyTitle}
           </h4>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 max-w-[200px]">
+          <p className="text-[10px] text-gray-600 dark:text-gray-300 mt-1 max-w-[200px]">
             {emptyDescription}
           </p>
         </div>
@@ -123,7 +123,7 @@ export default function DeliveryAnalyticsCard({
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white tracking-tight">
             {title}
           </h3>
-          <p className="mt-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300  tracking-wider">
+          <p className="mt-1 text-[11px] font-semibold text-gray-700 dark:text-gray-300  tracking-wider">
             {subtitle}
           </p>
         </div>
@@ -147,7 +147,7 @@ export default function DeliveryAnalyticsCard({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-2 w-full mt-4 pt-6 border-t border-gray-100 dark:border-white/5">
               {/* 1. Pending (Neutral/Waiting) */}
               <div className="text-center sm:border-r border-gray-100 dark:border-white/5">
-                <p className="text-xs  font-medium   text-gray-500 dark:text-gray-400 tracking-widest mb-1">
+                <p className="text-xs  font-medium   text-gray-600 dark:text-gray-300 tracking-widest mb-1">
                   {t("status.pending")}
                 </p>
                 <p className="text-md font-medium text-gray-700 dark:text-gray-300">
